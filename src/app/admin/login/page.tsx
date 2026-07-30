@@ -118,6 +118,18 @@ export default function AdminLoginPage() {
       resetToCredentials(data?.error ?? "Session de connexion expirée. Recommencez.");
       return;
     }
+
+    // Une panne du serveur ne doit pas se déguiser en « code incorrect » : le
+    // code peut être parfaitement valide et l'échec venir d'ailleurs (variable
+    // d'environnement manquante, base injoignable). Faire porter le doute sur
+    // le code envoie chercher le problème là où il n'est pas.
+    if (response.status >= 500) {
+      setError(
+        "Erreur du serveur. Votre code n'est pas en cause — vérifiez la configuration du site.",
+      );
+      return;
+    }
+
     setError(data?.error ?? "Code incorrect.");
     codeInputRef.current?.focus();
   }

@@ -4,6 +4,7 @@ import {
   ADMIN_SESSION_COOKIE,
   ADMIN_SESSION_MAX_AGE_SECONDS,
   createSessionToken,
+  isSessionSecretConfigured,
 } from "@/lib/adminAuth";
 import { markAdminLoggedIn } from "@/server/admins";
 import { verifyLoginChallenge } from "@/server/adminOtp";
@@ -19,6 +20,21 @@ export async function POST(request: Request) {
 
   if (!challengeId || !code) {
     return NextResponse.json({ error: "Code manquant." }, { status: 400 });
+  }
+
+  // Contrôle posé avant la vérification, et non après : valider le code le
+  // consomme définitivement. Sur un serveur où la clé de signature manque, le
+  // faire dans l'autre ordre brûlerait un code valide à chaque essai, et
+  // l'utilisateur croirait s'être trompé de code.
+  if (!isSessionSecretConfigured()) {
+    console.error("[admin-login] ADMIN_SESSION_SECRET absente : session impossible à signer.");
+    return NextResponse.json(
+      {
+        error:
+          "Le serveur n'est pas configuré pour ouvrir une session (ADMIN_SESSION_SECRET manquante). Votre code n'est pas en cause.",
+      },
+      { status: 500 },
+    );
   }
 
   const result = await verifyLoginChallenge(challengeId, code);
