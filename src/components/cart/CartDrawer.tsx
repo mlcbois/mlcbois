@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { formatCents, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
+import { useDismissable } from "@/lib/useDismissable";
 
 // Panier latéral.
 //
@@ -16,26 +17,6 @@ import { formatCents, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
 // mène directement à la caisse. Les moyens de paiement sont rendus côté serveur
 // et passés en `paymentSlot` : le tiroir reste un composant client sans avoir à
 // interroger la base.
-
-/** Le panneau se referme sur Échap et rend le reste de la page inerte. */
-function useDismissable(open: boolean, onClose: () => void) {
-  useEffect(() => {
-    if (!open) return;
-
-    function handleKey(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", handleKey);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [open, onClose]);
-}
 
 export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
   const t = useTranslations("cart");

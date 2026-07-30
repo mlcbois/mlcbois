@@ -87,6 +87,8 @@
     "emptyReset": "Réinitialiser les filtres",
     "filtersTitle": "Filtres",
     "filtersReset": "Réinitialiser",
+    "filtersClose": "Fermer les filtres",
+    "filtersApply": "{count, plural, =0 {Voir les produits} one {Voir # produit} other {Voir # produits}}",
     "filterBrand": "Marque",
     "filterPrice": "Prix",
     "filterRating": "Note",

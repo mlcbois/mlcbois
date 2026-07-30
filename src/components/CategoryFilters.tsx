@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // L'identifiant "id" est stable et sert d'état ; seul le libellé est traduit,
 // via "category.priceRanges.<id>".
@@ -38,6 +39,8 @@ export function CategoryFilters({
   onToggleInStockOnly,
   onReset,
   hasActiveFilters,
+  namePrefix = "desktop",
+  showHeader = true,
 }: {
   brandOptions: BrandOption[];
   selectedBrands: string[];
@@ -50,17 +53,33 @@ export function CategoryFilters({
   onToggleInStockOnly: () => void;
   onReset: () => void;
   hasActiveFilters: boolean;
+  /**
+   * Le composant est rendu deux fois en parallèle — barre latérale sur grand
+   * écran, panneau mobile en dessous de « lg » — avec le même état levé dans
+   * le parent. Un groupe de boutons radio HTML se distingue par son `name`,
+   * pas par sa visibilité : sans préfixe distinct, cocher un prix dans l'une
+   * des deux copies décocherait l'autre au niveau du navigateur.
+   */
+  namePrefix?: string;
+  /**
+   * Le panneau mobile porte déjà son propre titre « Filtres » dans son en-tête
+   * de tiroir : le répéter juste en dessous ferait doublon. Le bouton de
+   * réinitialisation reste affiché dans les deux cas, lui seul est utile.
+   */
+  showHeader?: boolean;
 }) {
   const t = useTranslations("category");
   const locale = useLocale();
 
   return (
     <aside className="w-full shrink-0 lg:w-56 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-black text-foreground">
-          <SlidersHorizontal className="h-4 w-4" />
-          {t("filtersTitle")}
-        </div>
+      <div className={cn("mb-3 flex items-center", showHeader ? "justify-between" : "justify-end")}>
+        {showHeader && (
+          <div className="flex items-center gap-2 text-sm font-black text-foreground">
+            <SlidersHorizontal className="h-4 w-4" />
+            {t("filtersTitle")}
+          </div>
+        )}
         {hasActiveFilters && (
           <button type="button" onClick={onReset} className="text-xs font-semibold text-primary hover:underline">
             {t("filtersReset")}
@@ -103,7 +122,7 @@ export function CategoryFilters({
                 <label className="flex items-center gap-2 text-sm text-foreground">
                   <input
                     type="radio"
-                    name="price"
+                    name={`price-${namePrefix}`}
                     checked={priceRange === range.id}
                     onChange={() => onSelectPriceRange(range.id)}
                     onClick={() => {
