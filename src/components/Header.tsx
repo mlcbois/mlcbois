@@ -1,6 +1,6 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Phone, Search, Star, Truck, User } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Link, getPathname } from "@/i18n/navigation";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Logo } from "@/components/brand/Logo";
@@ -8,6 +8,7 @@ import { CartIndicator } from "@/components/cart/CartIndicator";
 import { WishlistIndicator } from "@/components/wishlist/WishlistIndicator";
 import { categoryGroups } from "@/data/categoryNav";
 import { COMPANY } from "@/content/legal";
+import type { Locale } from "@/i18n/routing";
 
 // Numéro composable : COMPANY.phone est mis en forme pour la lecture, le lien
 // « tel: » le veut sans espaces.
@@ -32,6 +33,10 @@ const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
 export async function Header() {
   const t = await getTranslations("header");
   const common = await getTranslations("common");
+  const locale = (await getLocale()) as Locale;
+  // Chemin absolu et déjà préfixé par la langue : un <form> a besoin d'une
+  // chaîne, pas d'un <Link>, qui résout ça lui-même au clic.
+  const searchAction = getPathname({ href: "/recherche", locale });
 
   const essenzen = categoryGroups.flatMap((group) => group.items);
 
@@ -79,6 +84,7 @@ export async function Header() {
               <SearchField
                 placeholder={common("searchPlaceholder")}
                 label={t("search")}
+                action={searchAction}
               />
             </div>
 
@@ -137,6 +143,7 @@ export async function Header() {
             <SearchField
               placeholder={common("searchPlaceholder")}
               label={t("search")}
+              action={searchAction}
             />
           </div>
         </div>
@@ -175,29 +182,40 @@ export async function Header() {
   );
 }
 
-/** Champ de recherche : même balisage aux deux emplacements, un seul endroit à corriger. */
+/**
+ * Champ de recherche : même balisage aux deux emplacements, un seul endroit à
+ * corriger. Un <form> qui pointe vers /recherche en GET — la recherche
+ * fonctionne donc sans JavaScript, y compris au clavier (Entrée soumet).
+ */
 function SearchField({
   placeholder,
   label,
+  action,
 }: {
   placeholder: string;
   label: string;
+  action: string;
 }) {
   return (
-    <div className="flex h-10 items-stretch overflow-hidden rounded-md border border-border">
+    <form
+      action={action}
+      role="search"
+      className="flex h-10 items-stretch overflow-hidden rounded-md border border-border"
+    >
       <input
         type="search"
+        name="q"
         placeholder={placeholder}
         aria-label={label}
         className="w-full flex-1 border-0 bg-white px-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground"
       />
       <button
-        type="button"
+        type="submit"
         aria-label={label}
         className="flex items-center justify-center bg-primary px-4 text-primary-foreground transition-[filter] hover:brightness-110"
       >
         <Search className="h-4 w-4" />
       </button>
-    </div>
+    </form>
   );
 }

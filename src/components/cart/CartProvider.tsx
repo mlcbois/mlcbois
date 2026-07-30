@@ -44,6 +44,15 @@ interface CartContextValue {
   setQuantity: (productId: string, quantity: number) => void;
   remove: (productId: string) => void;
   clear: () => void;
+  /**
+   * Tiroir latéral du panier (CartDrawer). L'état vit ici et non dans le
+   * composant du tiroir : « Ajouter au panier » doit pouvoir l'ouvrir depuis
+   * n'importe quelle fiche ou vignette, sans que ces composants aient besoin
+   * de connaître le tiroir lui-même.
+   */
+  drawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
 }
 
 const NO_BENEFIT: CampaignBenefit = { freeShipping: false, campaignName: null };
@@ -113,6 +122,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const lines = useSyncExternalStore(subscribeCart, getCartSnapshot, getCartServerSnapshot);
   const ready = useHydrated();
   const campaign = useCampaignBenefit();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const add = useCallback(
     (line: Omit<CartLine, "quantity">, quantity = 1) => addToCart(line, quantity),
@@ -124,6 +134,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
   const remove = useCallback((productId: string) => removeFromCart(productId), []);
   const clear = useCallback(() => clearCart(), []);
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
   const value = useMemo<CartContextValue>(
     () => ({
@@ -135,8 +147,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQuantity,
       remove,
       clear,
+      drawerOpen,
+      openDrawer,
+      closeDrawer,
     }),
-    [lines, ready, campaign, add, setQuantity, remove, clear],
+    [lines, ready, campaign, add, setQuantity, remove, clear, drawerOpen, openDrawer, closeDrawer],
   );
 
   return <CartContext value={value}>{children}</CartContext>;
@@ -145,7 +160,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart(): CartContextValue {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart muss innerhalb von <CartProvider> verwendet werden.");
+    throw new Error("useCart doit être utilisé à l'intérieur de <CartProvider>.");
   }
   return context;
 }

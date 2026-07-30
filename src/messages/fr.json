@@ -761,6 +761,13 @@
       }
     }
   },
+  "recherche": {
+    "metaTitle": "Résultats pour « {query} » | MLC Bois",
+    "breadcrumb": "Résultats de recherche",
+    "titre": "Résultats pour « {query} »",
+    "resultats": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+    "vide": "Saisissez un terme pour lancer une recherche — une essence, une longueur ou une marque."
+  },
   "faq": {
     "eyebrow": "Questions fréquentes",
     "titel": "Ce que les acheteurs veulent savoir avant",

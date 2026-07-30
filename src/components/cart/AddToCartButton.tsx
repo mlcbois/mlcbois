@@ -46,7 +46,7 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const t = useTranslations("cart");
   const router = useRouter();
-  const { add, ready } = useCart();
+  const { add, ready, openDrawer } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -69,12 +69,19 @@ export function AddToCartButton({
     setAdded(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setAdded(false), 2500);
+    // Le tiroir s'ouvre automatiquement : un client qui clique plusieurs fois
+    // parce qu'il doute que le premier clic ait fonctionné arrive tout droit
+    // au double ajout. La confirmation doit donc être impossible à manquer,
+    // pas seulement un changement de couleur sur un bouton qu'il a peut-être
+    // déjà quitté des yeux.
+    openDrawer();
   }
 
   /**
    * Achat direct : même ajout, puis la caisse, sans repasser par le panier.
    * L'article y est bien déposé au passage — la caisse lit le panier, et une
-   * commande sans ligne n'aurait aucun sens.
+   * commande sans ligne n'aurait aucun sens. Le tiroir ne s'ouvre pas ici : la
+   * page suivante est déjà la confirmation la plus directe possible.
    */
   function handleBuyNow() {
     if (disabled) return;
