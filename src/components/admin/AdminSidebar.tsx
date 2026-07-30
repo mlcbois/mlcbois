@@ -16,7 +16,6 @@ import {
   Star,
   Store,
   Tags,
-  UserRound,
   Users,
   Warehouse,
   X,
@@ -65,7 +64,9 @@ export function AdminSidebar({
       title: "Boutique",
       entries: [
         { label: "Commandes", href: "/admin/orders", icon: Receipt },
-        { label: "Clients", href: "/admin/customers", icon: UserRound },
+        // « Clients » est retiré du menu : les coordonnées du client figurent
+        // déjà dans le détail de chaque commande. L'écran existe toujours et
+        // reste joignable par son adresse (/admin/customers).
         {
           label: "Avis clients",
           href: "/admin/reviews",

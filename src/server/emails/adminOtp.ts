@@ -31,11 +31,6 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** Découpe le code en deux groupes de trois chiffres : « 482 913 ». */
-function groupCode(code: string): string {
-  return `${code.slice(0, 3)} ${code.slice(3)}`;
-}
-
 export interface AdminOtpEmailInput {
   code: string;
   name: string;
@@ -57,7 +52,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
     <title>Code de connexion</title>
   </head>
   <body style="margin:0; padding:0; background-color:#f1f2f4; color-scheme:light;">
-    <div style="display:none; max-height:0; overflow:hidden; opacity:0;">Votre code de connexion : ${groupCode(code)}</div>
+    <div style="display:none; max-height:0; overflow:hidden; opacity:0;">Votre code de connexion : ${code}</div>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f2f4;">
       <tr>
@@ -94,7 +89,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
                   <tr>
                     <td align="center" style="padding:24px 16px;">
                       <div style="font-family:'Courier New',Courier,monospace; font-size:34px; line-height:42px; font-weight:bold; letter-spacing:6px; color:#001424;">
-                        ${groupCode(code)}
+                        ${code}
                       </div>
                       <div style="margin-top:8px; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:20px; color:#4b5563;">
                         Valable ${expiresInMinutes} minutes
@@ -138,7 +133,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
     `Bonjour ${name},`,
     "Saisissez ce code sur la page de connexion pour terminer votre accès à l'administration.",
     "",
-    `Code : ${groupCode(code)}`,
+    `Code : ${code}`,
     `Valable ${expiresInMinutes} minutes.`,
     "",
     "Ne communiquez ce code à personne.",
@@ -146,7 +141,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
   ].join("\n");
 
   return {
-    subject: `Code de connexion : ${groupCode(code)}`,
+    subject: `Code de connexion : ${code}`,
     html,
     text,
   };

@@ -311,6 +311,13 @@ export async function countOpenOrders(): Promise<number> {
 // ---- Numéro de commande ----
 
 /**
+ * Décalage volontaire du compteur : démarrer à 1 afficherait aux tout premiers
+ * clients qu'ils sont les tout premiers clients. Partir d'un chiffre déjà
+ * élevé donne l'image d'une boutique avec un historique de ventes établi.
+ */
+const ORDER_NUMBER_BASE = 500;
+
+/**
  * Numéro lisible « MLC-AAAA-NNNNNN », séquentiel par année civile.
  * L'unicité réelle est garantie par la contrainte en base ; la boucle d'appel
  * réessaie en cas de collision entre deux commandes simultanées.
@@ -324,8 +331,10 @@ async function nextOrderNumber(): Promise<string> {
     select: { orderNumber: true },
   });
 
-  const previous = last ? Number.parseInt(last.orderNumber.slice(prefix.length), 10) : 0;
-  const next = Number.isFinite(previous) ? previous + 1 : 1;
+  const previous = last
+    ? Number.parseInt(last.orderNumber.slice(prefix.length), 10)
+    : ORDER_NUMBER_BASE;
+  const next = Number.isFinite(previous) ? previous + 1 : ORDER_NUMBER_BASE + 1;
   return `${prefix}${String(next).padStart(6, "0")}`;
 }
 
