@@ -31,6 +31,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     ok: true,
-    message: "Ihr Passwort wurde geändert. Sie können sich jetzt anmelden.",
+    message: "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.",
   });
 }

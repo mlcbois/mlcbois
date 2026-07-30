@@ -39,7 +39,7 @@ export function CategoryMenu() {
         aria-haspopup="true"
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
-        className="flex items-center gap-2 rounded-sm bg-white/10 px-3 py-2 text-sm font-semibold hover:bg-white/20"
+        className="flex items-center gap-2 rounded-sm bg-muted px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-border"
       >
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         <span className="hidden sm:inline">{t("categories")}</span>

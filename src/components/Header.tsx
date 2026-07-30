@@ -1,79 +1,203 @@
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Search, User } from "lucide-react";
+import { Phone, Search, Star, Truck, User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Logo } from "@/components/brand/Logo";
 import { CartIndicator } from "@/components/cart/CartIndicator";
 import { WishlistIndicator } from "@/components/wishlist/WishlistIndicator";
+import { categoryGroups } from "@/data/categoryNav";
+import { COMPANY } from "@/content/legal";
 
+// Numéro composable : COMPANY.phone est mis en forme pour la lecture, le lien
+// « tel: » le veut sans espaces.
+const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
+
+/**
+ * En-tête de la boutique.
+ *
+ * Fond clair — aubier, pas écorce — pour que la coupure avec le hero sombre
+ * soit nette au lieu de noyer trois bandeaux bruns les uns sous les autres.
+ * La braise ne sert plus qu'aux accents qui doivent vraiment attirer l'œil :
+ * le bouton de recherche, le prix, le nom de marque.
+ *
+ * L'en-tête entier reste fixé en haut de l'écran pendant tout le défilement,
+ * barre de service comprise : sur ce catalogue, la note, le délai et le
+ * numéro doivent rester joignables à tout moment, pas seulement en haut de
+ * page.
+ *
+ * Le téléphone est traité comme un bouton et pas comme une mention : dans ce
+ * métier, une commande sur deux se conclut par un appel.
+ */
 export async function Header() {
   const t = await getTranslations("header");
   const common = await getTranslations("common");
 
+  const essenzen = categoryGroups.flatMap((group) => group.items);
+
   return (
     <header className="sticky top-0 z-50 w-full">
-      <div className="bg-secondary text-secondary-foreground">
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-3 px-3 py-3">
-          <CategoryMenu />
-
-          <Link
-            href="/"
-            aria-label={t("homeAriaLabel")}
-            className="flex items-center rounded-sm bg-white px-2 py-1.5"
-          >
-            <Image
-              src="/images/logo-full.png"
-              alt={t("logoAlt")}
-              width={1242}
-              height={406}
-              priority
-              className="h-8 w-auto sm:h-9"
-            />
-          </Link>
-
-          <div className="order-3 w-full sm:order-2 sm:flex-1">
-            <div className="flex h-10 items-stretch overflow-hidden rounded-sm">
-              <input
-                type="search"
-                placeholder={common("searchPlaceholder")}
-                aria-label={t("search")}
-                className="w-full flex-1 border-0 bg-white px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              />
-              <button
-                type="button"
-                aria-label={t("search")}
-                className="flex items-center justify-center bg-primary px-4 text-primary-foreground hover:brightness-110"
-              >
-                <Search className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-
-          <nav className="order-2 ml-auto flex items-center gap-3 text-xs sm:order-3 sm:ml-0 sm:gap-4">
-            {/* Espace client. La cible est toujours « /konto » : cette page rend
-                le tableau de bord au client connecté et renvoie les autres vers
-                « /konto/anmelden » (requireCustomer). Lire le cookie de session
-                ici forcerait le rendu dynamique de tout le catalogue, qui est
-                prérendu — le lien resterait juste, mais les fiches produits
-                perdraient leur rendu statique. */}
-            <Link
-              href="/konto"
-              prefetch={false}
-              className="flex flex-col items-center gap-1 hover:text-primary"
-            >
-              <User className="h-5 w-5" />
-              <span className="hidden sm:inline">{common("account")}</span>
-            </Link>
-            {/* Comme le panier, la liste de souhaits vit dans le navigateur */}
-            <WishlistIndicator />
-            {/* Le compteur d'articles vit côté client : le panier est en localStorage */}
-            <CartIndicator className="relative flex flex-col items-center gap-1 hover:text-primary" />
-            {/* Choix de la langue : reste visible et lisible dès le format mobile */}
-            <LanguageSwitcher className="shrink-0 border-l border-white/15 pl-3" />
-          </nav>
+      <div className="bg-[#150e0b] text-[0.72rem] text-white/65">
+        <div className="mx-auto flex max-w-screen-xl items-center gap-5 px-4 py-1.5">
+          <span className="flex items-center gap-1.5">
+            <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary" />
+            <span className="messwert text-white">4,8</span>
+            <span className="hidden sm:inline">{t("bewertungen")}</span>
+          </span>
+          <span className="hidden items-center gap-1.5 md:flex">
+            <Truck className="h-3.5 w-3.5 shrink-0 text-primary" />
+            {t("lieferzusage")}
+          </span>
+          <span className="hidden lg:block">{t("oeffnung")}</span>
+          {/* Choix de la langue : dans la barre de service pour rester visible
+              en permanence, desktop comme mobile, sans encombrer la rangée
+              d'icônes juste en dessous. */}
+          <LanguageSwitcher tone="light" className="ml-auto shrink-0" />
         </div>
       </div>
+
+      <div className="border-b border-border shadow-[0_1px_12px_rgba(27,19,16,0.08)]">
+        <div className="bg-splint text-foreground">
+          <div className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-3 px-4 py-3 lg:flex-nowrap lg:gap-6">
+            {/* Le menu déroulant ne sert qu'en dessous de « lg » : au-delà, la
+                rangée des types de bois affiche déjà tout le catalogue. */}
+            <div className="lg:hidden">
+              <CategoryMenu />
+            </div>
+
+            <Link
+              href="/"
+              aria-label={t("homeAriaLabel")}
+              className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              <Logo tone="dark" className="scale-95 sm:scale-100" />
+            </Link>
+
+            {/* La recherche ne prend pas toute la largeur disponible : au-delà
+                de 32 rem elle écrase le reste sans rien gagner en utilité. */}
+            <div className="hidden max-w-lg flex-1 sm:block">
+              <SearchField
+                placeholder={common("searchPlaceholder")}
+                label={t("search")}
+              />
+            </div>
+
+            {/* Appel direct : cible tactile pleine, numéro lisible sur grand
+                écran, icône seule sur mobile. */}
+            <a
+              href={TEL_HREF}
+              className="ml-auto hidden items-center gap-2.5 rounded-md border border-border px-3 py-2 transition-colors hover:border-primary/50 hover:bg-muted md:flex"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-primary" />
+              <span className="leading-tight">
+                <span className="messwert block text-sm font-bold text-foreground">
+                  {COMPANY.phone}
+                </span>
+                <span className="block text-[0.66rem] text-muted-foreground">
+                  {t("beratung")}
+                </span>
+              </span>
+            </a>
+
+            <nav className="ml-auto flex items-center gap-3 text-[0.7rem] md:ml-6 md:gap-4">
+              {/* Sur téléphone, appeler est l'action la plus probable : le
+                  numéro reste accessible même quand le bloc d'appel complet
+                  n'a plus la place de s'afficher. */}
+              <a
+                href={TEL_HREF}
+                aria-label={t("anrufenAria", { nummer: COMPANY.phone })}
+                className="flex flex-col items-center gap-1 rounded-sm transition-colors hover:text-primary md:hidden"
+              >
+                <Phone className="h-5 w-5" />
+              </a>
+              {/* Espace client. La cible est toujours « /compte » : cette page rend
+                  le tableau de bord au client connecté et renvoie les autres vers
+                  « /compte/connexion » (requireCustomer). Lire le cookie de session
+                  ici forcerait le rendu dynamique de tout le catalogue, qui est
+                  prérendu — le lien resterait juste, mais les fiches produits
+                  perdraient leur rendu statique. */}
+              <Link
+                href="/compte"
+                prefetch={false}
+                className="flex flex-col items-center gap-1 rounded-sm transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <User className="h-5 w-5" />
+                <span className="hidden sm:inline">{common("account")}</span>
+              </Link>
+              {/* Comme le panier, la liste de souhaits vit dans le navigateur */}
+              <WishlistIndicator className="flex flex-col items-center gap-1 transition-colors hover:text-primary" />
+              {/* Le compteur d'articles vit côté client : le panier est en localStorage */}
+              <CartIndicator className="relative flex flex-col items-center gap-1 transition-colors hover:text-primary" />
+            </nav>
+          </div>
+
+          {/* En dessous de « sm », la recherche passe sur sa propre ligne
+              plutôt que de rétrécir jusqu'à l'illisible. */}
+          <div className="mx-auto max-w-screen-xl px-4 pb-3 sm:hidden">
+            <SearchField
+              placeholder={common("searchPlaceholder")}
+              label={t("search")}
+            />
+          </div>
+        </div>
+
+        {/* Rangée des types de bois. Défilable au doigt sur mobile : sans
+            elle, un visiteur au téléphone devait ouvrir un menu pour voir
+            qu'on vend du hêtre.
+            Tant que le catalogue est vide, la bande ne s'affiche pas : un
+            bandeau ne portant qu'un lien perdu à droite ferait un trou entre
+            l'en-tête et le hero. */}
+        {essenzen.length > 0 && (
+          <div className="border-t border-border bg-splint">
+            <div className="mx-auto flex max-w-screen-xl items-center gap-1 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {essenzen.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={item.href}
+                  className="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-[0.82rem] font-bold whitespace-nowrap text-foreground/75 transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+                >
+                  {common(`categoryNames.${item.slug}`)}
+                </Link>
+              ))}
+              <span className="ml-auto hidden shrink-0 pl-6 lg:block">
+                <Link
+                  href="/livraison"
+                  className="messwert text-[0.78rem] font-bold whitespace-nowrap text-primary hover:underline"
+                >
+                  {t("lieferbanner")}
+                </Link>
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
+  );
+}
+
+/** Champ de recherche : même balisage aux deux emplacements, un seul endroit à corriger. */
+function SearchField({
+  placeholder,
+  label,
+}: {
+  placeholder: string;
+  label: string;
+}) {
+  return (
+    <div className="flex h-10 items-stretch overflow-hidden rounded-md border border-border">
+      <input
+        type="search"
+        placeholder={placeholder}
+        aria-label={label}
+        className="w-full flex-1 border-0 bg-white px-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground"
+      />
+      <button
+        type="button"
+        aria-label={label}
+        className="flex items-center justify-center bg-primary px-4 text-primary-foreground transition-[filter] hover:brightness-110"
+      >
+        <Search className="h-4 w-4" />
+      </button>
+    </div>
   );
 }

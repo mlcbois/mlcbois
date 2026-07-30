@@ -54,7 +54,7 @@ export function LoginForm({
 
     // La session vient d'être posée côté serveur : il faut refaire le rendu
     // pour que l'en-tête et les pages protégées la voient.
-    router.replace(returnPath ?? "/konto");
+    router.replace(returnPath ?? "/compte");
     router.refresh();
   }
 
@@ -105,7 +105,7 @@ export function LoginForm({
         />
         <p className={HINT}>
           <Link
-            href="/konto/passwort-vergessen"
+            href="/compte/mot-de-passe-oublie"
             className="font-semibold text-primary hover:underline"
           >
             {t("login.forgot")}
@@ -119,7 +119,7 @@ export function LoginForm({
 
       <p className="border-t border-border pt-4 text-sm text-muted-foreground">
         {t("login.noAccount")}{" "}
-        <Link href="/konto/registrieren" className="font-semibold text-primary hover:underline">
+        <Link href="/compte/inscription" className="font-semibold text-primary hover:underline">
           {t("login.registerLink")}
         </Link>
       </p>

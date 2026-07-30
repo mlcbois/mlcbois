@@ -1,12 +1,12 @@
-# Espace client `/konto` — Hausgeräte Pfeffer
+# Espace client `/konto` — MLC Bois
 
 Ce document décrit l'espace client livré dans `src/app/[locale]/konto/`, les décisions de
-sécurité qui le sous-tendent, ce qui est couvert au regard du droit allemand et du RGPD,
+sécurité qui le sous-tendent, ce qui est couvert au regard du droit français et du RGPD,
 et ce qui reste à faire.
 
 > **Avertissement.** Ce document explique des choix techniques motivés par des textes
 > juridiques. Ce n'est pas un conseil juridique. Le dispositif doit être relu par un avocat
-> spécialisé en droit du commerce électronique allemand avant la mise en ligne, en même temps
+> spécialisé en droit du commerce électronique français avant la mise en ligne, en même temps
 > que la Datenschutzerklärung (`src/content/legal/`), qui doit être complétée pour décrire le
 > traitement « Kundenkonto ».
 
@@ -35,7 +35,7 @@ PostgreSQL.
 | `src/lib/customerAuth.ts` | Jeton de session signé HMAC-SHA256, nom du cookie, durée |
 | `src/server/customerSession.ts` | `getCustomerSession()`, `getCurrentCustomer()`, `requireCustomer()`, ouverture et fermeture du cookie |
 | `src/server/customerRate.ts` | Trois compteurs en mémoire : connexion, réinitialisation, inscription |
-| `src/server/accountMessages.ts` | Messages d'erreur allemands des routes API |
+| `src/server/accountMessages.ts` | Messages d'erreur français des routes API |
 | `src/server/emails/customerAccount.ts` | Gabarits d'e-mail (bienvenue, compte déjà existant, réinitialisation), DE et EN |
 
 ### Routes API — `src/app/api/account/`
@@ -68,7 +68,7 @@ PostgreSQL.
 | `/konto/daten` | oui | Données personnelles, mot de passe, export RGPD, suppression |
 
 Toutes ces pages sont en `robots: { index: false, follow: false }` et en `force-dynamic`.
-Les textes vivent dans le namespace `account` de `src/messages/de.json` et
+Les textes vivent dans le namespace `account` de `src/messages/fr.json` et
 `src/messages/en.json` — 164 clés, strictement identiques dans les deux fichiers.
 
 ### Back-office
@@ -312,7 +312,7 @@ page, exactement comme le code de connexion du back-office. Le garde-fou porte s
    Cheat Sheet. Suppose de passer d'un jeton auto-porté à des sessions stockées en base.
 9. **Blocklist de mots de passe compromis** (API k-anonymity de Have I Been Pwned) : la mesure
    au meilleur rapport efficacité/friction, non implémentée.
-10. **Datenschutzerklärung.** `src/content/legal/de.ts` et `en.ts` doivent décrire le traitement
+10. **Datenschutzerklärung.** `src/content/legal/fr.ts` et `en.ts` doivent décrire le traitement
     « Kundenkonto » : finalités, base légale, durée de conservation, sort des données à la
     suppression du compte. Ce n'est pas fait par cette livraison.
 11. **Lien « Konto » de l'en-tête.** Il pointe toujours vers `/konto`, qui rend le tableau de
@@ -350,7 +350,7 @@ page, exactement comme le code de connexion du back-office. Le garde-fou porte s
 Un seul compte de test subsiste, volontairement identifiable :
 
 ```
-testkonto+claude@hausgeratepfeffer.de   /   WiederEinNeuesPasswort26
+testkonto+claude@mlc-bois.fr   /   WiederEinNeuesPasswort26
 ```
 
 Il porte la commande `HP-2026-000004`. À supprimer avant toute mise en production — depuis

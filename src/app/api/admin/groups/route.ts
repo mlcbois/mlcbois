@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // Sans slug propre, il est dérivé du libellé ("Weiße Ware" -> "weisse-ware").
+  // Sans slug propre, il est dérivé du libellé (« Bûches feuillus » -> « buches-feuillus »).
   const rawSlug = typeof body?.slug === "string" && body.slug.trim() ? body.slug : label;
   const slug = slugify(rawSlug);
   if (!slug) {

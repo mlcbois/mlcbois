@@ -36,7 +36,7 @@ export default async function ProductImportPage() {
           </li>
           <li>
             <span className="font-semibold text-foreground">price / oldPrice</span> — format
-            allemand, ex. 1.399,00 €.
+            français, ex. 1 399,00 €.
           </li>
           <li>
             <span className="font-semibold text-foreground">bullets</span> — caractéristiques

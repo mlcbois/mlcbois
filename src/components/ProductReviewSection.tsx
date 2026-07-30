@@ -4,12 +4,12 @@ import { listReviews } from "@/server/reviews";
 import { ReviewForm } from "@/components/ReviewForm";
 import { formatRating } from "@/lib/formatRating";
 
-// Format de date par langue : « 5. Januar 2026 » en allemand,
+// Format de date par langue : « 5 janvier 2026 » en français,
 // « 5 January 2026 » en anglais britannique (le shop livre en Europe).
-const DATE_LOCALES: Record<string, string> = { de: "de-DE", en: "en-GB" };
+const DATE_LOCALES: Record<string, string> = { fr: "fr-FR", en: "en-GB" };
 
 function dateFormatterFor(locale: string): Intl.DateTimeFormat {
-  return new Intl.DateTimeFormat(DATE_LOCALES[locale] ?? "de-DE", {
+  return new Intl.DateTimeFormat(DATE_LOCALES[locale] ?? "fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -45,7 +45,7 @@ function StarRating({ value, size, label }: { value: number; size: "sm" | "lg"; 
         <Star
           key={index}
           aria-hidden
-          className={`${starClass} ${index < Math.round(value) ? "fill-accent text-accent" : "text-border"}`}
+          className={`${starClass} ${index < Math.round(value) ? "fill-primary text-primary" : "text-border"}`}
         />
       ))}
     </span>
@@ -100,7 +100,7 @@ export async function ProductReviewSection({
               <div key={entry.star} className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span className="w-12 shrink-0">{t("starsLabel", { star: entry.star })}</span>
                 <span className="h-1.5 flex-1 rounded-sm bg-muted">
-                  <span className={`block h-1.5 rounded-sm bg-accent ${barWidthClass(entry.share)}`} />
+                  <span className={`block h-1.5 rounded-sm bg-primary ${barWidthClass(entry.share)}`} />
                 </span>
                 <span className="w-6 shrink-0 text-right">{entry.count}</span>
               </div>

@@ -8,21 +8,20 @@
  */
 
 /** Langues disponibles pour les pages légales. */
-export type LegalLocale = "de" | "en";
+export type LegalLocale = "fr" | "en";
 
 /** Identifiants d'URL des pages légales et informatives. */
 export type LegalSlug =
-  | "impressum"
-  | "agb"
-  | "datenschutz"
-  | "widerruf"
-  | "versand"
-  | "zahlungsarten"
-  | "retoure"
-  | "elektroaltgeraete"
+  | "mentions-legales"
+  | "cgv"
+  | "confidentialite"
+  | "retractation"
+  | "livraison"
+  | "moyens-de-paiement"
+  | "retours"
   | "faq"
-  | "ueber-uns"
-  | "kontakt";
+  | "a-propos"
+  | "contact";
 
 /**
  * Bloc de contenu d'une page.
@@ -47,7 +46,7 @@ export interface LegalPage {
   /**
    * Chapeau affiché avant les sections.
    * Sur les pages juridiques, il commence par l'avertissement « modèle à faire
-   * valider par un juriste ». Absent sur la FAQ, « Über uns » et « Kontakt ».
+   * valider par un juriste ». Absent sur la FAQ, « À propos » et « Contact ».
    */
   readonly intro?: string;
   /** Contenu de la page. */
@@ -63,11 +62,11 @@ export type LegalPageMap = Readonly<Record<LegalSlug, LegalPage>>;
 export interface LegalFooterLink {
   readonly slug: LegalSlug;
   readonly label: string;
-  /** Chemin absolu déjà préfixé par la langue (`/impressum`, `/en/impressum`…). */
+  /** Chemin absolu déjà préfixé par la langue (`/mentions-legales`, `/en/mentions-legales`…). */
   readonly href: string;
 }
 
-/** Colonne de liens du pied de page (Service / Rechtliches / Unternehmen). */
+/** Colonne de liens du pied de page (Service / Légal / Entreprise). */
 export interface LegalFooterGroup {
   /** Identifiant stable de la colonne, utile comme clé React. */
   readonly id: "service" | "legal" | "company";

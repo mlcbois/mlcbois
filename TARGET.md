@@ -3,43 +3,52 @@
 ## Design Reference
 https://www.alternate.de/ (layout, color language, product-card pattern)
 
-Originally started as a faithful clone of quelle.de, then pivoted per user request into a
-**custom electronics/home-appliance store** using alternate.de as the visual/structural
-reference instead of a 1:1 clone target.
+Historique : le projet est parti d'un clone de quelle.de, a été transformé en boutique
+d'électroménager en s'inspirant d'alternate.de, puis **repositionné en boutique française
+de bois de chauffage**. Le socle technique et les composants sont conservés ; la langue,
+le droit applicable, la marque et le catalogue ont changé.
 
 ## Brand
-- Name: **Hausgeräte Pfeffer**
-- Domain: hausgeratepfeffer.de
+- Name: **MLC Bois**
+- Domain: mlc-bois.fr
+- Contact: contact@mlc-bois.fr
+
+## Langues
+- **Français** à la racine (`/`) — langue de référence, celle qui engage la société
+- **Anglais** sous `/en` — traduction intégrale
+- L'allemand a été entièrement retiré du projet (messages, pages légales, e-mails,
+  slugs d'URL, facture, flux Merchant)
 
 ## Scope
 
-### Pages to Replicate
-- [x] Home page
-
 ### Fidelity Level
-- [ ] **Pixel-perfect**
-- [ ] **High fidelity**
-- [x] **Structural** — layout/component patterns borrowed from alternate.de, custom styling,
-      custom (mock) content and product data, own color palette derived from the source but
-      not identical
+- [x] **Structural** — schémas de mise en page et de composants empruntés à alternate.de,
+      style et contenu propres, palette dérivée mais non identique
 
 ### In Scope
-- Visual layout and component structure (header, hero, category row, product cards, promo grid, footer)
-- Home-appliance & multimedia category scope only (no fashion/furniture/gaming/computer-hardware)
-- Responsive design
-- Mock product data + free-license (Unsplash) product photography
+- Vitrine bois de chauffage : hero, réassurance, catalogue, échelle d'humidité,
+  comparatif des essences, déroulé de livraison, avis clients, FAQ
+- Tunnel d'achat conforme au droit français de la vente à distance
+- Espace client, back-office, flux Google Merchant
+- Responsive
 
-### Out of Scope
-- Real backend / database / real product catalog
-- Authentication
-- Real-time features (cart, search, recommendations are non-functional UI only)
-- SEO optimization
-- Accessibility audit (unless specifically needed)
+### Out of Scope (pour l'instant)
+- Catalogue produit définitif : les catégories ont été retirées du code
+  (`src/data/categoryNav.ts` est volontairement vide) et seront redéfinies à partir
+  des sites de référence fournis
+- Bandeau de consentement aux cookies : inutile tant que seuls des cookies strictement
+  nécessaires sont déposés
 
-## Why
-Base template to build a custom-branded appliance/multimedia e-commerce front end on top of.
+## Paramètres métier retenus
+- **TVA 10 %** — bois de chauffage à usage domestique, art. 278 bis du CGI
+  (à confirmer par le comptable)
+- **Livraison France métropolitaine uniquement** (`SUPPORTED_COUNTRIES = ["FR"]`)
+- **Zones** : A Paris et petite couronne · B grande couronne, Oise, Eure-et-Loir ·
+  C reste de la France par transporteur
+- **Unité de vente** : mètre cube apparent (MAP) ; 1 MAP ≈ 0,7 stère ≈ 0,4 m³ réel
+- **Numéro de commande** : `MLC-AAAA-NNNNNN`
 
-## Customization Plans
-- Brand name set: "Hausgeräte Pfeffer" (hausgeratepfeffer.de) — logo mark still generic, to be replaced with a generated/designed logo
-- Sections may still be added/removed/reworked as the custom design evolves
-- Product images: currently Unsplash stock photos per category; can be swapped for real product photography later
+## À faire avant mise en ligne
+Voir [`docs/LEGAL.md`](docs/LEGAL.md) § 3 : toutes les données d'entreprise
+(RCS, TVA intracommunautaire, capital, adresse, téléphone, médiateur, assureur)
+sont des valeurs d'exemple.

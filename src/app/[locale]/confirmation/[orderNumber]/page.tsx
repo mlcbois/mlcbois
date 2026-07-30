@@ -23,7 +23,7 @@ export const dynamic = "force-dynamic";
 // remplacées par les vraies avant la mise en production — d'où l'avertissement
 // affiché en toutes lettres sur la page.
 const DEMO_BANK = {
-  holder: "Hausgeräte Pfeffer GmbH (Demo)",
+  holder: "MLC Bois SAS (démo)",
   iban: "DE02 1203 0000 0000 2020 51",
   bic: "BYLADEM1001",
   bank: "Musterbank Berlin (Testdaten)",
@@ -88,8 +88,8 @@ export default async function OrderConfirmationPage({
     );
   }
 
-  const language = locale === "en" ? "en" : "de";
-  const orderDate = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "de-DE", {
+  const language = locale === "en" ? "en" : "fr";
+  const orderDate = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "fr-FR", {
     dateStyle: "long",
     timeStyle: "short",
   }).format(new Date(order.createdAt));
@@ -228,7 +228,7 @@ export default async function OrderConfirmationPage({
                   {t("confirmation.withdrawalText")}
                 </p>
                 <Link
-                  href="/widerrufsrecht"
+                  href="/retractation"
                   className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
                 >
                   {t("confirmation.withdrawalLink")}
@@ -292,7 +292,7 @@ export default async function OrderConfirmationPage({
 
 async function PaymentInstructions({ order }: { order: OrderRecord }) {
   const t = await getTranslations({
-    locale: order.locale === "en" ? "en" : "de",
+    locale: order.locale === "en" ? "en" : "fr",
     namespace: "checkout",
   });
 
@@ -344,7 +344,7 @@ async function PaymentInstructions({ order }: { order: OrderRecord }) {
             </div>
           </dl>
 
-          <p className="mt-3 flex items-start gap-2 rounded-sm border border-accent bg-accent/15 px-4 py-3 text-xs font-semibold text-foreground">
+          <p className="mt-3 flex items-start gap-2 rounded-sm border border-primary bg-primary/10 px-4 py-3 text-xs font-semibold text-foreground">
             <Landmark className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>{t("confirmation.bankDemoNotice")}</span>
           </p>

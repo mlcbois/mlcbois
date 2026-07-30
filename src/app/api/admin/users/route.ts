@@ -7,7 +7,7 @@ import {
   listAdminUsers,
 } from "@/server/admins";
 
-/** Mindestlänge für Passwörter im Back-Office. */
+/** Longueur minimale des mots de passe du back-office. */
 const MIN_PASSWORD_LENGTH = 10;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

@@ -1,6 +1,6 @@
 # Mise en ligne — Hostinger
 
-Procédure de déploiement de Hausgeräte Pfeffer sur Hostinger, en Node.js.
+Procédure de déploiement de MLC Bois sur Hostinger, en Node.js.
 
 Deux hébergements Hostinger permettent de faire tourner ce site. Ils ne se
 déploient pas de la même façon :
@@ -38,10 +38,10 @@ est limitée — voir « Build sur une machine limitée » plus bas.
 - L'URL de la base **PostgreSQL Neon** (chaîne « pooled », avec `sslmode=require`).
 - Les trois clés **Cloudinary** — sans elles, l'envoi d'images est refusé en
   production, et c'est par là que passeront toutes les photos produits.
-- Les identifiants **SMTP Hostinger** de `kontakt@hausgeratepfeffer.de`.
+- Les identifiants **SMTP Hostinger** de `contact@mlc-bois.fr`.
   Sans eux, plus personne n'entre dans le back-office : le code de connexion à
   six chiffres part par e-mail et le repli console n'existe qu'en développement.
-- Le domaine **hausgeratepfeffer.de** pointé sur l'hébergement.
+- Le domaine **mlc-bois.fr** pointé sur l'hébergement.
 
 ## 2. Variables d'environnement
 
@@ -68,7 +68,7 @@ illisibles les clés d'intégration déjà enregistrées en base. Elle se fixe
 
 Ne pas oublier non plus :
 
-- `NEXT_PUBLIC_SITE_URL=https://hausgeratepfeffer.de` — sans barre finale. Cette
+- `NEXT_PUBLIC_SITE_URL=https://mlc-bois.fr` — sans barre finale. Cette
   variable est lue **au moment du build**, pas au démarrage : la changer impose
   de reconstruire. Elle alimente les URL canoniques, le sitemap, le flux Google
   Merchant et tous les liens contenus dans les e-mails.
@@ -84,25 +84,25 @@ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs
 sudo npm install -g pm2
 
-git clone https://github.com/hausgeratepfeffer/electro.git /var/www/hausgeraete
-cd /var/www/hausgeraete
+git clone https://github.com/mlcbois/mlcbois.git /var/www/mlc-bois
+cd /var/www/mlc-bois
 ```
 
-Créer `/var/www/hausgeraete/.env.local` avec les variables de l'étape 2, puis :
+Créer `/var/www/mlc-bois/.env.local` avec les variables de l'étape 2, puis :
 
 ```bash
 npm ci                 # installe et lance `prisma generate` (postinstall)
 npx prisma migrate deploy   # applique les migrations à la base Neon
 npm run build
-pm2 start npm --name hausgeraete -- start
+pm2 start npm --name mlc-bois -- start
 pm2 save && pm2 startup     # relance automatique au redémarrage du serveur
 ```
 
-Nginx en frontal, dans `/etc/nginx/sites-available/hausgeraete` :
+Nginx en frontal, dans `/etc/nginx/sites-available/mlc-bois` :
 
 ```nginx
 server {
-    server_name hausgeratepfeffer.de www.hausgeratepfeffer.de;
+    server_name mlc-bois.fr www.mlc-bois.fr;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -125,9 +125,9 @@ server {
 Puis activer le site et poser le certificat :
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/hausgeraete /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/mlc-bois /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d hausgeratepfeffer.de -d www.hausgeratepfeffer.de
+sudo certbot --nginx -d mlc-bois.fr -d www.mlc-bois.fr
 ```
 
 `X-Forwarded-Proto` n'est pas décoratif : sans lui, l'application se croit en
@@ -141,7 +141,7 @@ connexion au back-office tourne alors en boucle.
      20.19 fait échouer l'installation de Prisma)
    - Racine de l'application : le dossier du site
    - Fichier de démarrage : **`server.js`** (fourni à la racine du dépôt)
-2. Déposer le code : `git clone https://github.com/hausgeratepfeffer/electro.git`
+2. Déposer le code : `git clone https://github.com/mlcbois/mlcbois.git`
    depuis le terminal SSH, ou l'onglet Git de hPanel.
 3. **Créer `.env.local` à la racine de l'application**, avec les variables de
    l'étape 2.
@@ -170,7 +170,7 @@ pas le modifier.
 ### Le build a besoin de la base
 
 `npm run build` ne compile pas seulement : il interroge PostgreSQL pour
-produire les 166 pages statiques du catalogue. Deux conséquences.
+produire les pages statiques du catalogue. Deux conséquences.
 
 **La base doit être réveillée.** Neon met le calcul en veille après inactivité,
 et le réveil est plus lent que le délai d'attente du build. Symptôme :
@@ -243,58 +243,6 @@ nuit calme peut prendre une à deux secondes. C'est normal.
 
 ## 6. Mode maintenance
 
-Pour ouvrir le site au public seulement une fois qu'il est vérifié :
-
-```
-MAINTENANCE_MODE=1
-```
-
-Ce que ça change :
-
-| | Maintenance active | Boutique ouverte |
-|---|---|---|
-| Pages publiques | page d'attente, **503** | normal |
-| `/api/*` (panier, commande, compte) | JSON `503` | normal |
-| `/sitemap.xml`, `/robots.txt`, `/feed/google` | `503` | normal |
-| `/admin` et `/api/admin/*` | **ouverts** | ouverts |
-| Administrateur connecté | **voit tout le site normalement** | normal |
-
-C'est le point important : tu te connectes sur `/admin`, et à partir de là tu
-navigues dans la boutique comme un client pendant que les visiteurs continuent
-de voir la page d'attente. Tu peux donc tout relire — fiches produits, panier,
-tunnel de commande — avant d'ouvrir.
-
-Pour ouvrir la boutique : passer la variable à `0` (ou la supprimer) et
-**redémarrer l'application** depuis hPanel. La variable est lue au démarrage.
-
-Deux choix volontaires derrière ce comportement :
-
-- **503 et non 200.** C'est la réponse qui dit aux moteurs de recherche
-  « revenez plus tard » au lieu de leur faire indexer la page d'attente à la
-  place de la boutique. Un `Retry-After` d'une heure l'accompagne.
-- **Un interrupteur en variable d'environnement, pas un réglage en base.** On
-  coupe souvent le site précisément parce que la base est en travaux ; une page
-  de maintenance qui interroge la base ne s'afficherait pas ce jour-là.
-
-La session admin est reconnue sur la seule signature de son jeton, sans requête
-en base — pour la même raison. Le jeton est signé et daté : il ne s'obtient pas
-sans être passé par le mot de passe **et** le code à six chiffres.
-
-## 7. Tâche planifiée des campagnes e-mail
-
-Sans elle, les campagnes programmées ne partent jamais. Toutes les minutes :
-
-```
-* * * * * curl -fsS -X POST -H "Authorization: Bearer LE_CRON_SECRET" https://hausgeratepfeffer.de/api/cron/campaigns > /dev/null
-```
-
-Sur VPS : `crontab -e`. Sur hébergement web : hPanel → **Cron Jobs**.
-
-Appeler la route trop souvent est sans effet : le répartiteur ne fait rien tant
-que l'heure du prochain lot n'est pas atteinte.
-
-## 7. Mode maintenance
-
 **En production, la boutique est fermée par défaut.** Rien à faire pour cela :
 un déploiement neuf sert la page d'attente, et il faut demander explicitement
 l'ouverture. C'est le sens sûr de l'erreur — un oubli laisse le site fermé
@@ -304,7 +252,7 @@ Ce qui se passe tant qu'elle est fermée :
 
 | Adresse | Réponse |
 |---|---|
-| Toute la boutique | page d'attente en allemand, **503** |
+| Toute la boutique | page d'attente en français, **503** |
 | `/api/...` (panier, commande, compte) | JSON d'erreur, **503** |
 | `/admin` et `/api/admin/...` | **ouverts** — c'est par là qu'on entre |
 | `/api/cron/...` | ouvert, déjà protégé par `CRON_SECRET` |
@@ -313,11 +261,15 @@ Ce qui se passe tant qu'elle est fermée :
 Cette dernière ligne est tout l'intérêt du dispositif : on se connecte sur
 `/admin`, et la boutique se comporte comme si elle était ouverte — on peut la
 parcourir, tester le tunnel d'achat, vérifier chaque fiche, pendant que les
-visiteurs ne voient que la page d'attente.
+visiteurs ne voient que la page d'attente. La session admin est reconnue sur la
+seule signature de son jeton, sans requête en base : le jeton est signé et
+daté, il ne s'obtient pas sans être passé par le mot de passe **et** le code à
+six chiffres.
 
 Le 503 n'est pas un détail : c'est le code qui dit aux moteurs de recherche
-« indisponible, revenez plus tard ». Un 200 sur une page d'attente leur ferait
-enregistrer « Wartungsarbeiten » à la place de chaque fiche produit.
+« indisponible, revenez plus tard », avec un `Retry-After` d'une heure. Un 200
+sur une page d'attente leur ferait indexer celle-ci à la place de chaque fiche
+produit.
 
 **Pour ouvrir la boutique**, le jour venu :
 
@@ -325,39 +277,53 @@ enregistrer « Wartungsarbeiten » à la place de chaque fiche produit.
 MAINTENANCE_MODE=0
 ```
 
-puis redémarrer l'application. Rien d'autre à changer. Supprimer la variable ne
-suffit pas — c'est voulu : seule une décision écrite ouvre la boutique.
-
-### Vérifier que la fermeture fonctionne
-
-En navigation privée, sinon le test est faussé : si votre navigateur porte
-encore un cookie de session administrateur, le site vous répondra normalement,
-et c'est exactement ce qui est demandé — mais ce n'est pas ce que voit un
-visiteur.
-
-```bash
-curl -s -o /dev/null -w "%{http_code}\n" https://hausgeratepfeffer.de/
-# 503 attendu
-```
+puis redémarrer l'application depuis hPanel (la variable est lue au
+démarrage). Rien d'autre à changer. Supprimer la variable ne suffit pas —
+c'est voulu : seule une décision écrite ouvre la boutique.
 
 L'interrupteur est une variable d'environnement et non un réglage du
 back-office : on coupe souvent le site précisément parce que la base est en
 travaux, et une page de maintenance qui dépendrait de la base ne s'afficherait
 pas ce jour-là. Contrepartie assumée : il faut un redémarrage.
 
+### Vérifier que la fermeture fonctionne
+
+En navigation privée, sinon le test est faussé : si votre navigateur porte
+encore un cookie de session administrateur, le site vous répondra normalement
+— et c'est exactement ce qui est demandé, mais ce n'est pas ce que voit un
+visiteur.
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://mlc-bois.fr/
+# 503 attendu
+```
+
+## 7. Tâche planifiée des campagnes e-mail
+
+Sans elle, les campagnes programmées ne partent jamais. Toutes les minutes :
+
+```
+* * * * * curl -fsS -X POST -H "Authorization: Bearer LE_CRON_SECRET" https://mlc-bois.fr/api/cron/campaigns > /dev/null
+```
+
+Sur VPS : `crontab -e`. Sur hébergement web : hPanel → **Cron Jobs**.
+
+Appeler la route trop souvent est sans effet : le répartiteur ne fait rien tant
+que l'heure du prochain lot n'est pas atteinte.
+
 ## 8. Vérifications après mise en ligne
 
 ```bash
-curl -I https://hausgeratepfeffer.de/                    # 200
-curl -s https://hausgeratepfeffer.de/sitemap.xml | head  # XML des pages
-curl -s https://hausgeratepfeffer.de/robots.txt          # autorise l'indexation
-curl -s "https://hausgeratepfeffer.de/feed/google" | head -20   # flux Merchant
+curl -I https://mlc-bois.fr/                    # 200
+curl -s https://mlc-bois.fr/sitemap.xml | head  # XML des pages
+curl -s https://mlc-bois.fr/robots.txt          # autorise l'indexation
+curl -s "https://mlc-bois.fr/feed/google" | head -20   # flux Merchant
 ```
 
 Puis, dans le navigateur :
 
 - `/admin` → connexion, **réception réelle du code à six chiffres par e-mail**
-- Changer le mot de passe administrateur (Zugänge)
+- Changer le mot de passe administrateur (menu **Accès**, `/admin/users`)
 - Envoyer une image produit depuis le back-office → l'URL renvoyée doit être en
   `res.cloudinary.com`
 - Une commande de test de bout en bout, puis la supprimer
@@ -369,10 +335,11 @@ déploiement mais bloquent la vente réelle :
 
 0. **Supprimer les avis de démonstration.** La base en contient plusieurs
    milliers, générés pour juger du rendu d'un catalogue fourni. Ce ne sont pas
-   des avis de clients : les laisser en ligne relèverait de l'annexe au
-   § 3 Abs. 3 UWG n° 23c, déloyale en toutes circonstances, et exposerait la
-   boutique à une mise en demeure autant qu'à une pénalité Google sur les
-   étoiles affichées en résultat de recherche.
+   des avis de clients : les laisser en ligne constituerait une pratique
+   commerciale trompeuse en toutes circonstances (art. L121-4, 23° du Code de
+   la consommation — donner de fausses indications sur les avis de
+   consommateurs), et exposerait la boutique à une mise en demeure autant qu'à
+   une pénalité Google sur les étoiles affichées en résultat de recherche.
 
    ```bash
    npx tsx --env-file=.env.local scripts/avis-demonstration.ts --purger
@@ -382,12 +349,15 @@ déploiement mais bloquent la vente réelle :
    avis réellement déposés par des clients ne sont pas concernés. À lancer
    **avant** d'ouvrir la boutique au public.
 
-1. Confirmation de commande par e-mail (§ 312i Abs. 1 Nr. 3 BGB) — obligatoire.
-2. Aucun paiement encaissé : virement et facture fonctionnent, les prestataires
-   (PayPal, carte, SEPA) restent à brancher via Intégrations.
-3. Bouton de rétractation en ligne (§ 356a BGB, obligatoire depuis le
-   19 juin 2026) : le texte est en place, la fonctionnalité reste à construire.
-4. IBAN de démonstration sur la page de confirmation.
-5. Informations d'entreprise fictives dans les mentions légales — voir
-   [`LEGAL.md`](LEGAL.md), à faire relire par un juriste.
-6. Supprimer les deux commandes et les trois avis de test restés en base.
+1. Aucun paiement encaissé : virement et facture fonctionnent de bout en bout ;
+   les prestataires (PayPal, carte, SEPA) restent à brancher via Intégrations.
+2. **Rétractation en libre-service.** Le client doit aujourd'hui vous
+   contacter pour se rétracter ; l'information légale est en place (page
+   « Droit de rétractation ») mais rien n'automatise la démarche depuis son
+   compte. Ce n'est pas une obligation du droit français comparable au
+   « bouton de rétractation » allemand — plutôt un gain d'expérience client à
+   évaluer, pas un blocage légal.
+3. IBAN de démonstration sur la page de confirmation, déjà signalé comme tel.
+4. Informations d'entreprise fictives dans les mentions légales — voir
+   [`LEGAL.md`](LEGAL.md) § 3, à faire relire par un juriste avant publication.
+5. Supprimer les commandes et avis de test restés en base.

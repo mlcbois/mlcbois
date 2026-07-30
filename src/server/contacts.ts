@@ -43,7 +43,7 @@ function normalizeEmail(value: string): string {
 }
 
 function normalizeLocale(value: string): CampaignLocale {
-  return value === "en" ? "en" : "de";
+  return value === "en" ? "en" : "fr";
 }
 
 /** Statistiques de commande accumulées pour une même personne. */

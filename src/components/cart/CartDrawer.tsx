@@ -234,14 +234,14 @@ export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
               </dl>
 
               <Link
-                href="/kasse"
+                href="/commande"
                 onClick={close}
                 className="block rounded-sm bg-primary px-5 py-3 text-center text-sm font-black text-primary-foreground transition-all hover:brightness-110"
               >
                 {t("toCheckout")}
               </Link>
               <Link
-                href="/warenkorb"
+                href="/panier"
                 onClick={close}
                 className="mt-2 block text-center text-sm font-semibold text-primary hover:underline"
               >

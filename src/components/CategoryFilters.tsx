@@ -132,7 +132,7 @@ export function CategoryFilters({
                     onChange={() => onToggleMinRating(rating)}
                     className="h-4 w-4 rounded-sm border-border accent-primary"
                   />
-                  {/* « 4,5 » en allemand, « 4.5 » en anglais, « 4 » reste « 4 » */}
+                  {/* « 4,5 » en français, « 4.5 » en anglais, « 4 » reste « 4 » */}
                   {t("filterMinStars", { rating: rating.toLocaleString(locale) })}
                 </label>
               </li>

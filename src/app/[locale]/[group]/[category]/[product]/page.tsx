@@ -11,6 +11,7 @@ import { ProductJsonLd } from "@/components/seo/ProductJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { ProductGrid } from "@/components/ProductGrid";
+import { RecordProductView } from "@/components/product/RecordProductView";
 import { getCategoryPages, getProductBySlug, getRelatedProducts } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localizedContent";
 import { productLongText, productShortText } from "@/lib/productText";
@@ -94,6 +95,19 @@ export default async function ProductPage({ params }: { params: ProductPageParam
 
   return (
     <>
+      {/* Aucun rendu : note la consultation pour le popup de sortie et la
+          page « Consultés récemment ». */}
+      {productData.id && (
+        <RecordProductView
+          productId={productData.id}
+          slug={productData.slug ?? ""}
+          brand={productData.brand}
+          name={productData.name}
+          image={productData.image}
+          path={productData.href}
+          priceCents={productData.priceCents ?? 0}
+        />
+      )}
       <Header />
       <main className="flex-1">
         <div className="border-b border-border bg-white">

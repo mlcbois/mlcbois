@@ -2,13 +2,13 @@
  * Comptes clients de la boutique.
  *
  * Trois principes, tous imposés par le droit applicable à une boutique
- * allemande :
+ * française :
  *
  *  1. Le compte est facultatif. Rien ici n'est appelé par le tunnel de
  *     commande invité : commander sans compte reste possible et inchangé.
  *     Imposer un compte pour une commande ponctuelle est contraire au principe
- *     de minimisation (art. 5 § 1 c RGPD) — position de la Datenschutzkonferenz
- *     du 24 mars 2022 sur les comptes clients dans le commerce en ligne.
+ *     de minimisation (art. 5 § 1 c RGPD) — position constante de la CNIL
+ *     sur les comptes clients dans le commerce en ligne.
  *
  *  2. Aucune fonction ne révèle si une adresse e-mail est enregistrée.
  *     Connexion, inscription et « mot de passe oublié » renvoient toutes le
@@ -16,10 +16,11 @@
  *     Sheet, WSTG-IDNT-04).
  *
  *  3. Supprimer un compte n'efface jamais les commandes : elles restent
- *     soumises aux délais de conservation comptables allemands — huit ans pour
- *     les justificatifs et les factures depuis le BEG IV du 29 octobre 2024
- *     (§ 147 al. 3 AO, § 257 al. 4 HGB), dix ans pour les livres et les
- *     comptes annuels. L'art. 17 § 3 b RGPD réserve expressément ce cas. Les
+ *     soumises aux délais de conservation comptables français — dix ans pour
+ *     les livres et pièces justificatives (art. L123-22 du Code de commerce),
+ *     six ans au titre du droit de communication de l'administration fiscale
+ *     (art. L102 B du Livre des procédures fiscales). L'art. 17 § 3 b RGPD
+ *     réserve expressément ce cas. Les
  *     commandes sont détachées du compte et débarrassées des coordonnées qui
  *     ne sont pas exigées par la facture.
  *
@@ -46,8 +47,9 @@ import { COUNTRY_CODES, isValidPostalCode } from "@/lib/countries";
 
 /**
  * Longueur minimale du mot de passe : douze caractères, sans règle de
- * composition imposée. La longueur prime sur la complexité — le BSI
- * (ORP.4.A22) et l'OWASP Authentication Cheat Sheet vont dans le même sens, et
+ * composition imposée. La longueur prime sur la complexité — la CNIL
+ * (délibération 2022-100) et l'OWASP Authentication Cheat Sheet vont dans le
+ * même sens, et
  * une contrainte trop bavarde pousse aux mots de passe réutilisés.
  * La borne haute est large (les phrases de passe doivent passer) mais présente,
  * pour qu'une entrée démesurée ne serve pas de levier de déni de service sur
@@ -70,7 +72,7 @@ export const SUPPORTED_COUNTRIES = COUNTRY_CODES;
 export const SALUTATIONS = ["", "herr", "frau", "divers"] as const;
 
 /** Adresse de remplacement posée sur les commandes d'un compte supprimé. */
-const ANONYMIZED_EMAIL = "geloescht@konto.invalid";
+const ANONYMIZED_EMAIL = "supprime@compte.invalid";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_PATTERN = /^[+0-9\s()/.-]{6,40}$/;
@@ -104,7 +106,7 @@ export const EMPTY_ADDRESS: CustomerAddress = {
   street: "",
   postalCode: "",
   city: "",
-  country: "DE",
+  country: "FR",
 };
 
 /** Vue publique d'un compte. Ne contient jamais le mot de passe, même haché. */
@@ -222,7 +224,7 @@ function normalizeEmail(value: unknown): string {
 }
 
 function normalizeLocale(value: unknown): EmailLocale {
-  return text(value, 5) === "en" ? "en" : "de";
+  return text(value, 5) === "en" ? "en" : "fr";
 }
 
 function checkPassword(value: unknown): AccountErrorCode | undefined {
@@ -602,7 +604,7 @@ export async function requestPasswordReset(
 
   const language = normalizeLocale(row.locale) === "en" ? "en" : locale;
   const prefix = language === "en" ? "/en" : "";
-  const resetUrl = `${siteUrl()}${prefix}/konto/passwort-zuruecksetzen?token=${token}`;
+  const resetUrl = `${siteUrl()}${prefix}/compte/nouveau-mot-de-passe?token=${token}`;
 
   const message = buildPasswordResetEmail({
     locale: language,
@@ -737,10 +739,10 @@ export async function exportCustomerData(customerId: string): Promise<Record<str
 
   return {
     hinweis:
-      "Datenauskunft nach Art. 15 und Datenübertragbarkeit nach Art. 20 DSGVO. " +
-      "Diese Datei enthält alle personenbezogenen Daten, die Hausgeräte Pfeffer zu Ihrem " +
-      "Kundenkonto gespeichert hat. Ihr Passwort ist nicht enthalten: es wird ausschließlich " +
-      "als nicht umkehrbarer Hashwert gespeichert.",
+      "Droit d'accès au titre de l'article 15 du RGPD et portabilité au titre de l'article 20. " +
+      "Ce fichier contient toutes les données personnelles que MLC Bois a enregistrées pour " +
+      "votre compte client. Votre mot de passe n'y figure pas : il est stocké uniquement sous " +
+      "forme d'empreinte non réversible.",
     erstelltAm: new Date().toISOString(),
     konto: {
       kundennummer: customer.id,

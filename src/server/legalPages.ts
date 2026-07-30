@@ -3,11 +3,12 @@
  *
  * Deux sources cohabitent, et l'ordre compte :
  *  1. la table `LegalContent`, alimentée par l'administration ;
- *  2. `src/content/legal/de.ts` et `en.ts`, versionnés avec le code.
+ *  2. `src/content/legal/fr.ts` et `en.ts`, versionnés avec le code.
  *
  * La base l'emporte quand une ligne existe. Sinon le fichier est servi. Ce
  * repli n'est pas seulement une commodité de démarrage : ces pages sont
- * obligatoires (Impressum, Widerrufsbelehrung…). Si la base est injoignable ou
+ * obligatoires (mentions légales, droit de rétractation…). Si la base est
+ * injoignable ou
  * si une ligne est illisible, elles doivent quand même s'afficher — d'où les
  * `try/catch` qui retombent sur le fichier au lieu de laisser remonter
  * l'erreur.
@@ -169,10 +170,10 @@ export async function getLegalPageVersion(
   };
 }
 
-/** Les onze pages, dans les deux langues, pour la liste du back-office. */
+/** Les dix pages, dans les deux langues, pour la liste du back-office. */
 export async function listLegalPageSummaries(): Promise<readonly LegalPageSummary[]> {
-  const [de, en] = await Promise.all(LEGAL_LOCALES.map((locale) => loadOverrides(locale)));
-  const byLocale = { de, en } as const;
+  const [fr, en] = await Promise.all(LEGAL_LOCALES.map((locale) => loadOverrides(locale)));
+  const byLocale = { fr, en } as const;
 
   return LEGAL_SLUGS.map((slug) => {
     const versions = {} as Record<LegalLocale, LegalPageVersion>;

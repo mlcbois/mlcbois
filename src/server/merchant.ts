@@ -26,23 +26,30 @@ export type { GoogleCategory } from "@/lib/googleTaxonomy";
 // ---- Paramètres de la boutique ----
 
 /** Pays ciblé par le flux (ISO 3166-1 alpha-2). */
-export const MERCHANT_COUNTRY = "DE";
-/** Devise du flux (ISO 4217). Les prix stockés incluent déjà la TVA allemande. */
+export const MERCHANT_COUNTRY = "FR";
+/** Devise du flux (ISO 4217). Les prix stockés incluent déjà la TVA. */
 export const MERCHANT_CURRENCY = "EUR";
 /** Langue du contenu du flux. */
-export const MERCHANT_LANGUAGE = "de";
-/** Taux de TVA appliqué en Allemagne — déjà compris dans priceCents. */
-export const MERCHANT_VAT_RATE = 0.19;
+export const MERCHANT_LANGUAGE = "fr";
+/**
+ * Taux de TVA — déjà compris dans priceCents.
+ * Le bois de chauffage vendu à un particulier relève du taux réduit de 10 %
+ * (art. 278 bis du CGI). Une vente à un professionnel assujetti reste à 20 % :
+ * si la boutique ouvre un canal B2B, ce taux ne pourra plus être une constante.
+ */
+export const MERCHANT_VAT_RATE = 0.1;
 
-export const SHOP_NAME = "Hausgeräte Pfeffer";
-export const SHOP_PHONE = "+49 800 1234 5";
+// Doivent rester alignés sur COMPANY (src/content/legal/fr.ts), qui fait
+// autorité pour les mentions légales et la facture PDF.
+export const SHOP_NAME = "MLC Bois";
+export const SHOP_PHONE = "+33 1 23 45 67 89";
 
 /**
  * URL publique de la boutique. Toutes les URL du flux doivent être absolues et
  * pointer vers le domaine vérifié dans Merchant Center.
  */
 export function siteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hausgeratepfeffer.de";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mlc-bois.fr";
   return raw.replace(/\/+$/, "");
 }
 
@@ -53,8 +60,8 @@ export function absoluteUrl(pathOrUrl: string): string {
 }
 
 /**
- * Conditions de livraison annoncées sur la boutique (TrustBar :
- * « Standardversand: kostenlos (3–5 Tage) »). Ces valeurs DOIVENT rester
+ * Conditions de livraison annoncées sur la boutique (« Livraison standard
+ * offerte, 3 à 5 jours ouvrés »). Ces valeurs DOIVENT rester
  * alignées sur ce qui est écrit sur le site : Google compare le flux et la page.
  *
  * Le mode express (70 €, 24–48 h) n'est volontairement pas déclaré ici : le flux
@@ -63,7 +70,7 @@ export function absoluteUrl(pathOrUrl: string): string {
  */
 export const MERCHANT_SHIPPING = {
   country: MERCHANT_COUNTRY,
-  service: "Standardversand",
+  service: "Livraison standard",
   /**
    * Au-dessus de ce montant, le port est offert. À zéro depuis que la boutique
    * annonce le standard gratuit sans montant minimum d'achat.
@@ -77,9 +84,10 @@ export const MERCHANT_SHIPPING = {
 } as const;
 
 /**
- * Politique de retour annoncée (TrustBar : « 14 Tage Rückgaberecht »).
- * Quatorze jours correspondent au droit de rétractation légal allemand
- * (§ 355 BGB) : la boutique n'accorde plus de délai contractuel au-delà.
+ * Politique de retour annoncée (14 jours de rétractation, art. L221-18 du Code
+ * de la consommation).
+ * Quatorze jours correspondent au délai légal de rétractation : la boutique
+ * n'accorde pas de délai contractuel au-delà.
  * `returnFees` n'est volontairement pas renseigné : le site ne précise pas qui
  * supporte les frais de retour, et Google refuse les informations inexactes.
  */
@@ -281,7 +289,7 @@ export function merchantOfferId(product: MerchantProduct): string {
   return `${product.slug.slice(0, 41)}-${product.id.slice(-8)}`;
 }
 
-/** URL publique de la fiche produit (l'allemand vit à la racine du site). */
+/** URL publique de la fiche produit (le français vit à la racine du site). */
 export function merchantProductUrl(product: MerchantProduct): string {
   return `${siteUrl()}/${product.category.group.slug}/${product.category.slug}/${product.slug}`;
 }
@@ -522,7 +530,7 @@ export interface MerchantIssue {
   level: MerchantIssueLevel;
   /** Nom de l'attribut Google concerné. */
   attribute: string;
-  /** Message affiché dans le back-office, en allemand. */
+  /** Message affiché dans le back-office, en français. */
   message: string;
 }
 
@@ -576,7 +584,7 @@ export function auditMerchantProduct(
     issues.push({
       level: "warning",
       attribute: "title",
-      message: `Titel ist mit ${record.title.length} Zeichen sehr kurz — Modellbezeichnung und Kernmerkmal ergänzen.`,
+      message: `Titre très court (${record.title.length} caractères) — ajouter l'essence, la longueur de bûche et le conditionnement.`,
     });
   }
 
@@ -683,7 +691,7 @@ export function auditMerchantProduct(
       level: "warning",
       attribute: "shipping",
       message:
-        "Prix en dessous du seuil de livraison offerte : aucuns frais de port ne sont transmis dans le flux. Des règles de livraison pour l'Allemagne doivent alors être définies dans le Merchant Center.",
+        "Prix en dessous du seuil de livraison offerte : aucuns frais de port ne sont transmis dans le flux. Des règles de livraison pour la France doivent alors être définies dans le Merchant Center.",
     });
   }
 
@@ -711,7 +719,7 @@ export function auditMerchantProduct(
       level: "warning",
       attribute: "color / size",
       message:
-        "La catégorie Google associée relève de « Vêtements et accessoires ». Pour l'Allemagne, Google y exige en plus color et size.",
+        "La catégorie Google associée relève de « Vêtements et accessoires ». Pour la France, Google y exige en plus color et size.",
     });
   }
 

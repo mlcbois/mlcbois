@@ -29,7 +29,7 @@ export default async function AccountDataPage({ params }: { params: PageParams }
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const customer = await requireCustomer(locale, "/konto/daten");
+  const customer = await requireCustomer(locale, "/compte/informations");
   const t = await getTranslations({ locale, namespace: "account" });
 
   return (

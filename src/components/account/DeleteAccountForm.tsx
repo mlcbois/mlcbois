@@ -14,12 +14,12 @@ import {
 } from "@/components/account/formStyles";
 
 /** Mot à recopier, identique à celui attendu par la route. */
-const CONFIRMATION_WORD = "LÖSCHEN";
+const CONFIRMATION_WORD = "SUPPRIMER";
 
 /**
  * Suppression du compte (art. 17 RGPD).
  *
- * Deux confirmations avant d'agir : le mot de passe et le mot « LÖSCHEN »
+ * Deux confirmations avant d'agir : le mot de passe et le mot « SUPPRIMER »
  * recopié à la main. Le texte affiché juste au-dessus explique ce qui subsiste
  * malgré la suppression — les commandes, pour les délais de conservation
  * comptables. Informer avant la confirmation évite le reproche d'un art. 17
@@ -73,7 +73,7 @@ export function DeleteAccountForm() {
 
   return (
     <form onSubmit={submit} noValidate className="space-y-4">
-      <p className="flex items-start gap-2 rounded-sm border border-accent bg-accent/15 px-4 py-3 text-sm text-foreground">
+      <p className="flex items-start gap-2 rounded-sm border border-primary bg-primary/10 px-4 py-3 text-sm text-foreground">
         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
         <span>{t("data.deleteRetention")}</span>
       </p>

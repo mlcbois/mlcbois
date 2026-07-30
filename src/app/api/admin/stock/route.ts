@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Produit introuvable." }, { status: 404 });
     }
 
-    // Shop-Seiten zeigen Verfügbarkeit an, deshalb nach jeder Buchung neu bauen
+    // Les pages boutique affichent la disponibilité : on reconstruit après chaque mouvement
     revalidatePath("/", "layout");
     return NextResponse.json(result, { status: 201 });
   } catch (error) {

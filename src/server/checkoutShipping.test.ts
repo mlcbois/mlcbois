@@ -18,20 +18,20 @@ import { parseCheckoutPayload } from "./checkoutInput";
 
 const ADDRESS = {
   salutation: "frau",
-  firstName: "Anna",
-  lastName: "Beispiel",
+  firstName: "Anne",
+  lastName: "Exemple",
   company: "",
-  street: "Hauptstraße 12a",
-  postalCode: "10115",
-  city: "Berlin",
-  country: "DE",
+  street: "12 rue des Tilleuls",
+  postalCode: "94300",
+  city: "Vincennes",
+  country: "FR",
 };
 
 function payload(overrides: Record<string, unknown> = {}) {
   return {
-    locale: "de",
-    email: "anna.beispiel@example.de",
-    phone: "+49 30 1234567",
+    locale: "fr",
+    email: "anne.exemple@example.fr",
+    phone: "+33 1 23 45 67 89",
     billing: ADDRESS,
     shippingSameAsBilling: true,
     paymentMethodKey: "vorkasse",

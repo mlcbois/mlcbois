@@ -34,11 +34,11 @@ function shape(nodes: readonly RichTextNode[]): string {
 
 describe("parseRichText — marques bien formées", () => {
   it("reconnaît le gras", () => {
-    assert.equal(shape(parseRichText("Nur **heute** gültig")), "Nur <b>heute</b> gültig");
+    assert.equal(shape(parseRichText("Valable **aujourd'hui**")), "Valable <b>aujourd'hui</b>");
   });
 
   it("reconnaît l'italique", () => {
-    assert.equal(shape(parseRichText("Nur *heute* gültig")), "Nur <i>heute</i> gültig");
+    assert.equal(shape(parseRichText("Valable *aujourd'hui*")), "Valable <i>aujourd'hui</i>");
   });
 
   it("imbrique l'italique dans le gras", () => {
@@ -89,15 +89,15 @@ describe("parseRichText — marques mal formées", () => {
 describe("parseRichText — liens", () => {
   it("accepte un chemin interne", () => {
     assert.equal(
-      shape(parseRichText("Siehe [Impressum](/impressum)")),
-      'Siehe <a href="/impressum">Impressum</a>',
+      shape(parseRichText("Voir les [mentions légales](/mentions-legales)")),
+      'Voir les <a href="/mentions-legales">mentions légales</a>',
     );
   });
 
   it("accepte https, mailto et tel", () => {
-    assert.ok(isSafeHref("https://hausgeratepfeffer.de"));
+    assert.ok(isSafeHref("https://mlc-bois.fr"));
     assert.ok(isSafeHref("http://example.org/pfad"));
-    assert.ok(isSafeHref("mailto:service@hausgeratepfeffer.de"));
+    assert.ok(isSafeHref("mailto:contact@mlc-bois.fr"));
     assert.ok(isSafeHref("tel:+4930123456"));
   });
 
@@ -123,8 +123,8 @@ describe("parseRichText — liens", () => {
 
   it("formate le libellé d'un lien", () => {
     assert.equal(
-      shape(parseRichText("[**AGB**](/agb)")),
-      '<a href="/agb"><b>AGB</b></a>',
+      shape(parseRichText("[**CGV**](/cgv)")),
+      '<a href="/cgv"><b>CGV</b></a>',
     );
   });
 });
@@ -132,21 +132,21 @@ describe("parseRichText — liens", () => {
 describe("stripMarks", () => {
   it("retire les marques et garde le texte", () => {
     assert.equal(
-      stripMarks("**Widerrufsrecht**: siehe [AGB](/agb) und *Hinweise*"),
-      "Widerrufsrecht: siehe AGB und Hinweise",
+      stripMarks("**Droit de rétractation** : voir les [CGV](/cgv) et les *informations*"),
+      "Droit de rétractation : voir les CGV et les informations",
     );
   });
 
   it("ne touche pas à un texte sans marque", () => {
-    assert.equal(stripMarks("Musterstraße 12, 10115 Berlin"), "Musterstraße 12, 10115 Berlin");
+    assert.equal(stripMarks("12 rue de la Scierie, 93200 Saint-Denis"), "12 rue de la Scierie, 93200 Saint-Denis");
   });
 });
 
 describe("paragraphsOf", () => {
   it("découpe sur les lignes vides et ignore les blancs", () => {
-    assert.deepEqual(paragraphsOf("Erster Absatz\n\nZweiter Absatz\n\n\n"), [
-      "Erster Absatz",
-      "Zweiter Absatz",
+    assert.deepEqual(paragraphsOf("Premier paragraphe\n\nDeuxième paragraphe\n\n\n"), [
+      "Premier paragraphe",
+      "Deuxième paragraphe",
     ]);
   });
 

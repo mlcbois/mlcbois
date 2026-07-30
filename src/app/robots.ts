@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hausgeratepfeffer.de";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mlc-bois.fr";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // Back-office, API et tunnel d'achat n'ont rien à faire dans l'index
-        disallow: ["/admin", "/api", "/warenkorb", "/kasse", "/bestellung", "/en/warenkorb", "/en/kasse", "/en/bestellung"],
+        disallow: ["/admin", "/api", "/panier", "/commande", "/confirmation", "/en/panier", "/en/commande", "/en/confirmation"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

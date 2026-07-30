@@ -110,7 +110,7 @@ export async function DELETE(_request: Request, { params }: { params: Params }) 
     return NextResponse.json(
       {
         error:
-          `Die Gruppe „${group.label}“ enthält noch ${count} ${count === 1 ? "Kategorie" : "Kategorien"}. ` +
+          `L'univers « ${group.label} » contient encore ${count} ${count === 1 ? "catégorie" : "catégories"}. ` +
           "Déplacez-les ou supprimez-les d'abord.",
       },
       { status: 409 },

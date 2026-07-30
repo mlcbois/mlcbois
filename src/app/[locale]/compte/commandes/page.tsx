@@ -31,12 +31,12 @@ export default async function AccountOrdersPage({ params }: { params: PageParams
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const customer = await requireCustomer(locale, "/konto/bestellungen");
+  const customer = await requireCustomer(locale, "/compte/commandes");
   const t = await getTranslations({ locale, namespace: "account" });
 
   const orders = await listCustomerOrders(customer.id);
-  const language = locale === "en" ? "en" : "de";
-  const dateFormatter = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "de-DE", {
+  const language = locale === "en" ? "en" : "fr";
+  const dateFormatter = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "fr-FR", {
     dateStyle: "medium",
   });
 
@@ -92,7 +92,7 @@ export default async function AccountOrdersPage({ params }: { params: PageParams
                 <tr key={order.orderNumber} className="border-b border-border last:border-0">
                   <td className="px-4 py-3">
                     <Link
-                      href={`/konto/bestellungen/${order.orderNumber}`}
+                      href={`/compte/commandes/${order.orderNumber}`}
                       className="font-black text-foreground hover:text-primary"
                     >
                       {order.orderNumber}
@@ -121,7 +121,7 @@ export default async function AccountOrdersPage({ params }: { params: PageParams
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Link
-                      href={`/konto/bestellungen/${order.orderNumber}`}
+                      href={`/compte/commandes/${order.orderNumber}`}
                       aria-label={`${t("orders.view")} ${order.orderNumber}`}
                       className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
                     >

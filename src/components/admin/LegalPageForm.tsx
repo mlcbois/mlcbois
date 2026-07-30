@@ -39,12 +39,12 @@ interface LegalPageFormProps {
   versions: Record<LegalLocale, LegalPageFormData>;
 }
 
-const LOCALES: readonly LegalLocale[] = ["de", "en"];
-const LOCALE_LABELS: Record<LegalLocale, string> = { de: "Deutsch", en: "English" };
+const LOCALES: readonly LegalLocale[] = ["fr", "en"];
+const LOCALE_LABELS: Record<LegalLocale, string> = { fr: "Français", en: "English" };
 
 /** Adresse publique de la page, pour l'aller voir après publication. */
 function publicHref(slug: LegalSlug, locale: LegalLocale): string {
-  return locale === "de" ? `/${slug}` : `/en/${slug}`;
+  return locale === "fr" ? `/${slug}` : `/en/${slug}`;
 }
 
 function emptySection(): LegalSectionInput {
@@ -59,18 +59,18 @@ function isSame(a: LegalPageInput, b: LegalPageInput): boolean {
 export function LegalPageForm({ slug, label, versions }: LegalPageFormProps) {
   const router = useRouter();
 
-  const [locale, setLocale] = useState<LegalLocale>("de");
+  const [locale, setLocale] = useState<LegalLocale>("fr");
   const [drafts, setDrafts] = useState<Record<LegalLocale, LegalPageInput>>({
-    de: versions.de.content,
+    fr: versions.fr.content,
     en: versions.en.content,
   });
   // Référence de comparaison : ce qui est actuellement en ligne.
   const [published, setPublished] = useState<Record<LegalLocale, LegalPageInput>>({
-    de: versions.de.content,
+    fr: versions.fr.content,
     en: versions.en.content,
   });
   const [customized, setCustomized] = useState<Record<LegalLocale, boolean>>({
-    de: versions.de.customized,
+    fr: versions.fr.customized,
     en: versions.en.customized,
   });
 
@@ -160,7 +160,7 @@ export function LegalPageForm({ slug, label, versions }: LegalPageFormProps) {
     setPending(false);
     setNotice(
       dirtyLocales.length > 1
-        ? "Publié en allemand et en anglais. Le site est à jour."
+        ? "Publié en français et en anglais. Le site est à jour."
         : `Publié (${LOCALE_LABELS[dirtyLocales[0]]}). Le site est à jour.`,
     );
     router.refresh();

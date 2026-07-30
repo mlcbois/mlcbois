@@ -13,8 +13,8 @@ import { listLegalPageSummaries } from "@/server/legalPages";
  * l'administration — et par qui.
  */
 
-const LOCALES: readonly LegalLocale[] = ["de", "en"];
-const LOCALE_LABELS: Record<LegalLocale, string> = { de: "DE", en: "EN" };
+const LOCALES: readonly LegalLocale[] = ["fr", "en"];
+const LOCALE_LABELS: Record<LegalLocale, string> = { fr: "FR", en: "EN" };
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
@@ -70,7 +70,7 @@ export default async function AdminPagesPage() {
                       {LEGAL_SLUG_LABELS[slug]}
                     </Link>
                     <span className="mt-0.5 block text-xs text-muted-foreground">
-                      {versions.de.page.sections.length} sections
+                      {versions.fr.page.sections.length} sections
                     </span>
                   </td>
 

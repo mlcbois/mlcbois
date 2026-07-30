@@ -42,7 +42,7 @@ export const getCurrentCustomer = cache(async (): Promise<CustomerRecord | null>
 /**
  * Exige un client connecté, sinon renvoie vers la page de connexion.
  * `returnTo` est le chemin — sans préfixe de langue — vers lequel revenir après
- * la connexion, par exemple « /konto/bestellungen ».
+ * la connexion, par exemple « /compte/commandes ».
  */
 export async function requireCustomer(locale: string, returnTo?: string): Promise<CustomerRecord> {
   const customer = await getCurrentCustomer();
@@ -54,8 +54,8 @@ export async function requireCustomer(locale: string, returnTo?: string): Promis
   redirect(
     getPathname({
       href: returnTo
-        ? { pathname: "/konto/anmelden", query: { weiter: returnTo } }
-        : "/konto/anmelden",
+        ? { pathname: "/compte/connexion", query: { weiter: returnTo } }
+        : "/compte/connexion",
       locale: target,
     }),
   );

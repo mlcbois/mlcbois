@@ -41,7 +41,7 @@ export function AddressFieldset({
   onChange: (next: AddressValue) => void;
 }) {
   const t = useTranslations("checkout");
-  const isGermany = value.country === "DE";
+  const isFrance = value.country === "FR";
 
   function update<K extends keyof AddressValue>(key: K, next: AddressValue[K]) {
     onChange({ ...value, [key]: next });
@@ -129,21 +129,21 @@ export function AddressFieldset({
         <label className={LABEL} htmlFor={`${idPrefix}-postalCode`}>
           {t("postalCode")} <span aria-hidden>*</span>
         </label>
-        {/* Le format du code postal dépend du pays : l'Allemagne tient en cinq
+        {/* Le format du code postal dépend du pays : la France tient en cinq
             chiffres, mais « SW1A 1AA » ou « 1000 » sont tout aussi valides
-            ailleurs. On ne contraint donc la saisie que pour l'Allemagne. */}
+            ailleurs. On ne contraint donc la saisie que pour la France. */}
         <input
           id={`${idPrefix}-postalCode`}
           required
-          inputMode={isGermany ? "numeric" : "text"}
-          pattern={isGermany ? "\\d{5}" : undefined}
+          inputMode={isFrance ? "numeric" : "text"}
+          pattern={isFrance ? "\\d{5}" : undefined}
           autoComplete={idPrefix === "billing" ? "billing postal-code" : "shipping postal-code"}
-          maxLength={isGermany ? 5 : 12}
+          maxLength={isFrance ? 5 : 12}
           value={value.postalCode}
           onChange={(event) =>
             update(
               "postalCode",
-              isGermany
+              isFrance
                 ? event.target.value.replace(/\D/g, "")
                 : event.target.value.replace(/[^A-Za-z0-9\s-]/g, ""),
             )

@@ -36,7 +36,7 @@ export interface CampaignLanding {
    * Titre repris du message, variables déjà remplacées.
    *
    * Le corps du message n'est délibérément pas repris : il est rédigé comme une
-   * lettre (« Hallo Anna, … »), ce qui n'a aucun sens sur une page publique où
+   * lettre (« Bonjour Anne, … »), ce qui n'a aucun sens sur une page publique où
    * personne n'est nommé. Le titre, lui, décrit l'offre et se suffit à lui-même.
    */
   headline: string;
@@ -93,7 +93,7 @@ export async function getCampaignLanding(
   // plus rien à montrer.
   if (products.length === 0) return undefined;
 
-  // Repli sur l'allemand quand la traduction anglaise est vide, règle appliquée
+  // Repli sur le français quand la traduction anglaise est vide, règle appliquée
   // partout dans la boutique.
   const english = locale === "en";
   const kind = row.discountKind as DiscountKind;
@@ -113,7 +113,7 @@ export async function getCampaignLanding(
       prix: lead.oldPrice ?? lead.price,
       prix_promo: lead.price,
       remise: discountLabel(kind, row.discountValue, english),
-      fin: row.endsAt.toLocaleDateString(english ? "en-GB" : "de-DE", {
+      fin: row.endsAt.toLocaleDateString(english ? "en-GB" : "fr-FR", {
         day: "numeric",
         month: "long",
       }),
@@ -129,10 +129,10 @@ function discountLabel(kind: DiscountKind, value: number, english: boolean): str
     case "percent":
       return `-${Math.round(value)} %`;
     case "amount":
-      // Format allemand dans les deux langues : les prix de la boutique le sont
+      // Format français dans les deux langues : les prix de la boutique le sont
       // partout, une page anglaise qui écrirait « 99.80 € » jurerait avec les
       // fiches produit juste en dessous.
-      return `-${(value / 100).toLocaleString("de-DE", {
+      return `-${(value / 100).toLocaleString("fr-FR", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })} €`;

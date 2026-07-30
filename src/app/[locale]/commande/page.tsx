@@ -54,7 +54,7 @@ export default async function CheckoutPage({ params }: { params: CheckoutPagePar
             <Breadcrumb
               items={[
                 { label: common("home"), href: "/" },
-                { label: cart("title"), href: "/warenkorb" },
+                { label: cart("title"), href: "/panier" },
                 { label: t("title") },
               ]}
             />

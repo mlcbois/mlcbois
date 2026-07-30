@@ -16,7 +16,7 @@ export function WishlistIndicator({ className }: { className?: string }) {
 
   return (
     <Link
-      href="/merkliste"
+      href="/favoris"
       aria-label={visible > 0 ? t("count", { count: visible }) : t("title")}
       className={className ?? "relative flex flex-col items-center gap-1 hover:text-primary"}
     >

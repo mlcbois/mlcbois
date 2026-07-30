@@ -29,7 +29,7 @@ import type { ShippingMethodKey } from "@/lib/cart";
 import { brandMarksFor } from "@/components/PaymentIcons";
 import type { PaymentMethodRecord } from "@/server/types";
 
-// Tunnel de commande conforme au droit allemand de la vente à distance.
+// Tunnel de commande conforme au droit français de la vente à distance.
 //
 // La dernière étape rassemble, juste au-dessus du bouton, tout ce que
 // § 312j Abs. 2 BGB (renvoyant à l'art. 246a § 1 al. 1 phr. 1 nos 1, 5 à 7
@@ -400,7 +400,7 @@ export function CheckoutFlow({
             </section>
 
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <Link href="/warenkorb" className="text-sm font-semibold text-primary hover:underline">
+              <Link href="/panier" className="text-sm font-semibold text-primary hover:underline">
                 {t("backToCart")}
               </Link>
               <button
@@ -586,12 +586,12 @@ export function CheckoutFlow({
                 <span>
                   {t.rich("termsLabel", {
                     terms: (chunks) => (
-                      <Link href="/agb" className="font-semibold text-primary hover:underline">
+                      <Link href="/cgv" className="font-semibold text-primary hover:underline">
                         {chunks}
                       </Link>
                     ),
                     privacy: (chunks) => (
-                      <Link href="/datenschutz" className="font-semibold text-primary hover:underline">
+                      <Link href="/confidentialite" className="font-semibold text-primary hover:underline">
                         {chunks}
                       </Link>
                     ),
@@ -610,7 +610,7 @@ export function CheckoutFlow({
                   {t.rich("withdrawalLabel", {
                     withdrawal: (chunks) => (
                       <Link
-                        href="/widerrufsrecht"
+                        href="/retractation"
                         className="font-semibold text-primary hover:underline"
                       >
                         {chunks}

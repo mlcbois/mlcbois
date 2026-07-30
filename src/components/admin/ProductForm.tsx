@@ -367,7 +367,7 @@ export function ProductForm({
 
       {showPreview && (
         <PreviewPanel
-          url={`hausgeratepfeffer.de/${categoryId || "gruppe/kategorie"}/${productSlug}`}
+          url={`mlc-bois.fr/${categoryId || "univers/categorie"}/${productSlug}`}
           actions={
             <div className="flex rounded-sm border border-border bg-white text-xs font-bold">
               <button

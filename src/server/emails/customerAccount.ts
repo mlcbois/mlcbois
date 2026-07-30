@@ -5,13 +5,13 @@
  * tableaux, styles en ligne, `color-scheme: light` pour empêcher l'inversion
  * automatique des couleurs, fonds déclarés sur chaque cellule.
  *
- * Ces messages partent vers des clients : ils sont rédigés en allemand, avec
+ * Ces messages partent vers des clients : ils sont rédigés en français, avec
  * une version anglaise complète choisie d'après la langue du compte.
  */
 
 import type { MailMessage } from "@/lib/mailer";
 
-export type EmailLocale = "de" | "en";
+export type EmailLocale = "fr" | "en";
 
 const LOGO_WIDTH = 220;
 // Rapport d'origine du fichier : 1242 × 406
@@ -45,8 +45,8 @@ function layout(input: LayoutInput): string {
   const lang = input.locale;
   const footer =
     lang === "en"
-      ? "Hausgeräte Pfeffer — automated message, please do not reply."
-      : "Hausgeräte Pfeffer — automatische Nachricht, bitte nicht antworten.";
+      ? "MLC Bois — automated message, please do not reply."
+      : "MLC Bois — message automatique, merci de ne pas y répondre.";
 
   const body = input.paragraphs
     .map(
@@ -88,7 +88,7 @@ function layout(input: LayoutInput): string {
           <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:100%; background-color:#ffffff; border:1px solid #e0e2e6; border-radius:6px;">
             <tr>
               <td align="center" style="background-color:#ffffff; padding:32px 24px 24px 24px; border-radius:6px 6px 0 0;">
-                <img src="${logo}" alt="Hausgeräte Pfeffer" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
+                <img src="${logo}" alt="MLC Bois" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
               </td>
             </tr>
             <tr>
@@ -132,39 +132,44 @@ export interface PasswordResetEmailInput {
 
 export function buildPasswordResetEmail(input: PasswordResetEmailInput): Omit<MailMessage, "to"> {
   const name = escapeHtml(input.firstName);
-  const de = input.locale === "de";
+  const fr = input.locale === "fr";
 
-  const heading = de ? "Passwort zurücksetzen" : "Reset your password";
-  const paragraphs = de
+  const heading = fr ? "Réinitialiser votre mot de passe" : "Reset your password";
+  const paragraphs = fr
     ? [
-        `Hallo ${name},`,
-        "für Ihr Kundenkonto wurde eine Zurücksetzung des Passworts angefordert. Über den folgenden Link vergeben Sie ein neues Passwort.",
+        `Bonjour ${name},`,
+        "une réinitialisation du mot de passe a été demandée pour votre compte client. Le lien ci-dessous vous permet d'en choisir un nouveau.",
       ]
     : [
         `Hello ${name},`,
         "a password reset was requested for your customer account. Use the link below to choose a new password.",
       ];
 
-  const footnote = de
-    ? `Der Link ist ${input.expiresInMinutes} Minuten gültig und kann nur einmal verwendet werden. Haben Sie die Zurücksetzung nicht angefordert, ignorieren Sie diese E-Mail — Ihr Passwort bleibt unverändert.`
+  const footnote = fr
+    ? `Le lien est valable ${input.expiresInMinutes} minutes et ne peut servir qu'une seule fois. Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail — votre mot de passe reste inchangé.`
     : `The link is valid for ${input.expiresInMinutes} minutes and can be used only once. If you did not request the reset, simply ignore this email — your password stays unchanged.`;
 
   const html = layout({
     locale: input.locale,
-    preheader: de ? "Neues Passwort für Ihr Kundenkonto" : "New password for your customer account",
+    preheader: fr
+      ? "Nouveau mot de passe pour votre compte client"
+      : "New password for your customer account",
     heading,
     paragraphs,
-    action: { label: de ? "Neues Passwort vergeben" : "Choose a new password", url: input.resetUrl },
+    action: {
+      label: fr ? "Choisir un nouveau mot de passe" : "Choose a new password",
+      url: input.resetUrl,
+    },
     footnote: escapeHtml(footnote),
   });
 
   const text = [
     heading,
     "",
-    ...(de
+    ...(fr
       ? [
-          `Hallo ${input.firstName},`,
-          "für Ihr Kundenkonto wurde eine Zurücksetzung des Passworts angefordert.",
+          `Bonjour ${input.firstName},`,
+          "une réinitialisation du mot de passe a été demandée pour votre compte client.",
         ]
       : [
           `Hello ${input.firstName},`,
@@ -176,7 +181,7 @@ export function buildPasswordResetEmail(input: PasswordResetEmailInput): Omit<Ma
     footnote,
   ].join("\n");
 
-  return { subject: de ? "Passwort zurücksetzen" : "Reset your password", html, text };
+  return { subject: fr ? "Réinitialiser votre mot de passe" : "Reset your password", html, text };
 }
 
 // ---- Confirmation d'inscription ----
@@ -188,22 +193,22 @@ export interface WelcomeEmailInput {
 
 export function buildWelcomeEmail(input: WelcomeEmailInput): Omit<MailMessage, "to"> {
   const name = escapeHtml(input.firstName);
-  const de = input.locale === "de";
-  const url = `${siteUrl()}${de ? "" : "/en"}/konto/anmelden`;
+  const fr = input.locale === "fr";
+  const url = `${siteUrl()}${fr ? "" : "/en"}/compte/connexion`;
 
-  const heading = de ? "Ihr Kundenkonto ist angelegt" : "Your customer account is ready";
-  const paragraphs = de
+  const heading = fr ? "Votre compte client est créé" : "Your customer account is ready";
+  const paragraphs = fr
     ? [
-        `Hallo ${name},`,
-        "Ihr Kundenkonto bei Hausgeräte Pfeffer wurde angelegt. Sie können sich ab sofort anmelden, Ihre Bestellungen einsehen und Ihre Adressen verwalten.",
+        `Bonjour ${name},`,
+        "votre compte client MLC Bois a été créé. Vous pouvez dès maintenant vous connecter, consulter vos commandes et gérer vos adresses.",
       ]
     : [
         `Hello ${name},`,
-        "your Hausgeräte Pfeffer customer account has been created. You can sign in right away to review your orders and manage your addresses.",
+        "your MLC Bois customer account has been created. You can sign in right away to review your orders and manage your addresses.",
       ];
 
-  const footnote = de
-    ? "Ein Konto ist bei uns freiwillig: Sie können jederzeit auch ohne Konto als Gast bestellen. Ihr Konto und alle Daten darin können Sie jederzeit selbst löschen."
+  const footnote = fr
+    ? "Le compte est facultatif : vous pouvez à tout moment commander en tant qu'invité. Vous pouvez également supprimer vous-même votre compte et toutes les données qu'il contient."
     : "An account is always optional: you can order as a guest at any time. You can delete your account and its data yourself whenever you want.";
 
   const html = layout({
@@ -211,7 +216,7 @@ export function buildWelcomeEmail(input: WelcomeEmailInput): Omit<MailMessage, "
     preheader: heading,
     heading,
     paragraphs,
-    action: { label: de ? "Zum Kundenkonto" : "Go to my account", url },
+    action: { label: fr ? "Accéder à mon compte" : "Go to my account", url },
     footnote: escapeHtml(footnote),
   });
 
@@ -230,15 +235,15 @@ export function buildWelcomeEmail(input: WelcomeEmailInput): Omit<MailMessage, "
 
 export function buildExistingAccountEmail(input: WelcomeEmailInput): Omit<MailMessage, "to"> {
   const name = escapeHtml(input.firstName);
-  const de = input.locale === "de";
-  const url = `${siteUrl()}${de ? "" : "/en"}/konto/passwort-vergessen`;
+  const fr = input.locale === "fr";
+  const url = `${siteUrl()}${fr ? "" : "/en"}/compte/mot-de-passe-oublie`;
 
-  const heading = de ? "Es besteht bereits ein Konto" : "An account already exists";
-  const paragraphs = de
+  const heading = fr ? "Un compte existe déjà" : "An account already exists";
+  const paragraphs = fr
     ? [
-        `Hallo ${name},`,
-        "mit Ihrer E-Mail-Adresse wurde gerade versucht, ein neues Kundenkonto anzulegen. Ein Konto besteht für diese Adresse bereits, deshalb wurde kein zweites erstellt.",
-        "Falls Sie das waren und Ihr Passwort nicht mehr wissen, setzen Sie es einfach zurück.",
+        `Bonjour ${name},`,
+        "quelqu'un vient d'essayer de créer un compte client avec votre adresse e-mail. Un compte existe déjà pour cette adresse : aucun second compte n'a donc été créé.",
+        "S'il s'agissait de vous et que vous ne vous souvenez plus de votre mot de passe, réinitialisez-le simplement.",
       ]
     : [
         `Hello ${name},`,
@@ -246,8 +251,8 @@ export function buildExistingAccountEmail(input: WelcomeEmailInput): Omit<MailMe
         "If that was you and you no longer remember your password, simply reset it.",
       ];
 
-  const footnote = de
-    ? "Waren Sie das nicht, müssen Sie nichts tun. Ihr Konto und Ihr Passwort wurden nicht verändert."
+  const footnote = fr
+    ? "Si ce n'était pas vous, vous n'avez rien à faire. Votre compte et votre mot de passe n'ont pas été modifiés."
     : "If this was not you, no action is needed. Your account and password have not been changed.";
 
   const html = layout({
@@ -255,7 +260,7 @@ export function buildExistingAccountEmail(input: WelcomeEmailInput): Omit<MailMe
     preheader: heading,
     heading,
     paragraphs,
-    action: { label: de ? "Passwort zurücksetzen" : "Reset password", url },
+    action: { label: fr ? "Réinitialiser le mot de passe" : "Reset password", url },
     footnote: escapeHtml(footnote),
   });
 

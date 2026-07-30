@@ -155,7 +155,7 @@ export function CategoryForm({ mode, groups, initialData }: CategoryFormProps) {
                 className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
               />
               <span className="mt-1 block text-xs text-muted-foreground">
-                Adresse : /{group || "gruppe"}/{slug || "kategorie"}
+                Adresse : /{group || "univers"}/{slug || "categorie"}
               </span>
             </label>
           </div>
@@ -299,7 +299,7 @@ export function CategoryForm({ mode, groups, initialData }: CategoryFormProps) {
         </button>
       </form>
 
-      <PreviewPanel url={`hausgeratepfeffer.de/${group || "gruppe"}/${slug || "kategorie"}`}>
+      <PreviewPanel url={`mlc-bois.fr/${group || "univers"}/${slug || "categorie"}`}>
         <CategoryPreview
           groupSlug={group}
           groupLabel={groupLabel}

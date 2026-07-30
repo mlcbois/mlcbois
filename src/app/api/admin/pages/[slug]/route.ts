@@ -14,9 +14,9 @@ import {
 /**
  * Édition d'une page légale depuis l'administration.
  *
- *   GET    …/pages/impressum?locale=de   contenu actuel + contenu d'origine
- *   PUT    …/pages/impressum?locale=de   publie une réécriture
- *   DELETE …/pages/impressum?locale=de   revient au contenu d'origine
+ *   GET    …/pages/mentions-legales?locale=fr   contenu actuel + contenu d'origine
+ *   PUT    …/pages/mentions-legales?locale=fr   publie une réécriture
+ *   DELETE …/pages/mentions-legales?locale=fr   revient au contenu d'origine
  *
  * Le contrôle du contenu est refait ici : le formulaire du back-office n'est
  * qu'une commodité, il ne fait pas autorité.
@@ -41,7 +41,7 @@ function resolveTarget(
     };
   }
 
-  const locale = new URL(request.url).searchParams.get("locale") ?? "de";
+  const locale = new URL(request.url).searchParams.get("locale") ?? "fr";
   if (!isLegalLocale(locale)) {
     return {
       target: null,

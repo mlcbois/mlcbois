@@ -20,7 +20,7 @@ import {
 } from "@/components/admin/campaignDraft";
 import type { CampaignProductOption } from "@/server/campaignAdmin";
 
-/** Les huit champs de texte du brouillon, allemand et anglais confondus. */
+/** Les huit champs de texte du brouillon, français et anglais confondus. */
 type MessageKey =
   | "subject"
   | "headline"
@@ -32,7 +32,7 @@ type MessageKey =
   | "ctaLabelEn";
 
 const FIELD_KEYS: Record<CampaignLocale, Record<MessageField, MessageKey>> = {
-  de: { subject: "subject", headline: "headline", bodyText: "bodyText", ctaLabel: "ctaLabel" },
+  fr: { subject: "subject", headline: "headline", bodyText: "bodyText", ctaLabel: "ctaLabel" },
   en: {
     subject: "subjectEn",
     headline: "headlineEn",
@@ -42,7 +42,7 @@ const FIELD_KEYS: Record<CampaignLocale, Record<MessageField, MessageKey>> = {
 };
 
 const LOCALE_TABS: readonly { locale: CampaignLocale; label: string }[] = [
-  { locale: "de", label: "Allemand" },
+  { locale: "fr", label: "Français" },
   { locale: "en", label: "Anglais" },
 ];
 
@@ -68,7 +68,7 @@ interface CampaignStepMessageProps {
 }
 
 /**
- * Étape 4 : la rédaction du message, en allemand et en anglais.
+ * Étape 4 : la rédaction du message, en français et en anglais.
  *
  * L'aperçu de droite reproduit le gabarit de src/server/emails/campaign.ts, qui
  * ne peut pas être importé ici : il compose des URL absolues à partir de
@@ -77,7 +77,7 @@ interface CampaignStepMessageProps {
  * sélectionné, date de fin de la campagne, remise réelle.
  */
 export function CampaignStepMessage({ draft, products, onChange }: CampaignStepMessageProps) {
-  const [locale, setLocale] = useState<CampaignLocale>("de");
+  const [locale, setLocale] = useState<CampaignLocale>("fr");
   const [activeKey, setActiveKey] = useState<MessageKey | null>(null);
   const fields = useRef<Partial<Record<MessageKey, HTMLInputElement | HTMLTextAreaElement>>>({});
 
@@ -147,9 +147,9 @@ export function CampaignStepMessage({ draft, products, onChange }: CampaignStepM
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            {locale === "de"
+            {locale === "fr"
               ? "Version envoyée par défaut."
-              : "Envoyée aux comptes en anglais. Vide, elle retombe sur l'allemand."}
+              : "Envoyée aux comptes en anglais. Vide, elle retombe sur le français."}
           </p>
         </div>
 
@@ -298,9 +298,9 @@ export function CampaignStepMessage({ draft, products, onChange }: CampaignStepM
               </div>
 
               <p className="mt-3 text-center text-[10px] leading-4 text-muted-foreground">
-                Hausgeräte Pfeffer GmbH · Musterstraße 12 · 10115 Berlin
+                MLC Bois SAS · 12 rue de la Scierie · 93200 Saint-Denis
                 <br />
-                Impressum · Datenschutz · lien de désinscription
+                Mentions légales · Confidentialité · lien de désinscription
               </p>
             </div>
           </div>
@@ -351,7 +351,7 @@ function remainingLabel(endsAt: Date | null, locale: CampaignLocale): string {
   return locale === "en" ? `${days} days` : `${days} Tage`;
 }
 
-/** Rattrape les blancs laissés par une variable vide : « Hallo  , » → « Hallo, ». */
+/** Rattrape les blancs laissés par une variable vide : « Bonjour  , » → « Bonjour, ». */
 function tidy(value: string): string {
   return value
     .replace(/[ \t]+([,.!?;:])/g, "$1")
@@ -366,7 +366,7 @@ function buildPreview(
   locale: CampaignLocale,
 ): MessagePreview {
   const definition = draft.type ? campaignTypeDefinition(draft.type) : null;
-  const fallback = definition ? (locale === "en" ? definition.en : definition.de) : null;
+  const fallback = definition ? (locale === "en" ? definition.en : definition.fr) : null;
   const endsAt = parseInputValue(draft.endsAt);
 
   const price = lead
@@ -381,7 +381,7 @@ function buildPreview(
     prix_promo: lead ? formatCents(price) : "",
     remise: discountLabel(draft.discountKind, draft.discountValue, locale),
     fin: endsAt
-      ? new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
+      ? new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
           day: "numeric",
           month: "long",
           year: "numeric",
@@ -391,7 +391,7 @@ function buildPreview(
     duree: remainingLabel(endsAt, locale),
   };
 
-  // Repli sur l'allemand quand la variante anglaise est vide, puis sur le
+  // Repli sur le français quand la variante anglaise est vide, puis sur le
   // modèle du type : la même règle qu'à l'envoi, sinon l'aperçu montrerait un
   // message vide là où le client en recevra un complet.
   const pick = (de: string, en: string, fallbackText: string): string => {

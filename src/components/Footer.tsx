@@ -1,9 +1,11 @@
-import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CreditCard, Mail, Phone, ShieldCheck, Truck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { Logo } from "@/components/brand/Logo";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
-import { isLegalLocale } from "@/content/legal";
+import { COMPANY, isLegalLocale } from "@/content/legal";
+
+const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
 import { getLegalFooterGroups } from "@/server/legalPages";
 
 export async function Footer() {
@@ -11,7 +13,7 @@ export async function Footer() {
   const locale = await getLocale();
   // Les libellés sont les titres des pages : renommer une page depuis
   // l'administration renomme aussi son lien ici.
-  const footerGroups = await getLegalFooterGroups(isLegalLocale(locale) ? locale : "de");
+  const footerGroups = await getLegalFooterGroups(isLegalLocale(locale) ? locale : "fr");
 
   return (
     <footer className="bg-footer text-footer-foreground">
@@ -45,30 +47,25 @@ export async function Footer() {
             <Link
               href="/"
               aria-label={t("homeAriaLabel")}
-              className="mb-4 inline-flex rounded-sm bg-white px-3 py-2"
+              className="mb-4 inline-flex rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              <Image
-                src="/images/logo-full.png"
-                alt={t("logoAlt")}
-                width={1242}
-                height={406}
-                className="h-10 w-auto"
-              />
+              <Logo tone="light" />
             </Link>
             <h3 className="mb-3 font-bold">{t("contact")}</h3>
             <p className="mb-2 flex items-center gap-2">
               <Mail className="h-4 w-4" />
-              <Link href="/kontakt" className="hover:underline">
-                kontakt@hausgeratepfeffer.de
+              <Link href="/contact" className="hover:underline">
+                {COMPANY.email}
               </Link>
             </p>
             <p className="flex items-center gap-2">
               <Phone className="h-4 w-4" />
               {/* Lien téléphonique : hors routage multilingue */}
-              <a href="tel:080012345" className="hover:underline">
-                0800 123 45
+              <a href={TEL_HREF} className="messwert hover:underline">
+                {COMPANY.phone}
               </a>
             </p>
+            <p className="mt-4 text-xs leading-relaxed text-white/55">{t("oeffnung")}</p>
           </div>
 
           {/* Colonnes issues du contenu légal : libellés et pages restent

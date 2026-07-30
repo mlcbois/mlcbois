@@ -110,7 +110,7 @@ export function CartView() {
         {notice !== "none" && (
           <p
             role="status"
-            className="mb-4 rounded-sm border border-accent bg-accent/15 px-4 py-3 text-sm font-semibold text-foreground"
+            className="mb-4 rounded-sm border border-primary bg-primary/10 px-4 py-3 text-sm font-semibold text-foreground"
           >
             {notice === "removed" ? t("removedUnavailable") : t("revalidated")}
           </p>
@@ -264,7 +264,7 @@ export function CartView() {
           </p>
 
           <Link
-            href="/kasse"
+            href="/commande"
             className="mt-4 block rounded-sm bg-primary px-5 py-3 text-center text-sm font-black text-primary-foreground hover:brightness-110"
           >
             {t("toCheckout")}

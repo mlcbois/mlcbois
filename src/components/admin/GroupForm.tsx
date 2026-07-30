@@ -90,7 +90,7 @@ export function GroupForm({ mode, initialData }: GroupFormProps) {
             className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
           />
           <span className="mt-1 block text-xs text-muted-foreground">
-            Donne des adresses du type /{slug || "gruppe"}/kaffeemaschinen
+            Donne des adresses du type /{slug || "univers"}/kaffeemaschinen
           </span>
         </label>
 

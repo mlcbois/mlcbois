@@ -131,9 +131,9 @@ export async function dispatchCampaign(campaignId: string): Promise<DispatchRepo
   }
 }
 
-/** La langue est stockée en texte libre : tout ce qui n'est pas « en » est allemand. */
+/** La langue est stockée en texte libre : tout ce qui n'est pas « en » est français. */
 function toLocale(value: string): CampaignLocale {
-  return value === "en" ? "en" : "de";
+  return value === "en" ? "en" : "fr";
 }
 
 function countPending(campaignId: string): Promise<number> {

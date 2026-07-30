@@ -50,7 +50,7 @@ function readString(value: unknown): string {
 export async function POST(request: Request) {
   const payload = (await request.json().catch(() => null)) as Record<string, unknown> | null;
   if (!payload || typeof payload !== "object") {
-    return NextResponse.json({ error: "Ungültige Anfrage." }, { status: 400 });
+    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
   const productId = readString(payload.productId);
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
 
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
     return NextResponse.json(
-      { error: "Bitte wählen Sie eine Bewertung von 1 bis 5 Sternen." },
+      { error: "Merci de choisir une note de 1 à 5 étoiles." },
       { status: 400 },
     );
   }
@@ -88,21 +88,21 @@ export async function POST(request: Request) {
 
   if (title.length > 120) {
     return NextResponse.json(
-      { error: "Der Titel darf höchstens 120 Zeichen lang sein." },
+      { error: "Le titre ne peut pas dépasser 120 caractères." },
       { status: 400 },
     );
   }
 
   if (city.length > 80) {
     return NextResponse.json(
-      { error: "Der Ort darf höchstens 80 Zeichen lang sein." },
+      { error: "La ville ne peut pas dépasser 80 caractères." },
       { status: 400 },
     );
   }
 
   if (authorEmail && !EMAIL_PATTERN.test(authorEmail)) {
     return NextResponse.json(
-      { error: "Bitte geben Sie eine gültige E-Mail-Adresse an." },
+      { error: "Merci d'indiquer une adresse e-mail valide." },
       { status: 400 },
     );
   }
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Für dieses Produkt sind gerade zu viele Bewertungen eingegangen. Bitte versuchen Sie es später erneut.",
+          "Trop d'avis ont été déposés sur ce produit en peu de temps. Merci de réessayer plus tard.",
       },
       { status: 429, headers: { "Retry-After": String(rate.retryAfterSeconds) } },
     );
@@ -139,7 +139,7 @@ export async function POST(request: Request) {
     {
       success: true,
       status: "pending",
-      message: "Vielen Dank! Ihre Bewertung wird nach Prüfung veröffentlicht.",
+      message: "Merci ! Votre avis sera publié après vérification.",
     },
     { status: 201 },
   );

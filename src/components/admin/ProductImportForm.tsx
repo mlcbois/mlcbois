@@ -42,8 +42,8 @@ const CSV_HEADER =
 function buildExample(categoryId: string): string {
   return [
     CSV_HEADER,
-    `${categoryId};Bosch;Serie 6 WAU28T40;649,00 €;799,00 €;-18%;9 kg Fassungsvermögen|EcoSilence Drive|AquaStop;Sparsame Waschmaschine für Familien mit langer Garantie auf den Motor.;12`,
-    `${categoryId};Siemens;iQ500 WM14N123;579,00 €;;Neu;8 kg Fassungsvermögen|iQdrive Motor|speedPack L;Leise Waschmaschine mit Kurzprogrammen für den Alltag.;6`,
+    `${categoryId};MLC Bois;Hêtre 33 cm — palette 2 MAP;649,00 €;799,00 €;-18%;Humidité < 18 %|Séché en séchoir|Fendu prêt à brûler;Palette de hêtre séché en séchoir, livrée avec son relevé de mesure.;12`,
+    `${categoryId};MLC Bois;Chêne 50 cm — vrac 3 MAP;579,00 €;;Nouveau;Braises longue durée|Humidité < 18 %|Livré en vrac;Chêne séché en séchoir pour poêle de masse et feu continu.;6`,
   ].join("\n");
 }
 

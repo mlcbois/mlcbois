@@ -222,7 +222,7 @@ function toRecipientStatus(value: string): RecipientStatus {
 }
 
 function toLocale(value: string): CampaignLocale {
-  return value === "en" ? "en" : "de";
+  return value === "en" ? "en" : "fr";
 }
 
 /** Sélection commune des produits : de quoi bâtir une carte de message. */
@@ -751,7 +751,7 @@ export async function launchCampaign(
         email,
         firstName: contact?.firstName ?? "",
         lastName: contact?.lastName ?? "",
-        locale: contact?.locale ?? "de",
+        locale: contact?.locale ?? "fr",
         // Jeton porté en clair par les liens du message : il doit être
         // imprévisible, sans quoi n'importe qui désinscrirait un client ou
         // gonflerait les ouvertures.
@@ -859,7 +859,7 @@ export async function retryFailedRecipients(id: string): Promise<number> {
  * Le jeton est factice et préfixé : les liens de suivi ne mèneront nulle part,
  * ce qui est exactement l'effet recherché — un test ne doit ni compter dans les
  * statistiques ni permettre de désinscrire qui que ce soit. Le message part en
- * allemand, langue de la boutique.
+ * français, langue de la boutique.
  */
 export async function sendTestEmail(id: string, email: string): Promise<void> {
   const normalized = normalizeEmail(email);
@@ -875,7 +875,7 @@ export async function sendTestEmail(id: string, email: string): Promise<void> {
     recipient: {
       token: `test-${randomBytes(16).toString("hex")}`,
       firstName: "",
-      locale: "de",
+      locale: "fr",
     },
   });
 

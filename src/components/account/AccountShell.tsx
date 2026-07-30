@@ -31,10 +31,10 @@ export async function AccountShell({
   const common = await getTranslations({ locale, namespace: "common" });
 
   const entries: { key: AccountSection; href: string; label: string; icon: typeof Receipt }[] = [
-    { key: "dashboard", href: "/konto", label: t("nav.dashboard"), icon: LayoutDashboard },
-    { key: "orders", href: "/konto/bestellungen", label: t("nav.orders"), icon: Receipt },
-    { key: "addresses", href: "/konto/adressen", label: t("nav.addresses"), icon: MapPin },
-    { key: "data", href: "/konto/daten", label: t("nav.data"), icon: ShieldCheck },
+    { key: "dashboard", href: "/compte", label: t("nav.dashboard"), icon: LayoutDashboard },
+    { key: "orders", href: "/compte/commandes", label: t("nav.orders"), icon: Receipt },
+    { key: "addresses", href: "/compte/adresses", label: t("nav.addresses"), icon: MapPin },
+    { key: "data", href: "/compte/informations", label: t("nav.data"), icon: ShieldCheck },
   ];
 
   return (
@@ -49,7 +49,7 @@ export async function AccountShell({
                   ? [{ label: common("home"), href: "/" }, { label: t("title") }]
                   : [
                       { label: common("home"), href: "/" },
-                      { label: t("title"), href: "/konto" },
+                      { label: t("title"), href: "/compte" },
                       { label: title },
                     ]
               }

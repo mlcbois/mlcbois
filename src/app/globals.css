@@ -7,9 +7,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-lato), Arial, "Liberation Sans", sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+  /* Une seule famille pour tout le site : Lato. Les trois rôles — titre,
+     texte courant, grandeur mesurée — se distinguent par la graisse et
+     l'interlettrage, pas par la police. */
+  --font-sans: var(--font-lato), "Lato Fallback", Arial, "Liberation Sans", sans-serif;
+  --font-mono: var(--font-lato), "Lato Fallback", Arial, sans-serif;
+  --font-heading: var(--font-lato), "Lato Fallback", Arial, sans-serif;
+  /* Couleurs propres au bois, disponibles en utilitaires (bg-forst, text-glut…) */
+  --color-forst: var(--forst);
+  --color-glut: var(--glut);
+  --color-splint: var(--splint);
+  --color-rinde: var(--rinde);
   --color-sale: var(--sale);
   --color-sale-foreground: var(--sale-foreground);
   --color-badge: var(--badge);
@@ -54,37 +62,55 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Palette « atelier au crépuscule » : écorce sombre, braise, aubier clair.
+   Volontairement pas de crème beige généralisé — le fond reste blanc pour la
+   lisibilité marchande, le bois vient par blocs. */
 :root {
+  --rinde: #000000; /* écorce sombre : bandeaux, hero, pied de page */
+  --glut: #ff5c00; /* braise : appels à l'action, prix */
+  --splint: #f6f2ec; /* aubier : surfaces claires */
+  --forst: #3e5c46; /* mousse : signaux qualité, séchage, écologie */
+
   --background: #ffffff;
-  --foreground: #001424;
+  --foreground: #000000;
   --card: #ffffff;
-  --card-foreground: #001424;
+  --card-foreground: #000000;
   --popover: #ffffff;
-  --popover-foreground: #001424;
-  --primary: #e3000e;
+  --popover-foreground: #000000;
+  /*
+   * Orange unique de la marque. Remplace l'ancienne braise plus sourde
+   * (#be4a16, ~5:1 sur blanc) : à #ff5c00 le contraste avec du blanc tombe à
+   * ~3,1:1, sous le seuil AA (4,5:1) pour du texte de taille normale. Les
+   * boutons restent lisibles (gros, gras, sur fond opaque) mais un texte fin
+   * en primary-foreground sur un petit bouton mériterait un second avis.
+   */
+  --primary: #ff5c00;
   --primary-foreground: #ffffff;
-  --secondary: #242424;
-  --secondary-foreground: #ffffff;
-  --muted: #f8f8f8;
-  --muted-foreground: #6b7280;
-  --accent: #ffca2b;
-  --accent-foreground: #242424;
-  --destructive: #e3000e;
-  --sale: #e3000e;
+  --secondary: #000000;
+  --secondary-foreground: #f7f2ea;
+  --muted: #f6f2ec;
+  --muted-foreground: #6e5f55;
+  /* Ambre conservé ici : utilisé par les statuts du back-office, hors du
+     périmètre de cette refonte (vitrine uniquement). */
+  --accent: #e9b44c;
+  --accent-foreground: #241a15;
+  --destructive: #b3261e;
+  --sale: #ff5c00;
   --sale-foreground: #ffffff;
-  --badge: #ffca2b;
-  --badge-foreground: #242424;
-  --footer: #1a1a1a;
-  --footer-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #e3000e;
+  --badge: #ff5c00;
+  --badge-foreground: #ffffff;
+  --footer: #000000;
+  --footer-foreground: #f7f2ea;
+  --border: #e8dfd4;
+  --input: #e8dfd4;
+  --ring: #ff5c00;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  /* Angles courts : la matière première n'a pas de coins arrondis de SaaS */
+  --radius: 0.375rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -138,5 +164,74 @@
   }
   html {
     @apply font-sans;
+  }
+
+  /* Les titres sont posés ici pour ne pas répéter font-heading sur chacun.
+     L'interlettrage négatif serre Lato en gros corps, où son chasse par
+     défaut paraît lâche. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Grandeur mesurée : chiffres tabulaires, pour que les prix et les
+     pourcentages s'alignent en colonne d'une ligne à l'autre. Utilisé partout
+     où le client compare (cm, %, MAP, €, h). */
+  .messwert {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum", "lnum";
+    letter-spacing: 0.01em;
+  }
+
+  /* Unité accolée à une mesure : « kWh/stère », « cm », « MAP ». La casse est
+     respectée — un kilowattheure ne s'écrit pas KWH. */
+  .einheit {
+    font-size: 0.72em;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+  }
+
+  /* Surtitre de section : petite capitale très espacée. Même repère de
+     lecture d'un bout à l'autre de la page. */
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Bande de villes desservies : la piste contient la liste deux fois bout à
+     bout, et glisse d'une demi-largeur — au moment où la boucle recommence,
+     la seconde moitié affiche exactement ce que montrait la première, donc
+     aucun saut n'est visible. */
+  .marquee-track {
+    animation: marquee-scroll 34s linear infinite;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Le mouvement sert la lecture, jamais la démonstration : coupé net si le
+   visiteur a demandé moins d'animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

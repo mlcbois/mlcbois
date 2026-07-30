@@ -9,10 +9,18 @@
 // fonctions de calcul, jamais le magasin (protégé par un test sur `window`).
 
 /** Clé localStorage, versionnée pour pouvoir invalider un ancien format. */
-export const CART_STORAGE_KEY = "hgp.cart.v1";
+export const CART_STORAGE_KEY = "mlc.cart.v1";
 
-/** TVA allemande standard, en points de pourcentage. */
-export const VAT_RATE_PERCENT = 19;
+/**
+ * Taux de TVA appliqué, en points de pourcentage.
+ *
+ * 10 % : le bois de chauffage à usage domestique relève du taux réduit prévu à
+ * l'article 278 bis du Code général des impôts. La boutique n'applique qu'un
+ * seul taux ; si le catalogue venait à mélanger des articles relevant du taux
+ * normal (20 %), il faudrait porter le taux sur la ligne de commande et non
+ * plus ici. À faire confirmer par le comptable avant la mise en production.
+ */
+export const VAT_RATE_PERCENT = 10;
 
 // ---- Modes de livraison ----
 //
@@ -23,7 +31,8 @@ export const VAT_RATE_PERCENT = 19;
 // Les tarifs et les délais vivent ici, en un seul endroit : le serveur les relit
 // pour facturer (src/server/orders.ts), la boutique les affiche, et le flux
 // Google Merchant les déclare (src/server/merchant.ts). Un écart entre ces trois
-// endroits est une information trompeuse au sens de la PAngV.
+// endroits constitue une pratique commerciale trompeuse au sens de l'article
+// L121-2 du Code de la consommation.
 
 export const SHIPPING_METHODS = [
   {
@@ -32,8 +41,8 @@ export const SHIPPING_METHODS = [
     cents: 0,
     minDays: 3,
     maxDays: 5,
-    /** Libellé archivé sur la commande, en allemand comme le moyen de paiement. */
-    label: "Standardversand",
+    /** Libellé archivé sur la commande, en français comme le moyen de paiement. */
+    label: "Livraison standard",
   },
   {
     key: "express",
@@ -41,7 +50,7 @@ export const SHIPPING_METHODS = [
     cents: 7_000,
     minDays: 1,
     maxDays: 2,
-    label: "Expressversand",
+    label: "Livraison express",
   },
 ] as const;
 
@@ -85,7 +94,7 @@ export interface CartLine {
   brand: string;
   name: string;
   image: string;
-  /** Chemin de la fiche produit, par ex. « /kuechengeraete/kuehlschraenke/xyz ». */
+  /** Chemin de la fiche produit, par ex. « /buches/hetre/hetre-33-palette ». */
   path: string;
   /** Prix unitaire TTC en centimes, instantané au moment de l'ajout. */
   priceCents: number;
@@ -112,11 +121,11 @@ export interface CartTotals {
 /**
  * Formatage identique à `formatPrice` de src/server/store.ts, mais utilisable
  * dans un composant client : ce module n'importe pas Prisma.
- * Le format reste allemand dans les deux langues, comme partout dans la
- * boutique — c'est un magasin allemand, les prix sont en euros.
+ * Le format reste français dans les deux langues, comme partout dans la
+ * boutique — c'est un magasin français, les prix sont en euros.
  */
 export function formatCents(cents: number): string {
-  return `${(cents / 100).toLocaleString("de-DE", {
+  return `${(cents / 100).toLocaleString("fr-FR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })} €`;
@@ -124,8 +133,8 @@ export function formatCents(cents: number): string {
 
 /**
  * Part de TVA comprise dans un montant TTC.
- * Les prix affichés sont bruts (Preisangabenverordnung § 3), la TVA se déduit
- * donc du total : brut × 19 / 119.
+ * Les prix affichés sont TTC (article L112-1 du Code de la consommation), la
+ * TVA se déduit donc du total : TTC × 10 / 110.
  */
 export function includedVatCents(grossCents: number, ratePercent = VAT_RATE_PERCENT): number {
   if (grossCents <= 0) return 0;

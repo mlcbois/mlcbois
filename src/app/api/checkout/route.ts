@@ -18,69 +18,72 @@ import { sendOrderEmails } from "@/server/orderNotifications";
 // valide accompagne la requête, la commande est simplement rattachée au compte
 // correspondant.
 
-/** Messages neutres, doublés en allemand et en anglais : le client affiche sa propre traduction à partir du code. */
-const MESSAGES: Record<CheckoutErrorCode, { de: string; en: string }> = {
+/** Messages neutres, doublés en français et en anglais : le client affiche sa propre traduction à partir du code. */
+const MESSAGES: Record<CheckoutErrorCode, { fr: string; en: string }> = {
   invalid_payload: {
-    de: "Die Bestellung konnte nicht gelesen werden.",
+    fr: "La commande n'a pas pu être lue.",
     en: "The order could not be read.",
   },
-  cart_empty: { de: "Ihr Warenkorb ist leer.", en: "Your cart is empty." },
+  cart_empty: { fr: "Votre panier est vide.", en: "Your cart is empty." },
   cart_too_large: {
-    de: "Ihr Warenkorb enthält zu viele verschiedene Artikel.",
+    fr: "Votre panier contient trop d'articles différents.",
     en: "Your cart contains too many different items.",
   },
   invalid_quantity: {
-    de: "Bitte wählen Sie je Artikel eine Menge zwischen 1 und 20.",
+    fr: "Merci de choisir une quantité entre 1 et 20 par article.",
     en: "Please choose a quantity between 1 and 20 per item.",
   },
   invalid_email: {
-    de: "Bitte geben Sie eine gültige E-Mail-Adresse an.",
+    fr: "Merci d'indiquer une adresse e-mail valide.",
     en: "Please enter a valid email address.",
   },
   invalid_name: {
-    de: "Bitte geben Sie Vor- und Nachnamen an.",
+    fr: "Merci d'indiquer vos nom et prénom.",
     en: "Please enter a first and last name.",
   },
   invalid_street: {
-    de: "Bitte geben Sie Straße und Hausnummer an.",
+    fr: "Merci d'indiquer le numéro et le nom de la rue.",
     en: "Please enter a street and house number.",
   },
   invalid_postal_code: {
-    de: "Bitte geben Sie eine gültige Postleitzahl an.",
+    fr: "Merci d'indiquer un code postal valide.",
     en: "Please enter a valid postcode.",
   },
-  invalid_city: { de: "Bitte geben Sie einen Ort an.", en: "Please enter a city." },
+  invalid_city: { fr: "Merci d'indiquer une ville.", en: "Please enter a city." },
   unsupported_country: {
-    de: "Wir liefern derzeit ausschließlich innerhalb Deutschlands.",
-    en: "We currently deliver within Germany only.",
+    fr: "Nous livrons actuellement uniquement en France métropolitaine.",
+    en: "We currently deliver within mainland France only.",
   },
   invalid_phone: {
-    de: "Bitte geben Sie eine gültige Telefonnummer an.",
+    fr: "Merci d'indiquer un numéro de téléphone valide.",
     en: "Please enter a valid phone number.",
   },
   invalid_payment_method: {
-    de: "Bitte wählen Sie eine verfügbare Zahlungsart.",
+    fr: "Merci de choisir un moyen de paiement disponible.",
     en: "Please choose an available payment method.",
   },
   invalid_shipping_method: {
-    de: "Bitte wählen Sie eine verfügbare Versandart.",
+    fr: "Merci de choisir un mode de livraison disponible.",
     en: "Please choose an available shipping method.",
   },
-  terms_required: { de: "Bitte akzeptieren Sie die AGB.", en: "Please accept the terms." },
+  terms_required: {
+    fr: "Merci d'accepter les conditions générales de vente.",
+    en: "Please accept the terms.",
+  },
   withdrawal_required: {
-    de: "Bitte bestätigen Sie die Widerrufsbelehrung.",
+    fr: "Merci de confirmer les informations sur le droit de rétractation.",
     en: "Please confirm the withdrawal policy.",
   },
   product_unavailable: {
-    de: "Ein Artikel aus Ihrem Warenkorb ist nicht mehr verfügbar.",
+    fr: "Un article de votre panier n'est plus disponible.",
     en: "An item in your cart is no longer available.",
   },
   insufficient_stock: {
-    de: "Der gewünschte Bestand ist nicht mehr verfügbar.",
+    fr: "La quantité demandée n'est plus disponible.",
     en: "The requested quantity is no longer in stock.",
   },
   order_failed: {
-    de: "Die Bestellung konnte nicht abgeschlossen werden.",
+    fr: "La commande n'a pas pu être finalisée.",
     en: "The order could not be completed.",
   },
 };
@@ -91,7 +94,7 @@ function errorResponse(code: CheckoutErrorCode, status: number, detail?: unknown
     {
       code,
       // « error » reste rempli pour les appels bruts (curl, intégrations)
-      error: `${message.de} / ${message.en}`,
+      error: `${message.fr} / ${message.en}`,
       messages: message,
       ...(detail ? { detail } : {}),
     },
@@ -145,7 +148,7 @@ export async function POST(request: Request) {
         accessToken: order.accessToken,
         // Chemin à suivre après la commande ; le jeton évite qu'un numéro
         // deviné donne accès à l'adresse du client.
-        confirmationPath: `/bestellung/${order.orderNumber}?token=${order.accessToken}`,
+        confirmationPath: `/confirmation/${order.orderNumber}?token=${order.accessToken}`,
         status: order.status,
         paymentStatus: order.paymentStatus,
         totalCents: order.totalCents,

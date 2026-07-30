@@ -7,7 +7,7 @@ import { accountErrorResponse } from "@/server/accountMessages";
  * Droit à l'effacement (art. 17 RGPD).
  *
  * Deux garde-fous avant d'agir : le mot de passe est redemandé, et le client
- * doit recopier le mot « LÖSCHEN ». La suppression est irréversible.
+ * doit recopier le mot « SUPPRIMER ». La suppression est irréversible.
  *
  * Ce qui est supprimé : le compte, le mot de passe haché, les adresses
  * enregistrées, les demandes de réinitialisation en cours.
@@ -16,7 +16,7 @@ import { accountErrorResponse } from "@/server/accountMessages";
  * réservé par l'art. 17 § 3 b RGPD. Le client en est informé sur la page, avant
  * de confirmer, et le nombre de commandes concernées lui est rappelé ici.
  */
-const CONFIRMATION_WORD = "LÖSCHEN";
+const CONFIRMATION_WORD = "SUPPRIMER";
 
 export async function POST(request: Request) {
   const customer = await getCurrentCustomer();
@@ -44,8 +44,7 @@ export async function POST(request: Request) {
     ok: true,
     anonymizedOrders: result.value.anonymizedOrders,
     message:
-      "Ihr Kundenkonto wurde gelöscht. Bereits abgeschlossene Bestellungen bleiben aus " +
-      "handels- und steuerrechtlichen Gründen gespeichert, sind aber nicht mehr mit Ihnen " +
-      "verknüpft.",
+      "Votre compte client a été supprimé. Les commandes déjà exécutées restent conservées " +
+      "au titre des obligations comptables et fiscales, mais ne sont plus rattachées à vous.",
   });
 }

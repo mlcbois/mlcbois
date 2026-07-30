@@ -104,7 +104,7 @@ function defaultDestination(campaign: {
   landingSlug: string;
   products: { product: { slug: string; category: { slug: string; group: { slug: string } } } }[];
 }): string {
-  if (campaign.landingSlug) return `/aktion/${campaign.landingSlug}`;
+  if (campaign.landingSlug) return `/promo/${campaign.landingSlug}`;
 
   const first = campaign.products[0]?.product;
   if (first) {

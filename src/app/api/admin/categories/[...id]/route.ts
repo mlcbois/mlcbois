@@ -91,7 +91,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
     );
   }
 
-  // Nur prüfen, wenn sich Warenwelt oder Slug tatsächlich ändern.
+  // Ne contrôler que si l'univers ou le slug changent réellement.
   if (targetGroup.id !== current.groupId || targetSlug !== current.slug) {
     const conflict = await prisma.category.findFirst({
       where: { groupId: targetGroup.id, slug: targetSlug, NOT: { id: current.id } },

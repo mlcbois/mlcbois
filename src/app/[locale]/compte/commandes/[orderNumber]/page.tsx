@@ -44,7 +44,7 @@ export default async function AccountOrderDetailPage({ params }: { params: PageP
   setRequestLocale(locale);
 
   const decoded = decodeURIComponent(orderNumber);
-  const customer = await requireCustomer(locale, `/konto/bestellungen/${decoded}`);
+  const customer = await requireCustomer(locale, `/compte/commandes/${decoded}`);
 
   const [t, checkout, order] = await Promise.all([
     getTranslations({ locale, namespace: "account" }),
@@ -56,8 +56,8 @@ export default async function AccountOrderDetailPage({ params }: { params: PageP
   // rien n'indique si le numéro est valide ailleurs.
   if (!order) notFound();
 
-  const language = locale === "en" ? "en" : "de";
-  const orderDate = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "de-DE", {
+  const language = locale === "en" ? "en" : "fr";
+  const orderDate = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "fr-FR", {
     dateStyle: "long",
     timeStyle: "short",
   }).format(new Date(order.createdAt));
@@ -66,7 +66,7 @@ export default async function AccountOrderDetailPage({ params }: { params: PageP
     <AccountShell locale={locale} active="orders" title={order.orderNumber}>
       <p>
         <Link
-          href="/konto/bestellungen"
+          href="/compte/commandes"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
@@ -235,7 +235,7 @@ export default async function AccountOrderDetailPage({ params }: { params: PageP
               {checkout("confirmation.withdrawalText")}
             </p>
             <Link
-              href="/widerruf"
+              href="/retractation"
               className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
             >
               {checkout("confirmation.withdrawalLink")}

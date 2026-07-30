@@ -5,7 +5,7 @@ import { parseProductInput, toCreateInput, type ProductInput } from "@/server/pr
 import { createProduct, listCategories } from "@/server/store";
 
 // Massenimport aus CSV oder JSON. Derselbe Endpunkt liefert die Vorschau
-// (dryRun) und führt den Import aus — so prüft und importiert exakt dieselbe
+// (dryRun) et exécute l'import — la même
 // même logique : l'aperçu ne peut donc pas différer du résultat.
 
 // Seul POST est exporté — Next.js n'autorise pas d'exports libres dans route.ts.
@@ -42,7 +42,7 @@ interface ImportReport {
   rows: ImportRowResult[];
 }
 
-/** Zerlegt eine CSV-Zeile und beachtet dabei Felder in Anführungszeichen. */
+/** Découpe une ligne CSV en tenant compte des champs entre guillemets. */
 function splitCsvLine(line: string, separator: string): string[] {
   const fields: string[] = [];
   let current = "";

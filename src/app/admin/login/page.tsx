@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/brand/Logo";
 
 interface Challenge {
   challengeId: string;
@@ -155,16 +155,9 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="overflow-hidden rounded-sm border border-border bg-white shadow-sm">
           {/* Logo centré sur fond blanc : le lettrage est presque noir, il faut
-              un fond clair. Le filet rouge reprend celui de l'e-mail de code. */}
+              un fond clair. Le filet reprend l'accent de l'e-mail de code. */}
           <div className="flex justify-center bg-white px-6 pt-8 pb-6">
-            <Image
-              src="/images/logo-full.png"
-              alt="Hausgeräte Pfeffer"
-              width={1242}
-              height={406}
-              priority
-              className="h-12 w-auto"
-            />
+            <Logo tone="dark" className="scale-110" />
           </div>
           <div className="h-1 bg-primary" />
 
@@ -294,7 +287,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          Hausgeräte Pfeffer — administration
+          MLC Bois — administration
         </p>
       </div>
     </div>

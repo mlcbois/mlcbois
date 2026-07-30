@@ -4,7 +4,7 @@ import { MERCHANT_COUNTRY, MERCHANT_LANGUAGE, SHOP_NAME, SHOP_PHONE, siteUrl } f
 // Balisage Organization + WebSite du site.
 //
 // Google s'en sert pour rattacher la boutique à une entité connue : c'est l'un des
-// signaux qui évitent la mention « Irreführende Informationen » et qui accélèrent la
+// signaux qui évitent la mention « informations trompeuses » et qui accélèrent la
 // validation d'un compte Merchant Center récent.
 //
 // À placer une seule fois, dans la mise en page racine ou sur la page d'accueil.
@@ -12,7 +12,7 @@ import { MERCHANT_COUNTRY, MERCHANT_LANGUAGE, SHOP_NAME, SHOP_PHONE, siteUrl } f
 interface OrganizationJsonLdProps {
   /** Profils officiels de la boutique — renforce l'identification de l'entité. */
   sameAs?: string[];
-  /** Adresse postale du siège, telle qu'elle figure dans l'Impressum. */
+  /** Adresse postale du siège, telle qu'elle figure dans les mentions légales. */
   address?: {
     streetAddress: string;
     postalCode: string;

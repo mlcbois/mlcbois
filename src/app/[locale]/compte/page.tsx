@@ -31,30 +31,30 @@ export default async function AccountDashboardPage({ params }: { params: PagePar
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const customer = await requireCustomer(locale, "/konto");
+  const customer = await requireCustomer(locale, "/compte");
   const t = await getTranslations({ locale, namespace: "account" });
 
   const orders = await listCustomerOrders(customer.id, 3);
-  const language = locale === "en" ? "en" : "de";
-  const dateFormatter = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "de-DE", {
+  const language = locale === "en" ? "en" : "fr";
+  const dateFormatter = new Intl.DateTimeFormat(language === "en" ? "en-GB" : "fr-FR", {
     dateStyle: "long",
   });
 
   const tiles = [
     {
-      href: "/konto/bestellungen",
+      href: "/compte/commandes",
       icon: Receipt,
       title: t("dashboard.tiles.ordersTitle"),
       text: t("dashboard.tiles.ordersText"),
     },
     {
-      href: "/konto/adressen",
+      href: "/compte/adresses",
       icon: MapPin,
       title: t("dashboard.tiles.addressesTitle"),
       text: t("dashboard.tiles.addressesText"),
     },
     {
-      href: "/konto/daten",
+      href: "/compte/informations",
       icon: ShieldCheck,
       title: t("dashboard.tiles.dataTitle"),
       text: t("dashboard.tiles.dataText"),
@@ -98,7 +98,7 @@ export default async function AccountDashboardPage({ params }: { params: PagePar
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-black text-foreground">{t("dashboard.recentTitle")}</h2>
           <Link
-            href="/konto/bestellungen"
+            href="/compte/commandes"
             className="text-sm font-semibold text-primary hover:underline"
           >
             {t("dashboard.allOrders")}
@@ -121,7 +121,7 @@ export default async function AccountDashboardPage({ params }: { params: PagePar
               <li key={order.orderNumber} className="flex flex-wrap items-center gap-3 py-3">
                 <span className="min-w-0 flex-1">
                   <Link
-                    href={`/konto/bestellungen/${order.orderNumber}`}
+                    href={`/compte/commandes/${order.orderNumber}`}
                     className="block text-sm font-black text-foreground hover:text-primary"
                   >
                     {order.orderNumber}

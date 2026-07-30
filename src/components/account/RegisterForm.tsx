@@ -66,7 +66,7 @@ export function RegisterForm() {
         <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-[#16a34a]" aria-hidden />
         <h2 className="text-lg font-black text-foreground">{t("register.doneTitle")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">{t("register.doneText")}</p>
-        <Link href="/konto/anmelden" className={`${PRIMARY_BUTTON} mt-5`}>
+        <Link href="/compte/connexion" className={`${PRIMARY_BUTTON} mt-5`}>
           {t("register.doneCta")}
         </Link>
       </div>
@@ -189,7 +189,7 @@ export function RegisterForm() {
       <p className={ALERT_INFO}>
         {t.rich("register.privacyNote", {
           privacy: (chunks) => (
-            <Link href="/datenschutz" className="font-semibold text-primary hover:underline">
+            <Link href="/confidentialite" className="font-semibold text-primary hover:underline">
               {chunks}
             </Link>
           ),
@@ -202,7 +202,7 @@ export function RegisterForm() {
 
       <p className="border-t border-border pt-4 text-sm text-muted-foreground">
         {t("register.haveAccount")}{" "}
-        <Link href="/konto/anmelden" className="font-semibold text-primary hover:underline">
+        <Link href="/compte/connexion" className="font-semibold text-primary hover:underline">
           {t("register.loginLink")}
         </Link>
       </p>

@@ -6,10 +6,7 @@ import { routing, type Locale } from "@/i18n/routing";
 // Google pour un site multilingue : chaque page doit désigner sa version
 // canonique et pointer vers ses équivalents dans les autres langues.
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hausgeratepfeffer.de").replace(
-  /\/+$/,
-  "",
-);
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://mlc-bois.fr").replace(/\/+$/, "");
 
 /** URL absolue d'un chemin interne pour une langue donnée. */
 export function localizedUrl(href: string, locale: Locale): string {
@@ -18,7 +15,7 @@ export function localizedUrl(href: string, locale: Locale): string {
 
 /**
  * Bloc « alternates » prêt pour l'API Metadata de Next.
- * `x-default` pointe vers l'allemand, langue par défaut de la boutique.
+ * `x-default` pointe vers le français, langue par défaut de la boutique.
  */
 export function alternatesFor(href: string, locale: Locale): Metadata["alternates"] {
   const languages: Record<string, string> = {};

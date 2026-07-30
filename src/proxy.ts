@@ -21,9 +21,9 @@ const routageMultilingue = createMiddleware(routing);
  *
  * Les routes de campagne sont volontairement courtes — un lien de message doit
  * rester lisible et tenir sur une ligne — et n'ont pas de version par langue :
- * /c et /p ne renvoient qu'une redirection ou une image, et /abmelden choisit
+ * /c et /p ne renvoient qu'une redirection ou une image, et /desinscription choisit
  * sa langue d'après le destinataire enregistré, pas d'après l'URL. Les faire
- * passer par le routage multilingue les réécrirait en /de/c/... et casserait
+ * passer par le routage multilingue les réécrirait en /fr/c/... et casserait
  * tous les liens déjà partis dans les boîtes des clients.
  */
 function horsRoutageMultilingue(pathname: string): boolean {
@@ -33,9 +33,9 @@ function horsRoutageMultilingue(pathname: string): boolean {
     pathname.startsWith("/feed") ||
     pathname.startsWith("/c/") ||
     pathname.startsWith("/p/") ||
-    pathname.startsWith("/abmelden/") ||
+    pathname.startsWith("/desinscription/") ||
     // Servis à la racine, sans version par langue : les faire passer par le
-    // routage multilingue les réécrirait en /de/sitemap.xml, qui n'existe pas.
+    // routage multilingue les réécrirait en /fr/sitemap.xml, qui n'existe pas.
     pathname === "/sitemap.xml" ||
     pathname === "/robots.txt"
   );
@@ -70,7 +70,7 @@ function reponseMaintenance(pathname: string): NextResponse {
 
   if (attendUneReponseJson(pathname)) {
     return NextResponse.json(
-      { error: "Der Shop wird gerade gewartet. Bitte versuchen Sie es später erneut." },
+      { error: "La boutique est en maintenance. Merci de réessayer dans quelques instants." },
       { status: 503, headers: entetes },
     );
   }

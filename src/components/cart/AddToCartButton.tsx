@@ -79,7 +79,7 @@ export function AddToCartButton({
   function handleBuyNow() {
     if (disabled) return;
     ajouter();
-    router.push("/kasse");
+    router.push("/commande");
   }
 
   const quantitySelector = withQuantity && !soldOut && (

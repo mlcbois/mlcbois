@@ -1,25 +1,40 @@
+import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import type { Product } from "@/types/home";
 
 export function ProductGrid({
+  eyebrow,
   heading,
   ctaLabel,
   ctaHref,
   products,
 }: {
+  /** Surtitre en chasse fixe, facultatif : les pages catégorie n'en ont pas. */
+  eyebrow?: string;
   heading: string;
   ctaLabel: string;
   ctaHref: string;
   products: Product[];
 }) {
   return (
-    <section className="mx-auto max-w-screen-xl px-3 py-6">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-black text-foreground">{heading}</h2>
-        <Link href={ctaHref} className="text-sm font-semibold text-primary hover:underline">
+    <section className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          {eyebrow && (
+            <p className="eyebrow mb-3 text-primary">{eyebrow}</p>
+          )}
+          <h2 className="font-heading text-3xl leading-tight font-black text-foreground sm:text-[2.6rem]">
+            {heading}
+          </h2>
+        </div>
+        <Link
+          href={ctaHref}
+          className="group flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+        >
           {ctaLabel}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
       {/* Quatre par ligne sur grand écran : à six, la vignette devenait trop

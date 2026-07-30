@@ -34,7 +34,7 @@ export type CampaignEventKind =
   | "echec";
 
 /** Langues du message. Identique au reste de la boutique. */
-export type CampaignLocale = "de" | "en";
+export type CampaignLocale = "fr" | "en";
 
 // ---- Constantes ----
 
@@ -239,7 +239,7 @@ export interface CampaignTypeDefinition {
   showsCountdown: boolean;
   /** Durée conseillée en heures, pré-remplie à l'étape des paramètres. */
   suggestedHours: number;
-  de: CampaignTemplate;
+  fr: CampaignTemplate;
   en: CampaignTemplate;
 }
 
@@ -254,7 +254,7 @@ export interface CampaignTypeDefinition {
  *   {prix_promo}  prix remisé, formaté
  *   {remise}      « -20 % » ou « -99,80 € », selon la nature de la remise
  *   {fin}         date de fin de l'offre, dans la langue du destinataire
- *   {duree}       durée restante annoncée (« 48 Stunden »)
+ *   {duree}       durée restante annoncée (« 48 heures »)
  */
 export const TEMPLATE_VARIABLES = [
   "prenom",
@@ -270,7 +270,7 @@ export const TEMPLATE_VARIABLES = [
 export type TemplateVariable = (typeof TEMPLATE_VARIABLES)[number];
 
 /**
- * Les quatre modèles. Les textes allemands sont ceux réellement envoyés aux
+ * Les quatre modèles. Les textes français sont ceux réellement envoyés aux
  * clients de la boutique ; l'anglais sert aux comptes dont la langue est « en ».
  * Le ton change franchement d'un type à l'autre — c'est tout l'intérêt d'avoir
  * quatre types plutôt qu'un seul champ libre.
@@ -284,16 +284,16 @@ export const CAMPAIGN_TYPES: readonly CampaignTypeDefinition[] = [
     allowsFreeShipping: false,
     showsCountdown: false,
     suggestedHours: 168,
-    de: {
-      subject: "{remise} auf {produit} – nur bis {fin}",
-      headline: "{remise} auf {produit}",
+    fr: {
+      subject: "{remise} sur {produit} – jusqu'au {fin} seulement",
+      headline: "{remise} sur {produit}",
       bodyText:
-        "Hallo {prenom},\n\n" +
-        "ab sofort erhalten Sie {marque} {produit} zum Aktionspreis von {prix_promo} " +
-        "statt {prix}.\n\n" +
-        "Das Angebot gilt bis zum {fin}. Der Aktionspreis wird Ihnen im Shop " +
-        "automatisch angezeigt.",
-      ctaLabel: "Zum Angebot",
+        "Bonjour {prenom},\n\n" +
+        "à partir d'aujourd'hui, {marque} {produit} passe à {prix_promo} " +
+        "au lieu de {prix}.\n\n" +
+        "L'offre court jusqu'au {fin}. Le prix remisé s'applique automatiquement " +
+        "dans la boutique.",
+      ctaLabel: "Voir l'offre",
     },
     en: {
       subject: "{remise} on {produit} – until {fin} only",
@@ -313,15 +313,15 @@ export const CAMPAIGN_TYPES: readonly CampaignTypeDefinition[] = [
     allowsFreeShipping: false,
     showsCountdown: true,
     suggestedHours: 48,
-    de: {
-      subject: "Nur {duree}: {remise} auf {produit}",
-      headline: "Blitzangebot – nur {duree}",
+    fr: {
+      subject: "{duree} seulement : {remise} sur {produit}",
+      headline: "Vente flash – {duree} seulement",
       bodyText:
-        "Hallo {prenom},\n\n" +
-        "{marque} {produit} für {prix_promo} statt {prix}.\n\n" +
-        "Die Aktion endet am {fin}. Danach gilt wieder der reguläre Preis – " +
-        "die Stückzahl ist begrenzt.",
-      ctaLabel: "Jetzt sichern",
+        "Bonjour {prenom},\n\n" +
+        "{marque} {produit} à {prix_promo} au lieu de {prix}.\n\n" +
+        "L'offre se termine le {fin}. Ensuite le prix habituel revient – " +
+        "les quantités sont limitées.",
+      ctaLabel: "En profiter",
     },
     en: {
       subject: "{duree} only: {remise} on {produit}",
@@ -342,19 +342,19 @@ export const CAMPAIGN_TYPES: readonly CampaignTypeDefinition[] = [
     allowsFreeShipping: false,
     showsCountdown: false,
     suggestedHours: 336,
-    de: {
-      subject: "Neu im Sortiment: {produit}",
-      headline: "Neu bei Hausgeräte Pfeffer",
+    fr: {
+      subject: "Nouveau au catalogue : {produit}",
+      headline: "Nouveau chez MLC Bois",
       bodyText:
-        "Hallo {prenom},\n\n" +
-        "{marque} {produit} ist ab sofort bei uns erhältlich – zum Preis von {prix}.\n\n" +
-        "Wir haben das Gerät ausgewählt, weil es in seiner Klasse überzeugt. " +
-        "Alle technischen Daten finden Sie auf der Produktseite.",
-      ctaLabel: "Produkt ansehen",
+        "Bonjour {prenom},\n\n" +
+        "{marque} {produit} est disponible dès maintenant, au prix de {prix}.\n\n" +
+        "Nous l'avons retenu parce qu'il tient ses promesses. " +
+        "Toutes les caractéristiques figurent sur la fiche produit.",
+      ctaLabel: "Voir le produit",
     },
     en: {
       subject: "New in our range: {produit}",
-      headline: "New at Hausgeräte Pfeffer",
+      headline: "New at MLC Bois",
       bodyText:
         "Hello {prenom},\n\n" +
         "the {marque} {produit} is now available from us, priced at {prix}.\n\n" +
@@ -371,15 +371,15 @@ export const CAMPAIGN_TYPES: readonly CampaignTypeDefinition[] = [
     allowsFreeShipping: true,
     showsCountdown: false,
     suggestedHours: 168,
-    de: {
-      subject: "Exklusiv für Sie: {produit}",
-      headline: "Ihr persönliches Angebot",
+    fr: {
+      subject: "En exclusivité pour vous : {produit}",
+      headline: "Votre offre personnelle",
       bodyText:
-        "Hallo {prenom},\n\n" +
-        "für {marque} {produit} haben wir Ihnen ein Angebot reserviert: {remise}.\n\n" +
-        "Der Vorteil wird angewendet, wenn Sie über den Link in dieser E-Mail " +
-        "bestellen, und gilt bis zum {fin}.",
-      ctaLabel: "Angebot einlösen",
+        "Bonjour {prenom},\n\n" +
+        "nous vous avons réservé une offre sur {marque} {produit} : {remise}.\n\n" +
+        "L'avantage s'applique lorsque vous commandez via le lien de cet e-mail, " +
+        "et court jusqu'au {fin}.",
+      ctaLabel: "Profiter de l'offre",
     },
     en: {
       subject: "Exclusively for you: {produit}",

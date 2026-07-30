@@ -62,7 +62,7 @@ export default async function AdminOrderDetailPage({
           </span>
           {/* Lien vers la page vue par le client, jeton inclus */}
           <Link
-            href={`/bestellung/${order.orderNumber}?token=${order.accessToken}`}
+            href={`/confirmation/${order.orderNumber}?token=${order.accessToken}`}
             target="_blank"
             className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-white px-3 py-1.5 text-xs font-bold text-foreground hover:border-primary"
           >

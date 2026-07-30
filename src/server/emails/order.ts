@@ -3,9 +3,10 @@
  *
  * Deux destinataires, deux messages distincts :
  *  - l'acheteur reçoit sa confirmation de commande, dans la langue où il a
- *    commandé (de | en). C'est la confirmation exigée par le § 312i al. 1 nº 3
- *    BGB : elle doit récapituler la commande sans délai, donc contenir les
- *    articles, les montants, la TVA incluse et les adresses ;
+ *    commandé (fr | en). C'est la confirmation sur support durable exigée par
+ *    l'article L221-13 du Code de la consommation : elle doit récapituler la
+ *    commande sans délai, donc contenir les articles, les montants, la TVA
+ *    incluse et les adresses ;
  *  - le vendeur reçoit une notification de travail, en français comme le reste
  *    du back-office, avec les coordonnées du client et le lien direct vers la
  *    fiche de commande.
@@ -20,7 +21,7 @@ import type { MailMessage } from "@/lib/mailer";
 import type { ShippingMethodKey } from "@/lib/cart";
 import type { OrderAddress, OrderRecord } from "@/server/orders";
 
-export type OrderEmailLocale = "de" | "en";
+export type OrderEmailLocale = "fr" | "en";
 
 const LOGO_WIDTH = 220;
 // Rapport d'origine du fichier : 1242 × 406
@@ -38,12 +39,12 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** Horodatage lisible, toujours ramené à l'heure allemande de la boutique. */
+/** Horodatage lisible, toujours ramené à l'heure française de la boutique. */
 function formatDate(iso: string, locale: string): string {
   return new Intl.DateTimeFormat(locale, {
     dateStyle: "long",
     timeStyle: "short",
-    timeZone: "Europe/Berlin",
+    timeZone: "Europe/Paris",
   }).format(new Date(iso));
 }
 
@@ -105,7 +106,7 @@ function layout(input: LayoutInput): string {
           <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:100%; background-color:#ffffff; border:1px solid #e0e2e6; border-radius:6px;">
             <tr>
               <td align="center" style="background-color:#ffffff; padding:32px 24px 24px 24px; border-radius:6px 6px 0 0;">
-                <img src="${logo}" alt="Hausgeräte Pfeffer" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
+                <img src="${logo}" alt="MLC Bois" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
               </td>
             </tr>
             <tr>
@@ -173,7 +174,7 @@ function itemsTable(
     total: string;
     subtotal: string;
     shipping: string;
-    /** Mode retenu, déjà traduit : « Expressversand (24–48 Stunden) ». */
+    /** Mode retenu, déjà traduit : « Livraison express (24 à 48 heures) ». */
     shippingMethod: string;
     freeShipping: string;
     grandTotal: string;
@@ -183,8 +184,8 @@ function itemsTable(
   const rows = order.items
     .map((item) => {
       const title = escapeHtml(`${item.brand} ${item.name}`.trim());
-      const sku = item.sku ? `<br /><span style="font-size:12px; color:#4b5563;">Art. ${escapeHtml(item.sku)}</span>` : "";
-      const unit = item.quantity > 1 ? `<br /><span style="font-size:12px; color:#4b5563;">${escapeHtml(formatCents(item.unitPriceCents))} / St.</span>` : "";
+      const sku = item.sku ? `<br /><span style="font-size:12px; color:#4b5563;">Réf. ${escapeHtml(item.sku)}</span>` : "";
+      const unit = item.quantity > 1 ? `<br /><span style="font-size:12px; color:#4b5563;">${escapeHtml(formatCents(item.unitPriceCents))} / u.</span>` : "";
       return `<tr>
                     <td style="padding:12px 8px 12px 0; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#001424;">${title}${sku}${unit}</td>
                     <td align="center" style="padding:12px 8px; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#3f4854; white-space:nowrap;">${item.quantity}&nbsp;×</td>
@@ -232,10 +233,6 @@ function itemsTable(
  * promesse-là qui a été faite au client dans le tunnel.
  */
 const SHIPPING_METHOD_TEXTS = {
-  de: {
-    standard: "Standardversand (3–5 Werktage)",
-    express: "Expressversand (24–48 Stunden)",
-  },
   en: {
     standard: "Standard delivery (3–5 working days)",
     express: "Express delivery (24–48 hours)",
@@ -246,7 +243,7 @@ const SHIPPING_METHOD_TEXTS = {
   },
 } as const satisfies Record<string, Record<ShippingMethodKey, string>>;
 
-function shippingMethodText(order: OrderRecord, lang: "de" | "en" | "fr"): string {
+function shippingMethodText(order: OrderRecord, lang: OrderEmailLocale): string {
   return SHIPPING_METHOD_TEXTS[lang][order.shippingMethodKey];
 }
 
@@ -291,106 +288,109 @@ function itemsText(order: OrderRecord): string {
  * choisie dans le tunnel. Sans civilité, ou avec « divers », on s'en tient au
  * nom complet : rien n'est déduit du prénom.
  */
-function greeting(address: OrderAddress, de: boolean): string {
+function greeting(address: OrderAddress, fr: boolean): string {
   const lastName = address.lastName;
-  if (address.salutation === "herr") return de ? `Sehr geehrter Herr ${lastName}` : `Dear Mr ${lastName}`;
-  if (address.salutation === "frau") return de ? `Sehr geehrte Frau ${lastName}` : `Dear Ms ${lastName}`;
+  if (address.salutation === "herr") return fr ? `Monsieur ${lastName}` : `Dear Mr ${lastName}`;
+  if (address.salutation === "frau") return fr ? `Madame ${lastName}` : `Dear Ms ${lastName}`;
   const full = [address.firstName, lastName].filter(Boolean).join(" ");
-  return de ? `Guten Tag ${full}` : `Hello ${full}`;
+  return fr ? `Bonjour ${full}` : `Hello ${full}`;
 }
 
 export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessage, "to"> {
-  const de = order.locale !== "en";
-  const lang: OrderEmailLocale = de ? "de" : "en";
-  const dateLocale = de ? "de-DE" : "en-GB";
-  const orderUrl = `${siteUrl()}${de ? "" : "/en"}/bestellung/${order.orderNumber}?token=${order.accessToken}`;
+  const fr = order.locale !== "en";
+  const lang: OrderEmailLocale = fr ? "fr" : "en";
+  const dateLocale = fr ? "fr-FR" : "en-GB";
+  const orderUrl = `${siteUrl()}${fr ? "" : "/en"}/confirmation/${order.orderNumber}?token=${order.accessToken}`;
 
-  const heading = de ? "Vielen Dank für Ihre Bestellung" : "Thank you for your order";
+  const heading = fr ? "Merci pour votre commande" : "Thank you for your order";
   const placed = formatDate(order.createdAt, dateLocale);
 
-  const intro = de
+  const intro = fr
     ? [
         `${escapeHtml(greeting(order.billing, true))},`,
-        `wir haben Ihre Bestellung <strong>${escapeHtml(order.orderNumber)}</strong> vom ${escapeHtml(placed)} erhalten. Diese E-Mail ist Ihre Bestellbestätigung.`,
+        `nous avons bien reçu votre commande <strong>${escapeHtml(order.orderNumber)}</strong> du ${escapeHtml(placed)}. Cet e-mail vaut confirmation de commande.`,
       ]
     : [
         `${escapeHtml(greeting(order.billing, false))},`,
         `we have received your order <strong>${escapeHtml(order.orderNumber)}</strong> placed on ${escapeHtml(placed)}. This email is your order confirmation.`,
       ];
 
-  const vatLabel = de
-    ? `Alle Preise inklusive ${order.taxRatePercent} % MwSt. (enthaltene MwSt.: ${formatCents(order.taxCents)}).`
+  const vatLabel = fr
+    ? `Tous les prix s'entendent TVA ${order.taxRatePercent} % comprise (TVA incluse : ${formatCents(order.taxCents)}).`
     : `All prices include ${order.taxRatePercent}% VAT (VAT included: ${formatCents(order.taxCents)}).`;
 
-  const shippingMethod = shippingMethodText(order, de ? "de" : "en");
+  const shippingMethod = shippingMethodText(order, lang);
 
   const table = itemsTable(order, {
-    article: de ? "Artikel" : "Item",
-    quantity: de ? "Menge" : "Qty",
-    total: de ? "Summe" : "Total",
-    subtotal: de ? "Zwischensumme" : "Subtotal",
-    shipping: de ? "Versand" : "Shipping",
+    article: fr ? "Article" : "Item",
+    quantity: fr ? "Qté" : "Qty",
+    total: fr ? "Total" : "Total",
+    subtotal: fr ? "Sous-total" : "Subtotal",
+    shipping: fr ? "Livraison" : "Shipping",
     shippingMethod,
-    freeShipping: de ? "kostenlos" : "free",
-    grandTotal: de ? "Gesamtsumme" : "Total",
+    freeShipping: fr ? "offerte" : "free",
+    grandTotal: fr ? "Total TTC" : "Total",
     vat: vatLabel,
   });
 
-  const payment = panel(de ? "Zahlung" : "Payment", [
+  const payment = panel(fr ? "Paiement" : "Payment", [
     escapeHtml(order.paymentMethodLabel),
     order.paymentMethodFee ? escapeHtml(order.paymentMethodFee) : "",
   ]);
 
-  const shippingPanel = panel(de ? "Lieferadresse" : "Delivery address", addressLines(order.shipping));
+  const shippingPanel = panel(
+    fr ? "Adresse de livraison" : "Delivery address",
+    addressLines(order.shipping),
+  );
   const billingPanel = order.shippingSameAsBilling
     ? ""
-    : panel(de ? "Rechnungsadresse" : "Billing address", addressLines(order.billing));
+    : panel(fr ? "Adresse de facturation" : "Billing address", addressLines(order.billing));
 
   const notePanel = order.customerNote
-    ? panel(de ? "Ihre Anmerkung" : "Your note", [escapeHtml(order.customerNote)])
+    ? panel(fr ? "Votre remarque" : "Your note", [escapeHtml(order.customerNote)])
     : "";
 
-  const footnote = de
-    ? "Den aktuellen Stand Ihrer Bestellung sehen Sie jederzeit über den Link oben. Ihr Widerrufsrecht und die Rücksendebedingungen finden Sie auf unserer Website."
+  const footnote = fr
+    ? "Vous suivez l'avancement de votre commande à tout moment grâce au lien ci-dessus. Votre droit de rétractation et nos conditions de retour figurent sur le site."
     : "You can check the current status of your order at any time using the link above. Your right of withdrawal and our return conditions are available on our website.";
 
   const html = layout({
     lang,
-    preheader: de
-      ? `Bestellung ${order.orderNumber} — ${formatCents(order.totalCents)}`
+    preheader: fr
+      ? `Commande ${order.orderNumber} — ${formatCents(order.totalCents)}`
       : `Order ${order.orderNumber} — ${formatCents(order.totalCents)}`,
     heading,
     intro,
     blocks: [table, payment, shippingPanel, billingPanel, notePanel].filter(Boolean),
-    action: { label: de ? "Bestellung ansehen" : "View order", url: orderUrl },
+    action: { label: fr ? "Voir ma commande" : "View order", url: orderUrl },
     footnote: escapeHtml(footnote),
-    footer: de
-      ? "Hausgeräte Pfeffer — automatische Nachricht zu Ihrer Bestellung."
-      : "Hausgeräte Pfeffer — automated message about your order.",
+    footer: fr
+      ? "MLC Bois — message automatique relatif à votre commande."
+      : "MLC Bois — automated message about your order.",
   });
 
   const text = [
     heading,
     "",
-    `${greeting(order.billing, de)},`,
-    de
-      ? `wir haben Ihre Bestellung ${order.orderNumber} vom ${placed} erhalten. Diese E-Mail ist Ihre Bestellbestätigung.`
+    `${greeting(order.billing, fr)},`,
+    fr
+      ? `nous avons bien reçu votre commande ${order.orderNumber} du ${placed}. Cet e-mail vaut confirmation de commande.`
       : `we have received your order ${order.orderNumber} placed on ${placed}. This email is your order confirmation.`,
     "",
     itemsText(order),
     "",
-    `${de ? "Zwischensumme" : "Subtotal"}: ${formatCents(order.subtotalCents)}`,
-    `${de ? "Versand" : "Shipping"} — ${shippingMethod}: ${order.shippingCents === 0 ? (de ? "kostenlos" : "free") : formatCents(order.shippingCents)}`,
-    `${de ? "Gesamtsumme" : "Total"}: ${formatCents(order.totalCents)}`,
+    `${fr ? "Sous-total" : "Subtotal"} : ${formatCents(order.subtotalCents)}`,
+    `${fr ? "Livraison" : "Shipping"} — ${shippingMethod} : ${order.shippingCents === 0 ? (fr ? "offerte" : "free") : formatCents(order.shippingCents)}`,
+    `${fr ? "Total TTC" : "Total"} : ${formatCents(order.totalCents)}`,
     vatLabel,
     "",
-    `${de ? "Zahlung" : "Payment"}: ${order.paymentMethodLabel}`,
+    `${fr ? "Paiement" : "Payment"} : ${order.paymentMethodLabel}`,
     "",
-    `${de ? "Lieferadresse" : "Delivery address"}:`,
+    `${fr ? "Adresse de livraison" : "Delivery address"} :`,
     addressText(order.shipping),
     ...(order.shippingSameAsBilling
       ? []
-      : ["", `${de ? "Rechnungsadresse" : "Billing address"}:`, addressText(order.billing)]),
+      : ["", `${fr ? "Adresse de facturation" : "Billing address"} :`, addressText(order.billing)]),
     "",
     orderUrl,
     "",
@@ -398,8 +398,8 @@ export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessag
   ].join("\n");
 
   return {
-    subject: de
-      ? `Bestellbestätigung ${order.orderNumber}`
+    subject: fr
+      ? `Confirmation de commande ${order.orderNumber}`
       : `Order confirmation ${order.orderNumber}`,
     html,
     text,
@@ -443,7 +443,7 @@ export function buildOrderNotificationEmail(order: OrderRecord): Omit<MailMessag
     order.billing.company ? escapeHtml(order.billing.company) : "",
     `<a href="mailto:${escapeHtml(order.email)}" style="color:#001424;">${escapeHtml(order.email)}</a>`,
     order.phone ? `<a href="tel:${escapeHtml(order.phone.replace(/\s/g, ""))}" style="color:#001424;">${escapeHtml(order.phone)}</a>` : "",
-    `Langue de la commande : ${order.locale === "en" ? "anglais" : "allemand"}`,
+    `Langue de la commande : ${order.locale === "en" ? "anglais" : "français"}`,
   ]);
 
   const shippingPanel = panel("Adresse de livraison", addressLines(order.shipping));
@@ -464,7 +464,7 @@ export function buildOrderNotificationEmail(order: OrderRecord): Omit<MailMessag
     action: { label: "Ouvrir dans le back-office", url: adminUrl },
     footnote:
       "Le stock a déjà été réservé à l'enregistrement de la commande. Le paiement est encore en attente : à confirmer dans le back-office dès réception.",
-    footer: "Hausgeräte Pfeffer — notification automatique du back-office.",
+    footer: "MLC Bois — notification automatique du back-office.",
   });
 
   const text = [

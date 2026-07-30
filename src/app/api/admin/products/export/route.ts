@@ -74,7 +74,7 @@ function toRow(product: ProductRecord, categoryLabel: string): ExportRow {
 
 /**
  * Le point-virgule est le séparateur attendu par Excel dans les environnements
- * français et allemands ; la virgule y couperait les prix (« 349,00 € »).
+ * français ; la virgule y couperait les prix (« 349,00 € »).
  */
 function csvCell(value: string): string {
   const clean = value.replace(/\r?\n/g, " ").trim();
@@ -194,7 +194,7 @@ async function buildPdf(rows: ExportRow[], subtitle: string): Promise<Uint8Array
     doc,
     font: await doc.embedFont(StandardFonts.Helvetica),
     bold: await doc.embedFont(StandardFonts.HelveticaBold),
-    title: "Hausgeräte Pfeffer — Catalogue produits",
+    title: "MLC Bois — Catalogue produits",
     subtitle,
   };
 

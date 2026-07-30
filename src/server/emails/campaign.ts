@@ -15,7 +15,7 @@
  *
  *  2. Le pied de page porte l'identification du fournisseur (§ 5 DDG) et un
  *     lien de désinscription. Un message commercial sans ces deux mentions est
- *     attaquable en Allemagne, indépendamment du consentement recueilli.
+ *     attaquable en France, indépendamment du consentement recueilli.
  */
 
 import type { MailMessage } from "@/lib/mailer";
@@ -43,13 +43,13 @@ const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 406) / 1242);
  * doivent être remplacées ici EN MÊME TEMPS que dans les pages légales.
  */
 const IMPRESSUM = {
-  name: "Hausgeräte Pfeffer GmbH",
-  street: "Musterstraße 12",
-  city: "10115 Berlin",
-  country: "Deutschland",
-  managingDirector: "Martin Pfeffer",
-  register: "Amtsgericht Berlin-Charlottenburg, HRB 000000",
-  vatId: "DE000000000",
+  name: "MLC Bois SAS",
+  street: "12 rue de la Scierie",
+  city: "93200 Saint-Denis",
+  country: "France",
+  managingDirector: "Prénom Nom (à compléter)",
+  register: "RCS Bobigny 000 000 000",
+  vatId: "FR00000000000",
 } as const;
 
 // ---- Entrées ----
@@ -107,19 +107,19 @@ function escapeHtml(value: string): string {
 }
 
 /**
- * Repli allemand quand la variante anglaise est vide. Règle appliquée partout
+ * Repli français quand la variante anglaise est vide. Règle appliquée partout
  * dans la boutique : une traduction manquante n'efface jamais le contenu.
  */
-function pick(de: string, en: string, locale: CampaignLocale): string {
-  if (locale === "en") return en.trim() || de.trim();
-  return de.trim();
+function pick(fr: string, en: string, locale: CampaignLocale): string {
+  if (locale === "en") return en.trim() || fr.trim();
+  return fr.trim();
 }
 
 /**
  * Rattrape les blancs laissés par une variable vide.
  *
- * Les modèles écrivent « Hallo {prenom}, ». Sans prénom, le rendu brut donne
- * « Hallo  , » : la formule neutre attendue est « Hallo, ». On recolle donc la
+ * Les modèles écrivent « Bonjour {prenom}, ». Sans prénom, le rendu brut donne
+ * « Bonjour  , » : la formule neutre attendue est « Bonjour, ». On recolle donc la
  * ponctuation et on écrase les espaces doubles, plutôt que de prévoir une
  * seconde version de chaque modèle.
  */
@@ -155,7 +155,7 @@ function pixelUrl(token: string): string {
 }
 
 function unsubscribeUrl(token: string): string {
-  return `${siteUrl()}/abmelden/${token}`;
+  return `${siteUrl()}/desinscription/${token}`;
 }
 
 /** « -20 % », « -99,80 € » ou la mention de livraison offerte. */
@@ -166,38 +166,38 @@ function discountLabel(kind: DiscountKind, value: number, locale: CampaignLocale
     case "amount":
       return `-${formatCents(Math.round(value))}`;
     case "free_shipping":
-      return locale === "en" ? "Free shipping" : "Versandkostenfrei";
+      return locale === "en" ? "Free shipping" : "Livraison offerte";
     case "none":
       return "";
   }
 }
 
 /**
- * Date de fin dans la langue du destinataire, toujours à l'heure de Berlin :
+ * Date de fin dans la langue du destinataire, toujours à l'heure de Paris :
  * l'offre s'arrête à l'heure de la boutique, pas à celle du serveur.
  */
 function formatEndDate(date: Date, locale: CampaignLocale): string {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
+  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: "Europe/Berlin",
+    timeZone: "Europe/Paris",
   }).format(date);
 }
 
-/** Durée restante annoncée : « 48 Stunden », « 3 Tage », « 12 hours ». */
+/** Durée restante annoncée : « 48 heures », « 3 jours », « 12 hours ». */
 function remainingLabel(endsAt: Date, locale: CampaignLocale, now: Date): string {
   const milliseconds = endsAt.getTime() - now.getTime();
-  if (milliseconds <= 0) return locale === "en" ? "a few hours" : "wenige Stunden";
+  if (milliseconds <= 0) return locale === "en" ? "a few hours" : "quelques heures";
 
   const hours = Math.ceil(milliseconds / 3_600_000);
   if (hours < 48) {
     if (locale === "en") return hours === 1 ? "1 hour" : `${hours} hours`;
-    return hours === 1 ? "1 Stunde" : `${hours} Stunden`;
+    return hours === 1 ? "1 heure" : `${hours} heures`;
   }
 
   const days = Math.ceil(hours / 24);
-  return locale === "en" ? `${days} days` : `${days} Tage`;
+  return locale === "en" ? `${days} days` : `${days} jours`;
 }
 
 /** Prix barré puis prix remisé, ou prix seul quand la remise ne touche pas l'article. */
@@ -260,7 +260,7 @@ export function buildCampaignEmail(input: CampaignMailInput): Omit<MailMessage, 
   const now = new Date();
 
   const definition = campaignTypeDefinition(campaign.type);
-  const fallback = isEnglish ? definition.en : definition.de;
+  const fallback = isEnglish ? definition.en : definition.fr;
 
   // Le produit de tête alimente les variables du sujet et du corps : un objet
   // parle d'un article, pas d'une liste.
@@ -291,8 +291,8 @@ export function buildCampaignEmail(input: CampaignMailInput): Omit<MailMessage, 
   );
 
   const action = clickUrl(recipient.token);
-  const legalUrl = `${siteUrl()}${isEnglish ? "/en" : ""}/impressum`;
-  const privacyUrl = `${siteUrl()}${isEnglish ? "/en" : ""}/datenschutz`;
+  const legalUrl = `${siteUrl()}${isEnglish ? "/en" : ""}/mentions-legales`;
+  const privacyUrl = `${siteUrl()}${isEnglish ? "/en" : ""}/confidentialite`;
   const optOutUrl = unsubscribeUrl(recipient.token);
 
   const paragraphs = bodyText
@@ -370,14 +370,14 @@ function renderHtml(input: RenderInput & { paragraphs: string[]; token: string }
   const identityDetail = [
     isEnglish
       ? `Managing director: ${IMPRESSUM.managingDirector}`
-      : `Geschäftsführer: ${IMPRESSUM.managingDirector}`,
+      : `Président : ${IMPRESSUM.managingDirector}`,
     IMPRESSUM.register,
-    isEnglish ? `VAT ID: ${IMPRESSUM.vatId}` : `USt-IdNr.: ${IMPRESSUM.vatId}`,
+    isEnglish ? `VAT ID: ${IMPRESSUM.vatId}` : `TVA intracommunautaire : ${IMPRESSUM.vatId}`,
   ].join(" &middot; ");
 
   const optOutLabel = isEnglish
     ? "No longer want to receive offers? Unsubscribe"
-    : "Keine Angebote mehr erhalten? Abmelden";
+    : "Ne plus recevoir nos offres ? Se désinscrire";
 
   return `<!doctype html>
 <html lang="${input.locale}">
@@ -397,7 +397,7 @@ function renderHtml(input: RenderInput & { paragraphs: string[]; token: string }
           <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:100%; background-color:#ffffff; border:1px solid #e0e2e6; border-radius:6px;">
             <tr>
               <td align="center" style="background-color:#ffffff; padding:32px 24px 24px 24px; border-radius:6px 6px 0 0;">
-                <img src="${logo}" alt="Hausgeräte Pfeffer" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
+                <img src="${logo}" alt="MLC Bois" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
               </td>
             </tr>
             <tr>
@@ -426,9 +426,9 @@ function renderHtml(input: RenderInput & { paragraphs: string[]; token: string }
             </tr>
             <tr>
               <td align="center" style="padding:12px 16px 0 16px; font-family:Arial,Helvetica,sans-serif; font-size:11px; line-height:18px; color:#6b7280;">
-                <a href="${escapeHtml(input.legalUrl)}" style="color:#6b7280; text-decoration:underline;">Impressum</a>
+                <a href="${escapeHtml(input.legalUrl)}" style="color:#6b7280; text-decoration:underline;">${isEnglish ? "Legal notice" : "Mentions légales"}</a>
                 &nbsp;&middot;&nbsp;
-                <a href="${escapeHtml(input.privacyUrl)}" style="color:#6b7280; text-decoration:underline;">${isEnglish ? "Privacy policy" : "Datenschutz"}</a>
+                <a href="${escapeHtml(input.privacyUrl)}" style="color:#6b7280; text-decoration:underline;">${isEnglish ? "Privacy policy" : "Politique de confidentialité"}</a>
               </td>
             </tr>
             <tr>
@@ -467,13 +467,13 @@ function renderText(input: RenderInput & { bodyText: string }): string {
     `${IMPRESSUM.name}, ${IMPRESSUM.street}, ${IMPRESSUM.city}, ${IMPRESSUM.country}`,
     isEnglish
       ? `Managing director: ${IMPRESSUM.managingDirector} — ${IMPRESSUM.register} — VAT ID: ${IMPRESSUM.vatId}`
-      : `Geschäftsführer: ${IMPRESSUM.managingDirector} — ${IMPRESSUM.register} — USt-IdNr.: ${IMPRESSUM.vatId}`,
-    `Impressum: ${input.legalUrl}`,
-    `${isEnglish ? "Privacy policy" : "Datenschutz"}: ${input.privacyUrl}`,
+      : `Président : ${IMPRESSUM.managingDirector} — ${IMPRESSUM.register} — TVA intracommunautaire : ${IMPRESSUM.vatId}`,
+    `${isEnglish ? "Legal notice" : "Mentions légales"} : ${input.legalUrl}`,
+    `${isEnglish ? "Privacy policy" : "Politique de confidentialité"} : ${input.privacyUrl}`,
     "",
     isEnglish
       ? `No longer want to receive offers? Unsubscribe: ${input.optOutUrl}`
-      : `Keine Angebote mehr erhalten? Abmelden: ${input.optOutUrl}`,
+      : `Ne plus recevoir nos offres ? Se désinscrire : ${input.optOutUrl}`,
   );
 
   return lines.join("\n");

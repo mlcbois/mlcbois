@@ -25,7 +25,7 @@ export default async function RegisterPage({ params }: { params: PageParams }) {
 
   const current = await getCurrentCustomer();
   if (current) {
-    redirect({ href: "/konto", locale });
+    redirect({ href: "/compte", locale });
   }
 
   const t = await getTranslations({ locale, namespace: "account" });

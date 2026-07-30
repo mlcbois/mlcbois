@@ -10,7 +10,7 @@ import { adminActorLabel } from "@/server/admins";
 
 type Params = Promise<{ key: string }>;
 
-/** Speichert ein Geheimnis. Der Klartext wird nur entgegengenommen, nie zurückgegeben. */
+/** Enregistre un secret. Le texte en clair est accepté en entrée, jamais renvoyé. */
 export async function PUT(request: Request, { params }: { params: Params }) {
   const { session, unauthorized } = await requireAdminApi();
   if (unauthorized) return unauthorized;
@@ -56,7 +56,7 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
 }
 
 /**
- * Löscht standardmäßig nur das hinterlegte Geheimnis.
+ * Par défaut, ne supprime que le secret enregistré.
  * Mit "?purge=1" wird der komplette Eintrag entfernt (eigene Integrationen).
  */
 export async function DELETE(request: Request, { params }: { params: Params }) {

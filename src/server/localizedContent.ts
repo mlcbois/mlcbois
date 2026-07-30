@@ -6,10 +6,10 @@ import type { Product } from "@/types/home";
 
 // Traduction du catalogue, côté boutique uniquement.
 //
-// Principe : la base porte les textes allemands (source de vérité) et, à côté,
+// Principe : la base porte les textes français (source de vérité) et, à côté,
 // des colonnes « *En » facultatives. Ce module charge une seule fois les
 // traductions puis les applique à des données déjà chargées par le store.
-// Le repli est systématique : si le champ anglais est vide, l'allemand est
+// Le repli est systématique : si le champ anglais est vide, le français est
 // affiché — jamais de champ vide sur la boutique.
 
 // ---- Types ----
@@ -39,7 +39,7 @@ export interface CatalogTranslations {
   products: Map<string, ProductTranslation>;
 }
 
-/** Bundle vide : tout retombe alors sur les textes allemands. */
+/** Bundle vide : tout retombe alors sur les textes français. */
 const EMPTY: CatalogTranslations = {
   groups: new Map(),
   categories: new Map(),
@@ -60,7 +60,7 @@ export function pickList(fallback: string[], translated: string[] | undefined): 
   return values.length > 0 ? values : fallback;
 }
 
-/** Vrai dès qu'une locale connue autre que l'allemand est demandée. */
+/** Vrai dès qu'une locale connue autre que le français est demandée. */
 export function needsTranslation(locale: string): locale is Locale {
   return locale !== routing.defaultLocale && (routing.locales as readonly string[]).includes(locale);
 }
@@ -145,7 +145,7 @@ export function localizeCategoryPages(
 
 /**
  * Charge en une passe les traductions du catalogue.
- * Pour la langue par défaut (allemand), aucune requête n'est émise.
+ * Pour la langue par défaut (français), aucune requête n'est émise.
  */
 export async function loadCatalogTranslations(locale: string): Promise<CatalogTranslations> {
   if (!needsTranslation(locale)) return EMPTY;

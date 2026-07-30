@@ -12,6 +12,38 @@ export interface GoogleCategory {
 }
 
 export const GOOGLE_CATEGORY_BY_SLUG: Record<string, GoogleCategory> = {
+  buche: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  eiche: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  birke: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  esche: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  "hartholz-mix": {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  holzbriketts: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  holzpellets: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
+  anzuendholz: {
+    id: "625",
+    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
+  },
   kaffeemaschinen: {
     id: "736",
     path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Machines à café et à expresso",
@@ -73,7 +105,7 @@ export function googleCategoryPath(id: string): string | undefined {
 
 /**
  * Catégories rattachées à « Bekleidung & Accessoires » : Google y exige
- * age_group, gender, color et size pour l'Allemagne.
+ * age_group, gender, color et size pour la France.
  */
 export const APPAREL_CATEGORY_IDS = new Set(["201"]);
 

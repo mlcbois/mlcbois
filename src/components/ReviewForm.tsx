@@ -52,9 +52,9 @@ export function ReviewForm({ productId }: { productId: string }) {
 
     if (!response.ok) {
       const data = (await response.json().catch(() => null)) as { error?: string } | null;
-      // L'API ne répond qu'en allemand : son message détaillé n'est repris que
-      // sur la boutique allemande, ailleurs on affiche le message générique.
-      const serverMessage = locale === "de" ? data?.error : undefined;
+      // L'API ne répond qu'en français : son message détaillé n'est repris que
+      // sur la boutique française, ailleurs on affiche le message générique.
+      const serverMessage = locale === "fr" ? data?.error : undefined;
       setError(serverMessage ?? t("formError"));
       return;
     }
@@ -97,7 +97,7 @@ export function ReviewForm({ productId }: { productId: string }) {
                 />
                 <Star
                   aria-hidden
-                  className={`h-7 w-7 ${filled ? "fill-accent text-accent" : "text-border"}`}
+                  className={`h-7 w-7 ${filled ? "fill-primary text-primary" : "text-border"}`}
                 />
                 <span className="sr-only">{t("formRatingAria", { value })}</span>
               </label>

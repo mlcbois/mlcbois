@@ -27,5 +27,5 @@ export async function POST(request: Request) {
     return accountErrorResponse(result.code, result.code === "invalid_credentials" ? 401 : 422);
   }
 
-  return NextResponse.json({ ok: true, message: "Ihr Passwort wurde geändert." });
+  return NextResponse.json({ ok: true, message: "Votre mot de passe a été modifié." });
 }

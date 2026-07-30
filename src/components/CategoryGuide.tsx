@@ -41,7 +41,7 @@ export async function CategoryGuide({
               {t("guideDiscover", { label })}
             </Link>
             <Link
-              href="/kontakt"
+              href="/contact"
               className="rounded-sm bg-white/10 px-5 py-2.5 text-sm font-bold transition-all hover:-translate-y-0.5 hover:bg-white/20"
             >
               {t("guideAdvice")}

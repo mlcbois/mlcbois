@@ -10,7 +10,7 @@ import {
 } from "@/server/admins";
 import { prisma } from "@/server/prisma";
 
-/** Mindestlänge für Passwörter im Back-Office. */
+/** Longueur minimale des mots de passe du back-office. */
 const MIN_PASSWORD_LENGTH = 10;
 
 const ALLOWED_ROLES = ["admin", "owner"];
@@ -106,7 +106,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   }
 
   if (typeof body.active === "boolean") {
-    // Ohne diese Sperre könnte sich der letzte Zugang selbst aussperren.
+    // Sans ce garde-fou, le dernier accès pourrait se verrouiller lui-même.
     if (!body.active) {
       const activeCount = await prisma.adminUser.count({ where: { active: true } });
       const target = await prisma.adminUser.findUnique({ where: { id } });

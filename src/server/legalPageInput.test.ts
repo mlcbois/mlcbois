@@ -10,7 +10,7 @@
 
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { deLegalPages } from "@/content/legal/de";
+import { frLegalPages } from "@/content/legal/fr";
 import {
   isIsoDate,
   normalizeLegalPage,
@@ -21,13 +21,13 @@ import {
 
 function validInput(overrides: Partial<LegalPageInput> = {}): LegalPageInput {
   return {
-    title: "Impressum",
-    intro: "Anbieterkennzeichnung nach § 5 DDG.",
+    title: "Mentions légales",
+    intro: "Informations sur l'éditeur prévues à l'article 6 III de la LCEN.",
     sections: [
       {
-        heading: "Diensteanbieter",
-        body: "Verantwortlich für diesen Onlineshop ist:",
-        list: ["Hausgeräte Pfeffer GmbH", "Musterstraße 12"],
+        heading: "Éditeur du site",
+        body: "Cette boutique en ligne est éditée par :",
+        list: ["MLC Bois SAS", "12 rue de la Scierie"],
       },
     ],
     updatedAt: "2026-07-28",
@@ -37,23 +37,23 @@ function validInput(overrides: Partial<LegalPageInput> = {}): LegalPageInput {
 
 describe("normalizeLegalPage — contenu accepté", () => {
   it("accepte une page complète et lui rend son slug", () => {
-    const result = normalizeLegalPage(validInput(), "impressum");
+    const result = normalizeLegalPage(validInput(), "mentions-legales");
     assert.ok(result.ok);
-    assert.equal(result.page.slug, "impressum");
-    assert.equal(result.page.title, "Impressum");
-    assert.deepEqual(result.page.sections[0].list, ["Hausgeräte Pfeffer GmbH", "Musterstraße 12"]);
+    assert.equal(result.page.slug, "mentions-legales");
+    assert.equal(result.page.title, "Mentions légales");
+    assert.deepEqual(result.page.sections[0].list, ["MLC Bois SAS", "12 rue de la Scierie"]);
   });
 
   it("omet le chapeau quand il est vide plutôt que d'afficher un encadré vide", () => {
-    const result = normalizeLegalPage(validInput({ intro: "   " }), "kontakt");
+    const result = normalizeLegalPage(validInput({ intro: "   " }), "contact");
     assert.ok(result.ok);
     assert.equal(result.page.intro, undefined);
   });
 
   it("omet la liste quand elle ne contient que des entrées vides", () => {
     const result = normalizeLegalPage(
-      validInput({ sections: [{ heading: "Titel", body: "Text", list: ["", "  "] }] }),
-      "agb",
+      validInput({ sections: [{ heading: "Titre", body: "Texte", list: ["", "  "] }] }),
+      "cgv",
     );
     assert.ok(result.ok);
     assert.equal(result.page.sections[0].list, undefined);
@@ -61,8 +61,8 @@ describe("normalizeLegalPage — contenu accepté", () => {
 
   it("accepte une section qui ne porte qu'une liste", () => {
     const result = normalizeLegalPage(
-      validInput({ sections: [{ heading: "Kontakt", body: "", list: ["Telefon: 0800 123 45"] }] }),
-      "kontakt",
+      validInput({ sections: [{ heading: "Contact", body: "", list: ["Téléphone : 01 23 45 67 89"] }] }),
+      "contact",
     );
     assert.ok(result.ok);
     assert.equal(result.page.sections[0].body, "");
@@ -72,11 +72,11 @@ describe("normalizeLegalPage — contenu accepté", () => {
     const result = normalizeLegalPage(
       validInput({
         sections: [
-          { heading: "Titel", body: "Text", list: [] },
+          { heading: "Titre", body: "Texte", list: [] },
           { heading: "", body: "", list: [] },
         ],
       }),
-      "agb",
+      "cgv",
     );
     assert.ok(result.ok);
     assert.equal(result.page.sections.length, 1);
@@ -85,17 +85,17 @@ describe("normalizeLegalPage — contenu accepté", () => {
   it("normalise les fins de ligne Windows", () => {
     const result = normalizeLegalPage(
       validInput({ sections: [{ heading: "Titel", body: "Zeile 1\r\nZeile 2", list: [] }] }),
-      "agb",
+      "cgv",
     );
     assert.ok(result.ok);
     assert.equal(result.page.sections[0].body, "Zeile 1\nZeile 2");
   });
 
   it("conserve les marques de formatage sans y toucher", () => {
-    const body = "Nur **heute** gültig, siehe [AGB](/agb).";
+    const body = "Valable **aujourd'hui** seulement, voir les [CGV](/cgv).";
     const result = normalizeLegalPage(
-      validInput({ sections: [{ heading: "Aktion", body, list: [] }] }),
-      "aktion" as never,
+      validInput({ sections: [{ heading: "Offre", body, list: [] }] }),
+      "promo" as never,
     );
     assert.ok(result.ok);
     assert.equal(result.page.sections[0].body, body);
@@ -105,42 +105,42 @@ describe("normalizeLegalPage — contenu accepté", () => {
 describe("normalizeLegalPage — contenu refusé", () => {
   const cases: [string, unknown][] = [
     ["un objet absent", null],
-    ["une chaîne", "Impressum"],
+    ["une chaîne", "Mentions légales"],
   ];
 
   for (const [label, raw] of cases) {
     it(`refuse ${label}`, () => {
-      const result = normalizeLegalPage(raw, "impressum");
+      const result = normalizeLegalPage(raw, "mentions-legales");
       assert.equal(result.ok, false);
     });
   }
 
   it("refuse un titre vide", () => {
-    const result = normalizeLegalPage(validInput({ title: "  " }), "impressum");
+    const result = normalizeLegalPage(validInput({ title: "  " }), "mentions-legales");
     assert.equal(result.ok, false);
   });
 
   it("refuse une page sans aucune section", () => {
-    const result = normalizeLegalPage(validInput({ sections: [] }), "impressum");
+    const result = normalizeLegalPage(validInput({ sections: [] }), "mentions-legales");
     assert.equal(result.ok, false);
   });
 
   it("refuse une section sans titre mais avec du texte", () => {
     const result = normalizeLegalPage(
-      validInput({ sections: [{ heading: "", body: "Text", list: [] }] }),
-      "impressum",
+      validInput({ sections: [{ heading: "", body: "Texte", list: [] }] }),
+      "mentions-legales",
     );
     assert.equal(result.ok, false);
   });
 
   it("refuse une date mal formée ou inexistante", () => {
-    assert.equal(normalizeLegalPage(validInput({ updatedAt: "28.07.2026" }), "agb").ok, false);
-    assert.equal(normalizeLegalPage(validInput({ updatedAt: "2026-02-31" }), "agb").ok, false);
-    assert.equal(normalizeLegalPage(validInput({ updatedAt: "" }), "agb").ok, false);
+    assert.equal(normalizeLegalPage(validInput({ updatedAt: "28.07.2026" }), "cgv").ok, false);
+    assert.equal(normalizeLegalPage(validInput({ updatedAt: "2026-02-31" }), "cgv").ok, false);
+    assert.equal(normalizeLegalPage(validInput({ updatedAt: "" }), "cgv").ok, false);
   });
 
   it("refuse un titre démesuré", () => {
-    const result = normalizeLegalPage(validInput({ title: "x".repeat(201) }), "agb");
+    const result = normalizeLegalPage(validInput({ title: "x".repeat(201) }), "cgv");
     assert.equal(result.ok, false);
   });
 });
@@ -159,8 +159,8 @@ describe("isIsoDate", () => {
 });
 
 describe("aller-retour formulaire ↔ page", () => {
-  it("ne modifie pas le contenu d'origine allemand", () => {
-    for (const page of Object.values(deLegalPages)) {
+  it("ne modifie pas le contenu d'origine français", () => {
+    for (const page of Object.values(frLegalPages)) {
       const result = normalizeLegalPage(toLegalPageInput(page), page.slug);
       assert.ok(result.ok, `${page.slug} devrait rester valide`);
       assert.deepEqual(result.page, page, `${page.slug} a été altéré par l'aller-retour`);
@@ -170,15 +170,15 @@ describe("aller-retour formulaire ↔ page", () => {
 
 describe("parseStoredLegalPage", () => {
   it("relit un contenu stocké", () => {
-    const stored = JSON.stringify(deLegalPages.impressum);
-    assert.deepEqual(parseStoredLegalPage(stored, "impressum"), deLegalPages.impressum);
+    const stored = JSON.stringify(frLegalPages["mentions-legales"]);
+    assert.deepEqual(parseStoredLegalPage(stored, "mentions-legales"), frLegalPages["mentions-legales"]);
   });
 
   it("rend null sur un JSON cassé plutôt que de lever", () => {
-    assert.equal(parseStoredLegalPage("{ pas du json", "impressum"), null);
+    assert.equal(parseStoredLegalPage("{ pas du json", "mentions-legales"), null);
   });
 
   it("rend null sur un contenu qui ne passe plus le contrôle", () => {
-    assert.equal(parseStoredLegalPage(JSON.stringify({ title: "" }), "impressum"), null);
+    assert.equal(parseStoredLegalPage(JSON.stringify({ title: "" }), "mentions-legales"), null);
   });
 });

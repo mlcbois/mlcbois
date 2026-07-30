@@ -26,7 +26,7 @@ import {
   savingCents,
   statusAppliesDiscount,
 } from "./campaigns";
-import { computeTotals, shippingCostFor } from "./cart";
+import { computeTotals, shippingCostFor, VAT_RATE_PERCENT } from "./cart";
 import type { CartLine } from "./cart";
 
 function line(priceCents: number, quantity = 1): CartLine {
@@ -126,8 +126,11 @@ describe("totaux du panier", () => {
     // La TVA est comprise dans le total, elle doit donc monter avec lui : le
     // supplément express est un service taxé au même taux que la marchandise.
     assert.ok(express.taxCents > standard.taxCents);
-    assert.equal(standard.taxCents, Math.round((2_999 * 19) / 119));
-    assert.equal(express.taxCents, Math.round(((2_999 + 7_000) * 19) / 119));
+    assert.equal(standard.taxCents, Math.round((2_999 * VAT_RATE_PERCENT) / (100 + VAT_RATE_PERCENT)));
+    assert.equal(
+      express.taxCents,
+      Math.round(((2_999 + 7_000) * VAT_RATE_PERCENT) / (100 + VAT_RATE_PERCENT)),
+    );
   });
 });
 

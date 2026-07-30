@@ -63,7 +63,7 @@ export async function createIntegration(input: IntegrationInput): Promise<Integr
 
   const existing = await prisma.integration.findUnique({ where: { key } });
   if (existing) {
-    throw new Error(`Der Schlüssel "${key}" ist bereits vergeben.`);
+    throw new Error(`La clé « ${key} » est déjà utilisée.`);
   }
 
   const row = await prisma.integration.create({
@@ -77,7 +77,7 @@ export async function createIntegration(input: IntegrationInput): Promise<Integr
   return toRecord(row);
 }
 
-/** Speichert ein Geheimnis verschlüsselt (AES-256-GCM) und merkt sich nur die letzten vier Zeichen. */
+/** Enregistre un secret chiffré (AES-256-GCM) et ne retient que les quatre derniers caractères. */
 export async function setIntegrationSecret(
   key: string,
   plain: string,
@@ -148,9 +148,9 @@ export async function deleteIntegration(key: string): Promise<boolean> {
 }
 
 /**
- * NUR SERVERSEITIG: liefert das entschlüsselte Geheimnis für den Zahlungs- bzw.
- * Versandcode. Dieser Wert darf niemals über eine Route, ein Server-Prop oder
- * ein Log das Backend verlassen.
+ * SERVEUR UNIQUEMENT : rend le secret déchiffré d'une intégration de paiement
+ * ou de transport. Cette valeur ne doit jamais sortir du serveur, ni par une
+ * route, ni par une prop de composant, ni par un journal.
  */
 export async function getIntegrationSecret(key: string): Promise<string | null> {
   const row = await prisma.integration.findUnique({ where: { key } });

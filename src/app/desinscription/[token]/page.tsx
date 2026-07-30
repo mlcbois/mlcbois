@@ -26,7 +26,7 @@ export const dynamic = "force-dynamic";
 // Une page de désinscription n'a rien à faire dans un index de moteur de
 // recherche, et le jeton ne doit pas s'y retrouver.
 export const metadata: Metadata = {
-  title: "Abmeldung",
+  title: "Désinscription",
   robots: { index: false, follow: false },
 };
 
@@ -34,21 +34,21 @@ type Params = Promise<{ token: string }>;
 type Search = Promise<{ erledigt?: string }>;
 
 const TEXTS = {
-  de: {
-    title: "Keine Angebote mehr erhalten",
-    intro: "Sie melden folgende E-Mail-Adresse von unseren Angebots-E-Mails ab:",
-    note: "Bestellbestätigungen, Versandbenachrichtigungen und Antworten auf Ihre Anfragen erhalten Sie weiterhin. Diese E-Mails gehören zu Ihrem Kauf und lassen sich nicht abbestellen.",
-    button: "Abmeldung bestätigen",
-    doneTitle: "Sie sind abgemeldet",
+  fr: {
+    title: "Ne plus recevoir nos offres",
+    intro: "Vous désinscrivez l'adresse e-mail suivante de nos e-mails promotionnels :",
+    note: "Vous continuerez de recevoir les confirmations de commande, les avis d'expédition et les réponses à vos demandes. Ces e-mails font partie de votre achat et ne peuvent pas être désactivés.",
+    button: "Confirmer la désinscription",
+    doneTitle: "Vous êtes désinscrit",
     doneText:
-      "Diese Adresse erhält von uns keine Angebots-E-Mails mehr. Die Änderung gilt ab sofort und für alle künftigen Aktionen.",
-    alreadyTitle: "Bereits abgemeldet",
-    alreadyText: "Diese Adresse erhält von uns bereits keine Angebots-E-Mails mehr.",
-    unknownTitle: "Link nicht mehr gültig",
+      "Cette adresse ne recevra plus d'e-mails promotionnels de notre part. Le changement prend effet immédiatement et vaut pour toutes les campagnes à venir.",
+    alreadyTitle: "Déjà désinscrit",
+    alreadyText: "Cette adresse ne reçoit déjà plus d'e-mails promotionnels de notre part.",
+    unknownTitle: "Lien expiré",
     unknownText:
-      "Dieser Abmeldelink lässt sich nicht mehr zuordnen. Schreiben Sie uns kurz, dann übernehmen wir die Abmeldung von Hand.",
-    contact: "Zum Kontaktformular",
-    home: "Zur Startseite",
+      "Ce lien de désinscription ne correspond plus à aucune adresse. Écrivez-nous un mot et nous procéderons à la désinscription manuellement.",
+    contact: "Aller au formulaire de contact",
+    home: "Retour à l'accueil",
   },
   en: {
     title: "Stop receiving offers",
@@ -96,7 +96,7 @@ async function confirmUnsubscribe(formData: FormData): Promise<void> {
     await recordEvent(recipient.campaignId, "desinscription", recipient.id);
   }
 
-  redirect(`/abmelden/${token}?erledigt=1`);
+  redirect(`/desinscription/${token}?erledigt=1`);
 }
 
 export default async function UnsubscribePage({
@@ -114,7 +114,7 @@ export default async function UnsubscribePage({
     select: { email: true, locale: true, unsubscribedAt: true },
   });
 
-  const locale: PageLocale = recipient?.locale === "en" ? "en" : "de";
+  const locale: PageLocale = recipient?.locale === "en" ? "en" : "fr";
   const texts = TEXTS[locale];
 
   // Jeton inconnu : message neutre. Confirmer qu'une adresse est chez nous à
@@ -223,7 +223,7 @@ function Links({
   const prefix = locale === "en" ? "/en" : "";
   return (
     <p className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold">
-      <Link href={`${prefix}/kontakt`} className="text-primary hover:underline">
+      <Link href={`${prefix}/contact`} className="text-primary hover:underline">
         {texts.contact}
       </Link>
       <Link href={`${prefix}/`} className="text-muted-foreground hover:underline">

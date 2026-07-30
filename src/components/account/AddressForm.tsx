@@ -282,7 +282,7 @@ function AddressFields({
         <input
           id={`${idPrefix}-country`}
           readOnly
-          value={t("fields.countryDE")}
+          value={t("fields.countryFR")}
           aria-describedby={`${idPrefix}-country-hint`}
           className={`${INPUT} bg-muted text-muted-foreground`}
         />

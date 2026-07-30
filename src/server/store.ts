@@ -20,7 +20,7 @@ import type { Product } from "@/types/home";
 // ---- Conversions ----
 
 export function formatPrice(cents: number): string {
-  return `${(cents / 100).toLocaleString("de-DE", {
+  return `${(cents / 100).toLocaleString("fr-FR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })} €`;
@@ -303,7 +303,7 @@ export async function getProductRecord(id: string): Promise<ProductRecord | unde
 export async function createProduct(input: Omit<ProductRecord, "id">): Promise<ProductRecord> {
   const parts = splitCategoryId(input.categoryId);
   if (!parts) {
-    throw new Error(`Ungültige Kategorie: ${input.categoryId}`);
+    throw new Error(`Catégorie invalide : ${input.categoryId}`);
   }
 
   const category = await prisma.category.findFirst({

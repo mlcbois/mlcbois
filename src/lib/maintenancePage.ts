@@ -7,18 +7,18 @@
  * en train de réparer. Les styles sont en ligne pour la même raison : la
  * feuille compilée peut très bien être ce qui manque.
  *
- * Le texte est en allemand, comme la boutique.
+ * Le texte est en français, comme la boutique.
  */
 
 const ROUGE = "#e3000e";
 
 export const PAGE_MAINTENANCE = `<!doctype html>
-<html lang="de">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Wartungsarbeiten — Hausgeräte Pfeffer</title>
+<title>Maintenance en cours — MLC Bois</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   body {
@@ -80,13 +80,13 @@ export const PAGE_MAINTENANCE = `<!doctype html>
 </head>
 <body>
   <main class="carte">
-    <p class="marque">Hausgeräte <span>Pfeffer</span></p>
-    <h1>Wir sind gleich wieder für Sie da</h1>
-    <p>Unser Shop wird gerade überarbeitet. In Kürze steht Ihnen das gesamte Sortiment wieder zur Verfügung.</p>
-    <p>Vielen Dank für Ihr Verständnis.</p>
+    <p class="marque">MLC <span>Bois</span></p>
+    <h1>Nous revenons dans un instant</h1>
+    <p>La boutique est en cours de maintenance. L'ensemble du catalogue sera de nouveau accessible sous peu.</p>
+    <p>Merci de votre patience.</p>
     <p class="contact">
-      Fragen? Schreiben Sie uns an
-      <a href="mailto:kontakt@hausgeratepfeffer.de">kontakt@hausgeratepfeffer.de</a>
+      Une question ? Écrivez-nous à
+      <a href="mailto:contact@mlc-bois.fr">contact@mlc-bois.fr</a>
     </p>
   </main>
 </body>

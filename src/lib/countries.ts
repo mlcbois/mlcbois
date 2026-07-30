@@ -116,7 +116,8 @@ export function isValidPostalCode(country: string, postalCode: string): boolean 
 
 /**
  * Liste complète, triée selon les règles alphabétiques de la langue affichée —
- * « Österreich » se classe après « Niederlande » en allemand, pas en fin de liste.
+ * « Éthiopie » se classe entre « Estonie » et « Fidji » en français, et non en
+ * fin de liste comme le ferait un tri sur les octets.
  */
 export function countryOptions(locale: string): CountryOption[] {
   const display = COUNTRY_CODES.map((value) => ({ value, label: countryName(value, locale) }));

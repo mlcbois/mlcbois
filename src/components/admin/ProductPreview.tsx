@@ -44,7 +44,7 @@ function parseRating(value: string): number | null {
  * Reproduction de la fiche produit et de la carte de liste telles que les voit le
  * client. Comme pour l'aperçu catégorie, les composants de la boutique ne sont pas
  * réutilisés : ils dépendent de next-intl, du panier et de la liste d'envies. Les
- * libellés figés viennent de src/messages/de.json.
+ * libellés figés viennent de src/messages/fr.json.
  */
 export function ProductPreview({
   view,
@@ -97,7 +97,7 @@ export function ProductPreview({
               sizes="220px"
             />
             <p className="truncate text-xs font-bold text-muted-foreground uppercase">
-              {brand.trim() || "Marke"}
+              {brand.trim() || "Marque"}
             </p>
             <p className="mb-1 line-clamp-2 text-sm font-semibold text-foreground">
               {name.trim() || <Placeholder>Nom du produit</Placeholder>}
@@ -105,7 +105,7 @@ export function ProductPreview({
             {ratingValue !== null && (
               <p className="mb-2 flex items-center gap-1 text-xs font-semibold text-foreground">
                 <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-                {formatRating(ratingValue, "de")}
+                {formatRating(ratingValue, "fr")}
               </p>
             )}
             <ul className="mb-3 space-y-0.5 text-xs text-muted-foreground">
@@ -123,7 +123,7 @@ export function ProductPreview({
                 </span>
               </div>
               {!inStock && (
-                <span className="text-[11px] font-semibold text-muted-foreground">Auf Anfrage</span>
+                <span className="text-[11px] font-semibold text-muted-foreground">Sur demande</span>
               )}
             </div>
           </div>
@@ -137,11 +137,11 @@ export function ProductPreview({
   return (
     <div className="bg-white text-[13px]">
       <div className="flex items-center gap-1 border-b border-border px-3 py-2 text-[11px] text-muted-foreground">
-        <span>Start</span>
+        <span>Accueil</span>
         <ChevronRight className="h-3 w-3 shrink-0" />
-        <span className="truncate">{groupLabel || "Bereich"}</span>
+        <span className="truncate">{groupLabel || "Univers"}</span>
         <ChevronRight className="h-3 w-3 shrink-0" />
-        <span className="truncate">{categoryLabel || "Kategorie"}</span>
+        <span className="truncate">{categoryLabel || "Catégorie"}</span>
       </div>
 
       <div className="px-3 py-4">
@@ -173,7 +173,7 @@ export function ProductPreview({
 
         <div className="mt-4">
           <p className="text-[11px] font-bold tracking-wide text-muted-foreground uppercase">
-            {brand.trim() || "Marke"}
+            {brand.trim() || "Marque"}
           </p>
           <h1 className="text-lg leading-tight font-black text-foreground">
             {name.trim() || <Placeholder>Nom du produit</Placeholder>}
@@ -181,7 +181,7 @@ export function ProductPreview({
           {ratingValue !== null && (
             <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-foreground">
               <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-              {formatRating(ratingValue, "de")} von 5
+              {formatRating(ratingValue, "fr")} sur 5
             </p>
           )}
           {shortDescription.trim() && (
@@ -194,7 +194,7 @@ export function ProductPreview({
           <div>
             {oldPrice.trim() && (
               <p className="text-xs text-muted-foreground">
-                Ursprünglicher Preis <span className="line-through">{oldPrice}</span>
+                Prix d&apos;origine <span className="line-through">{oldPrice}</span>
               </p>
             )}
             <div className="flex items-center gap-2">
@@ -218,8 +218,8 @@ export function ProductPreview({
             }`}
           >
             {inStock
-              ? "✓ Vorrätig – Lieferung in 1-3 Werktagen"
-              : "Auf Anfrage – kommt in 2-4 Wochen"}
+              ? "✓ En stock – livraison sous 1 à 3 jours ouvrés"
+              : "Sur demande – disponible sous 2 à 4 semaines"}
           </p>
 
           <span
@@ -234,10 +234,10 @@ export function ProductPreview({
 
           <div className="flex flex-col gap-1.5 border-t border-border pt-3 text-[11px] text-muted-foreground">
             <p className="flex items-center gap-2">
-              <Truck className="h-3.5 w-3.5 text-primary" /> Schnelle Lieferung in 1-3 Werktagen
+              <Truck className="h-3.5 w-3.5 text-primary" /> Livraison rapide sous 1 à 3 jours ouvrés
             </p>
             <p className="flex items-center gap-2">
-              <ShieldCheck className="h-3.5 w-3.5 text-primary" /> 2 Jahre Garantie auf alle Geräte
+              <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Garantie légale de conformité de 2 ans
             </p>
           </div>
         </div>

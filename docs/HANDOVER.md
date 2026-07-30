@@ -42,7 +42,7 @@ Integration, StockMovement, AdminUser, Setting, et les modèles de commande.
   qu'ils sont utilisés, expirés ou épuisés.
 
 Envoi des codes : SMTP de la boîte Hostinger de la boutique
-(`kontakt@hausgeratepfeffer.de`, `smtp.hostinger.com:465`), via nodemailer. À
+(`contact@mlc-bois.fr`, `smtp.hostinger.com:465`), via nodemailer. À
 renseigner dans `.env.local` : `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`,
 `SMTP_PASSWORD`, `MAIL_FROM` et `MAIL_FROM_NAME`. En développement, si ces
 variables manquent, le code s'affiche dans la console du serveur et sur la page
@@ -69,12 +69,12 @@ presque noir : inversé, il disparaîtrait).
 
 ### Boutique
 
-- Site bilingue allemand/anglais. L'allemand reste à la racine (`/`), l'anglais
+- Site bilingue français/anglais. Le français reste à la racine (`/`), l'anglais
   vit sous `/en`. Le sélecteur de langue conserve la page courante.
 - Avis clients avec validation obligatoire par un administrateur avant publication.
 - Moyens de paiement et clés API configurables depuis le back-office ; les clés
   sont chiffrées en AES-256-GCM et ne ressortent jamais en clair.
-- Tunnel d'achat complet et conforme au droit allemand de la vente à distance.
+- Tunnel d'achat complet et conforme au droit français de la vente à distance.
 - Flux et balisage conformes à Google Merchant Center.
 
 ### Espace client et liste de souhaits
@@ -83,7 +83,7 @@ presque noir : inversé, il disparaîtrait).
   commandes, adresses, données personnelles avec export et suppression du
   compte. Détail dans `docs/ACCOUNTS.md`.
 - Le compte reste **facultatif** : la commande en tant qu'invité fonctionne
-  exactement comme avant, c'est une exigence du droit allemand.
+  exactement comme avant, c'est une exigence du droit français.
 - Supprimer un compte n'efface pas les commandes : elles sont anonymisées, car
   les pièces comptables doivent être conservées.
 - `/merkliste` : liste de souhaits conservée dans le navigateur, sans compte,
@@ -113,7 +113,7 @@ ce sont des écrans de configuration courts avec réordonnancement.
 - Circuit des avis : dépôt par un visiteur → invisible sur le site → validation
   par l'administrateur → publication et recalcul de la note.
 - Les deux langues : toutes les pages catégorie et les 78 fiches produit
-  répondent en allemand et en anglais.
+  répondent en français et en anglais.
 - Flux Google Merchant : 78 articles, XML validé, aucune balise vide.
 
 Deux commandes de test restent en base (`test.kunde@example.de` et
@@ -133,7 +133,7 @@ depuis le back-office.
    (§ 356a BGB). Le texte est en place, la fonctionnalité reste à construire ;
    sans elle, le délai de rétractation se prolonge.
 4. **IBAN de démonstration** sur la page de confirmation, signalée comme telle.
-5. **Livraison Allemagne uniquement**, frais 4,95 € et franco à 50 € codés dans
+5. **Livraison France métropolitaine uniquement**, standard offert et express 70 € codés dans
    `src/lib/cart.ts` — pas encore pilotables depuis le back-office.
 
 ## À faire avant la mise en ligne

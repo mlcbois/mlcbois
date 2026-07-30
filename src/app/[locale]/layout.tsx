@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -38,6 +39,9 @@ export default async function LocaleLayout({
       <CartProvider>
         {children}
         <CartDrawer paymentSlot={<PaymentMethodsBar variant="inline" />} />
+        {/* Popup de sortie : lit l'historique de consultation de la session,
+            posé une seule fois pour toute la boutique. */}
+        <ExitIntentPopup />
       </CartProvider>
     </NextIntlClientProvider>
   );

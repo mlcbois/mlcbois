@@ -2,88 +2,52 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { HeroBanner } from "@/components/HeroBanner";
-import { TrustBar } from "@/components/TrustBar";
-import { CategoryRow } from "@/components/CategoryRow";
-import { DealOfTheDay } from "@/components/DealOfTheDay";
-import { BrandRow } from "@/components/BrandRow";
-import { CustomerReviews } from "@/components/CustomerReviews";
+import { HeroBrennholz } from "@/components/home/HeroBrennholz";
+import { StapelrechnerToggle } from "@/components/home/StapelrechnerToggle";
+import { VillesIntervention } from "@/components/home/VillesIntervention";
+import { TrustStrip } from "@/components/home/TrustStrip";
+import { SortimentGrid, type SortimentKarte } from "@/components/home/SortimentGrid";
+import { RestfeuchteSkala } from "@/components/home/RestfeuchteSkala";
+import { HolzartenVergleich } from "@/components/home/HolzartenVergleich";
+import { LieferungAblauf } from "@/components/home/LieferungAblauf";
+import { Kundenstimmen } from "@/components/home/Kundenstimmen";
+import { HolzFaq } from "@/components/home/HolzFaq";
 import { ProductGrid } from "@/components/ProductGrid";
-import { PromoGrid } from "@/components/PromoGrid";
-import { parsePrice } from "@/lib/price";
 import { alternatesFor } from "@/lib/hreflang";
-import { getCategoryPages, type CategoryPageView } from "@/server/store";
+import { formatPrice, getCategoryPages, type CategoryPageView } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPages } from "@/server/localizedContent";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import type { Locale } from "@/i18n/routing";
-import type { BrandTeaser, Product } from "@/types/home";
+import type { Product } from "@/types/home";
 
 type HomeParams = Promise<{ locale: Locale }>;
 
-/** Article mis en avant : n-ième produit d'une catégorie déjà chargée. */
-function pickProduct(
-  categories: CategoryPageView[],
-  group: string,
-  categorySlug: string,
-  index: number,
-): Product | undefined {
-  const category = categories.find((item) => item.group === group && item.slug === categorySlug);
-  return category?.products[index];
+// Seuls ces deux groupes composent la boutique bois. Le filtre est explicite
+// pour que d'anciennes catégories restées en base n'apparaissent pas.
+const GRUPPEN = ["brennholz", "zubehoer"];
+
+/** Prix d'entrée d'une catégorie, formaté à la française. */
+function abPreis(category: CategoryPageView): string {
+  const cents = category.products
+    .map((product) => product.priceCents ?? 0)
+    .filter((value) => value > 0);
+  return cents.length > 0 ? formatPrice(Math.min(...cents)) : "";
 }
 
-// Les prix du catalogue sont formatés à l'allemande par le store : l'économie
-// affichée suit la même convention, quelle que soit la langue de navigation.
-function formatEuro(value: number): string {
-  return `${value.toLocaleString("de-DE", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })} €`;
-}
-
-// Offre du jour = l'article dont la remise en euros est la plus forte du catalogue
-function pickDeal(
-  categories: CategoryPageView[],
-): { product: Product; saving: string } | undefined {
-  let best: { product: Product; saving: string } | undefined;
-  let bestSaving = 0;
-
-  for (const category of categories) {
-    for (const product of category.products) {
-      if (!product.oldPrice) continue;
-      const saving = parsePrice(product.oldPrice) - parsePrice(product.price);
-      if (saving > bestSaving) {
-        bestSaving = saving;
-        best = { product, saving: formatEuro(saving) };
-      }
-    }
-  }
-
-  return best;
-}
-
-// Par marque : nombre d'articles dans toute la boutique, lié à la catégorie où elle est la plus présente
-function topBrands(categories: CategoryPageView[], limit: number): BrandTeaser[] {
-  const stats = new Map<string, { total: number; href: string; bestCount: number }>();
-
-  for (const category of categories) {
-    const href = `/${category.group}/${category.slug}`;
-    const perBrand = new Map<string, number>();
-    for (const product of category.products) {
-      perBrand.set(product.brand, (perBrand.get(product.brand) ?? 0) + 1);
-    }
-    for (const [brand, count] of perBrand) {
-      const entry = stats.get(brand) ?? { total: 0, href, bestCount: 0 };
-      entry.total += count;
-      if (count > entry.bestCount) {
-        entry.bestCount = count;
-        entry.href = href;
-      }
-      stats.set(brand, entry);
-    }
-  }
-
-  return Array.from(stats, ([name, { total, href }]) => ({ name, href, count: total }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+/**
+ * Sélection mise en avant : un seul article par catégorie, sinon la grille se
+ * remplirait de six longueurs du même hêtre. Le décalage par l'index fait
+ * varier les longueurs et les conditionnements d'une carte à l'autre — deux
+ * palettes de 33 cm côte à côte n'apprennent rien à personne.
+ */
+function bestseller(categories: CategoryPageView[], limit: number): Product[] {
+  return categories
+    .map((category, index) => {
+      if (category.products.length === 0) return undefined;
+      const markiert = category.products.find((product) => product.badge);
+      return markiert ?? category.products[index % category.products.length];
+    })
+    .filter((product): product is Product => product !== undefined)
     .slice(0, limit);
 }
 
@@ -108,57 +72,54 @@ export default async function Home({ params }: { params: HomeParams }) {
     getCategoryPages(),
     loadCatalogTranslations(locale),
   ]);
-  const categories = localizeCategoryPages(rawCategories, translations);
+  const categories = localizeCategoryPages(rawCategories, translations).filter(
+    (category) => GRUPPEN.includes(category.group) && category.products.length > 0,
+  );
 
-  const highlights = [
-    pickProduct(categories, "haushalt", "kaffeemaschinen", 0),
-    pickProduct(categories, "haushalt", "waschmaschinen", 0),
-    pickProduct(categories, "haushalt", "geschirrspueler", 0),
-    pickProduct(categories, "multimedia", "fernseher", 0),
-    pickProduct(categories, "haushalt", "staubsauger", 0),
-    pickProduct(categories, "multimedia", "smartphones", 0),
-  ];
+  const karten: SortimentKarte[] = categories.map((category) => ({
+    slug: category.slug,
+    href: `/${category.group}/${category.slug}`,
+    label: category.label,
+    image: category.image,
+    abPreis: abPreis(category),
+    anzahl: category.products.length,
+  }));
 
-  const deals = [
-    pickProduct(categories, "haushalt", "backoefen-herde", 0),
-    pickProduct(categories, "haushalt", "geschirrspueler", 4),
-    pickProduct(categories, "haushalt", "klimageraete", 0),
-    pickProduct(categories, "multimedia", "videospiele", 0),
-    pickProduct(categories, "multimedia", "computer", 0),
-    pickProduct(categories, "multimedia", "smartwatches", 0),
-  ];
-
-  const deal = pickDeal(categories);
-  const brands = topBrands(categories, 8);
-  const ratedProducts = categories
+  const bewertet = categories
     .flatMap((category) => category.products)
     .filter((product) => typeof product.rating === "number");
-  const averageRating =
-    ratedProducts.reduce((sum, product) => sum + (product.rating ?? 0), 0) / ratedProducts.length;
+  const schnitt =
+    bewertet.length > 0
+      ? bewertet.reduce((somme, product) => somme + (product.rating ?? 0), 0) / bewertet.length
+      : 0;
 
   return (
     <>
       <Header />
       <main className="flex-1">
-        <HeroBanner />
-        <TrustBar />
-        <CategoryRow />
-        <ProductGrid
-          heading={t("highlights")}
-          ctaLabel={t("highlightsCta")}
-          ctaHref="/highlights"
-          products={highlights.filter((product) => product !== undefined)}
-        />
-        {deal && <DealOfTheDay product={deal.product} saving={deal.saving} />}
-        <PromoGrid />
-        <ProductGrid
-          heading={t("deals")}
-          ctaLabel={t("dealsCta")}
-          ctaHref="/angebote"
-          products={deals.filter((product) => product !== undefined)}
-        />
-        <BrandRow brands={brands} />
-        <CustomerReviews average={averageRating} productCount={ratedProducts.length} />
+        <HeroBrennholz />
+        <StapelrechnerToggle />
+        <VillesIntervention />
+        <TrustStrip />
+        <SortimentGrid karten={karten} />
+        <RestfeuchteSkala />
+
+        {/* La section précédente est déjà blanche : on ne rajoute que la
+            respiration nécessaire, pas un second bloc de padding. */}
+        <div className="bg-white pb-14 sm:pb-20">
+          <ProductGrid
+            eyebrow={t("bestsellerEyebrow")}
+            heading={t("bestseller")}
+            ctaLabel={t("bestsellerCta")}
+            ctaHref="/brennholz"
+            products={bestseller(categories, 8)}
+          />
+        </div>
+
+        <HolzartenVergleich />
+        <LieferungAblauf />
+        <Kundenstimmen schnitt={schnitt} anzahl={bewertet.length} locale={locale} />
+        <HolzFaq />
       </main>
       <Footer />
 

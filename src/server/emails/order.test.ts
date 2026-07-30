@@ -16,50 +16,50 @@ import { describe, it } from "node:test";
 import type { OrderRecord } from "@/server/orders";
 import { buildOrderConfirmationEmail, buildOrderNotificationEmail } from "./order";
 
-const SITE = "https://hausgeratepfeffer.de";
+const SITE = "https://mlc-bois.fr";
 process.env.NEXT_PUBLIC_SITE_URL = SITE;
 
 function order(overrides: Partial<OrderRecord> = {}): OrderRecord {
   return {
     id: "ord_42",
-    orderNumber: "HP-2026-000042",
+    orderNumber: "MLC-2026-000042",
     accessToken: "9f2c1ab34de5",
-    locale: "de",
-    email: "anna.beispiel@example.de",
-    phone: "+49 30 1234567",
+    locale: "fr",
+    email: "anne.exemple@example.fr",
+    phone: "+33 1 23 45 67 89",
     billing: {
       salutation: "frau",
-      firstName: "Anna",
-      lastName: "Beispiel",
+      firstName: "Anne",
+      lastName: "Exemple",
       company: "",
-      street: "Hauptstraße 12a",
-      postalCode: "10115",
-      city: "Berlin",
-      country: "DE",
+      street: "12 rue des Tilleuls",
+      postalCode: "94300",
+      city: "Vincennes",
+      country: "FR",
     },
     shippingSameAsBilling: true,
     shipping: {
       salutation: "frau",
-      firstName: "Anna",
-      lastName: "Beispiel",
+      firstName: "Anne",
+      lastName: "Exemple",
       company: "",
-      street: "Hauptstraße 12a",
-      postalCode: "10115",
-      city: "Berlin",
-      country: "DE",
+      street: "12 rue des Tilleuls",
+      postalCode: "94300",
+      city: "Vincennes",
+      country: "FR",
     },
     paymentMethodKey: "vorkasse",
-    paymentMethodLabel: "Vorkasse per Überweisung",
+    paymentMethodLabel: "Virement bancaire préalable",
     paymentMethodFee: "",
     shippingMethodKey: "standard",
-    shippingMethodLabel: "Standardversand",
+    shippingMethodLabel: "Livraison standard",
     status: "eingegangen",
     paymentStatus: "offen",
     subtotalCents: 89900,
     shippingCents: 495,
-    taxCents: 14428,
+    taxCents: 8218,
     totalCents: 90395,
-    taxRatePercent: 19,
+    taxRatePercent: 10,
     currency: "EUR",
     customerNote: "",
     adminNote: "",
@@ -68,12 +68,12 @@ function order(overrides: Partial<OrderRecord> = {}): OrderRecord {
     items: [
       {
         id: "item_1",
-        brand: "Bosch",
-        name: "Serie 6 Waschmaschine WAU28T00",
-        sku: "WAU28T00",
-        slug: "bosch-wau28t00",
+        brand: "MLC Bois",
+        name: "Hêtre 33 cm — palette 2 MAP",
+        sku: "HET-33-P2",
+        slug: "hetre-33-palette-2map",
         image: "",
-        path: "haushalt/waschmaschinen/bosch-wau28t00",
+        path: "buches/hetre/hetre-33-palette-2map",
         unitPriceCents: 89900,
         quantity: 1,
         lineTotalCents: 89900,
@@ -88,74 +88,74 @@ describe("Confirmation à l'acheteur", () => {
   it("récapitule le numéro, les articles et les montants", () => {
     const mail = buildOrderConfirmationEmail(order());
 
-    assert.match(mail.subject, /HP-2026-000042/);
+    assert.match(mail.subject, /MLC-2026-000042/);
     for (const part of [mail.html, mail.text]) {
-      assert.match(part, /HP-2026-000042/);
-      assert.match(part, /Serie 6 Waschmaschine WAU28T00/);
+      assert.match(part, /MLC-2026-000042/);
+      assert.match(part, /Hêtre 33 cm/);
       // Total, sous-total, port et TVA incluse : le décompte complet exigé par
-      // le § 312i BGB, et les prix au format allemand.
+      // l'article L221-13 du Code de la consommation, au format français.
       assert.match(part, /903,95 €/);
       assert.match(part, /899,00 €/);
       assert.match(part, /4,95 €/);
-      assert.match(part, /144,28 €/);
-      assert.match(part, /Hauptstraße 12a/);
-      assert.match(part, /Vorkasse per Überweisung/);
+      assert.match(part, /82,18 €/);
+      assert.match(part, /12 rue des Tilleuls/);
+      assert.match(part, /Virement bancaire préalable/);
     }
   });
 
   it("porte le lien de suivi avec son jeton", () => {
     const mail = buildOrderConfirmationEmail(order());
-    const expected = `${SITE}/bestellung/HP-2026-000042?token=9f2c1ab34de5`;
+    const expected = `${SITE}/confirmation/MLC-2026-000042?token=9f2c1ab34de5`;
     assert.ok(mail.html.includes(expected), "lien de suivi absent du HTML");
     assert.ok(mail.text.includes(expected), "lien de suivi absent du texte");
   });
 
-  it("écrit en allemand par défaut et en anglais sous /en", () => {
-    const de = buildOrderConfirmationEmail(order());
-    assert.match(de.subject, /Bestellbestätigung/);
-    assert.match(de.html, /lang="de"/);
-    assert.match(de.html, /Sehr geehrte Frau Beispiel/);
+  it("écrit en français par défaut et en anglais sous /en", () => {
+    const fr = buildOrderConfirmationEmail(order());
+    assert.match(fr.subject, /Confirmation de commande/);
+    assert.match(fr.html, /lang="fr"/);
+    assert.match(fr.html, /Madame Exemple/);
 
     const en = buildOrderConfirmationEmail(order({ locale: "en" }));
     assert.match(en.subject, /Order confirmation/);
     assert.match(en.html, /lang="en"/);
-    assert.match(en.html, /Dear Ms Beispiel/);
-    assert.ok(en.html.includes(`${SITE}/en/bestellung/HP-2026-000042`));
+    assert.match(en.html, /Dear Ms Exemple/);
+    assert.ok(en.html.includes(`${SITE}/en/confirmation/MLC-2026-000042`));
   });
 
   it("ne présume rien du prénom sans civilité renseignée", () => {
     const anonymous = order();
     anonymous.billing.salutation = "";
     const mail = buildOrderConfirmationEmail(anonymous);
-    assert.match(mail.html, /Guten Tag Anna Beispiel/);
-    assert.doesNotMatch(mail.html, /Frau|Herr/);
+    assert.match(mail.html, /Bonjour Anne Exemple/);
+    assert.doesNotMatch(mail.html, /Madame|Monsieur/);
   });
 
   it("annonce le port offert plutôt qu'un montant nul", () => {
     const mail = buildOrderConfirmationEmail(order({ shippingCents: 0 }));
-    assert.match(mail.html, /kostenlos/);
-    assert.doesNotMatch(mail.text, /Versand: 0,00 €/);
+    assert.match(mail.html, /offerte/);
+    assert.doesNotMatch(mail.text, /Livraison : 0,00 €/);
   });
 
   it("n'affiche l'adresse de facturation que si elle diffère", () => {
-    assert.doesNotMatch(buildOrderConfirmationEmail(order()).html, /Rechnungsadresse/);
+    assert.doesNotMatch(buildOrderConfirmationEmail(order()).html, /Adresse de facturation/);
 
     const distinct = order({ shippingSameAsBilling: false });
-    distinct.shipping.street = "Lagerweg 3";
+    distinct.shipping.street = "3 chemin du Dépôt";
     const mail = buildOrderConfirmationEmail(distinct);
-    assert.match(mail.html, /Rechnungsadresse/);
-    assert.match(mail.html, /Lagerweg 3/);
-    assert.match(mail.html, /Hauptstraße 12a/);
+    assert.match(mail.html, /Adresse de facturation/);
+    assert.match(mail.html, /3 chemin du Dépôt/);
+    assert.match(mail.html, /12 rue des Tilleuls/);
   });
 
   it("nomme le mode de livraison retenu, dans la langue du message", () => {
-    const de = buildOrderConfirmationEmail(order());
-    assert.match(de.html, /Standardversand \(3–5 Werktage\)/);
-    assert.match(de.text, /Standardversand \(3–5 Werktage\)/);
+    const fr = buildOrderConfirmationEmail(order());
+    assert.match(fr.html, /Livraison standard \(3 à 5 jours ouvrés\)/);
+    assert.match(fr.text, /Livraison standard \(3 à 5 jours ouvrés\)/);
 
     const express = order({
       shippingMethodKey: "express",
-      shippingMethodLabel: "Expressversand",
+      shippingMethodLabel: "Livraison express",
       shippingCents: 7_000,
       totalCents: 96_900,
       locale: "en",
@@ -164,7 +164,7 @@ describe("Confirmation à l'acheteur", () => {
     assert.match(en.html, /Express delivery \(24–48 hours\)/);
     // Le supplément doit apparaître comme un montant, jamais comme « free ».
     assert.match(en.html, /70,00 €/);
-    assert.doesNotMatch(en.text, /Shipping — Express delivery \(24–48 hours\): free/);
+    assert.doesNotMatch(en.text, /Shipping — Express delivery \(24–48 hours\) : free/);
   });
 
   it("échappe la remarque saisie par le client", () => {
@@ -179,16 +179,16 @@ describe("Confirmation à l'acheteur", () => {
 describe("Notification au vendeur", () => {
   it("annonce le numéro et le montant dès l'objet", () => {
     const mail = buildOrderNotificationEmail(order());
-    assert.match(mail.subject, /Nouvelle commande HP-2026-000042/);
+    assert.match(mail.subject, /Nouvelle commande MLC-2026-000042/);
     assert.match(mail.subject, /903,95 €/);
   });
 
   it("donne les coordonnées du client et le lien back-office", () => {
     const mail = buildOrderNotificationEmail(order());
     for (const part of [mail.html, mail.text]) {
-      assert.match(part, /anna\.beispiel@example\.de/);
-      assert.match(part, /\+49 30 1234567/);
-      assert.match(part, /Serie 6 Waschmaschine WAU28T00/);
+      assert.match(part, /anne\.exemple@example\.fr/);
+      assert.match(part, /\+33 1 23 45 67 89/);
+      assert.match(part, /Hêtre 33 cm/);
       assert.match(part, /903,95 €/);
     }
     // Le lien pointe la fiche interne par identifiant, pas la page publique :
@@ -220,8 +220,10 @@ describe("Notification au vendeur", () => {
   });
 
   it("remonte la remarque du client quand il en a laissé une", () => {
-    const mail = buildOrderNotificationEmail(order({ customerNote: "Bitte vormittags liefern." }));
+    const mail = buildOrderNotificationEmail(
+      order({ customerNote: "Merci de livrer le matin." }),
+    );
     assert.match(mail.html, /Remarque du client/);
-    assert.match(mail.text, /Bitte vormittags liefern\./);
+    assert.match(mail.text, /Merci de livrer le matin\./);
   });
 });

@@ -24,7 +24,7 @@ function Placeholder({ children }: { children: string }) {
  * Reproduction de la page catégorie telle que la voit le client, alimentée par
  * l'état du formulaire. Les composants de la boutique ne sont pas réutilisés :
  * ils dépendent de next-intl et du routage localisé, absents du back-office. Les
- * libellés figés sont donc repris en allemand depuis src/messages/de.json.
+ * libellés figés sont donc repris en français depuis src/messages/fr.json.
  */
 export function CategoryPreview({
   groupSlug,
@@ -45,12 +45,12 @@ export function CategoryPreview({
     <div className="bg-white text-[13px]">
       {/* Fil d'ariane, comme en haut de la page catégorie */}
       <div className="flex items-center gap-1 border-b border-border px-3 py-2 text-[11px] text-muted-foreground">
-        <span>Start</span>
+        <span>Accueil</span>
         <ChevronRight className="h-3 w-3 shrink-0" />
-        <span className="truncate">{groupLabel || groupSlug || "Bereich"}</span>
+        <span className="truncate">{groupLabel || groupSlug || "Univers"}</span>
         <ChevronRight className="h-3 w-3 shrink-0" />
         <span className="truncate font-semibold text-foreground">
-          {displayLabel || "Kategorie"}
+          {displayLabel || "Catégorie"}
         </span>
       </div>
 
@@ -80,7 +80,7 @@ export function CategoryPreview({
 
         <section className="border-t border-border pt-4">
           <h2 className="text-sm font-black text-foreground">
-            {displayLabel ? `${displayLabel} bei Hausgeräte Pfeffer` : "Kaufberatung"}
+            {displayLabel ? `${displayLabel} chez MLC Bois` : "Guide d'achat"}
           </h2>
           <p className="mt-2 text-xs text-muted-foreground">
             {intro.trim() || <Placeholder>Introduction du guide non renseignée</Placeholder>}

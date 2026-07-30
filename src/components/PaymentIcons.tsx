@@ -166,7 +166,7 @@ export function SepaMark() {
 
 export function SofortMark() {
   return (
-    <Card label="Sofortüberweisung">
+    <Card label="Virement instantané">
       <Wordmark fill="#EF809F" fontSize={10} letterSpacing={-0.2}>
         SOFORT
       </Wordmark>

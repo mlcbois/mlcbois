@@ -10,7 +10,7 @@ import type { Product } from "@/types/home";
 export function productShortText(
   product: Product,
   categoryLabel: string,
-  locale: string = "de",
+  locale: string = "fr",
 ): string {
   if (product.shortDescription?.trim()) return product.shortDescription.trim();
 
@@ -30,7 +30,7 @@ export function productShortText(
 export function productLongText(
   product: Product,
   categoryLabel: string,
-  locale: string = "de",
+  locale: string = "fr",
 ): string {
   if (product.description?.trim()) return product.description.trim();
 
@@ -43,6 +43,6 @@ export function productLongText(
   }
 
   return features
-    ? `Der ${product.brand} ${product.name} überzeugt in der Kategorie ${categoryLabel} durch ${features}. Eine zuverlässige Wahl für alle, die Wert auf Qualität und ein gutes Preis-Leistungs-Verhältnis legen.`
-    : `Der ${product.brand} ${product.name} aus der Kategorie ${categoryLabel} steht für zuverlässige Qualität und ein gutes Preis-Leistungs-Verhältnis.`;
+    ? `Le ${product.brand} ${product.name} se distingue dans la catégorie ${categoryLabel} par ${features}. Un choix fiable pour qui attend de la qualité et un bon rapport qualité-prix.`
+    : `Le ${product.brand} ${product.name}, de la catégorie ${categoryLabel}, garantit une qualité constante et un bon rapport qualité-prix.`;
 }

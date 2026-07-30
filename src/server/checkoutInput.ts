@@ -62,10 +62,10 @@ export interface CheckoutInput {
 }
 
 /** Seule zone de livraison desservie pour l'instant. */
-export const SUPPORTED_COUNTRIES = ["DE"] as const;
+export const SUPPORTED_COUNTRIES = ["FR"] as const;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const POSTAL_CODE_PATTERNS: Record<string, RegExp> = { DE: /^\d{5}$/ };
+const POSTAL_CODE_PATTERNS: Record<string, RegExp> = { FR: /^\d{5}$/ };
 
 function text(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -81,7 +81,7 @@ function readAddress(value: unknown): OrderAddress {
     street: text(raw.street, 160),
     postalCode: text(raw.postalCode, 12).toUpperCase(),
     city: text(raw.city, 80),
-    country: (text(raw.country, 2) || "DE").toUpperCase(),
+    country: (text(raw.country, 2) || "FR").toUpperCase(),
   };
 }
 
@@ -140,7 +140,8 @@ export function parseCheckoutPayload(payload: unknown): {
     errors.push("invalid_shipping_method");
   }
 
-  // Button-Lösung (§ 312j BGB) : le client doit avoir accepté les CGV et pris
+  // Bouton « commander avec obligation de paiement » (art. L221-14 du Code de
+  // la consommation) : le client doit avoir accepté les CGV et pris
   // connaissance du droit de rétractation avant que le bouton ne l'engage.
   if (raw.termsAccepted !== true) errors.push("terms_required");
   if (raw.withdrawalAcknowledged !== true) errors.push("withdrawal_required");
@@ -172,7 +173,7 @@ export function parseCheckoutPayload(payload: unknown): {
 
   return {
     input: {
-      locale: text(raw.locale, 5) === "en" ? "en" : "de",
+      locale: text(raw.locale, 5) === "en" ? "en" : "fr",
       email,
       phone,
       billing,

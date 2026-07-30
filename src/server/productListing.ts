@@ -49,7 +49,7 @@ export function filterAndSortProducts(
   return [...filtered].sort((a, b) => {
     switch (sort) {
       case "brand":
-        return a.brand.localeCompare(b.brand, "de") || a.name.localeCompare(b.name, "de");
+        return a.brand.localeCompare(b.brand, "fr") || a.name.localeCompare(b.name, "fr");
       case "price-asc":
         return toCents(a.price) - toCents(b.price);
       case "price-desc":
@@ -59,7 +59,7 @@ export function filterAndSortProducts(
       case "stock-desc":
         return (b.stock ?? 0) - (a.stock ?? 0);
       default:
-        return a.name.localeCompare(b.name, "de");
+        return a.name.localeCompare(b.name, "fr");
     }
   });
 }

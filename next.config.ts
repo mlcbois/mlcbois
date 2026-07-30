@@ -20,11 +20,11 @@ const nextConfig: NextConfig = {
     // Anciennes adresses citées dans le pied de page et le tunnel d'achat :
     // on les conserve en redirection permanente vers les pages réelles.
     const pairs = [
-      ["/widerrufsrecht", "/widerruf"],
-      ["/ruecksendung", "/retoure"],
-      ["/jobs", "/ueber-uns"],
-      ["/presse", "/ueber-uns"],
-      ["/partnerprogramm", "/ueber-uns"],
+      ["/widerrufsrecht", "/retractation"],
+      ["/ruecksendung", "/retours"],
+      ["/jobs", "/a-propos"],
+      ["/presse", "/a-propos"],
+      ["/partnerprogramm", "/a-propos"],
     ];
 
     return pairs.flatMap(([source, destination]) => [

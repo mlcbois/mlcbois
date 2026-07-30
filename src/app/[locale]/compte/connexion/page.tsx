@@ -34,7 +34,7 @@ export default async function LoginPage({
   // Déjà connecté : inutile de redemander les identifiants.
   const current = await getCurrentCustomer();
   if (current) {
-    redirect({ href: "/konto", locale });
+    redirect({ href: "/compte", locale });
   }
 
   const { weiter, hinweis } = await searchParams;

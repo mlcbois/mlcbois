@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { getCategoryPages } from "@/server/store";
 import { routing } from "@/i18n/routing";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hausgeratepfeffer.de";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mlc-bois.fr";
 
-/** L'allemand vit à la racine, l'anglais sous /en — voir src/i18n/routing.ts. */
+/** Le français vit à la racine, l'anglais sous /en — voir src/i18n/routing.ts. */
 function urlFor(path: string, locale: string): string {
   const prefix = locale === routing.defaultLocale ? "" : `/${locale}`;
   return `${SITE_URL}${prefix}${path === "/" ? "" : path}` || SITE_URL;

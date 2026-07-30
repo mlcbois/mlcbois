@@ -62,13 +62,13 @@ export function RichTextField({
 
     if (mark === "link") {
       const href = window.prompt(
-        "Adresse du lien\n\nExemples : /agb, https://example.de, mailto:kontakt@hausgeratepfeffer.de",
+        "Adresse du lien\n\nExemples : /cgv, https://exemple.fr, mailto:contact@mlc-bois.fr",
         "https://",
       );
       if (href === null) return;
       if (!isSafeHref(href)) {
         setLinkError(
-          "Adresse refusée. Seuls les chemins internes (/agb), http(s)://, mailto: et tel: sont acceptés.",
+          "Adresse refusée. Seuls les chemins internes (/cgv), http(s)://, mailto: et tel: sont acceptés.",
         );
         return;
       }

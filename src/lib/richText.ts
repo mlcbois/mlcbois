@@ -38,7 +38,7 @@ export function isSafeHref(href: string): boolean {
   const value = href.trim();
   if (!value || /[\s<>"']/.test(value)) return false;
 
-  // Lien interne : « /impressum ». « //autre-site.tld » est un lien externe
+  // Lien interne : « /mentions-legales ». « //autre-site.tld » est un lien externe
   // déguisé, il ne passe pas.
   if (value.startsWith("//")) return false;
   if (value.startsWith("/")) return true;

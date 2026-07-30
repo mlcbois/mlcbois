@@ -1,6 +1,6 @@
 {
   "common": {
-    "searchPlaceholder": "What are you looking for?",
+    "searchPlaceholder": "Beech 33 cm, wood briquettes, pellets …",
     "account": "Account",
     "wishlist": "Wishlist",
     "cart": "Cart",
@@ -10,144 +10,77 @@
     "language": "Language",
     "home": "Home",
     "breadcrumb": "Breadcrumb",
-    "shopName": "Hausgeräte Pfeffer",
+    "shopName": "MLC Bois",
     "groupNames": {
-      "haushalt": "Home Appliances",
-      "multimedia": "Multimedia"
+      "brennholz": "Firewood",
+      "zubehoer": "Pellets, compressed logs & firelighters"
     },
     "categoryNames": {
-      "kaffeemaschinen": "Coffee Machines",
-      "waschmaschinen": "Washing Machines",
-      "geschirrspueler": "Dishwashers",
-      "staubsauger": "Vacuum Cleaners",
-      "backoefen-herde": "Ovens & Cookers",
-      "kuechenmaschinen": "Food Processors & Mixers",
-      "klimageraete": "Air Conditioners",
-      "smartphones": "Smartphones",
-      "videospiele": "Video Games",
-      "fernseher": "TVs",
-      "computer": "Computers",
-      "smartwatches": "Smartwatches",
-      "drohnen": "Drones"
-    }
+      "buche": "Beech",
+      "eiche": "Oak",
+      "birke": "Birch",
+      "esche": "Ash",
+      "hartholz-mix": "Mixed hardwood",
+      "holzbriketts": "Compressed logs",
+      "holzpellets": "Wood pellets",
+      "anzuendholz": "Kindling & firelighters"
+    },
+    "from": "from"
   },
   "header": {
-    "homeAriaLabel": "Hausgeräte Pfeffer – home page",
-    "logoAlt": "Hausgeräte Pfeffer",
-    "search": "Search"
+    "homeAriaLabel": "MLC Bois – home page",
+    "logoAlt": "MLC Bois",
+    "search": "Search",
+    "bewertungen": "from 312 reviews",
+    "lieferzusage": "Delivered within 48 h across Île-de-France",
+    "beratung": "Advice & orders",
+    "oeffnung": "Mon–Fri 8am–5pm · Sat 9am–1pm",
+    "lieferbanner": "Free delivery from 6 loose m³",
+    "anrufenAria": "Call: +33 1 23 45 67 89"
   },
   "hero": {
-    "ariaLabel": "Promotions and highlights",
-    "previous": "Previous slide",
-    "next": "Next slide",
-    "slideLabel": "Slide {index}: {title}",
-    "slides": {
-      "summer": {
-        "eyebrow": "SUMMER SALE",
-        "title": "Up to 30% off home appliances",
-        "subtitle": "Cooling, laundry, cooking and multimedia — grab our best prices now.",
-        "cta": "Shop now",
-        "alt": "Modern kitchen with premium built-in appliances"
-      },
-      "cinema": {
-        "eyebrow": "HOME CINEMA WEEKS",
-        "title": "4K TVs from €449",
-        "subtitle": "OLED, QLED and Ambilight — big-screen cinema for your living room.",
-        "cta": "Discover TVs",
-        "alt": "Large TV with ambient lighting in a darkened living room"
-      },
-      "drones": {
-        "eyebrow": "NEW ARRIVALS",
-        "title": "Drones for every flying style",
-        "subtitle": "Camera drones under 249 g — ready to fly without a licence, from €199.",
-        "cta": "View drones",
-        "alt": "Camera drone flying above a forest"
-      },
-      "laundry": {
-        "eyebrow": "LAUNDRY DAY DEALS",
-        "title": "Washing machines from €429",
-        "subtitle": "Front loaders with 1,400 rpm, automatic load sensing and Aquastop — installation service included.",
-        "cta": "View washing machines",
-        "alt": "Washing machine in a bright utility room"
-      },
-      "coffee": {
-        "eyebrow": "COFFEE WEEKS",
-        "title": "Bean-to-cup machines from €219",
-        "subtitle": "Freshly ground instead of reheated — models by De'Longhi, Siemens and Jura.",
-        "cta": "View coffee machines",
-        "alt": "Espresso with fresh crema in a cup"
-      }
-    }
+    "eyebrow": "Kiln-dried · under 18 % moisture content",
+    "titel": "Wood that burns",
+    "titelAkzent": "the day it arrives.",
+    "beschreibung": "Beech, oak, birch and ash from French forests. 72 hours in the kiln, then straight onto the trailer. You won't stack it for two summers — you'll heat with it the same evening.",
+    "bildAlt": "Split beech logs, neatly stacked in the drying kiln",
+    "belege": {
+      "feuchte": "Moisture content after kiln drying, measured on every batch",
+      "lieferung": "Delivery time across Île-de-France",
+      "heizwert": "Calorific value of beech per stacked m³"
+    },
+    "ctaCatalogue": "Browse our wood"
+  },
+  "interventions": {
+    "label": "We deliver to",
+    "srListe": "We deliver in particular to {villes}."
   },
   "home": {
-    "highlights": "Highlights",
-    "highlightsCta": "View all highlights",
-    "deals": "Current deals",
-    "dealsCta": "View all offers",
-    "brands": "Top brands",
-    "brandsNote": "More than 40 manufacturers in stock",
-    "brandItems": "{count} items",
-    "reviews": "What our customers say",
-    "reviewsAverage": "{rating} out of 5",
-    "reviewsBasis": "Average across {count} rated items",
-    "purchased": "Purchased: {product}",
-    "metaTitle": "Hausgeräte Pfeffer | Home appliances & multimedia online",
-    "metaDescription": "A wide range of home appliances, kitchen appliances, TV & audio and smart home products at fair prices. Free standard delivery, 14-day returns.",
-    "promoTitle": "Trending now",
-    "promo": {
-      "klimageraete": {
-        "title": "Air conditioner sale",
-        "subtitle": "Save up to 30%",
-        "alt": "Air conditioning unit mounted on a wall"
-      },
-      "geschirrspueler": {
-        "title": "Dishwasher offers",
-        "alt": "Dishwasher in a kitchen"
-      },
-      "smartwatches": {
-        "title": "Smartwatch deals",
-        "alt": "Smartwatch on a wrist"
-      },
-      "waschmaschinen": {
-        "title": "Washing machine offers",
-        "alt": "Washing machine"
-      },
-      "fernseher": {
-        "title": "TV highlights",
-        "alt": "Television in a living room"
-      }
-    },
-    "deal": {
-      "badge": "DEAL OF THE DAY",
-      "saving": "You save {amount}",
-      "stockLeft": "Only {left} of {total} units left at this price",
-      "hours": "Hrs",
-      "minutes": "Min",
-      "seconds": "Sec",
-      "cta": "View offer"
-    }
+    "metaTitle": "MLC Bois | Kiln-dried firewood, delivered within 48 hours",
+    "metaDescription": "Beech, oak, birch and ash in 25, 33 and 50 cm. Under 18 % moisture content, measurement record with every delivery, 48 hours across Île-de-France.",
+    "bestsellerEyebrow": "Most ordered",
+    "bestseller": "What's going out this week",
+    "bestsellerCta": "Full range"
   },
   "trust": {
-    "shippingTitle": "Standard delivery: free (3–5 days)",
-    "shippingDetail": "Express delivery: €70 (24–48 hours)",
-    "returnTitle": "14-day return policy",
-    "returnDetail": "No reason required",
-    "serviceTitle": "Installation & assembly service",
-    "serviceDetail": "Old appliance taken away on request"
+    "feuchte": "Every batch measured before it leaves",
+    "lieferung": "Our own trailer, no freight depot",
+    "laengen": "Three log lengths, split and ready to burn",
+    "herkunft": "Wood from French forests, PEFC certified"
   },
   "group": {
-    "metaTitle": "{label} – appliances and accessories | Hausgeräte Pfeffer",
-    "metaDescription": "Every category in {label} at Hausgeräte Pfeffer: trusted brands, fair prices and fast delivery.",
-    "intro": "Every category in {label} at a glance.",
+    "metaTitle": "{label} | MLC Bois",
+    "metaDescription": "Every category in the {label} range at MLC Bois: kiln-dried wood, clear prices and fast delivery.",
+    "intro": "Every category in the {label} range at a glance.",
     "productCount": "{count, plural, =0 {No items yet} one {# item} other {# items}}"
   },
   "category": {
-    "metaTitle": "{label} | Hausgeräte Pfeffer",
+    "metaTitle": "{label} | MLC Bois",
     "productsCount": "<b>{filtered}</b> of {total} products",
     "sortBy": "Sort by",
     "sortRelevance": "Relevance",
-    "sortPriceAsc": "Price, low to high",
-    "sortPriceDesc": "Price, high to low",
+    "sortPriceAsc": "Price low to high",
+    "sortPriceDesc": "Price high to low",
     "sortNewest": "New arrivals",
     "emptyTitle": "No products found",
     "emptyHint": "Adjust your filters to see more results.",
@@ -166,31 +99,31 @@
       "from600": "€600 - €1,000",
       "over1000": "Over €1,000"
     },
-    "guideTitle": "{label} at Hausgeräte Pfeffer",
-    "guideDiscover": "Browse {label}",
-    "guideAdvice": "Request advice"
+    "guideTitle": "{label} at MLC Bois",
+    "guideDiscover": "Discover {label}",
+    "guideAdvice": "Ask for advice"
   },
   "product": {
-    "details": "Product details & service",
+    "details": "Product details & service information",
     "description": "Product description",
-    "features": "Features & specifications",
+    "features": "Features",
     "related": "Similar products",
     "sku": "Item no.",
     "ratingOf": "{rating} out of 5",
     "reviewCount": "{count, plural, one {# review} other {# reviews}}",
     "paymentTitle": "Secure payment methods",
-    "metaTitle": "{name} | Hausgeräte Pfeffer",
+    "metaTitle": "{name} | MLC Bois",
     "onRequest": "On request",
     "originalPrice": "Original price",
-    "vatNote": "incl. VAT, plus service and shipping costs",
-    "inStock": "In stock – free standard delivery (3–5 days)",
-    "outOfStock": "On request – available in 2-4 weeks",
+    "vatNote": "VAT included, excluding service and delivery costs",
+    "inStock": "In stock – standard delivery free (3–5 days)",
+    "outOfStock": "On request – available in 2–4 weeks",
     "decreaseQuantity": "Decrease quantity by 1",
     "increaseQuantity": "Increase quantity by 1",
     "addToCart": "Add to cart",
-    "fastDelivery": "Free standard delivery (3–5 days) · Express €70 (24–48 h)",
-    "warranty": "14-day return policy, no reason required",
-    "vatNoteFreeShipping": "incl. VAT, free shipping within Germany",
+    "fastDelivery": "Standard delivery free (3–5 days) · Express €70 (24–48 h)",
+    "warranty": "14-day right of withdrawal, no reason required",
+    "vatNoteFreeShipping": "VAT included, free delivery within mainland France",
     "galleryLabel": "More product views",
     "galleryView": "Show view {index} of {total}"
   },
@@ -200,62 +133,42 @@
     "starsLabel": "{star} stars",
     "starsAria": "{rating} out of 5 stars",
     "listAria": "Customer reviews, {count, plural, one {# review} other {# reviews}} — scroll to browse",
-    "scrollHint": "{count, plural, one {# review} other {All # reviews}} — scroll inside the box",
-    "emptyTitle": "There are no customer reviews for this product yet.",
+    "scrollHint": "{count, plural, one {# review} other {All # reviews}} — scroll within the box",
+    "emptyTitle": "This product has no customer reviews yet.",
     "emptyHint": "Share your experience and write the first review — it helps others decide.",
     "editorial": "Editorial assessment: {rating} out of 5",
     "writeTitle": "Write a review",
-    "customers": {
-      "sandra": {
-        "author": "Sandra M.",
-        "city": "Kassel",
-        "purchase": "Bosch Serie 6 washing machine, 8 kg",
-        "text": "Ordered on Tuesday, and by Thursday the machine was installed and running in the laundry room. The old appliance was taken away straight away — exactly as promised."
-      },
-      "tobias": {
-        "author": "Tobias R.",
-        "city": "Leipzig",
-        "purchase": "Siemens EQ.6 plus s700 bean-to-cup coffee machine",
-        "text": "I was torn between two bean-to-cup machines. The phone consultation took ten minutes and was refreshingly honest: the more expensive model would not have given me any real benefit."
-      },
-      "kerstin": {
-        "author": "Kerstin B.",
-        "city": "Bremen",
-        "purchase": "Philips Ambilight 50\" 4K TV",
-        "text": "The TV arrived with a scratch on the frame. The replacement was here two days later and the return was free of charge. One star off for the first attempt."
-      }
-    },
     "formRatingLabel": "Your rating",
     "formRatingAria": "{value} out of 5 stars",
     "formRatingRequired": "Please choose a rating from 1 to 5 stars.",
     "formName": "Name",
     "formCity": "Town (optional)",
     "formEmail": "Email (optional)",
-    "formEmailHint": "Not published. We only use it if we have questions about your review.",
+    "formEmailHint": "Not published. We only use it if we have a question about your review.",
     "formTitle": "Title (optional)",
-    "formTitlePlaceholder": "e.g. Quiet and economical",
+    "formTitlePlaceholder": "e.g. Properly dry, steady flame",
     "formBody": "Your experience",
-    "formBodyPlaceholder": "What did you like, what did you not? At least 10 characters.",
+    "formBodyPlaceholder": "What did you like, what didn't work? At least 10 characters.",
     "formBodyCounter": "{count} / 2000 characters",
     "formSubmit": "Submit review",
     "formSubmitting": "Sending…",
     "formModerationNote": "Every review is checked before it is published.",
     "formError": "Your review could not be sent. Please try again.",
-    "formSuccessTitle": "Thank you! Your review will be published once it has been checked.",
-    "formSuccessHint": "We read every review personally. Approval usually takes one to two working days."
+    "formSuccessTitle": "Thank you! Your review will be published once checked.",
+    "formSuccessHint": "We read every review ourselves. Approval usually takes one to two working days."
   },
   "payment": {
     "title": "Secure payment methods",
-    "free": "free of charge",
+    "free": "free",
     "acceptedTitle": "Accepted payment methods"
   },
   "footer": {
-    "logoAlt": "Hausgeräte Pfeffer",
-    "homeAriaLabel": "Hausgeräte Pfeffer – home page",
-    "deliveryTitle": "Standard delivery: free (3–5 days)",
-    "deliveryDetail": "Express delivery: €70 (24–48 hours)",
-    "warrantyTitle": "14-day return policy",
-    "warrantyDetail": "No reason required",
+    "logoAlt": "MLC Bois",
+    "homeAriaLabel": "MLC Bois – home page",
+    "deliveryTitle": "Delivered within 48 hours",
+    "deliveryDetail": "Île-de-France — free delivery from 6 loose m³",
+    "warrantyTitle": "Under 18 % moisture content",
+    "warrantyDetail": "Measurement record with every delivery",
     "paymentTitle": "Secure payment",
     "paymentDetail": "SSL-encrypted transmission",
     "contact": "Contact",
@@ -269,16 +182,17 @@
     "linkAboutUs": "About us",
     "linkJobs": "Jobs & careers",
     "linkPress": "Press",
-    "linkPartner": "Affiliate programme",
+    "linkPartner": "Partner programme",
     "linkImprint": "Legal notice",
-    "linkPrivacy": "Privacy policy",
+    "linkPrivacy": "Privacy",
     "linkTerms": "Terms & conditions",
     "linkCookies": "Cookie settings",
-    "copyright": "© {year} Hausgeräte Pfeffer. All prices include statutory VAT."
+    "copyright": "© {year} MLC Bois. All prices include VAT.",
+    "oeffnung": "Monday to Friday 8am–5pm · Saturday 9am–1pm"
   },
   "cart": {
     "title": "Cart",
-    "metaTitle": "Cart | Hausgeräte Pfeffer",
+    "metaTitle": "Cart | MLC Bois",
     "addToCart": "Add to cart",
     "buyNow": "Buy now",
     "added": "Added",
@@ -289,8 +203,8 @@
     "indicatorWithItems": "Cart: {count, plural, one {# item} other {# items}}, {total}",
     "itemCount": "{count, plural, one {# item} other {# items}}",
     "emptyTitle": "Your cart is empty",
-    "emptyText": "Browse our home appliances and multimedia devices and add your favourites here.",
-    "emptyCta": "Browse the range",
+    "emptyText": "Browse our firewood and solid fuels, and drop what interests you here.",
+    "emptyCta": "View the range",
     "columnProduct": "Item",
     "columnUnitPrice": "Unit price",
     "columnQuantity": "Quantity",
@@ -301,110 +215,110 @@
     "continueShopping": "Continue shopping",
     "summaryTitle": "Summary",
     "subtotal": "Subtotal",
-    "shipping": "Shipping",
+    "shipping": "Delivery costs",
     "shippingFree": "free",
     "total": "Total",
     "vatIncluded": "incl. {rate} % VAT ({amount})",
-    "vatNote": "All prices include statutory VAT.",
-    "shippingStandardHint": "Standard delivery is free — with no minimum order value.",
-    "shippingRule": "Standard delivery free (3–5 working days), express delivery 70.00 € (24–48 hours). You choose the shipping method at checkout.",
-    "deliveryTime": "Dispatch takes place after receipt of payment.",
-    "withdrawalHint": "As a consumer you have a 14-day right of withdrawal (§ 355 BGB). See the withdrawal policy for details.",
+    "vatNote": "All prices include VAT.",
+    "shippingStandardHint": "Standard delivery is free, with no minimum order value.",
+    "shippingRule": "Standard delivery free (3–5 working days), express delivery €70.00 (24–48 hours). You choose the delivery method at checkout.",
+    "deliveryTime": "Dispatch takes place once payment has been received.",
+    "withdrawalHint": "As a consumer you have a 14-day right of withdrawal (art. L221-18 of the French Consumer Code). Details are on the right of withdrawal page.",
     "toCheckout": "Proceed to checkout",
     "onlyLeft": "Only {count} left in stock",
-    "stockAdjusted": "The quantity was adjusted to the available stock.",
-    "revalidated": "Prices and availability have just been updated. Please review your cart.",
-    "removedUnavailable": "Items that are no longer available were removed from your cart.",
+    "stockAdjusted": "The quantity has been adjusted to the available stock.",
+    "revalidated": "Prices and availability have just been updated. Please check your cart.",
+    "removedUnavailable": "Items that are no longer available have been removed from your cart.",
     "loading": "Loading cart…",
-    "drawerTitle": "Your basket",
-    "drawerClose": "Close basket",
-    "drawerViewCart": "View basket",
-    "campaignFreeShipping": "Free shipping through your current offer"
+    "drawerTitle": "Your cart",
+    "drawerClose": "Close cart",
+    "drawerViewCart": "View cart",
+    "campaignFreeShipping": "Free delivery through your offer"
   },
   "checkout": {
-    "metaTitle": "Checkout | Hausgeräte Pfeffer",
+    "metaTitle": "Checkout | MLC Bois",
     "title": "Checkout",
     "backToCart": "Back to cart",
     "emptyTitle": "Your cart is empty",
     "emptyText": "Add items to your cart first to proceed to checkout.",
-    "emptyCta": "Browse the range",
+    "emptyCta": "View the range",
     "stepOf": "Step {current} of {total}",
     "steps": {
       "contact": "Contact & address",
-      "payment": "Payment method",
+      "payment": "Payment",
       "review": "Review & order"
     },
     "next": "Continue",
     "back": "Back",
-    "edit": "Change",
+    "edit": "Edit",
     "contactTitle": "Contact details",
-    "contactHint": "We will use this address if we have any questions about your order.",
+    "contactHint": "This is the address we will write to if we have a question about your order.",
     "email": "Email address",
     "phone": "Phone",
-    "phoneHint": "Required for questions about your delivery.",
+    "phoneHint": "Needed to agree a delivery slot.",
     "billingTitle": "Billing address",
     "shippingTitle": "Delivery address",
     "sameAsBilling": "Delivery address is the same as the billing address",
-    "salutation": "Salutation",
+    "salutation": "Title",
     "salutationNone": "Not specified",
     "salutationMr": "Mr",
     "salutationMrs": "Mrs",
-    "salutationDiverse": "Diverse",
+    "salutationDiverse": "Other",
     "firstName": "First name",
     "lastName": "Last name",
     "company": "Company (optional)",
-    "street": "Street and house number",
+    "street": "Street and number",
     "postalCode": "Postcode",
-    "city": "City",
+    "city": "Town",
     "country": "Country",
-    "countryDE": "Germany",
-    "countryHint": "We currently deliver within Germany only.",
-    "countryPlaceholder": "Search country",
+    "countryFR": "France",
+    "countryHint": "We currently deliver within mainland France only.",
+    "countryPlaceholder": "Search for a country",
     "countryToggle": "Open country list",
     "countryEmpty": "No country found.",
-    "noteTitle": "Note about your order (optional)",
-    "notePlaceholder": "e.g. preferred delivery date or notes for the installation service.",
+    "noteTitle": "Note about the order (optional)",
+    "notePlaceholder": "e.g. preferred delivery date or details about access to the property.",
     "paymentTitle": "Choose a payment method",
-    "paymentNone": "No payment method is currently enabled. Please contact us by phone.",
+    "paymentNone": "No payment method is enabled at the moment. Please contact us by phone.",
     "paymentFree": "free",
     "reviewTitle": "Review your order",
     "reviewIntro": "Please check your details. Clicking the button places a binding order with an obligation to pay.",
     "reviewContact": "Contact",
     "reviewBilling": "Billing address",
     "reviewShipping": "Delivery address",
-    "reviewShippingMethod": "Shipping method",
+    "reviewShippingMethod": "Delivery method",
     "reviewPayment": "Payment method",
     "reviewItems": "Your items",
     "reviewNote": "Your note",
     "quantityShort": "{count} ×",
-    "essentialProperties": "Main characteristics",
-    "shippingMethodTitle": "Shipping method",
+    "essentialProperties": "Essential characteristics",
+    "shippingMethodTitle": "Delivery method",
     "shippingMethods": {
       "standard": {
         "label": "Standard delivery",
-        "delay": "Delivered in 3–5 working days"
+        "delay": "Delivery within 3–5 working days"
       },
       "express": {
         "label": "Express delivery",
-        "delay": "Delivered within 24–48 hours"
+        "delay": "Delivery within 24–48 hours"
       }
     },
     "deliveryTitle": "Delivery",
-    "deliveryTime": "Dispatch takes place after receipt of payment.",
-    "deliveryCountry": "Shipping within Germany.",
-    "summaryTitle": "Amount due",
+    "deliveryTime": "Dispatch takes place once payment has been received.",
+    "deliveryCountry": "Delivery within mainland France.",
+    "summaryTitle": "Total amount",
     "subtotal": "Subtotal",
-    "shipping": "Shipping",
+    "shipping": "Delivery costs",
     "shippingFree": "free",
     "total": "Total",
     "vatIncluded": "incl. {rate} % VAT ({amount})",
-    "priceNote": "All prices are final prices including statutory VAT.",
+    "priceNote": "All prices are final prices including VAT.",
     "termsLabel": "I have read and accept the <terms>terms and conditions</terms>. I have taken note of the <privacy>privacy policy</privacy>.",
-    "withdrawalLabel": "I have read the <withdrawal>withdrawal policy</withdrawal> and understand that I may withdraw from this contract within 14 days without giving reasons.",
-    "consentRequired": "Please confirm both notices to complete your order.",
-    "submit": "Order with obligation to pay",
-    "submitting": "Submitting your order…",
-    "submitNote": "By submitting you enter into a contract with an obligation to pay for the items listed above, for a total of {total}.",
+    "withdrawalLabel": "I have read the <withdrawal>right of withdrawal information</withdrawal> and understand that I may withdraw from this contract within 14 days without giving a reason.",
+    "consentRequired": "Please confirm both statements to complete the order.",
+    "submit": "Place order with obligation to pay",
+    "submitting": "Submitting order…",
+    "submitNote": "By submitting, you enter into a paid contract for the items listed above, for a total of {total}.",
     "errors": {
       "invalid_payload": "The order could not be read. Please try again.",
       "cart_empty": "Your cart is empty.",
@@ -413,25 +327,25 @@
       "invalid_name": "Please enter a first and last name.",
       "invalid_street": "Please enter a street and house number.",
       "invalid_postal_code": "Please enter a valid postcode (5 digits).",
-      "invalid_city": "Please enter a city.",
-      "unsupported_country": "We currently deliver within Germany only.",
+      "invalid_city": "Please enter a town.",
+      "unsupported_country": "We currently deliver within mainland France only.",
       "invalid_phone": "Please enter a valid phone number.",
       "invalid_payment_method": "Please choose an available payment method.",
       "terms_required": "Please accept the terms and conditions.",
-      "withdrawal_required": "Please confirm the withdrawal policy.",
+      "withdrawal_required": "Please confirm the right of withdrawal information.",
       "product_unavailable": "An item in your cart is no longer available.",
-      "insufficient_stock": "Only {available, plural, =0 {no units} one {# unit} other {# units}} of “{name}” available.",
+      "insufficient_stock": "{available, plural, =0 {No units are} one {Only # unit is} other {Only # units are}} available of “{name}”.",
       "order_failed": "The order could not be completed. Please try again.",
       "network": "The connection to the shop was lost. Please try again.",
       "invalid_quantity": "Please choose a quantity between 1 and 20 per item."
     },
     "confirmation": {
-      "metaTitle": "Order confirmation {orderNumber} | Hausgeräte Pfeffer",
+      "metaTitle": "Order confirmation {orderNumber} | MLC Bois",
       "title": "Thank you for your order",
       "subtitle": "We have received your order.",
       "orderNumber": "Order number",
       "orderDate": "Order date",
-      "emailNotice": "Please keep this page or your order number for any questions. You can reach us at kontakt@hausgeratepfeffer.de.",
+      "emailNotice": "Please keep this page or the order number for any questions. You can reach us at contact@mlc-bois.fr.",
       "notFoundTitle": "Order not found",
       "notFoundText": "The link is incomplete or has expired. Please use the link from your order confirmation.",
       "itemsTitle": "Items ordered",
@@ -443,11 +357,11 @@
       "statusPayment": "Payment status",
       "instructionsTitle": "What happens next",
       "instructions": {
-        "vorkasse": "Please transfer the total of {total} quoting the order number {orderNumber}. Your goods will be dispatched once the payment has arrived.",
-        "rechnung": "You will receive the invoice together with the goods. The amount of {total} is due within 14 days of receipt without deduction.",
-        "nachnahme": "The amount of {total} will be collected by the courier on delivery. Please have the exact amount ready.",
-        "provider": "Payments via {label} are not processed automatically yet. We will contact you by email as soon as the payment provider is connected.",
-        "generic": "We are reviewing your order and will email you as soon as the goods are ready to ship."
+        "vorkasse": "Please transfer the total of {total} quoting order number {orderNumber}. Your goods will be dispatched once payment has been received.",
+        "rechnung": "You will receive the invoice with the goods. The amount of {total} is due within 14 days of receipt, without deduction.",
+        "nachnahme": "The amount of {total} is collected by the driver on handover. Please have the exact sum ready.",
+        "provider": "Payment via {label} is not yet processed automatically. We will email you as soon as the payment provider is enabled in the shop.",
+        "generic": "We are checking your order and will email you as soon as the goods are ready to ship."
       },
       "bankTitle": "Bank details",
       "bankHolder": "Account holder",
@@ -458,34 +372,34 @@
       "bankDemoNotice": "Note: these bank details are a placeholder for the test environment and belong to no real account. They must be replaced with the real details before going live.",
       "providerNotice": "The payment provider for {label} is configured in the back office under “Integrations”. Until then we confirm incoming payments manually.",
       "withdrawalTitle": "Right of withdrawal",
-      "withdrawalText": "You have the right to withdraw from this contract within 14 days without giving any reason, starting from the day on which you or a third party named by you took possession of the goods. The full policy including the model withdrawal form is available in the withdrawal policy.",
-      "withdrawalLink": "Read the withdrawal policy",
+      "withdrawalText": "You have the right to withdraw from this contract within fourteen days without giving any reason, starting from the day on which you, or a third party named by you, take physical possession of the goods. The full text and the model withdrawal form are on the dedicated page.",
+      "withdrawalLink": "See the right of withdrawal",
       "continueShopping": "Continue shopping",
       "print": "Print order"
     }
   },
   "wishlist": {
     "title": "Wishlist",
-    "intro": "Saved items stay in this browser — no account and no sign-in required.",
+    "intro": "Saved items stay in this browser — no account and no sign-in needed.",
     "add": "Add to wishlist",
     "remove": "Remove from wishlist",
-    "loading": "Loading your wishlist …",
+    "loading": "Loading wishlist …",
     "count": "{count, plural, one {# item} other {# items}}",
     "clear": "Clear wishlist",
     "emptyTitle": "Your wishlist is still empty.",
-    "emptyText": "Tap the heart on any product to save it here and find it again later.",
-    "emptyCta": "Browse the range"
+    "emptyText": "Click the heart on an item to collect it here and find it again later.",
+    "emptyCta": "Discover the range"
   },
   "account": {
     "metaTitle": "My account",
     "title": "My account",
-    "guestNotice": "A customer account is always optional. You can order as a guest at any time, without creating one.",
+    "guestNotice": "A customer account is optional. You can order as a guest at any time, without creating one.",
     "nav": {
       "aria": "Account area",
       "dashboard": "Overview",
       "orders": "Orders",
       "addresses": "Addresses",
-      "data": "My data",
+      "data": "My details",
       "logout": "Sign out",
       "loggingOut": "Signing you out …"
     },
@@ -495,75 +409,75 @@
       "loading": "Loading …",
       "back": "Back",
       "optional": "optional",
-      "shopCta": "Go to the shop"
+      "shopCta": "Go to shop"
     },
     "fields": {
-      "salutation": "Salutation",
-      "salutationNone": "Prefer not to say",
+      "salutation": "Title",
+      "salutationNone": "Not specified",
       "salutationMr": "Mr",
       "salutationMrs": "Mrs",
-      "salutationDiverse": "Diverse",
+      "salutationDiverse": "Other",
       "firstName": "First name",
       "lastName": "Last name",
       "company": "Company",
-      "street": "Street and house number",
+      "street": "Street and number",
       "postalCode": "Postcode",
-      "city": "City",
+      "city": "Town",
       "country": "Country",
-      "countryDE": "Germany",
-      "countryHint": "We currently deliver within Germany only.",
+      "countryFR": "France",
+      "countryHint": "We currently deliver within mainland France only.",
       "email": "Email address",
       "phone": "Phone",
-      "phoneHint": "Only used for questions about your delivery.",
+      "phoneHint": "Only for questions about the delivery.",
       "password": "Password"
     },
     "errors": {
       "invalid_payload": "The request could not be read.",
       "invalid_email": "Please enter a valid email address.",
       "invalid_name": "Please enter a first and last name.",
-      "invalid_salutation": "Please choose a valid salutation.",
+      "invalid_salutation": "Please choose a valid title.",
       "invalid_phone": "Please enter a valid phone number.",
       "weak_password": "The password must be at least 12 characters long.",
       "password_mismatch": "The two passwords do not match.",
-      "invalid_credentials": "Email address or password is incorrect.",
-      "account_disabled": "Email address or password is incorrect.",
+      "invalid_credentials": "The email address or password is incorrect.",
+      "account_disabled": "The email address or password is incorrect.",
       "invalid_street": "Please enter a street and house number.",
       "invalid_postal_code": "Please enter a valid postcode.",
-      "invalid_city": "Please enter a city.",
-      "unsupported_country": "We currently deliver within Germany only.",
-      "invalid_token": "This link has expired or was already used. Please request a new one.",
+      "invalid_city": "Please enter a town.",
+      "unsupported_country": "We currently deliver within mainland France only.",
+      "invalid_token": "This link has expired or has already been used. Please request a new one.",
       "rate_limited": "Too many attempts. Please wait a moment and try again.",
       "not_found": "Not found.",
       "confirmation_required": "Please confirm the deletion explicitly.",
       "mail_failed": "The email could not be sent. Please try again later.",
-      "server_error": "Something went wrong. Please try again later.",
+      "server_error": "An error occurred. Please try again later.",
       "network": "No connection to the server. Please check your internet connection."
     },
     "login": {
       "metaTitle": "Sign in",
       "title": "Sign in",
-      "intro": "Sign in to review your orders and manage your addresses.",
+      "intro": "Sign in to view your orders and manage your addresses.",
       "submit": "Sign in",
       "submitting": "Signing in …",
       "forgot": "Forgotten your password?",
       "noAccount": "No customer account yet?",
       "registerLink": "Create an account",
-      "registered": "If the address was still available, your account has been created. Please sign in with your password.",
-      "passwordChanged": "Your password has been changed. Please sign in with the new one."
+      "registered": "If the address was still available, your account has now been created. Please sign in with your password.",
+      "passwordChanged": "Your password has been changed. Please sign in with the new password."
     },
     "register": {
       "metaTitle": "Create an account",
       "title": "Create an account",
-      "intro": "With an account you can review your orders at any time and never have to retype your address.",
-      "passwordHint": "At least 12 characters. A long sentence you can remember is safer than a short, complicated password.",
-      "privacyNote": "How we handle your data is explained in our <privacy>privacy policy</privacy>.",
+      "intro": "With an account you can view your orders at any time and won't need to retype your address.",
+      "passwordHint": "At least 12 characters. A long, memorable sentence is safer than a short, complicated password.",
+      "privacyNote": "How we process your data is set out in the <privacy>privacy policy</privacy>.",
       "submit": "Create account",
-      "submitting": "Creating your account …",
+      "submitting": "Creating account …",
       "haveAccount": "Already have an account?",
-      "loginLink": "Go to sign in",
+      "loginLink": "Go to sign-in",
       "doneTitle": "Check your inbox",
-      "doneText": "If the address was still available, your account has been created and we have sent you an email. Sign in afterwards with your password.",
-      "doneCta": "Go to sign in"
+      "doneText": "If the address was still available, your account has been created and we have sent you an email. Then sign in with your password.",
+      "doneCta": "Go to sign-in"
     },
     "forgot": {
       "metaTitle": "Forgotten password",
@@ -572,48 +486,48 @@
       "submit": "Request link",
       "submitting": "Sending …",
       "doneTitle": "Check your inbox",
-      "doneText": "If an account with this email address exists, we have sent you a link to reset your password. The link is valid for 30 minutes and can be used only once.",
-      "devLink": "Development mode without an email provider. Reset link:",
-      "backToLogin": "Back to sign in"
+      "doneText": "If an account exists for this email address, we have sent you a link to reset your password. The link is valid for 30 minutes and can only be used once.",
+      "devLink": "Development mode without an email service. Reset link:",
+      "backToLogin": "Back to sign-in"
     },
     "reset": {
       "metaTitle": "New password",
       "title": "Choose a new password",
-      "intro": "Pick a new password for your customer account.",
+      "intro": "Choose a new password for your customer account.",
       "newPassword": "New password",
       "newPasswordConfirm": "Repeat new password",
       "submit": "Save password",
       "submitting": "Saving …",
       "invalidTitle": "This link is no longer valid",
-      "invalidText": "This link has expired or was already used. Please request a new one.",
+      "invalidText": "This link has expired or has already been used. Please request a new one.",
       "requestNew": "Request a new link",
       "doneTitle": "Password changed",
-      "doneText": "Your password has been changed. You can now sign in with the new one.",
-      "toLogin": "Go to sign in"
+      "doneText": "Your password has been changed. You can now sign in with the new password.",
+      "toLogin": "Go to sign-in"
     },
     "dashboard": {
       "metaTitle": "Overview",
       "greeting": "Hello {name}",
-      "intro": "Here you will find your orders, your addresses and every setting related to your data.",
+      "intro": "Here you will find your orders, your addresses and all the settings for your data.",
       "memberSince": "Customer since {date}",
       "orderCount": "{count, plural, =0 {No orders yet} one {# order} other {# orders}}",
-      "recentTitle": "Latest orders",
-      "allOrders": "See all orders",
-      "emptyOrders": "Nothing has been ordered through this account yet.",
+      "recentTitle": "Recent orders",
+      "allOrders": "View all orders",
+      "emptyOrders": "Nothing has been ordered with this account yet.",
       "tiles": {
         "ordersTitle": "Orders",
-        "ordersText": "Review the status, items and amounts of your orders.",
+        "ordersText": "View the status, lines and amounts of your orders.",
         "addressesTitle": "Addresses",
         "addressesText": "Store a billing and delivery address for your next order.",
-        "dataTitle": "My data",
+        "dataTitle": "My details",
         "dataText": "Change your password, export your data or delete your account."
       }
     },
     "orders": {
       "metaTitle": "My orders",
       "title": "My orders",
-      "intro": "Every order you have placed through this account.",
-      "empty": "Nothing has been ordered through this account yet.",
+      "intro": "Every order you have placed with this account.",
+      "empty": "Nothing has been ordered with this account yet.",
       "number": "Order number",
       "date": "Date",
       "status": "Status",
@@ -629,22 +543,22 @@
     "addresses": {
       "metaTitle": "My addresses",
       "title": "My addresses",
-      "intro": "These addresses pre-fill the checkout. Orders you have already placed are not affected.",
+      "intro": "These addresses fill in the checkout automatically. Orders that are already complete are not affected.",
       "billingTitle": "Billing address",
       "shippingTitle": "Delivery address",
       "sameAsBilling": "Delivery address is the same as the billing address",
-      "nameHint": "First and last name come from your personal data and can be changed under \"My data\".",
-      "emptyHint": "You do not have to store anything here. Empty fields simply mean we keep nothing.",
+      "nameHint": "Your first and last name come from your personal details and can be changed under “My details”.",
+      "emptyHint": "You don't have to store anything here. Empty fields simply mean we save nothing.",
       "saved": "Your addresses have been saved."
     },
     "data": {
-      "metaTitle": "My data",
-      "title": "My data",
-      "intro": "Manage your personal data, your password and your rights under the GDPR.",
-      "profileTitle": "Personal data",
+      "metaTitle": "My details",
+      "title": "My details",
+      "intro": "Here you manage your personal data, your password and your rights under the GDPR.",
+      "profileTitle": "Personal details",
       "profileIntro": "Changes apply to your future orders.",
-      "emailFixed": "Your email address is also your sign-in name. If you need to change it, please contact us through the contact form.",
-      "profileSaved": "Your data has been saved.",
+      "emailFixed": "The email address is also your sign-in name. To change it, please write to us via the contact form.",
+      "profileSaved": "Your details have been saved.",
       "passwordTitle": "Change password",
       "passwordIntro": "For security reasons we first need your current password.",
       "currentPassword": "Current password",
@@ -653,16 +567,16 @@
       "passwordSubmit": "Change password",
       "passwordSaved": "Your password has been changed.",
       "exportTitle": "Export my data",
-      "exportIntro": "You receive a JSON file containing every piece of data we store about your account, including your orders. Your password is not included: it is only ever stored as an irreversible hash.",
-      "exportLegal": "Right of access under Art. 15 GDPR and data portability under Art. 20 GDPR.",
-      "exportButton": "Download my data as JSON",
+      "exportIntro": "You receive a JSON file with all the data we hold for your account, including your orders. Your password is not included: it is stored only as a non-reversible hash.",
+      "exportLegal": "Right of access under art. 15 GDPR and data portability under art. 20 GDPR.",
+      "exportButton": "Download data as JSON",
       "deleteTitle": "Delete account",
-      "deleteIntro": "Your account, your password and your stored addresses will be deleted permanently. This cannot be undone.",
-      "deleteRetention": "Completed orders are kept: invoices and accounting records are subject to German commercial and tax retention periods (§ 147 AO, § 257 HGB). Art. 17(3)(b) GDPR expressly covers this case. Your orders are detached from your account and your contact details are removed from them.",
+      "deleteIntro": "Your account, your password and your saved addresses will be permanently deleted. This cannot be undone.",
+      "deleteRetention": "Completed orders remain stored: invoices and accounting records are subject to statutory retention periods (art. L123-22 of the French Commercial Code, ten years, and art. L102 B of the French Tax Procedure Code, six years). Art. 17(3)(b) GDPR expressly covers this case. Your orders are detached from your account and your contact details are removed from them.",
       "deletePasswordLabel": "To confirm: your password",
       "deleteConfirmLabel": "Type {word} to confirm the deletion",
-      "deleteButton": "Delete my account permanently",
-      "deleteSubmitting": "Deleting your account …",
+      "deleteButton": "Delete account permanently",
+      "deleteSubmitting": "Deleting account …",
       "deleteDoneTitle": "Your account has been deleted",
       "deleteDoneText": "We have deleted your customer account. Thank you for shopping with us.",
       "deleteDoneCta": "Back to the home page"
@@ -671,8 +585,227 @@
   "campaign": {
     "eyebrow": "Offer",
     "endsIn": "Ends in",
-    "dayShort": "d",
+    "dayShort": "D",
     "validUntil": "Valid until {date}",
-    "legalNote": "The prices shown apply until {date} and are applied automatically in the basket. After that the regular price applies again. All prices include VAT, plus shipping costs."
+    "legalNote": "The promotional prices shown are valid until {date} and are applied automatically in the cart. After that, the regular price applies again. All prices include VAT, excluding delivery costs."
+  },
+  "rechner": {
+    "titel": "Volume calculator",
+    "untertitel": "Price including delivery",
+    "holzart": "Species",
+    "scheitlaenge": "Log length",
+    "menge": "Quantity and delivery area",
+    "essenzen": {
+      "buche": "Beech",
+      "eiche": "Oak",
+      "birke": "Birch",
+      "mix": "Mixed"
+    },
+    "ohneAufschlag": "Base price",
+    "plz": "Postcode",
+    "plzPlatzhalter": "Enter postcode",
+    "wenigerAria": "One loose cubic metre less",
+    "mehrAria": "One loose cubic metre more",
+    "volumen": "Stacked, <wert>{rm}</wert> m³, roughly <wert>{kg}</wert> kg.",
+    "zonen": {
+      "a": "Delivery zone A",
+      "b": "Delivery zone B",
+      "c": "Delivery zone C"
+    },
+    "frei": "free",
+    "gesamt": "Total",
+    "freiHinweis": "{fehlt} more loose m³ for free delivery.",
+    "cta": "Choose {holz}",
+    "hinweis": "Prices include 10 % VAT. Kerbside unloading included.",
+    "openLabel": "Calculator",
+    "openAria": "Open the volume calculator",
+    "closeAria": "Close the volume calculator",
+    "aideTitre": "How does it work?",
+    "aideTexte": "Pick a species, a log length and a quantity: the total price appears right away, delivery included based on your postcode, along with the equivalent in stacked cubic metres and kilos. You know what it costs at your place before ordering, without picking up the phone."
+  },
+  "sortiment": {
+    "eyebrow": "Range",
+    "titel": "Eight products, one level of dryness",
+    "einleitung": "Split logs by species, plus wood briquettes, pellets and kindling. All kiln-dried, all shipped from our Île-de-France depot.",
+    "artikel": "{anzahl} items",
+    "beschreibung": {
+      "buche": "Steady flame, few sparks. The reference wood for a log stove.",
+      "eiche": "Densest embers, longest burn. For masonry heaters and inserts.",
+      "birke": "Lights easily, burns bright, smells good. For the open fireplace.",
+      "esche": "Splits cleanly, leaves little ash. Rarely in stock.",
+      "hartholz-mix": "Beech, oak and ash mixed. The cheapest way into hardwood.",
+      "holzbriketts": "A third of the space, embers through the night.",
+      "holzpellets": "ENplus A1 certified, for pellet stoves and boilers.",
+      "anzuendholz": "Softwood and wax firelighters to get going."
+    }
+  },
+  "feuchte": {
+    "eyebrow": "Moisture content",
+    "titel": "Wet wood costs you half the heat",
+    "einleitung": "A kilogram of wood always holds the same energy. What decides how much of it reaches the room is the water inside: it has to evaporate first, and that evaporation consumes heat which then warms nobody.",
+    "bildAlt": "Logs burning in a wood stove",
+    "grenzwert": "France Bois Bûche label threshold (class H1)",
+    "nutzbar": "Usable:",
+    "stufen": {
+      "frisch": {
+        "titel": "Freshly felled",
+        "text": "Straight out of the forest. It smokes, sooties up the glass — and simply must not be burned in that state."
+      },
+      "luft": {
+        "titel": "Two years air-dried",
+        "text": "Under cover, ventilated, stacked away from the wall. After two summers, that is the realistic best case."
+      },
+      "kammer": {
+        "titel": "Our wood, kiln-dried",
+        "text": "72 hours at 75 °C. We measure every batch and enclose the record with the delivery."
+      }
+    },
+    "fussnote": "The France Bois Bûche label and standard NF EN ISO 17225-5 class wood at or below 20 % moisture content as H1. Air-dried wood reaches that figure after roughly two summers; kiln-dried wood leaves production that way. A moisture meter costs under €20 and settles any argument — measure on a freshly split log, never on the outer face."
+  },
+  "holzarten": {
+    "eyebrow": "Calorific values",
+    "titel": "Which wood for which appliance",
+    "einleitung": "The figures are for wood at 20 % moisture content, in kilowatt-hours per stacked cubic metre. Spruce is in the table even though we only sell it as kindling: its place is at the start of a fire, not in the sustained load.",
+    "spalten": {
+      "holz": "Species",
+      "heizwert": "Calorific value",
+      "dichte": "Weight",
+      "glut": "Ember life",
+      "eignung": "Suited to"
+    },
+    "namen": {
+      "hainbuche": "Hornbeam",
+      "buche": "Beech",
+      "eiche": "Oak",
+      "esche": "Ash",
+      "birke": "Birch",
+      "fichte": "Spruce"
+    },
+    "eignung": {
+      "hainbuche": "Masonry heater, long heating evenings",
+      "buche": "Log stove, the all-rounder",
+      "eiche": "Masonry heater, continuous burn",
+      "esche": "Stove with a viewing window",
+      "birke": "Open fireplace, fire bowl",
+      "fichte": "Lighting the fire only"
+    },
+    "glutAria": "Ember life {wert} out of 5",
+    "fussnote": "Source: calorific value tables from the French chambers of agriculture, commercially rounded. 1 stacked cubic metre equals roughly 1.4 loose cubic metres."
+  },
+  "lieferung": {
+    "eyebrow": "Delivery",
+    "titel": "From the depot to your driveway",
+    "einleitung": "We drive ourselves, with our own trailer. No freight notification, no pallet sitting three days in a depot before someone finally rings the bell.",
+    "schritte": {
+      "bestellung": {
+        "titel": "Order",
+        "text": "Choose the species, log length and quantity. You only pay once your preferred slot is confirmed."
+      },
+      "termin": {
+        "titel": "Slot",
+        "text": "We call the day before and give you a two-hour window. You don't have to keep a whole day free."
+      },
+      "abladen": {
+        "titel": "Unloading",
+        "text": "Kerbside unloading is included in the price. Stacking in a yard, cellar or garage costs €35 per loose cubic metre."
+      }
+    },
+    "tabelle": {
+      "zone": "Zone",
+      "plz": "Postcode",
+      "dauer": "Lead time",
+      "kosten": "Cost"
+    },
+    "zonen": {
+      "a": {
+        "name": "Zone A",
+        "gebiet": "Paris and inner suburbs (75, 92, 93, 94)"
+      },
+      "b": {
+        "name": "Zone B",
+        "gebiet": "Outer Île-de-France, Oise and Eure-et-Loir (77, 78, 91, 95, 60, 28)"
+      },
+      "c": {
+        "name": "Zone C",
+        "gebiet": "Rest of mainland France, by freight carrier"
+      }
+    },
+    "freiHinweis": "From 6 loose m³ we deliver free of charge in zones A and B. Zone C goes out on a pallet by freight carrier — we do not unload there ourselves."
+  },
+  "stimmen": {
+    "eyebrow": "Customer voices",
+    "titel": "What's left after the first winter",
+    "basis": "Average across {anzahl} rated items",
+    "sterneAria": "{wert} out of 5 stars",
+    "kunden": {
+      "frank": {
+        "name": "Franck D.",
+        "ort": "Vincennes",
+        "kauf": "Beech 33 cm, pallet",
+        "note": "5",
+        "text": "Delivered Tuesday morning, the announced window was kept. I measured it again myself: 15.8 %. The wood catches on the first firelighter, without hissing."
+      },
+      "annika": {
+        "name": "Annie S.",
+        "ort": "Melun",
+        "kauf": "Mixed hardwood 25 cm",
+        "note": "4",
+        "text": "Good value, but the logs vary in thickness — I had to re-split a few for my small stove. Next time I'll take pure beech in 25 cm."
+      },
+      "jochen": {
+        "name": "Joachim R.",
+        "ort": "Rambouillet",
+        "kauf": "Wood briquettes, 960 kg",
+        "note": "5",
+        "text": "The pallet arrived a week later than first stated. On the other hand they called ahead and adjusted the price without my having to ask."
+      }
+    }
+  },
+  "faq": {
+    "eyebrow": "Frequently asked questions",
+    "titel": "What buyers want to know beforehand",
+    "einleitung": "If your question isn't here, give us a call. Monday to Friday from 8am to 5pm, the person who picks up has driven the wood themselves.",
+    "fragen": {
+      "srm": {
+        "frage": "What is the difference between a loose cubic metre, a stacked cubic metre and a solid cubic metre?",
+        "antwort": "A loose cubic metre is a cubic metre of wood tipped in loose, just as it falls out of the bin. Neatly stacked, the same quantity comes to roughly 0.7 stacked cubic metres. Take out all the air between the logs and about 0.4 solid cubic metres of actual wood remains. We sell by the loose cubic metre, because that is the quantity that actually arrives at your place."
+      },
+      "trocken": {
+        "frage": "How do I know the wood is really dry?",
+        "antwort": "By the sound and the cracks: dry logs ring bright when you knock two together, and show star-shaped cracks on the end grain. Only measuring is certain. Push the moisture meter into a freshly split log, not into the outer face — on the outside, even wet wood reads dry. Our measurement record comes with every delivery."
+      },
+      "lagern": {
+        "frage": "How do I store the wood after delivery?",
+        "antwort": "Kiln-dried wood no longer needs to dry, but it must not get wet again. Under cover, away from the wall and not directly on the ground — a pallet underneath is enough. In a closed cellar without ventilation, wood draws moisture from the air and is back above 20 % within a year."
+      },
+      "abladen": {
+        "frage": "Where is it unloaded, and what happens if access is narrow?",
+        "antwort": "By default at the kerb or in the driveway, provided a 7.5-tonne truck can get in. If access is narrower, say so when ordering: we then come with the small trailer, which costs €20 extra. Stacking in a yard, cellar or garage costs €35 per loose cubic metre."
+      },
+      "restaurant": {
+        "frage": "Do you also deliver to restaurants and bakeries?",
+        "antwort": "Yes. For wood-fired ovens and grill restaurants we supply beech in 25 and 33 cm at under 15 % moisture content, on weekly call-off if wanted. From three pallets a month a separate tiered price applies. Write to us via the contact form and we'll reply the same working day."
+      },
+      "zahlung": {
+        "frage": "When do I have to pay?",
+        "antwort": "After the slot is confirmed, by bank transfer, PayPal or card. Cash on delivery is possible but must be stated when ordering: the drivers carry no change."
+      }
+    }
+  },
+  "exitIntent": {
+    "title": "Before you go…",
+    "subtitle": "{count, plural, one {You looked at this product during your visit. It is still waiting for you.} other {You looked at # products during your visit. They are still waiting for you.}}",
+    "cta": "See these products",
+    "dismiss": "Keep browsing",
+    "close": "Close"
+  },
+  "recentlyViewed": {
+    "title": "Recently viewed",
+    "intro": "The products you looked at during this visit. The list does not survive closing the tab.",
+    "loading": "Loading your browsing history…",
+    "count": "{count, plural, one {# product viewed} other {# products viewed}}",
+    "emptyTitle": "Nothing to show yet",
+    "emptyText": "Open a product page and it will appear here.",
+    "emptyCta": "Browse the catalogue"
   }
 }

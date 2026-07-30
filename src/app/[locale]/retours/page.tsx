@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { LegalPageView, buildLegalMetadata } from "@/components/legal/LegalPageView";
 
-const SLUG = "retoure" as const;
+const SLUG = "retours" as const;
 
 type PageParams = Promise<{ locale: string }>;
 
@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
   return await buildLegalMetadata(SLUG, locale);
 }
 
-export default async function RetourePage({ params }: { params: PageParams }) {
+export default async function RetoursPage({ params }: { params: PageParams }) {
   const { locale } = await params;
   setRequestLocale(locale);
   return <LegalPageView slug={SLUG} locale={locale} />;

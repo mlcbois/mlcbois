@@ -12,7 +12,7 @@ import {
 // officielle. Seuls les produits actifs y figurent.
 //
 // À déclarer dans Merchant Center comme source de données planifiée :
-//   https://hausgeratepfeffer.de/feed/google
+//   https://mlc-bois.fr/feed/google
 
 export const dynamic = "force-dynamic";
 
@@ -109,11 +109,11 @@ export async function GET(): Promise<Response> {
   const base = siteUrl();
 
   const channelHeader =
-    tag("title", `${SHOP_NAME} — Produktdatenfeed`, "  ") +
+    tag("title", `${SHOP_NAME} — flux produits`, "  ") +
     tag("link", base, "  ") +
     tag(
       "description",
-      "Vollständiger Produktdatenfeed für Google Merchant Center: Elektrogroßgeräte, Küchengeräte und Multimedia.",
+      "Flux produits complet pour Google Merchant Center : bois de chauffage, bûches densifiées, granulés et allume-feu.",
       "  ",
     ) +
     tag("language", MERCHANT_LANGUAGE, "  ");

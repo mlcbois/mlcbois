@@ -22,7 +22,7 @@ export default async function AccountAddressesPage({ params }: { params: PagePar
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const customer = await requireCustomer(locale, "/konto/adressen");
+  const customer = await requireCustomer(locale, "/compte/adresses");
   const t = await getTranslations({ locale, namespace: "account" });
 
   return (

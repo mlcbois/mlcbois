@@ -311,13 +311,13 @@ export async function countOpenOrders(): Promise<number> {
 // ---- Numéro de commande ----
 
 /**
- * Numéro lisible « HP-AAAA-NNNNNN », séquentiel par année civile.
+ * Numéro lisible « MLC-AAAA-NNNNNN », séquentiel par année civile.
  * L'unicité réelle est garantie par la contrainte en base ; la boucle d'appel
  * réessaie en cas de collision entre deux commandes simultanées.
  */
 async function nextOrderNumber(): Promise<string> {
   const year = new Date().getFullYear();
-  const prefix = `HP-${year}-`;
+  const prefix = `MLC-${year}-`;
   const last = await prisma.order.findFirst({
     where: { orderNumber: { startsWith: prefix } },
     orderBy: { orderNumber: "desc" },
@@ -382,7 +382,7 @@ async function releaseReservations(reserved: ReservedLine[], reference: string):
         line.productId,
         line.quantity,
         "korrektur",
-        `Rücknahme der Reservierung ${reference}`,
+        `Annulation de la réservation ${reference}`,
         "system",
       );
     } catch {

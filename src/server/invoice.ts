@@ -1,8 +1,9 @@
 /**
  * Facture PDF jointe à la confirmation de commande.
  *
- * Le § 14 UStG fixe les mentions obligatoires d'une facture allemande. Elles
- * sont toutes reprises ici :
+ * L'article 242 nonies A de l'annexe II au Code général des impôts fixe les
+ * mentions obligatoires d'une facture française. Elles sont toutes reprises
+ * ici :
  *   - nom et adresse complets du vendeur et de l'acheteur ;
  *   - numéro de TVA intracommunautaire du vendeur ;
  *   - date d'émission et numéro de facture unique ;
@@ -11,8 +12,9 @@
  *   - montant hors taxe, taux et montant de TVA, total TTC.
  *
  * Les montants archivés dans la commande sont TTC, la TVA y étant *contenue*
- * (Preisangabenverordnung § 3). La facture doit pourtant présenter le net et la
- * taxe séparément : ils sont donc recalculés à partir du total, jamais ajoutés.
+ * (article L112-1 du Code de la consommation). La facture doit pourtant
+ * présenter le hors taxe et la taxe séparément : ils sont donc recalculés à
+ * partir du total, jamais ajoutés.
  *
  * pdf-lib n'embarque que les polices WinAnsi : tout caractère hors de ce jeu
  * doit être translittéré avant écriture, sinon la génération échoue.
@@ -45,14 +47,14 @@ function winAnsi(valeur: string): string {
     .replace(/[^\x20-\x7E -ÿ]/g, "");
 }
 
-/** « 129900 » -> « 1.299,00 € », au format allemand. */
+/** « 129900 » -> « 1 299,00 EUR », au format français. */
 function euros(cents: number): string {
-  return `${(cents / 100).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR`;
+  return `${(cents / 100).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR`;
 }
 
-function dateAllemande(iso: string): string {
+function dateFrancaise(iso: string): string {
   const d = new Date(iso);
-  return `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${d.getFullYear()}`;
+  return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
 }
 
 function lignesAdresse(adresse: OrderAddress): string[] {
@@ -62,7 +64,7 @@ function lignesAdresse(adresse: OrderAddress): string[] {
     nom,
     adresse.street,
     `${adresse.postalCode} ${adresse.city}`.trim(),
-    adresse.country === "DE" ? "Deutschland" : adresse.country,
+    adresse.country === "FR" ? "France" : adresse.country,
   ].filter((ligne) => ligne && ligne.trim().length > 0);
 }
 
@@ -86,8 +88,8 @@ function ecrire(
 
 /**
  * Compose la facture d'une commande et renvoie le PDF prêt à être joint.
- * Le numéro de facture reprend celui de la commande : il est déjà séquentiel et
- * unique, ce qu'exige le § 14 al. 4 nº 4 UStG.
+ * Le numéro de facture reprend celui de la commande : il est déjà séquentiel,
+ * chronologique et sans rupture, ce qu'exige l'article 242 nonies A.
  */
 export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   const doc = await PDFDocument.create();
@@ -95,7 +97,7 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   const normale = await doc.embedFont(StandardFonts.Helvetica);
   const grasse = await doc.embedFont(StandardFonts.HelveticaBold);
 
-  doc.setTitle(`Rechnung ${order.orderNumber}`);
+  doc.setTitle(`Facture ${order.orderNumber}`);
   doc.setProducer(COMPANY.name);
   doc.setCreationDate(new Date(order.createdAt));
 
@@ -110,7 +112,7 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
 
   // ---- Coordonnées de facturation ----
   plume.y -= 36;
-  ecrire(plume, "Rechnungsanschrift", { police: grasse, taille: 8, couleur: GRIS });
+  ecrire(plume, "Adresse de facturation", { police: grasse, taille: 8, couleur: GRIS });
   plume.y -= 14;
   for (const ligne of lignesAdresse(order.billing)) {
     ecrire(plume, ligne, { police: normale, taille: 10 });
@@ -124,15 +126,15 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     page.drawText(winAnsi(valeur), { x: 430, y: yReference, size: 9, font: grasse, color: NOIR });
     yReference -= 14;
   };
-  reference("Rechnungsnummer", order.orderNumber);
-  reference("Rechnungsdatum", dateAllemande(order.createdAt));
-  reference("Zahlungsart", order.paymentMethodLabel);
-  reference("Kundennummer", order.email.split("@")[0].slice(0, 18));
+  reference("Numero de facture", order.orderNumber);
+  reference("Date de facture", dateFrancaise(order.createdAt));
+  reference("Moyen de paiement", order.paymentMethodLabel);
+  reference("Numero client", order.email.split("@")[0].slice(0, 18));
 
   plume.y = Math.min(plume.y, yReference) - 24;
 
   // ---- Titre ----
-  ecrire(plume, `Rechnung ${order.orderNumber}`, { police: grasse, taille: 15 });
+  ecrire(plume, `Facture ${order.orderNumber}`, { police: grasse, taille: 15 });
   plume.y -= 26;
 
   // ---- Tableau des articles ----
@@ -145,10 +147,10 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     const largeur = droite ? grasse.widthOfTextAtSize(etiquette, 8) : 0;
     page.drawText(etiquette, { x: x - largeur, y: plume.y, size: 8, font: grasse, color: GRIS });
   };
-  enTete("ARTIKEL", COL_DESIGNATION);
-  enTete("MENGE", COL_QUANTITE);
-  enTete("EINZELPREIS", COL_UNITAIRE);
-  enTete("GESAMT", COL_TOTAL, true);
+  enTete("ARTICLE", COL_DESIGNATION);
+  enTete("QTE", COL_QUANTITE);
+  enTete("PRIX UNITAIRE", COL_UNITAIRE);
+  enTete("TOTAL", COL_TOTAL, true);
 
   plume.y -= 8;
   page.drawLine({
@@ -182,7 +184,7 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     });
 
     plume.y -= 12;
-    page.drawText(winAnsi(`Art.-Nr. ${article.sku}`), { x: COL_DESIGNATION, y: plume.y, size: 7, font: normale, color: GRIS });
+    page.drawText(winAnsi(`Ref. ${article.sku}`), { x: COL_DESIGNATION, y: plume.y, size: 7, font: normale, color: GRIS });
     plume.y -= 16;
   }
 
@@ -216,22 +218,22 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     plume.y -= gras ? 20 : 14;
   };
 
-  totalLigne("Zwischensumme (netto)", euros(order.subtotalCents - Math.round((order.subtotalCents * order.taxRatePercent) / (100 + order.taxRatePercent))));
-  // Le mode est nommé, pas seulement chiffré : § 14 al. 4 nº 5 UStG exige la
-  // désignation de la prestation, et « Versand 70,00 € » ne dit pas laquelle a
-  // été rendue depuis que l'express existe.
+  totalLigne("Sous-total HT", euros(order.subtotalCents - Math.round((order.subtotalCents * order.taxRatePercent) / (100 + order.taxRatePercent))));
+  // Le mode est nommé, pas seulement chiffré : la facture doit désigner la
+  // prestation rendue, et « Livraison 70,00 EUR » ne dit pas laquelle depuis
+  // que l'express existe.
   totalLigne(
     order.shippingMethodKey === "express"
-      ? "Expressversand (24-48 Stunden)"
+      ? "Livraison express (24-48 heures)"
       : order.shippingCents === 0
-        ? "Standardversand (kostenlos, 3-5 Werktage)"
-        : "Standardversand",
+        ? "Livraison standard (offerte, 3-5 jours ouvres)"
+        : "Livraison standard",
     euros(order.shippingCents),
   );
-  totalLigne(`zzgl. ${order.taxRatePercent} % USt.`, euros(tva));
-  totalLigne("Gesamtbetrag", euros(totalTTC), true);
+  totalLigne(`TVA ${order.taxRatePercent} %`, euros(tva));
+  totalLigne("Total TTC", euros(totalTTC), true);
 
-  page.drawText(winAnsi(`Nettobetrag ${euros(totalHT)}, darin enthaltene Umsatzsteuer ${euros(tva)}.`), {
+  page.drawText(winAnsi(`Total HT ${euros(totalHT)}, TVA comprise ${euros(tva)}.`), {
     x: 330,
     y: plume.y,
     size: 7,
@@ -252,22 +254,24 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     yPied -= 11;
   };
 
-  pied("Lieferung", true);
+  pied("Livraison", true);
   pied(
     order.shippedAt
-      ? `Versandt am ${dateAllemande(order.shippedAt)}.`
-      : "Das Lieferdatum entspricht dem Versanddatum und wird gesondert mitgeteilt.",
+      ? `Expedie le ${dateFrancaise(order.shippedAt)}.`
+      : "La date de livraison correspond a la date d'expedition et sera communiquee separement.",
   );
   yPied -= 5;
-  pied("Zahlung", true);
+  pied("Paiement", true);
   pied(
     order.paidAt
-      ? `Bezahlt am ${dateAllemande(order.paidAt)} per ${order.paymentMethodLabel}.`
-      : `Zahlungsart: ${order.paymentMethodLabel}. Zahlbar sofort und ohne Abzug.`,
+      ? `Paye le ${dateFrancaise(order.paidAt)} par ${order.paymentMethodLabel}.`
+      : `Moyen de paiement : ${order.paymentMethodLabel}. Payable comptant, sans escompte.`,
   );
   yPied -= 5;
+  pied("En cas de retard de paiement : penalites au taux de trois fois l'interet legal et indemnite forfaitaire de 40 EUR pour frais de recouvrement.");
+  yPied -= 5;
   pied(`${COMPANY.name} · ${COMPANY.street} · ${COMPANY.city}`);
-  pied(`USt-IdNr. ${COMPANY.vatId} · ${COMPANY.register}`);
+  pied(`TVA intracommunautaire ${COMPANY.vatId} · ${COMPANY.register} · Capital ${COMPANY.capital}`);
 
   const octets = await doc.save();
   return Buffer.from(octets);
@@ -275,5 +279,5 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
 
 /** Nom du fichier joint, lisible dans la boîte de réception du client. */
 export function invoiceFilename(order: OrderRecord): string {
-  return `Rechnung-${order.orderNumber}.pdf`;
+  return `Facture-${order.orderNumber}.pdf`;
 }

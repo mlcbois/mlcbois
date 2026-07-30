@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
       )}
       <Link
       href={product.href}
-      className="group flex h-full flex-col rounded-sm border border-border bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
+      className="group flex h-full flex-col rounded-lg border border-border bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     >
       <div className="relative mb-2 min-h-6">
         {product.badge && (
@@ -49,25 +49,35 @@ export function ProductCard({ product }: { product: Product }) {
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
-      <p className="truncate text-xs font-bold text-muted-foreground uppercase">{product.brand}</p>
-      <p className="mb-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">{product.name}</p>
+      <p className="eyebrow truncate text-[0.58rem] text-muted-foreground">
+        {product.brand}
+      </p>
+      <p className="mt-1 mb-1 line-clamp-2 font-heading text-sm leading-snug font-bold text-foreground transition-colors group-hover:text-primary">
+        {product.name}
+      </p>
       {typeof product.rating === "number" && (
-        <p className="mb-2 flex items-center gap-1 text-xs font-semibold text-foreground">
-          <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+        <p className="messwert mb-2 flex items-center gap-1 text-xs font-semibold text-foreground">
+          <Star className="h-3.5 w-3.5 fill-primary text-primary" />
           {formatRating(product.rating, locale)}
         </p>
       )}
-      <ul className="mb-3 space-y-0.5 text-xs text-muted-foreground">
+      {/* Les caractéristiques du bois sont des mesures : longueur, humidité,
+          pouvoir calorifique. Elles se lisent en colonne, en chasse fixe. */}
+      <ul className="mb-3 space-y-0.5 text-[0.7rem] text-muted-foreground">
         {product.bullets.map((bullet) => (
-          <li key={bullet}>• {bullet}</li>
+          <li key={bullet} className="messwert truncate">
+            {bullet}
+          </li>
         ))}
       </ul>
       <div className="mt-auto flex items-end justify-between gap-2">
         <div className="flex items-end gap-2">
           {product.oldPrice && (
-            <span className="text-xs text-muted-foreground line-through">{product.oldPrice}</span>
+            <span className="messwert text-xs text-muted-foreground line-through">
+              {product.oldPrice}
+            </span>
           )}
-          <span className="text-lg font-black text-primary">{product.price}</span>
+          <span className="messwert text-lg font-bold text-primary">{product.price}</span>
         </div>
         {product.inStock === false && (
           <span className="text-[11px] font-semibold text-muted-foreground">{t("onRequest")}</span>

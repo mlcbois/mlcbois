@@ -88,9 +88,9 @@ export function CheckoutSummary({
       </dl>
 
       {/* Le détail du taux et du montant de TVA a été retiré à la demande du
-          commerçant. La mention ci-dessous reste : la loi allemande sur
-          l'affichage des prix (§ 1 PAngV) impose d'indiquer au consommateur que
-          le prix affiché comprend la taxe, même sans en détailler le calcul. */}
+          commerçant. La mention ci-dessous reste : l'article L112-1 du Code de
+          la consommation impose d'indiquer au consommateur que le prix affiché
+          comprend la taxe, même sans en détailler le calcul. */}
       <p className="mt-1 text-xs text-muted-foreground">{t("priceNote")}</p>
 
       <p className="mt-3 flex items-start gap-2 rounded-sm bg-muted px-3 py-2 text-xs text-muted-foreground">

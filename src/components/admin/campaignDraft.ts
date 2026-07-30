@@ -128,10 +128,10 @@ export function applyType(draft: CampaignDraft, type: CampaignType): CampaignDra
   return {
     ...draft,
     type,
-    subject: definition.de.subject,
-    headline: definition.de.headline,
-    bodyText: definition.de.bodyText,
-    ctaLabel: definition.de.ctaLabel,
+    subject: definition.fr.subject,
+    headline: definition.fr.headline,
+    bodyText: definition.fr.bodyText,
+    ctaLabel: definition.fr.ctaLabel,
     subjectEn: definition.en.subject,
     headlineEn: definition.en.headline,
     bodyTextEn: definition.en.bodyText,
@@ -163,7 +163,7 @@ export function draftToPayload(draft: CampaignDraft): Record<string, unknown> {
     endsAt: parseInputValue(draft.endsAt)?.toISOString() ?? "",
     // Laissé vide : les liens du message pointent alors vers la fiche produit,
     // ce qui reste la destination la plus directe. Une page d'action dédiée
-    // suppose que /aktion/<slug> existe, ce que l'assistant ne peut pas garantir.
+    // suppose que /promo/<slug> existe, ce que l'assistant ne peut pas garantir.
     landingSlug: "",
     batchMin: draft.batchMin,
     batchMax: draft.batchMax,
@@ -212,7 +212,7 @@ export function stepIssue(
     case 4: {
       const missing = MESSAGE_FIELDS.filter((field) => draft[field.key].trim().length === 0);
       if (missing.length > 0) {
-        return `Complétez le message en allemand : ${missing.map((field) => field.label.toLowerCase()).join(", ")}.`;
+        return `Complétez le message en français : ${missing.map((field) => field.label.toLowerCase()).join(", ")}.`;
       }
       return null;
     }

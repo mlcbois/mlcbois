@@ -16,7 +16,7 @@ export function CartIndicator({ className }: { className?: string }) {
 
   return (
     <Link
-      href="/warenkorb"
+      href="/panier"
       className={className ?? "relative flex items-center gap-2 text-sm font-semibold"}
       aria-label={
         count > 0 ? t("indicatorWithItems", { count, total: formatCents(totals.totalCents) }) : t("title")

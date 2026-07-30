@@ -134,8 +134,8 @@ export async function deletePaymentMethod(id: string): Promise<boolean> {
 }
 
 /**
- * Setzt die Reihenfolge neu: Die übergebenen IDs bestimmen die Positionen 0..n.
- * Unbekannte IDs werden ignoriert, fehlende Einträge hinten angehängt.
+ * Réordonne la liste : les identifiants reçus fixent les positions 0..n.
+ * Les identifiants inconnus sont ignorés, les entrées absentes passent à la fin.
  */
 export async function reorderPaymentMethods(ids: string[]): Promise<PaymentMethodRecord[]> {
   const rows = await prisma.paymentMethod.findMany({

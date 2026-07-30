@@ -17,7 +17,7 @@ import { accountErrorResponse } from "@/server/accountMessages";
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const email = typeof body?.email === "string" ? body.email : "";
-  const locale = body?.locale === "en" ? "en" : "de";
+  const locale = body?.locale === "en" ? "en" : "fr";
 
   const rate = customerResetRate.check(email);
   if (!rate.allowed) {
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     ok: true,
     message:
       "Falls ein Konto mit dieser E-Mail-Adresse besteht, haben wir Ihnen einen Link zum " +
-      "Zurücksetzen des Passworts geschickt.",
+      "un lien de réinitialisation du mot de passe.",
     // Repli de développement, comme pour le code du back-office : sans
     // fournisseur d'e-mail configuré, le lien est renvoyé ici et écrit dans la
     // console du serveur. Impossible en production, le garde-fou porte sur

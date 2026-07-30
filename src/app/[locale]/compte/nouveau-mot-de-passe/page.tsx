@@ -46,7 +46,7 @@ export default async function ResetPasswordPage({
         <div className="text-center">
           <AlertTriangle className="mx-auto mb-3 h-10 w-10 text-primary" aria-hidden />
           <p className="text-sm text-muted-foreground">{t("reset.invalidText")}</p>
-          <Link href="/konto/passwort-vergessen" className={`${PRIMARY_BUTTON} mt-5`}>
+          <Link href="/compte/mot-de-passe-oublie" className={`${PRIMARY_BUTTON} mt-5`}>
             {t("reset.requestNew")}
           </Link>
         </div>

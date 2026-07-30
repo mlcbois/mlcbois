@@ -1,10 +1,10 @@
-# Hausgeräte Pfeffer
+# MLC Bois
 
-Boutique en ligne d'électroménager et de multimédia, en allemand et en anglais.
-Catalogue, tunnel d'achat conforme au droit allemand de la vente à distance,
+Boutique en ligne de bois de chauffage, en français et en anglais.
+Catalogue, tunnel d'achat conforme au droit français de la vente à distance,
 espace client, back-office complet et flux Google Merchant.
 
-Domaine : **hausgeratepfeffer.de**
+Domaine : **mlc-bois.fr**
 
 ## Stack
 
@@ -12,7 +12,7 @@ Domaine : **hausgeratepfeffer.de**
 - **PostgreSQL (Neon)** via **Prisma 7** — une seule base pour le développement
   et la production
 - **Tailwind CSS v4** — jetons de design en oklch
-- **next-intl** — allemand à la racine, anglais sous `/en`
+- **next-intl** — français à la racine, anglais sous `/en`
 - **Cloudinary** — stockage des images produits
 - **Nodemailer** — e-mails transactionnels via le SMTP Hostinger de la boutique
 
@@ -58,13 +58,13 @@ npm run db:studio  # explorateur de base Prisma
 
 ```
 src/
-  app/[locale]/     # boutique bilingue (allemand à la racine, anglais sous /en)
+  app/[locale]/     # boutique bilingue (français à la racine, anglais sous /en)
   app/admin/        # back-office, hors routage multilingue
   app/api/          # routes serveur (compte, commande, administration, cron)
   app/feed/         # flux Google Merchant (XML et CSV)
   components/       # composants de la boutique et du back-office
   server/           # accès base et logique métier
-  messages/         # traductions de.json / en.json
+  messages/         # traductions fr.json / en.json
 prisma/             # schéma, migrations, peuplement
 docs/               # documentation d'exploitation
 ```

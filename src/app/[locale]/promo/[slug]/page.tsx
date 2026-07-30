@@ -17,10 +17,10 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
   const { locale, slug } = await params;
   const landing = await getCampaignLanding(slug, locale);
-  if (!landing) return { title: "Hausgeräte Pfeffer" };
+  if (!landing) return { title: "MLC Bois" };
 
   return {
-    title: `${landing.headline} | Hausgeräte Pfeffer`,
+    title: `${landing.headline} | MLC Bois`,
     // L'adresse porte le code de la campagne et n'a de sens que le temps de
     // l'offre : la laisser indexer ferait remonter des prix périmés dans les
     // résultats de recherche longtemps après la fin.
@@ -38,7 +38,7 @@ export default async function CampaignLandingPage({ params }: { params: PagePara
   const t = await getTranslations("campaign");
   const common = await getTranslations("common");
 
-  const endsAtLabel = landing.endsAt.toLocaleDateString(locale === "en" ? "en-GB" : "de-DE", {
+  const endsAtLabel = landing.endsAt.toLocaleDateString(locale === "en" ? "en-GB" : "fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",
