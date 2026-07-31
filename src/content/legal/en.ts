@@ -23,7 +23,7 @@ const RETURN_ADDRESS = `${COMPANY.name}, returns department, ${COMPANY.street}, 
 
 /** Notice placed at the top of every legal page. */
 const DISCLAIMER =
-  "Notice: this text is a carefully drafted template for the MLC Bois online shop. All company details (address, company register, VAT number, share capital, delivery costs, service providers) are placeholder values and must be replaced with the real data before publication. Have the text reviewed by a lawyer afterwards — only then is it fit for use. This English version is a translation for information; the French text is the binding one.";
+  "Notice: this text is a carefully drafted template for the MLC Bois online shop. The company identity, address, registration and VAT number are those on the public register. Still to be filled in before publication: share capital, the president's name, the phone number, the insurer and the consumer ombudsman. Have the text reviewed by a lawyer afterwards — only then is it fit for use. This English version is a translation for information; the French text is the binding one.";
 
 /** Builds the lead paragraph: notice followed by the introduction. */
 function intro(lead: string): string {
@@ -47,7 +47,7 @@ export const enLegalPages: LegalPageMap = {
         body: "This online shop is published by:",
         list: [
           COMPANY.name,
-          `Simplified joint-stock company with share capital of ${COMPANY.capital}`,
+          `Single-shareholder simplified joint-stock company (SASU) with share capital of ${COMPANY.capital}`,
           COMPANY.street,
           COMPANY.city,
           COMPANY.country,
@@ -68,7 +68,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Company registration",
-        body: `Registration with the trade and companies register: ${COMPANY.register}.\n\nBusiness activity code (APE/NAF): 4673A (wholesale of wood and construction materials) — to be confirmed against the declared activity.`,
+        body: `Registration with the trade and companies register: ${COMPANY.register}.\n\nSIREN number: ${COMPANY.siren}\nSIRET number (registered office): ${COMPANY.siret}\n\nBusiness activity code (APE/NAF): 4673A (wholesale of wood and construction materials) — to be confirmed against the declared activity.`,
       },
       {
         heading: "VAT number",
@@ -579,7 +579,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Company details",
-        body: `${COMPANY.name}, a simplified joint-stock company with share capital of ${COMPANY.capital}, ${COMPANY.street}, ${COMPANY.city}. ${COMPANY.register}. VAT number: ${COMPANY.vatId}. Full details are in the legal notice.`,
+        body: `${COMPANY.name}, a single-shareholder simplified joint-stock company (SASU) with share capital of ${COMPANY.capital}, ${COMPANY.street}, ${COMPANY.city}. ${COMPANY.register}. VAT number: ${COMPANY.vatId}. Full details are in the legal notice.`,
       },
     ],
   },

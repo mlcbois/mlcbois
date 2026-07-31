@@ -35,21 +35,20 @@ const LOGO_WIDTH = 220;
 const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 406) / 1242);
 
 /**
- * Identification du fournisseur reprise de src/content/legal/de.ts.
+ * Identification du fournisseur reprise de src/content/legal/fr.ts.
  *
  * Recopiée ici et non importée : ce module ne doit dépendre d'aucun contenu de
- * page, et les valeurs sont de toute façon des données d'entreprise à figer une
- * fois pour toutes. Elles sont encore fictives — voir docs/LEGAL.md — et
- * doivent être remplacées ici EN MÊME TEMPS que dans les pages légales.
+ * page. Toute modification doit donc être répercutée ici EN MÊME TEMPS que dans
+ * les pages légales — voir docs/LEGAL.md.
  */
 const IMPRESSUM = {
-  name: "MLC Bois SAS",
-  street: "12 rue de la Scierie",
-  city: "93200 Saint-Denis",
+  name: "MLC BOIS",
+  street: "27 Grande Rue",
+  city: "21700 Villebichot",
   country: "France",
   managingDirector: "Prénom Nom (à compléter)",
-  register: "RCS Bobigny 000 000 000",
-  vatId: "FR00000000000",
+  register: "RCS Dijon 990 527 871",
+  vatId: "FR71990527871",
 } as const;
 
 // ---- Entrées ----

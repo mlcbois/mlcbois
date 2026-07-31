@@ -66,17 +66,31 @@ Toutes ces valeurs vivent dans la constante `COMPANY`, en tête de
 modifiées **ensemble**, sans quoi la facture et le site annonceraient des mentions
 différentes.
 
-| Champ | Valeur livrée (fictive) | Où la trouver |
+Renseigné depuis le registre (relevé du 30/07/2026) :
+
+| Champ | Valeur en place | Source |
 | --- | --- | --- |
-| `name` | MLC Bois SAS | Extrait Kbis |
-| `street`, `city` | 12 rue de la Scierie, 93200 Saint-Denis | Siège social au Kbis |
-| `capital` | 10 000 € | Statuts / Kbis |
-| `managingDirector` | Prénom Nom (à compléter) | Président ou gérant, Kbis |
-| `register` | RCS Bobigny 000 000 000 | Kbis |
-| `vatId` | FR00000000000 | Avis de situation SIRENE / SIE |
-| `phone` | 01 23 45 67 89 | Ligne réellement décrochée |
+| `name` | MLC BOIS | Registre |
+| `legalForm` | SASU | Registre |
+| `street`, `city` | 27 Grande Rue, 21700 Villebichot | Registre |
+| `register` | RCS Dijon 990 527 871 | SIREN + greffe de la Côte-d'Or |
+| `siren` | 990 527 871 | Registre |
+| `siret` | 990 527 871 00018 | Registre (siège) |
+| `vatId` | FR71990527871 | Registre |
+
+**Reste à compléter** — ces champs ne figurent pas au registre public :
+
+| Champ | Valeur en place | Où la trouver |
+| --- | --- | --- |
+| `capital` | à compléter | Statuts / Kbis |
+| `managingDirector` | Prénom Nom (à compléter) | Président, Kbis |
+| `phone` | 01 23 45 67 89 (fictif) | Ligne réellement décrochée |
 | `email` | contact@mlc-bois.fr | Boîte réellement relevée |
 | `host` | Hetzner Online GmbH… | Hébergeur réel — mention obligatoire (art. 6 III 1° LCEN) |
+
+Le **greffe** (`RCS Dijon`) est déduit du code postal 21700 (Côte-d'Or) : à
+confirmer sur le Kbis, c'est la seule valeur du premier tableau qui ne vienne pas
+directement du registre.
 
 Autres éléments à vérifier au cas par cas :
 

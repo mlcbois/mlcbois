@@ -22,26 +22,36 @@ import type { LegalPageMap } from "./types";
 const UPDATED_AT = "2026-07-30";
 
 /**
- * Coordonnées de l'entreprise — À REMPLACER par les données réelles.
+ * Coordonnées de l'entreprise.
  * Exportées : la facture PDF y puise les mentions exigées par l'article 242
  * nonies A de l'annexe II au Code général des impôts, et deux jeux de
  * coordonnées qui divergeraient seraient pires qu'un seul faux.
+ *
+ * Identité, adresse, SIREN, SIRET et TVA proviennent du registre (relevé du
+ * 30/07/2026). Restent à compléter, faute de figurer au registre public :
+ * `capital`, `managingDirector`, `phone` et `email` — voir docs/LEGAL.md § 3.
  */
 export const COMPANY = {
-  name: "MLC Bois SAS",
-  street: "12 rue de la Scierie",
-  city: "93200 Saint-Denis",
+  name: "MLC BOIS",
+  /** Forme sociale telle qu'immatriculée. */
+  legalForm: "Société par actions simplifiée unipersonnelle (SASU)",
+  street: "27 Grande Rue",
+  city: "21700 Villebichot",
   country: "France",
   email: "contact@mlc-bois.fr",
   phone: "01 23 45 67 89",
-  /** Président ou gérant — directeur de la publication au sens de la LCEN. */
+  /** Président — directeur de la publication au sens de la LCEN. À COMPLÉTER. */
   managingDirector: "Prénom Nom (à compléter)",
   /** Immatriculation au registre du commerce et des sociétés. */
-  register: "RCS Bobigny 000 000 000",
-  /** Capital social, mention obligatoire pour une société commerciale. */
-  capital: "10 000 €",
+  register: "RCS Dijon 990 527 871",
+  /** Numéro unique d'identification (SIREN). */
+  siren: "990 527 871",
+  /** Établissement principal (SIRET du siège). */
+  siret: "990 527 871 00018",
+  /** Capital social, mention obligatoire pour une société commerciale. À COMPLÉTER. */
+  capital: "à compléter",
   /** Numéro de TVA intracommunautaire. */
-  vatId: "FR00000000000",
+  vatId: "FR71990527871",
   domain: "www.mlc-bois.fr",
   /** Hébergeur, à nommer au titre de l'article 6 III 1° de la LCEN. */
   host: "Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne — +49 9831 505-0",
@@ -52,7 +62,7 @@ const RETURN_ADDRESS = `${COMPANY.name}, service retours, ${COMPANY.street}, ${C
 
 /** Avertissement placé en tête de chaque page juridique. */
 const DISCLAIMER =
-  "Avertissement : ce texte est un modèle rédigé avec soin pour la boutique en ligne MLC Bois. Toutes les données d'entreprise (adresse, immatriculation au RCS, numéro de TVA intracommunautaire, capital social, frais de livraison, prestataires) sont des valeurs d'exemple et doivent être remplacées par les données réelles avant publication. Faites ensuite relire le texte par un juriste : c'est à cette condition seulement qu'il est utilisable en l'état.";
+  "Avertissement : ce texte est un modèle rédigé avec soin pour la boutique en ligne MLC Bois. L'identité, l'adresse, l'immatriculation et le numéro de TVA sont ceux du registre. Restent à renseigner avant publication : le capital social, le nom du président, le téléphone, l'assureur et le médiateur de la consommation. Faites ensuite relire le texte par un juriste : c'est à cette condition seulement qu'il est utilisable en l'état.";
 
 /** Assemble le chapeau : avertissement puis texte d'introduction. */
 function intro(lead: string): string {
@@ -76,7 +86,7 @@ export const frLegalPages: LegalPageMap = {
         body: "Cette boutique en ligne est éditée par :",
         list: [
           COMPANY.name,
-          `Société par actions simplifiée au capital de ${COMPANY.capital}`,
+          `${COMPANY.legalForm} au capital de ${COMPANY.capital}`,
           COMPANY.street,
           COMPANY.city,
           COMPANY.country,
@@ -97,7 +107,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Immatriculation",
-        body: `Immatriculation au registre du commerce et des sociétés : ${COMPANY.register}.\n\nCode APE / NAF : 4673A (commerce de gros de bois et de matériaux de construction) — à confirmer selon l'activité déclarée.`,
+        body: `Immatriculation au registre du commerce et des sociétés : ${COMPANY.register}.\n\nNuméro SIREN : ${COMPANY.siren}\nNuméro SIRET du siège : ${COMPANY.siret}\n\nCode APE / NAF : 4673A (commerce de gros de bois et de matériaux de construction) — à confirmer selon l'activité déclarée.`,
       },
       {
         heading: "Numéro de TVA intracommunautaire",
@@ -608,7 +618,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Informations légales",
-        body: `${COMPANY.name}, société par actions simplifiée au capital de ${COMPANY.capital}, ${COMPANY.street}, ${COMPANY.city}. ${COMPANY.register}. Numéro de TVA intracommunautaire : ${COMPANY.vatId}. Les informations complètes figurent dans les mentions légales.`,
+        body: `${COMPANY.name}, ${COMPANY.legalForm} au capital de ${COMPANY.capital}, ${COMPANY.street}, ${COMPANY.city}. ${COMPANY.register}. Numéro de TVA intracommunautaire : ${COMPANY.vatId}. Les informations complètes figurent dans les mentions légales.`,
       },
     ],
   },
