@@ -11,10 +11,13 @@ import { cn } from "@/lib/utils";
  */
 const schritte = ["bestellung", "termin", "abladen"] as const;
 
+// Départements, pas plages de codes postaux : une plage numérique ratisserait
+// des départements hors zone. Mêmes ensembles que zoneFuer() dans
+// Stapelrechner.tsx et que les mentions légales.
 const zonen = [
-  { key: "a", plz: "10–16", kosten: 29, tage: "48 h" },
-  { key: "b", plz: "01–04 · 17–19 · 39", kosten: 49, tage: "3–5" },
-  { key: "c", plz: "20–99", kosten: 79, tage: "5–8" },
+  { key: "a", plz: "75 · 92 · 93 · 94", kosten: 29, tage: "48 h" },
+  { key: "b", plz: "77 · 78 · 91 · 95 · 60 · 28", kosten: 49, tage: "3–5" },
+  { key: "c", plz: "01 → 89", kosten: 79, tage: "5–8" },
 ] as const;
 
 export async function LieferungAblauf() {

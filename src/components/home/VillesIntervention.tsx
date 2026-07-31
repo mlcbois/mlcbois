@@ -4,35 +4,36 @@ import { getLocale, getTranslations } from "next-intl/server";
 /**
  * Bande de villes desservies, entre le hero et la barre de réassurance.
  *
- * Communes des zones A et B (voir « lieferung » dans les messages) : celles où
- * la livraison se fait avec notre propre remorque. La zone C part par
- * transporteur — ce n'est pas une intervention au même sens, elle n'y figure
- * donc pas.
+ * Couverture nationale : la liste balaie la France métropolitaine et pas la
+ * seule Île-de-France, sans quoi la boutique se lirait comme un marchand
+ * parisien. Le mode d'acheminement, lui, dépend de la zone — remorque en
+ * Île-de-France, transporteur ailleurs — et c'est le tableau des zones qui le
+ * détaille, pas cette bande.
  *
  * Les noms de commune ne se traduisent pas ; seul le libellé qui les précède
  * change de langue.
  */
 const VILLES = [
   "Paris",
-  "Boulogne-Billancourt",
-  "Nanterre",
-  "Saint-Denis",
-  "Créteil",
-  "Vincennes",
-  "Montreuil",
-  "Vitry-sur-Seine",
-  "Antony",
-  "Rueil-Malmaison",
-  "Versailles",
-  "Melun",
-  "Évry-Courcouronnes",
-  "Cergy",
-  "Meaux",
-  "Rambouillet",
-  "Fontainebleau",
-  "Corbeil-Essonnes",
-  "Chartres",
-  "Mantes-la-Jolie",
+  "Lyon",
+  "Marseille",
+  "Toulouse",
+  "Bordeaux",
+  "Lille",
+  "Nantes",
+  "Strasbourg",
+  "Rennes",
+  "Montpellier",
+  "Nice",
+  "Rouen",
+  "Reims",
+  "Dijon",
+  "Orléans",
+  "Tours",
+  "Clermont-Ferrand",
+  "Amiens",
+  "Caen",
+  "Metz",
 ] as const;
 
 /** Piste doublée : la seconde moitié reprend exactement la première, ce qui

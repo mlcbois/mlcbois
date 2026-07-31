@@ -606,7 +606,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Notre propre logistique",
-        body: "Nous livrons nous-mêmes en Île-de-France, avec notre remorque. Pas d'avis de passage, pas de palette qui attend trois jours en dépôt. Nous appelons la veille et annonçons un créneau de deux heures.\n\nAu-delà de l'Île-de-France, nous expédions sur palette par transporteur : le service est alors celui du transporteur, et nous le disons plutôt que de le laisser croire.",
+        body: "Nous livrons dans toute la France métropolitaine, selon deux modes que nous distinguons clairement.\n\nEn Île-de-France, nous livrons nous-mêmes avec notre remorque. Pas d'avis de passage, pas de palette qui attend trois jours en dépôt. Nous appelons la veille et annonçons un créneau de deux heures.\n\nDans le reste du pays, nous expédions sur palette par transporteur : le service est alors celui du transporteur, et nous le disons plutôt que de le laisser croire.",
       },
       {
         heading: "Origine du bois",

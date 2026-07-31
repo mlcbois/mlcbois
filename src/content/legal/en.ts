@@ -567,7 +567,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Our own logistics",
-        body: "We deliver across Île-de-France ourselves, with our own trailer. No delivery notification card, no pallet sitting three days in a depot. We call the day before and give a two-hour window.\n\nBeyond Île-de-France we ship on pallets by freight carrier: the service is then the carrier's, and we say so rather than let anyone assume otherwise.",
+        body: "We deliver throughout mainland France, in two clearly distinct ways.\n\nIn Île-de-France we deliver ourselves, with our own trailer. No delivery notification card, no pallet sitting three days in a depot. We call the day before and give a two-hour window.\n\nAcross the rest of the country we ship on pallets by freight carrier: the service is then the carrier's, and we say so rather than let anyone assume otherwise.",
       },
       {
         heading: "Where the wood comes from",

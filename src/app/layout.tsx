@@ -16,7 +16,7 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "MLC Bois | Bois de chauffage prêt à brûler, moins de 18 % d'humidité",
   description:
-    "Hêtre, chêne et bouleau séchés en séchoir, en bûches de 25, 33 et 50 cm. Humidité sur brut inférieure à 18 %, livraison en 48 heures en Île-de-France.",
+    "Hêtre, chêne et bouleau séchés en séchoir, en bûches de 25, 33 et 50 cm. Humidité sur brut inférieure à 18 %, livraison partout en France métropolitaine.",
 };
 
 export default async function RootLayout({
