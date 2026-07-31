@@ -15,13 +15,18 @@ import { cn } from "@/lib/utils";
  * représente réellement, rappelé en stères et en kilos.
  */
 
+// Le catalogue est rangé par conditionnement, plus par essence : les quatre
+// choix ci-dessous mènent donc tous au bois en vrac, qui est l'unité dans
+// laquelle le calculateur raisonne. L'essence continue de faire le prix.
+const CATALOGUE_VRAC = "/bois-de-chauffage/vrac";
+
 // Prix au mètre cube apparent, hors livraison. Mêmes bases que le catalogue
 // (scripts/seed-brennholz.ts) : une seule vérité de tarif.
 const ESSENCES = [
-  { key: "buche", preis: 92, href: "/brennholz/buche" },
-  { key: "eiche", preis: 99, href: "/brennholz/eiche" },
-  { key: "birke", preis: 95, href: "/brennholz/birke" },
-  { key: "mix", preis: 79, href: "/brennholz/hartholz-mix" },
+  { key: "buche", preis: 92 },
+  { key: "eiche", preis: 99 },
+  { key: "birke", preis: 95 },
+  { key: "mix", preis: 79 },
 ] as const;
 
 // Supplément de fendage : plus la bûche est courte, plus il y a de coupes.
@@ -48,15 +53,21 @@ interface Zone {
 
 // Mêmes zones que la page « Livraison » (src/messages/*.json, namespace
 // « lieferung ») : le département fait foi, pas une plage numérique qui
-// ratisserait des départements hors zone.
+// ratisserait des départements hors zone. La zone C couvre tout le reste de la
+// France métropolitaine — c'est elle, et non l'Île-de-France, qui représente la
+// majorité du territoire desservi.
 const ZONE_A_DEPARTEMENTS = new Set(["75", "92", "93", "94"]);
 const ZONE_B_DEPARTEMENTS = new Set(["77", "78", "91", "95", "60", "28"]);
 
+// Tarif par défaut tant qu'aucun code postal n'est saisi. On annonce la zone C,
+// la plus courante : partir du tarif francilien afficherait un prix trop bas à
+// la grande majorité des visiteurs, qui le verraient monter en saisissant leur
+// code postal — une mauvaise surprise vaut mieux à l'envers.
+const ZONE_PAR_DEFAUT: Zone = { key: "c", kosten: 79 };
+
 /** Zone de livraison d'après les deux premiers chiffres du code postal. */
 function zoneFuer(plz: string): Zone {
-  // Code postal pas encore saisi : on ne pénalise pas d'un tarif zone C avant
-  // que le client ait fini de taper.
-  if (plz.length < 2) return { key: "a", kosten: 29 };
+  if (plz.length < 2) return ZONE_PAR_DEFAUT;
   const departement = plz.slice(0, 2);
   if (ZONE_A_DEPARTEMENTS.has(departement)) return { key: "a", kosten: 29 };
   if (ZONE_B_DEPARTEMENTS.has(departement)) return { key: "b", kosten: 49 };
@@ -85,7 +96,7 @@ export function Stapelrechner() {
     const lieferung = frei ? 0 : zone.kosten;
 
     return {
-      href: holz.href,
+      href: CATALOGUE_VRAC,
       prixParMap,
       ware,
       zone,

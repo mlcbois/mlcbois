@@ -12,38 +12,32 @@ export interface GoogleCategory {
 }
 
 export const GOOGLE_CATEGORY_BY_SLUG: Record<string, GoogleCategory> = {
-  buche: {
+  // Les cinq rayons de combustible partagent la même feuille de taxonomie :
+  // Google ne distingue ni l'essence ni le conditionnement, seulement l'usage.
+  vrac: {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  eiche: {
+  palette: {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  birke: {
+  granules: {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  esche: {
+  "bois-compresse": {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  "hartholz-mix": {
+  allumage: {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  holzbriketts: {
-    id: "625",
-    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
-  },
-  holzpellets: {
-    id: "625",
-    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
-  },
-  anzuendholz: {
-    id: "625",
-    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
-  },
+  // « poele-a-bois » n'a volontairement pas d'entrée : un poêle n'est pas un
+  // combustible, et le déclarer sous 625 ferait refuser la fiche par Merchant
+  // Center. À renseigner avec la bonne feuille de taxonomie le jour où des
+  // appareils entrent au catalogue.
   kaffeemaschinen: {
     id: "736",
     path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Machines à café et à expresso",

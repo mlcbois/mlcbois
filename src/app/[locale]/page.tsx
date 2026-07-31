@@ -24,7 +24,7 @@ type HomeParams = Promise<{ locale: Locale }>;
 
 // Seuls ces deux groupes composent la boutique bois. Le filtre est explicite
 // pour que d'anciennes catégories restées en base n'apparaissent pas.
-const GRUPPEN = ["brennholz", "zubehoer"];
+const GRUPPEN = ["bois-de-chauffage", "equipement"];
 
 /** Prix d'entrée d'une catégorie, formaté à la française. */
 function abPreis(category: CategoryPageView): string {

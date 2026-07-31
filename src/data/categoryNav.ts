@@ -38,27 +38,45 @@ export interface CategoryNavGroup {
 
 export const categoryGroups: CategoryNavGroup[] = [
   {
-    slug: "brennholz",
-    href: "/brennholz",
+    slug: "bois-de-chauffage",
+    href: "/bois-de-chauffage",
     items: [
-      { slug: "buche", href: "/brennholz/buche", image: "/images/brennholz/buche.jpg" },
-      { slug: "eiche", href: "/brennholz/eiche", image: "/images/brennholz/eiche.jpg" },
-      { slug: "birke", href: "/brennholz/birke", image: "/images/brennholz/birke.jpg" },
-      { slug: "esche", href: "/brennholz/esche", image: "/images/brennholz/scheite-hell.jpg" },
       {
-        slug: "hartholz-mix",
-        href: "/brennholz/hartholz-mix",
-        image: "/images/brennholz/hartholz-mix.jpg",
+        slug: "vrac",
+        href: "/bois-de-chauffage/vrac",
+        image: "/images/brennholz/lose-schuettung.jpg",
+      },
+      {
+        slug: "palette",
+        href: "/bois-de-chauffage/palette",
+        image: "/images/brennholz/palette-box.jpg",
+      },
+      {
+        slug: "granules",
+        href: "/bois-de-chauffage/granules",
+        image: "/images/brennholz/pellets.jpg",
+      },
+      {
+        slug: "bois-compresse",
+        href: "/bois-de-chauffage/bois-compresse",
+        image: "/images/brennholz/briketts.jpg",
       },
     ],
   },
   {
-    slug: "zubehoer",
-    href: "/zubehoer",
+    slug: "equipement",
+    href: "/equipement",
     items: [
-      { slug: "holzbriketts", href: "/zubehoer/holzbriketts", image: "/images/brennholz/briketts.jpg" },
-      { slug: "holzpellets", href: "/zubehoer/holzpellets", image: "/images/brennholz/pellets.jpg" },
-      { slug: "anzuendholz", href: "/zubehoer/anzuendholz", image: "/images/brennholz/anzuendholz.jpg" },
+      {
+        slug: "poele-a-bois",
+        href: "/equipement/poele-a-bois",
+        image: "/images/brennholz/kaminfeuer.jpg",
+      },
+      {
+        slug: "allumage",
+        href: "/equipement/allumage",
+        image: "/images/brennholz/anzuendholz.jpg",
+      },
     ],
   },
 ];

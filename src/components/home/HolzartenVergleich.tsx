@@ -10,13 +10,18 @@ import { cn } from "@/lib/utils";
  * Ils ne sont pas arrondis à notre avantage : le charme chauffe mieux que le
  * hêtre, on le dit, même si nous vendons surtout du hêtre.
  */
+const VRAC = "/bois-de-chauffage/vrac";
+
+// Le catalogue est rangé par conditionnement : les feuillus renvoient tous
+// vers le bois en vrac, où chaque essence est nommée dans le titre du produit.
+// Seul l'épicéa fait exception, il ne se vend que comme bois d'allumage.
 const essenzen = [
-  { key: "hainbuche", kwh: 2200, dichte: 640, glut: 5, href: "/brennholz/hartholz-mix" },
-  { key: "buche", kwh: 2100, dichte: 558, glut: 4, href: "/brennholz/buche" },
-  { key: "eiche", kwh: 2100, dichte: 570, glut: 5, href: "/brennholz/eiche" },
-  { key: "esche", kwh: 2100, dichte: 570, glut: 4, href: "/brennholz/esche" },
-  { key: "birke", kwh: 1900, dichte: 505, glut: 3, href: "/brennholz/birke" },
-  { key: "fichte", kwh: 1500, dichte: 379, glut: 1, href: "/zubehoer/anzuendholz" },
+  { key: "hainbuche", kwh: 2200, dichte: 640, glut: 5, href: VRAC },
+  { key: "buche", kwh: 2100, dichte: 558, glut: 4, href: VRAC },
+  { key: "eiche", kwh: 2100, dichte: 570, glut: 5, href: VRAC },
+  { key: "esche", kwh: 2100, dichte: 570, glut: 4, href: VRAC },
+  { key: "birke", kwh: 1900, dichte: 505, glut: 3, href: VRAC },
+  { key: "fichte", kwh: 1500, dichte: 379, glut: 1, href: "/equipement/allumage" },
 ] as const;
 
 const MAX_KWH = 2200;

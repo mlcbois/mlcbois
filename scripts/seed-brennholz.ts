@@ -1,4 +1,15 @@
 /**
+ * ATTENTION — CE SCRIPT DÉCRIT L'ANCIENNE ORGANISATION DU CATALOGUE.
+ *
+ * Le catalogue a été réorganisé par conditionnement (vrac, palette, granulés,
+ * bois compressé, poêle à bois, allumage) par scripts/restructurer-categories.ts.
+ * Relancer ce seed tel quel recréerait les huit catégories d'essence
+ * supprimées, en doublon des six actuelles.
+ *
+ * Il n'est conservé que pour les fiches produits qu'il contient. Avant tout
+ * nouvel usage, réécrire ses groupes et catégories d'après la structure
+ * actuelle en base.
+ *
  * Peuple le catalogue avec l'assortiment bois de chauffage.
  *
  * Le script est ADDITIF : il crée ou met à jour les groupes « brennholz » et

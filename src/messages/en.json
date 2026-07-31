@@ -12,18 +12,16 @@
     "breadcrumb": "Breadcrumb",
     "shopName": "MLC Bois",
     "groupNames": {
-      "brennholz": "Firewood",
-      "zubehoer": "Pellets, compressed logs & firelighters"
+      "bois-de-chauffage": "Firewood",
+      "equipement": "Stoves & kindling"
     },
     "categoryNames": {
-      "buche": "Beech",
-      "eiche": "Oak",
-      "birke": "Birch",
-      "esche": "Ash",
-      "hartholz-mix": "Mixed hardwood",
-      "holzbriketts": "Compressed logs",
-      "holzpellets": "Wood pellets",
-      "anzuendholz": "Kindling & firelighters"
+      "vrac": "Loose firewood",
+      "palette": "Palletised firewood",
+      "granules": "Wood pellets",
+      "bois-compresse": "Compressed logs",
+      "poele-a-bois": "Wood stoves",
+      "allumage": "Kindling & firelighters"
     },
     "from": "from"
   },
@@ -32,7 +30,7 @@
     "logoAlt": "MLC Bois",
     "search": "Search",
     "bewertungen": "from 312 reviews",
-    "lieferzusage": "Delivered within 48 h across Île-de-France",
+    "lieferzusage": "Delivered anywhere in mainland France",
     "beratung": "Advice & orders",
     "oeffnung": "Mon–Fri 8am–5pm · Sat 9am–1pm",
     "lieferbanner": "Free delivery from 6 loose m³",
@@ -46,7 +44,7 @@
     "bildAlt": "Split beech logs, neatly stacked in the drying kiln",
     "belege": {
       "feuchte": "Moisture content after kiln drying, measured on every batch",
-      "lieferung": "Delivery time across Île-de-France",
+      "lieferung": "Delivery time in Île-de-France, 3 to 8 days elsewhere in France",
       "heizwert": "Calorific value of beech per stacked m³"
     },
     "ctaCatalogue": "Browse our wood"
@@ -57,14 +55,14 @@
   },
   "home": {
     "metaTitle": "MLC Bois | Kiln-dried firewood, delivered within 48 hours",
-    "metaDescription": "Beech, oak, birch and ash in 25, 33 and 50 cm. Under 18 % moisture content, measurement record with every delivery, 48 hours across Île-de-France.",
+    "metaDescription": "Beech, oak, birch and ash in 25, 33 and 50 cm. Under 18 % moisture content, measurement record with every delivery. Delivered anywhere in mainland France.",
     "bestsellerEyebrow": "Most ordered",
     "bestseller": "What's going out this week",
     "bestsellerCta": "Full range"
   },
   "trust": {
     "feuchte": "Every batch measured before it leaves",
-    "lieferung": "Our own trailer, no freight depot",
+    "lieferung": "Anywhere in mainland France, 48 h in Île-de-France",
     "laengen": "Three log lengths, split and ready to burn",
     "herkunft": "Wood from French forests, PEFC certified"
   },
@@ -168,7 +166,7 @@
     "logoAlt": "MLC Bois",
     "homeAriaLabel": "MLC Bois – home page",
     "deliveryTitle": "Delivered within 48 hours",
-    "deliveryDetail": "Île-de-France — free delivery from 6 loose m³",
+    "deliveryDetail": "Anywhere in mainland France — free from 6 loose m³",
     "warrantyTitle": "Under 18 % moisture content",
     "warrantyDetail": "Measurement record with every delivery",
     "paymentTitle": "Secure payment",
@@ -627,18 +625,16 @@
   },
   "sortiment": {
     "eyebrow": "Range",
-    "titel": "Eight products, one level of dryness",
-    "einleitung": "Split logs by species, plus wood briquettes, pellets and kindling. All kiln-dried, all shipped from our Île-de-France depot.",
+    "titel": "Six aisles, one level of dryness",
+    "einleitung": "Split logs loose or on pallets, pellets, compressed logs, stoves and kindling. All kiln-dried, shipped from our Saint-Denis depot to anywhere in mainland France.",
     "artikel": "{anzahl} items",
     "beschreibung": {
-      "buche": "Steady flame, few sparks. The reference wood for a log stove.",
-      "eiche": "Densest embers, longest burn. For masonry heaters and inserts.",
-      "birke": "Lights easily, burns bright, smells good. For the open fireplace.",
-      "esche": "Splits cleanly, leaves little ash. Rarely in stock.",
-      "hartholz-mix": "Beech, oak and ash mixed. The cheapest way into hardwood.",
-      "holzbriketts": "A third of the space, embers through the night.",
-      "holzpellets": "ENplus A1 certified, for pellet stoves and boilers.",
-      "anzuendholz": "Softwood and wax firelighters to get going."
+      "vrac": "Delivered in a large crate and tipped at your door. Best price per cubic metre.",
+      "palette": "Stacked and strapped on a pallet, set down on the ground. Nothing to stack in a hurry.",
+      "granules": "ENplus A1 certified, for pellet stoves and boilers.",
+      "bois-compresse": "A third of the space, embers through the night.",
+      "poele-a-bois": "Log and pellet stoves, chosen for efficiency and spare-part availability.",
+      "allumage": "Softwood and wax firelighters to get going."
     }
   },
   "feuchte": {
@@ -697,7 +693,7 @@
   "lieferung": {
     "eyebrow": "Delivery",
     "titel": "From the depot to your driveway",
-    "einleitung": "We drive ourselves, with our own trailer. No freight notification, no pallet sitting three days in a depot before someone finally rings the bell.",
+    "einleitung": "We deliver anywhere in mainland France. In Île-de-France on our own trailer, elsewhere on a pallet by freight carrier — either way you are told before we come.",
     "schritte": {
       "bestellung": {
         "titel": "Order",
@@ -732,7 +728,7 @@
         "gebiet": "Rest of mainland France, by freight carrier"
       }
     },
-    "freiHinweis": "From 6 loose m³ we deliver free of charge in zones A and B. Zone C goes out on a pallet by freight carrier — we do not unload there ourselves."
+    "freiHinweis": "From 6 loose m³ delivery is free in zones A and B. Zone C covers the rest of the country: it ships on a pallet by freight carrier, who does not unload."
   },
   "stimmen": {
     "eyebrow": "Customer voices",
