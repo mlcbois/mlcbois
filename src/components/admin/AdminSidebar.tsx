@@ -107,7 +107,7 @@ export function AdminSidebar({
           aria-label="MLC Bois — administration"
         >
           {/* Fond sombre : c'est la variante claire du logo qui s'impose. */}
-          <Logo tone="light" className="h-14 w-auto sm:h-14" />
+          <Logo tone="light" className="h-11 w-auto sm:h-11" />
           <span className="mt-1.5 block text-[11px] font-semibold tracking-widest text-primary uppercase">
             Administration
           </span>
@@ -186,7 +186,7 @@ export function AdminSidebar({
       {/* Barre mobile : la même navigation, ouverte par-dessus le contenu */}
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-secondary px-4 py-3 text-secondary-foreground lg:hidden">
         <Link href="/admin" aria-label="MLC Bois — administration">
-          <Logo tone="light" className="h-10 w-auto sm:h-10" />
+          <Logo tone="light" className="h-9 w-auto sm:h-9" />
         </Link>
         <button
           type="button"

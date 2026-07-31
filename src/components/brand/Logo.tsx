@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 /**
  * Marque de la boutique.
  *
- * Le logo est un médaillon rond posé au-dessus du nom : une composition
- * verticale, presque carrée, et non un bandeau. Elle demande donc une hauteur
- * d'affichage bien plus généreuse qu'un logo en ligne — le nom n'occupe qu'un
- * dixième de la hauteur de l'image, il devient illisible en dessous de 56 px.
+ * Le logo est un cartouche horizontal de rapport deux pour un : un panneau
+ * portant un arbre, puis le nom et la scène. Le nom y occupe près d'un
+ * cinquième de la hauteur, ce qui le rend lisible dès 48 px — l'en-tête peut
+ * donc rester compact.
  *
  * Deux fichiers, un par fond : le lettrage est brun sombre dans la version
  * d'origine, crème dans la version claire. Les recolorier en CSS n'est pas
@@ -17,8 +17,8 @@ import { cn } from "@/lib/utils";
  */
 
 /** Proportions du fichier source, après rognage. */
-const LARGEUR_DE_REFERENCE = 255;
-const HAUTEUR_DE_REFERENCE = 284;
+const LARGEUR_DE_REFERENCE = 439;
+const HAUTEUR_DE_REFERENCE = 222;
 
 interface LogoProps {
   /** "light" sur fond sombre (pied de page, back-office), "dark" sur fond clair. */
@@ -39,18 +39,14 @@ export function Logo({ tone = "light", className, priority = false }: LogoProps)
       width={LARGEUR_DE_REFERENCE}
       height={HAUTEUR_DE_REFERENCE}
       priority={priority}
-      // Le nom n'occupe qu'un dixième de la hauteur de l'image : sous 60 px il
-      // devient illisible. 80 px sur grand écran est le point où il se lit sans
-      // que l'en-tête ne double de hauteur ; 64 px sur téléphone, où la barre
-      // est déjà à l'étroit.
-      className={cn("h-16 w-auto sm:h-20", className)}
+      className={cn("h-12 w-auto sm:h-14", className)}
     />
   );
 }
 
 /**
- * Médaillon cadré carré sur fond blanc. Pour les espaces où le logo doit
- * tenir dans un carré plutôt qu'occuper une largeur libre.
+ * Panneau de l'arbre, cadré carré sur fond blanc. Pour les espaces où la
+ * marque doit tenir dans un carré plutôt qu'occuper une largeur libre.
  */
 export function BrandMark({ className }: { className?: string }) {
   return (
@@ -58,8 +54,8 @@ export function BrandMark({ className }: { className?: string }) {
       src="/images/logo-icon.png"
       alt=""
       aria-hidden="true"
-      width={312}
-      height={312}
+      width={266}
+      height={266}
       className={cn("h-10 w-10", className)}
     />
   );

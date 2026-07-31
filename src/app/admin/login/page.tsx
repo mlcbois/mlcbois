@@ -169,7 +169,7 @@ export default function AdminLoginPage() {
           {/* Logo centré sur fond blanc : le lettrage est presque noir, il faut
               un fond clair. Le filet reprend l'accent de l'e-mail de code. */}
           <div className="flex justify-center bg-white px-6 pt-8 pb-6">
-            <Logo tone="dark" className="h-24 sm:h-24" />
+            <Logo tone="dark" className="h-16 sm:h-16" />
           </div>
           <div className="h-1 bg-primary" />
 

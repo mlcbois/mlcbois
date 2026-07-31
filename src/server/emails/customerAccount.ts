@@ -13,11 +13,9 @@ import type { MailMessage } from "@/lib/mailer";
 
 export type EmailLocale = "fr" | "en";
 
-const LOGO_WIDTH = 132;
-// Rapport d'origine du fichier : 255 × 284. Le logo est un médaillon
-// presque carré : à 220 px de large il ferait 245 px de haut et mangerait
-// l'écran d'un téléphone avant le premier mot. 132 px suffisent à le lire.
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 284) / 255);
+const LOGO_WIDTH = 200;
+// Rapport d'origine du fichier : 439 × 222.
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 222) / 439);
 
 export function siteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
