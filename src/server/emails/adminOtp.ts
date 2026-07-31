@@ -18,9 +18,11 @@
 
 import type { MailMessage } from "@/lib/mailer";
 
-const LOGO_WIDTH = 220;
-// Rapport d'origine du fichier : 747 × 162
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 162) / 747);
+const LOGO_WIDTH = 132;
+// Rapport d'origine du fichier : 255 × 284. Le logo est un médaillon
+// presque carré : à 220 px de large il ferait 245 px de haut et mangerait
+// l'écran d'un téléphone avant le premier mot. 132 px suffisent à le lire.
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 284) / 255);
 
 function siteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -67,7 +69,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
                  il disparaîtrait sur un bandeau sombre. -->
             <tr>
               <td align="center" style="background-color:#ffffff; padding:32px 24px 24px 24px; border-radius:6px 6px 0 0;">
-                <img src="${logo}" alt="MLC Bois" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
+                <img src="${logo}" alt="MLC Bois — bois de chauffage &amp; pellets" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
               </td>
             </tr>
             <tr>

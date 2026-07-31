@@ -61,7 +61,9 @@ export async function Header() {
         </div>
       </div>
 
-      <div className="border-b border-border shadow-[0_1px_12px_rgba(27,19,16,0.08)]">
+      {/* Pas de filet en bas : la bande des catégories est noire et le tracerait
+          en clair juste sous elle. L'ombre portée suffit à détacher l'en-tête. */}
+      <div className="shadow-[0_1px_12px_rgba(27,19,16,0.08)]">
         <div className="bg-splint text-foreground">
           <div className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-3 px-4 py-3 lg:flex-nowrap lg:gap-6">
             {/* Le menu déroulant ne sert qu'en dessous de « lg » : au-delà, la
@@ -155,13 +157,13 @@ export async function Header() {
             bandeau ne portant qu'un lien perdu à droite ferait un trou entre
             l'en-tête et le hero. */}
         {essenzen.length > 0 && (
-          <div className="border-t border-border bg-splint">
+          <div className="bg-footer">
             <div className="mx-auto flex max-w-screen-xl items-center gap-1 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {essenzen.map((item) => (
                 <Link
                   key={item.slug}
                   href={item.href}
-                  className="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-[0.82rem] font-bold whitespace-nowrap text-foreground/75 transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+                  className="shrink-0 border-b-2 border-transparent px-3 py-2.5 text-[0.82rem] font-bold whitespace-nowrap text-white transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
                 >
                   {common(`categoryNames.${item.slug}`)}
                 </Link>

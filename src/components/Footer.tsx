@@ -49,7 +49,7 @@ export async function Footer() {
               aria-label={t("homeAriaLabel")}
               className="mb-4 inline-flex rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              <Logo tone="light" />
+              <Logo tone="light" className="h-16 sm:h-16" />
             </Link>
             <h3 className="mb-3 font-bold">{t("contact")}</h3>
             <p className="mb-2 flex items-center gap-2">
