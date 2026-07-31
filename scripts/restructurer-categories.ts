@@ -221,8 +221,8 @@ const UNIVERS: UniversCible[] = [
   {
     ancienSlug: "zubehoer",
     slug: "equipement",
-    label: "Poêles & allumage",
-    labelEn: "Stoves & kindling",
+    label: "Poêles",
+    labelEn: "Stoves",
     position: 1,
     categories: [
       {
