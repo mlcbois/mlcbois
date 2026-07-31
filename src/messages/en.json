@@ -13,15 +13,14 @@
     "shopName": "MLC Bois",
     "groupNames": {
       "bois-de-chauffage": "Firewood",
-      "equipement": "Stoves & kindling"
+      "equipement": "Stoves"
     },
     "categoryNames": {
       "vrac": "Loose firewood",
       "palette": "Palletised firewood",
       "granules": "Wood pellets",
       "bois-compresse": "Compressed logs",
-      "poele-a-bois": "Wood stoves",
-      "allumage": "Kindling & firelighters"
+      "poele-a-bois": "Wood stoves"
     },
     "from": "from"
   },
@@ -625,16 +624,15 @@
   },
   "sortiment": {
     "eyebrow": "Range",
-    "titel": "Six aisles, one level of dryness",
-    "einleitung": "Split logs loose or on pallets, pellets, compressed logs, stoves and kindling. All kiln-dried, shipped from our Saint-Denis depot to anywhere in mainland France.",
+    "titel": "Five aisles, one level of dryness",
+    "einleitung": "Split logs loose or on pallets, pellets, compressed logs and stoves. All kiln-dried, shipped from our Saint-Denis depot to anywhere in mainland France.",
     "artikel": "{anzahl} items",
     "beschreibung": {
       "vrac": "Delivered in a large crate and tipped at your door. Best price per cubic metre.",
       "palette": "Stacked and strapped on a pallet, set down on the ground. Nothing to stack in a hurry.",
       "granules": "ENplus A1 certified, for pellet stoves and boilers.",
       "bois-compresse": "A third of the space, embers through the night.",
-      "poele-a-bois": "Log and pellet stoves, chosen for efficiency and spare-part availability.",
-      "allumage": "Softwood and wax firelighters to get going."
+      "poele-a-bois": "Log and pellet stoves, chosen for efficiency and spare-part availability."
     }
   },
   "feuchte": {

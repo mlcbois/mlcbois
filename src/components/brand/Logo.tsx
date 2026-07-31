@@ -4,21 +4,20 @@ import { cn } from "@/lib/utils";
 /**
  * Marque de la boutique.
  *
- * Le logo est un cartouche horizontal de rapport deux pour un : un panneau
- * portant un arbre, puis le nom et la scène. Le nom y occupe près d'un
- * cinquième de la hauteur, ce qui le rend lisible dès 48 px — l'en-tête peut
- * donc rester compact.
+ * Le logo est une image et non plus un assemblage de SVG et de texte : le
+ * dessin — deux bûches dressées autour d'une flamme — et le lettrage forment
+ * un bloc solidaire dont les proportions ne doivent pas bouger.
  *
- * Deux fichiers, un par fond : le lettrage est brun sombre dans la version
- * d'origine, crème dans la version claire. Les recolorier en CSS n'est pas
- * possible sur un PNG, et un filtre d'inversion emporterait aussi les verts du
- * feuillage et l'orange de la flamme. Les deux fichiers sont produits par
- * scripts/generer-logos.mjs à partir du même original.
+ * Deux fichiers, un par fond : le lettrage est noir dans la version courante,
+ * crème dans la version claire. Les recolorier en CSS n'est pas possible sur
+ * un PNG, et un filtre d'inversion emporterait aussi l'orange de la flamme.
+ * Les deux fichiers sont produits par scripts/generer-logos.mjs à partir du
+ * même original.
  */
 
-/** Proportions du fichier source, après rognage. */
-const LARGEUR_DE_REFERENCE = 439;
-const HAUTEUR_DE_REFERENCE = 222;
+/** Proportions du fichier source, après rognage : 747 × 162. */
+const RATIO = 747 / 162;
+const HAUTEUR_DE_REFERENCE = 162;
 
 interface LogoProps {
   /** "light" sur fond sombre (pied de page, back-office), "dark" sur fond clair. */
@@ -35,18 +34,20 @@ export function Logo({ tone = "light", className, priority = false }: LogoProps)
   return (
     <Image
       src={tone === "light" ? "/images/logo-full-light.png" : "/images/logo-full.png"}
-      alt="MLC Bois — bois de chauffage & pellets"
-      width={LARGEUR_DE_REFERENCE}
+      alt="MLC Bois — bois de chauffage"
+      width={Math.round(HAUTEUR_DE_REFERENCE * RATIO)}
       height={HAUTEUR_DE_REFERENCE}
       priority={priority}
-      className={cn("h-12 w-auto sm:h-14", className)}
+      // Le descripteur « BOIS DE CHAUFFAGE » fait partie de l'image et n'occupe
+      // qu'un septième de sa hauteur : en deçà de 44 px, il n'est plus lisible.
+      className={cn("h-11 w-auto sm:h-12", className)}
     />
   );
 }
 
 /**
- * Panneau de l'arbre, cadré carré sur fond blanc. Pour les espaces où la
- * marque doit tenir dans un carré plutôt qu'occuper une largeur libre.
+ * Sigle seul, sans le lettrage. Pour les espaces trop étroits pour le logo
+ * complet — une pastille, une vignette, un en-tête réduit.
  */
 export function BrandMark({ className }: { className?: string }) {
   return (
@@ -54,9 +55,9 @@ export function BrandMark({ className }: { className?: string }) {
       src="/images/logo-icon.png"
       alt=""
       aria-hidden="true"
-      width={266}
-      height={266}
-      className={cn("h-10 w-10", className)}
+      width={1072}
+      height={1072}
+      className={cn("h-9 w-9", className)}
     />
   );
 }

@@ -30,10 +30,6 @@ export const GOOGLE_CATEGORY_BY_SLUG: Record<string, GoogleCategory> = {
     id: "625",
     path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
   },
-  allumage: {
-    id: "625",
-    path: "Maison et jardin > Accessoires pour cheminées et poêles à bois > Combustible et bois de chauffage",
-  },
   // « poele-a-bois » n'a volontairement pas d'entrée : un poêle n'est pas un
   // combustible, et le déclarer sous 625 ferait refuser la fiche par Merchant
   // Center. À renseigner avec la bonne feuille de taxonomie le jour où des

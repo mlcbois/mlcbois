@@ -72,11 +72,6 @@ export const categoryGroups: CategoryNavGroup[] = [
         href: "/equipement/poele-a-bois",
         image: "/images/brennholz/kaminfeuer.jpg",
       },
-      {
-        slug: "allumage",
-        href: "/equipement/allumage",
-        image: "/images/brennholz/anzuendholz.jpg",
-      },
     ],
   },
 ];

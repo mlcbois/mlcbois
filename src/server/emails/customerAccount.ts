@@ -13,9 +13,9 @@ import type { MailMessage } from "@/lib/mailer";
 
 export type EmailLocale = "fr" | "en";
 
-const LOGO_WIDTH = 200;
-// Rapport d'origine du fichier : 439 × 222.
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 222) / 439);
+const LOGO_WIDTH = 220;
+// Rapport d'origine du fichier : 747 × 162
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 162) / 747);
 
 export function siteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -88,7 +88,7 @@ function layout(input: LayoutInput): string {
           <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:100%; background-color:#ffffff; border:1px solid #e0e2e6; border-radius:6px;">
             <tr>
               <td align="center" style="background-color:#ffffff; padding:32px 24px 24px 24px; border-radius:6px 6px 0 0;">
-                <img src="${logo}" alt="MLC Bois — bois de chauffage &amp; pellets" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
+                <img src="${logo}" alt="MLC Bois — bois de chauffage" width="${LOGO_WIDTH}" height="${LOGO_HEIGHT}" style="display:block; width:${LOGO_WIDTH}px; height:auto; border:0; outline:none; text-decoration:none;" />
               </td>
             </tr>
             <tr>

@@ -266,44 +266,6 @@ const UNIVERS: UniversCible[] = [
           },
         ],
       },
-      {
-        slug: "allumage",
-        label: "Allumage",
-        labelEn: "Kindling & firelighters",
-        description:
-          "Petit bois résineux sec et allume-feux naturels. Le résineux prend feu vite car sa résine dégaze tôt — d'où sa place au démarrage du feu, jamais en charge continue.",
-        descriptionEn:
-          "Dry softwood kindling and natural firelighters. Softwood catches quickly because its resin off-gasses early — hence its place at the start of a fire, never as a sustained load.",
-        image: `${IMG}/anzuendholz.jpg`,
-        guideIntro:
-          "Un feu qui prend du premier coup dépend surtout de ce qu'on met au fond de l'âtre : petit bois résineux bien sec et un allume-feu qui tient trois bonnes minutes. Le reste n'est qu'une question d'ordre d'empilement.",
-        guideIntroEn:
-          "A fire that catches first time depends mostly on what goes in the bottom of the hearth: dry softwood kindling and a firelighter that burns for a good three minutes. The rest is just stacking order.",
-        guideClosing:
-          "Ne brûlez jamais de bois traité, peint ou aggloméré pour démarrer un feu : les fumées attaquent le conduit et l'appareil, et l'économie est dérisoire.",
-        guideClosingEn:
-          "Never burn treated, painted or chipboard offcuts to start a fire: the fumes attack the flue and the appliance, and the saving is negligible.",
-        sections: [
-          {
-            heading: "Pourquoi du résineux, jamais du feuillu",
-            headingEn: "Why softwood, never hardwood",
-            body: "Le résineux dégaze tôt et s'enflamme à basse température : c'est exactement ce qu'il faut pour lancer un feu. En charge continue il encrasserait le conduit, d'où sa place réservée au démarrage.",
-            bodyEn: "Softwood off-gasses early and ignites at low temperature: exactly what starting a fire needs. As a sustained load it would foul the flue, hence its role limited to lighting.",
-          },
-          {
-            heading: "L'allumage inversé",
-            headingEn: "Top-down lighting",
-            body: "Grosses bûches en bas, petit bois au-dessus, allume-feu tout en haut. Le feu descend lentement, chauffe le conduit progressivement et fume nettement moins qu'un allumage par le bas.",
-            bodyEn: "Large logs at the bottom, kindling above, firelighter on top. The fire works downwards, warms the flue gradually and smokes markedly less than bottom-up lighting.",
-          },
-          {
-            heading: "Quelle quantité par flambée",
-            headingEn: "How much per fire",
-            body: "Une poignée de petit bois, six à huit brindilles, et un seul allume-feu. Au-delà, vous ne faites qu'accélérer une combustion qui partira de toute façon.",
-            bodyEn: "A handful of kindling, six to eight sticks, and a single firelighter. Beyond that you are only rushing a fire that would have caught anyway.",
-          },
-        ],
-      },
     ],
   },
 ];
@@ -319,7 +281,12 @@ const CATEGORIES_ESSENCE = new Set(["buche", "eiche", "birke", "esche", "harthol
 const BASCULE_EN_BLOC = new Map([
   ["holzpellets", "granules"],
   ["holzbriketts", "bois-compresse"],
-  ["anzuendholz", "allumage"],
+  // « Allumage » n'est plus une catégorie : ses produits — petit bois
+  // résineux et allume-feux — rejoignent le bois compressé, le rayon le plus
+  // proche par l'usage. Les deux slugs sont listés car la base a pu s'arrêter
+  // à l'un ou à l'autre selon qu'elle a déjà connu la première restructuration.
+  ["anzuendholz", "bois-compresse"],
+  ["allumage", "bois-compresse"],
 ]);
 
 function cibleProduit(ancienneCategorie: string, slugProduit: string): string | null {

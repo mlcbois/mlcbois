@@ -14,14 +14,14 @@ const VRAC = "/bois-de-chauffage/vrac";
 
 // Le catalogue est rangé par conditionnement : les feuillus renvoient tous
 // vers le bois en vrac, où chaque essence est nommée dans le titre du produit.
-// Seul l'épicéa fait exception, il ne se vend que comme bois d'allumage.
+// L'épicéa ne se vend qu'en petit bois d'allumage, rangé avec le bois compressé.
 const essenzen = [
   { key: "hainbuche", kwh: 2200, dichte: 640, glut: 5, href: VRAC },
   { key: "buche", kwh: 2100, dichte: 558, glut: 4, href: VRAC },
   { key: "eiche", kwh: 2100, dichte: 570, glut: 5, href: VRAC },
   { key: "esche", kwh: 2100, dichte: 570, glut: 4, href: VRAC },
   { key: "birke", kwh: 1900, dichte: 505, glut: 3, href: VRAC },
-  { key: "fichte", kwh: 1500, dichte: 379, glut: 1, href: "/equipement/allumage" },
+  { key: "fichte", kwh: 1500, dichte: 379, glut: 1, href: "/bois-de-chauffage/bois-compresse" },
 ] as const;
 
 const MAX_KWH = 2200;
