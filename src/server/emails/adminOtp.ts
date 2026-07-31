@@ -11,13 +11,16 @@
  * - contrastes vérifiés sur fond blanc : texte principal #001424 (≈ 17:1),
  *   texte secondaire #3f4854 (≈ 9:1), mention d'alerte #b3000b (≈ 7:1),
  *   pied de page #4b5563 sur #f1f2f4 (≈ 6,6:1). Tous au-dessus du seuil AA.
+ * - l'orange de la marque, #ff5c00, ne tient que 3,1:1 sur blanc : il est
+ *   réservé au filet décoratif sous le logo. Partout où il porte du texte,
+ *   c'est sa version assombrie #c24400 (≈ 5,1:1) qui est employée.
  */
 
 import type { MailMessage } from "@/lib/mailer";
 
 const LOGO_WIDTH = 220;
-// Rapport d'origine du fichier : 1242 × 406
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 406) / 1242);
+// Rapport d'origine du fichier : 747 × 162
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 162) / 747);
 
 function siteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -68,7 +71,7 @@ export function buildAdminOtpEmail(input: AdminOtpEmailInput): Omit<MailMessage,
               </td>
             </tr>
             <tr>
-              <td style="background-color:#e3000e; font-size:0; line-height:0; height:4px;">&nbsp;</td>
+              <td style="background-color:#ff5c00; font-size:0; line-height:0; height:4px;">&nbsp;</td>
             </tr>
 
             <tr>

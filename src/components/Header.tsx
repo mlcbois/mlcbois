@@ -75,7 +75,7 @@ export async function Header() {
               aria-label={t("homeAriaLabel")}
               className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              <Logo tone="dark" className="scale-95 sm:scale-100" />
+              <Logo tone="dark" priority />
             </Link>
 
             {/* La recherche ne prend pas toute la largeur disponible : au-delà

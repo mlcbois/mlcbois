@@ -31,8 +31,8 @@ import {
 import { siteUrl } from "@/server/emails/customerAccount";
 
 const LOGO_WIDTH = 220;
-// Rapport d'origine du fichier : 1242 × 406
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 406) / 1242);
+// Rapport d'origine du fichier : 747 × 162
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 162) / 747);
 
 /**
  * Identification du fournisseur reprise de src/content/legal/fr.ts.
@@ -209,7 +209,7 @@ function priceHtml(product: CampaignMailProduct): string {
   return (
     `<span style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#6b7280; text-decoration:line-through;">${base}</span>` +
     `&nbsp;&nbsp;` +
-    `<span style="font-family:Arial,Helvetica,sans-serif; font-size:18px; font-weight:bold; color:#e3000e;">${promo}</span>`
+    `<span style="font-family:Arial,Helvetica,sans-serif; font-size:18px; font-weight:bold; color:#c24400;">${promo}</span>`
   );
 }
 
@@ -352,7 +352,7 @@ function renderHtml(input: RenderInput & { paragraphs: string[]; token: string }
 
   const button = `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px 0;">
                   <tr>
-                    <td align="center" bgcolor="#e3000e" style="background-color:#e3000e; border-radius:4px;">
+                    <td align="center" bgcolor="#c24400" style="background-color:#c24400; border-radius:4px;">
                       <a href="${escapeHtml(input.action)}" style="display:inline-block; padding:14px 28px; font-family:Arial,Helvetica,sans-serif; font-size:15px; font-weight:bold; color:#ffffff; text-decoration:none;">${escapeHtml(input.ctaLabel)}</a>
                     </td>
                   </tr>
@@ -400,7 +400,7 @@ function renderHtml(input: RenderInput & { paragraphs: string[]; token: string }
               </td>
             </tr>
             <tr>
-              <td style="background-color:#e3000e; font-size:0; line-height:0; height:4px;">&nbsp;</td>
+              <td style="background-color:#ff5c00; font-size:0; line-height:0; height:4px;">&nbsp;</td>
             </tr>
             <tr>
               <td style="background-color:#ffffff; padding:32px 32px 8px 32px;">

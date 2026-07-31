@@ -21,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/Logo";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 
 interface NavEntry {
@@ -102,10 +103,12 @@ export function AdminSidebar({
         <Link
           href="/admin"
           onClick={() => setMobileOpen(false)}
-          className="block text-sm leading-tight font-black tracking-tight"
+          className="block"
+          aria-label="MLC Bois — administration"
         >
-          MLC Bois
-          <span className="mt-0.5 block text-[11px] font-semibold tracking-widest text-primary uppercase">
+          {/* Fond sombre : c'est la variante claire du logo qui s'impose. */}
+          <Logo tone="light" className="h-8 w-auto" />
+          <span className="mt-1.5 block text-[11px] font-semibold tracking-widest text-primary uppercase">
             Administration
           </span>
         </Link>
@@ -182,8 +185,8 @@ export function AdminSidebar({
 
       {/* Barre mobile : la même navigation, ouverte par-dessus le contenu */}
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-secondary px-4 py-3 text-secondary-foreground lg:hidden">
-        <Link href="/admin" className="text-sm font-black">
-          MLC Bois — Admin
+        <Link href="/admin" aria-label="MLC Bois — administration">
+          <Logo tone="light" className="h-7 w-auto sm:h-7" />
         </Link>
         <button
           type="button"

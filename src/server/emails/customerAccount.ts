@@ -14,8 +14,8 @@ import type { MailMessage } from "@/lib/mailer";
 export type EmailLocale = "fr" | "en";
 
 const LOGO_WIDTH = 220;
-// Rapport d'origine du fichier : 1242 × 406
-const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 406) / 1242);
+// Rapport d'origine du fichier : 747 × 162
+const LOGO_HEIGHT = Math.round((LOGO_WIDTH * 162) / 747);
 
 export function siteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -58,7 +58,7 @@ function layout(input: LayoutInput): string {
   const action = input.action
     ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 20px 0;">
                   <tr>
-                    <td align="center" bgcolor="#e3000e" style="background-color:#e3000e; border-radius:4px;">
+                    <td align="center" bgcolor="#c24400" style="background-color:#c24400; border-radius:4px;">
                       <a href="${escapeHtml(input.action.url)}" style="display:inline-block; padding:14px 28px; font-family:Arial,Helvetica,sans-serif; font-size:15px; font-weight:bold; color:#ffffff; text-decoration:none;">${escapeHtml(input.action.label)}</a>
                     </td>
                   </tr>
@@ -92,7 +92,7 @@ function layout(input: LayoutInput): string {
               </td>
             </tr>
             <tr>
-              <td style="background-color:#e3000e; font-size:0; line-height:0; height:4px;">&nbsp;</td>
+              <td style="background-color:#ff5c00; font-size:0; line-height:0; height:4px;">&nbsp;</td>
             </tr>
             <tr>
               <td style="background-color:#ffffff; padding:32px 32px 8px 32px;">
