@@ -200,7 +200,11 @@ export function CheckoutFlow({
           customerNote: note.trim(),
           termsAccepted: true,
           withdrawalAcknowledged: true,
-          items: lines.map((line) => ({ productId: line.productId, quantity: line.quantity })),
+          items: lines.map((line) => ({
+            productId: line.productId,
+            ...(line.variantId !== undefined ? { variantId: line.variantId } : {}),
+            quantity: line.quantity,
+          })),
         }),
       });
 

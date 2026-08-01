@@ -14,6 +14,7 @@
 import { DEFAULT_SHIPPING_METHOD_KEY, isShippingMethodKey, MAX_CART_LINES, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
 import type { ShippingMethodKey } from "@/lib/cart";
 import { COUNTRY_CODES } from "@/lib/countries";
+import { cartLineKey } from "@/lib/variantPricing";
 
 export interface OrderAddress {
   salutation: string;
@@ -161,7 +162,7 @@ export function parseCheckoutPayload(payload: unknown): {
     const productId = text(line.productId, 60);
     const variantId = text(line.variantId, 60) || undefined;
     const quantity = typeof line.quantity === "number" ? Math.floor(line.quantity) : 0;
-    const dedup = variantId ? `${productId}::${variantId}` : productId;
+    const dedup = cartLineKey(productId, variantId);
     if (!productId || seen.has(dedup)) continue;
     // Une quantité hors bornes est signalée, jamais corrigée en silence :
     // livrer 20 pièces là où le client en a demandé 50 modifierait sa commande.

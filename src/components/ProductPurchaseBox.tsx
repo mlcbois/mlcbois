@@ -92,20 +92,33 @@ export function ProductPurchaseBox({ product }: { product: Product }) {
       {/* Achat direct, quantité et ajout au panier : le composant refuse de
           dépasser le stock réel et désactive tout quand l'article est épuisé.
           C'est ici, et seulement ici, que « acheter maintenant » a sa place :
-          la décision d'achat se prend sur la fiche, pas sur une vignette. */}
-      <AddToCartButton
-        productId={product.id ?? ""}
-        slug={product.slug ?? ""}
-        brand={product.brand}
-        name={product.name}
-        image={product.image}
-        path={product.href}
-        priceCents={displayPriceCents}
-        stock={hasVariants && !selected ? 0 : (product.stock ?? 0)}
-        variantId={selected?.id}
-        variantLabel={selected?.label}
-        withBuyNow
-      />
+          la décision d'achat se prend sur la fiche, pas sur une vignette.
+          Quand le produit a des variations et qu'aucune n'est sélectionnée,
+          on affiche un bouton désactivé libellé « Choisissez un volume » au
+          lieu de tricher avec stock=0 qui afficherait « Épuisé ». */}
+      {hasVariants && !selected ? (
+        <button
+          type="button"
+          disabled
+          className="w-full rounded-sm bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground opacity-50 cursor-not-allowed"
+        >
+          {t("chooseVolume")}
+        </button>
+      ) : (
+        <AddToCartButton
+          productId={product.id ?? ""}
+          slug={product.slug ?? ""}
+          brand={product.brand}
+          name={product.name}
+          image={product.image}
+          path={product.href}
+          priceCents={displayPriceCents}
+          stock={product.stock ?? 0}
+          variantId={selected?.id}
+          variantLabel={selected?.label}
+          withBuyNow
+        />
+      )}
 
       {product.id && (
         <WishlistButton
