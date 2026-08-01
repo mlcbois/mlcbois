@@ -1,3 +1,5 @@
+import { cartLineKey } from "@/lib/variantPricing";
+
 // Panier de la boutique.
 //
 // Ce module est volontairement isolé de React : il contient les constantes
@@ -14,13 +16,11 @@ export const CART_STORAGE_KEY = "mlc.cart.v1";
 /**
  * Taux de TVA appliqué, en points de pourcentage.
  *
- * 10 % : le bois de chauffage à usage domestique relève du taux réduit prévu à
- * l'article 278 bis du Code général des impôts. La boutique n'applique qu'un
- * seul taux ; si le catalogue venait à mélanger des articles relevant du taux
- * normal (20 %), il faudrait porter le taux sur la ligne de commande et non
- * plus ici. À faire confirmer par le comptable avant la mise en production.
+ * Fixé à 0 : la TVA a été retirée du système. Les prix affichés sont les prix
+ * réglés, sans décomposition hors taxe / taxe. `taxCents` vaut donc toujours 0
+ * et aucune ligne de TVA n'apparaît sur la facture, les e-mails ou le panier.
  */
-export const VAT_RATE_PERCENT = 10;
+export const VAT_RATE_PERCENT = 0;
 
 // ---- Modes de livraison ----
 //
@@ -90,6 +90,9 @@ export const MAX_CART_LINES = 40;
 export interface CartLine {
   /** Identifiant du produit en base — seule donnée à laquelle le serveur se fie. */
   productId: string;
+  /** Variation choisie (volume) ; absente pour un produit simple. */
+  variantId?: string;
+  variantLabel?: string;
   slug: string;
   brand: string;
   name: string;
@@ -226,10 +229,15 @@ function normalize(raw: unknown): CartLine[] {
   const lines: CartLine[] = [];
   for (const entry of raw) {
     if (!isCartLine(entry)) continue;
-    if (lines.some((line) => line.productId === entry.productId)) continue;
+    // variantId/variantLabel are optional in CartLine; read them directly after the type guard.
+    const entryVariantId = typeof entry.variantId === "string" ? entry.variantId : undefined;
+    const entryVariantLabel = typeof entry.variantLabel === "string" ? entry.variantLabel : undefined;
+    if (lines.some((line) => cartLineKey(line.productId, line.variantId) === cartLineKey(entry.productId, entryVariantId))) continue;
 
     lines.push({
       productId: entry.productId,
+      ...(entryVariantId !== undefined ? { variantId: entryVariantId } : {}),
+      ...(entryVariantLabel !== undefined ? { variantLabel: entryVariantLabel } : {}),
       slug: typeof entry.slug === "string" ? entry.slug : "",
       brand: typeof entry.brand === "string" ? entry.brand : "",
       name: typeof entry.name === "string" ? entry.name : "",
@@ -318,12 +326,13 @@ export function subscribeCart(listener: Listener): () => void {
 
 export function addToCart(line: Omit<CartLine, "quantity">, quantity = 1): void {
   const current = getCartSnapshot();
-  const existing = current.find((entry) => entry.productId === line.productId);
+  const key = cartLineKey(line.productId, line.variantId);
+  const existing = current.find((entry) => cartLineKey(entry.productId, entry.variantId) === key);
 
   if (existing) {
     commit(
       current.map((entry) =>
-        entry.productId === line.productId
+        cartLineKey(entry.productId, entry.variantId) === key
           ? {
               ...entry,
               // Le prix et le stock sont rafraîchis à chaque ajout
@@ -340,23 +349,24 @@ export function addToCart(line: Omit<CartLine, "quantity">, quantity = 1): void 
   commit([...current, { ...line, quantity: clampQuantity(quantity, line.stock) }]);
 }
 
-export function setCartQuantity(productId: string, quantity: number): void {
-  const current = getCartSnapshot();
+export function setCartQuantity(productId: string, variantId: string | undefined, quantity: number): void {
+  const key = cartLineKey(productId, variantId);
   if (quantity <= 0) {
-    removeFromCart(productId);
+    removeFromCart(productId, variantId);
     return;
   }
   commit(
-    current.map((entry) =>
-      entry.productId === productId
+    getCartSnapshot().map((entry) =>
+      cartLineKey(entry.productId, entry.variantId) === key
         ? { ...entry, quantity: clampQuantity(quantity, entry.stock) }
         : entry,
     ),
   );
 }
 
-export function removeFromCart(productId: string): void {
-  commit(getCartSnapshot().filter((entry) => entry.productId !== productId));
+export function removeFromCart(productId: string, variantId?: string): void {
+  const key = cartLineKey(productId, variantId);
+  commit(getCartSnapshot().filter((entry) => cartLineKey(entry.productId, entry.variantId) !== key));
 }
 
 export function clearCart(): void {

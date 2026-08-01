@@ -113,7 +113,7 @@ export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
 
             <ul className="min-h-0 flex-1 divide-y divide-border overflow-y-auto">
               {lines.map((line) => (
-                <li key={line.productId} className="flex gap-3 p-4">
+                <li key={`${line.productId}::${line.variantId ?? ""}`} className="flex gap-3 p-4">
                   <Link
                     href={line.path}
                     onClick={closeDrawer}
@@ -141,13 +141,16 @@ export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
                     >
                       {line.name}
                     </Link>
+                    {line.variantLabel && (
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">{line.variantLabel}</p>
+                    )}
 
                     <div className="mt-2 flex items-center gap-2">
                       <div className="flex items-center rounded-sm border border-border">
                         <button
                           type="button"
                           aria-label={t("decrease")}
-                          onClick={() => setQuantity(line.productId, line.quantity - 1)}
+                          onClick={() => setQuantity(line.productId, line.variantId, line.quantity - 1)}
                           className="flex h-7 w-7 items-center justify-center text-foreground hover:bg-muted"
                         >
                           <Minus className="h-3 w-3" aria-hidden />
@@ -159,7 +162,7 @@ export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
                           type="button"
                           aria-label={t("increase")}
                           disabled={line.quantity >= Math.min(MAX_QUANTITY_PER_LINE, line.stock)}
-                          onClick={() => setQuantity(line.productId, line.quantity + 1)}
+                          onClick={() => setQuantity(line.productId, line.variantId, line.quantity + 1)}
                           className="flex h-7 w-7 items-center justify-center text-foreground hover:bg-muted disabled:opacity-40"
                         >
                           <Plus className="h-3 w-3" aria-hidden />
@@ -168,7 +171,7 @@ export function CartDrawer({ paymentSlot }: { paymentSlot?: ReactNode }) {
 
                       <button
                         type="button"
-                        onClick={() => remove(line.productId)}
+                        onClick={() => remove(line.productId, line.variantId)}
                         aria-label={t("removeLabel", { name: `${line.brand} ${line.name}` })}
                         className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:text-primary"
                       >

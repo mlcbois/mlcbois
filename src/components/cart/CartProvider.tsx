@@ -41,8 +41,8 @@ interface CartContextValue {
   ready: boolean;
   campaign: CampaignBenefit;
   add: (line: Omit<CartLine, "quantity">, quantity?: number) => void;
-  setQuantity: (productId: string, quantity: number) => void;
-  remove: (productId: string) => void;
+  setQuantity: (productId: string, variantId: string | undefined, quantity: number) => void;
+  remove: (productId: string, variantId?: string) => void;
   clear: () => void;
   /**
    * Tiroir latéral du panier (CartDrawer). L'état vit ici et non dans le
@@ -129,10 +129,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [],
   );
   const setQuantity = useCallback(
-    (productId: string, quantity: number) => setCartQuantity(productId, quantity),
+    (productId: string, variantId: string | undefined, quantity: number) =>
+      setCartQuantity(productId, variantId, quantity),
     [],
   );
-  const remove = useCallback((productId: string) => removeFromCart(productId), []);
+  const remove = useCallback(
+    (productId: string, variantId?: string) => removeFromCart(productId, variantId),
+    [],
+  );
   const clear = useCallback(() => clearCart(), []);
   const openDrawer = useCallback(() => setDrawerOpen(true), []);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);

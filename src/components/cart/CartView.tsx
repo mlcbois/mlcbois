@@ -118,7 +118,7 @@ export function CartView() {
 
         <ul className="divide-y divide-border rounded-sm border border-border bg-white">
           {lines.map((line) => (
-            <li key={line.productId} className="flex gap-4 p-4">
+            <li key={`${line.productId}::${line.variantId ?? ""}`} className="flex gap-4 p-4">
               <Link
                 href={line.path}
                 className="relative h-20 w-20 shrink-0 overflow-hidden rounded-sm bg-muted"
@@ -144,6 +144,9 @@ export function CartView() {
                 >
                   {line.name}
                 </Link>
+                {line.variantLabel && (
+                  <p className="mt-0.5 text-xs text-muted-foreground">{line.variantLabel}</p>
+                )}
                 <p className="mt-1 text-xs text-muted-foreground">
                   {t("columnUnitPrice")}: {formatCents(line.priceCents)}
                 </p>
@@ -158,23 +161,23 @@ export function CartView() {
                     <button
                       type="button"
                       aria-label={t("decrease")}
-                      onClick={() => setQuantity(line.productId, line.quantity - 1)}
+                      onClick={() => setQuantity(line.productId, line.variantId, line.quantity - 1)}
                       className="flex h-8 w-8 items-center justify-center text-foreground hover:bg-muted"
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
-                    <label className="sr-only" htmlFor={`qty-${line.productId}`}>
+                    <label className="sr-only" htmlFor={`qty-${line.productId}-${line.variantId ?? ""}`}>
                       {t("quantityLabel")}
                     </label>
                     <input
-                      id={`qty-${line.productId}`}
+                      id={`qty-${line.productId}-${line.variantId ?? ""}`}
                       type="number"
                       inputMode="numeric"
                       min={1}
                       max={Math.min(MAX_QUANTITY_PER_LINE, Math.max(1, line.stock))}
                       value={line.quantity}
                       onChange={(event) =>
-                        setQuantity(line.productId, Number.parseInt(event.target.value, 10))
+                        setQuantity(line.productId, line.variantId, Number.parseInt(event.target.value, 10))
                       }
                       className="w-12 border-x border-border bg-transparent py-1 text-center text-sm font-bold outline-none"
                     />
@@ -182,7 +185,7 @@ export function CartView() {
                       type="button"
                       aria-label={t("increase")}
                       disabled={line.quantity >= Math.min(MAX_QUANTITY_PER_LINE, line.stock)}
-                      onClick={() => setQuantity(line.productId, line.quantity + 1)}
+                      onClick={() => setQuantity(line.productId, line.variantId, line.quantity + 1)}
                       className="flex h-8 w-8 items-center justify-center text-foreground hover:bg-muted disabled:opacity-40"
                     >
                       <Plus className="h-3.5 w-3.5" />
@@ -191,7 +194,7 @@ export function CartView() {
 
                   <button
                     type="button"
-                    onClick={() => remove(line.productId)}
+                    onClick={() => remove(line.productId, line.variantId)}
                     aria-label={t("removeLabel", { name: `${line.brand} ${line.name}` })}
                     className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary"
                   >
