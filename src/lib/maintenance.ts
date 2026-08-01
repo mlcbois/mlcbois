@@ -13,29 +13,21 @@
  * l'application.
  */
 
-/** Valeurs qui ouvrent la boutique, au cas où l'hébergeur normalise la saisie. */
-const VALEURS_OUVERTES = new Set(["0", "false", "off", "no"]);
+/** Valeurs qui activent la maintenance, au cas où l'hébergeur normalise la saisie. */
+const VALEURS_FERMEES = new Set(["1", "true", "on", "yes"]);
 
 /**
- * En production, la boutique est fermée **par défaut**.
+ * La boutique est ouverte **par défaut**, en développement comme en production.
  *
- * L'inverse — ouvrir tant qu'on n'a pas demandé la fermeture — fait dépendre la
- * confidentialité d'un catalogue inachevé d'une variable qu'il suffit d'oublier
- * une fois. Un déploiement sur un nouvel hébergeur, une variable perdue à un
- * redémarrage, et la boutique s'ouvre toute seule. Ici l'oubli laisse le site
- * fermé : c'est le sens sûr de l'erreur.
- *
- * En développement, l'inverse s'applique : la boutique est ouverte, sauf à
- * demander explicitement la maintenance pour vérifier son rendu.
+ * La maintenance ne se déclenche que si elle est explicitement demandée par
+ * `MAINTENANCE_MODE=1` : la variable absente, vide ou à « 0 » laisse le site
+ * accessible à tout le monde. Pour refermer la vitrine (base en travaux, mise à
+ * jour du catalogue), il suffit de poser `MAINTENANCE_MODE=1` puis de
+ * redémarrer l'application.
  */
 export function maintenanceActive(): boolean {
   const valeur = (process.env.MAINTENANCE_MODE ?? "").trim().toLowerCase();
-
-  if (process.env.NODE_ENV !== "production") {
-    return ["1", "true", "on", "yes"].includes(valeur);
-  }
-
-  return !VALEURS_OUVERTES.has(valeur);
+  return VALEURS_FERMEES.has(valeur);
 }
 
 /**
