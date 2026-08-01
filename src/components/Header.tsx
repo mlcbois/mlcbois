@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { Phone, Search, Star, Truck, User } from "lucide-react";
+import { Phone, Search, Star, User } from "lucide-react";
 import { Link, getPathname } from "@/i18n/navigation";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -12,7 +12,7 @@ import type { Locale } from "@/i18n/routing";
 
 // Numéro composable : COMPANY.phone est mis en forme pour la lecture, le lien
 // « tel: » le veut sans espaces.
-const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
+const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
 
 /**
  * En-tête de la boutique.
@@ -49,11 +49,6 @@ export async function Header() {
             <span className="messwert text-white">4,8</span>
             <span className="hidden sm:inline">{t("bewertungen")}</span>
           </span>
-          <span className="hidden items-center gap-1.5 md:flex">
-            <Truck className="h-3.5 w-3.5 shrink-0 text-primary" />
-            {t("lieferzusage")}
-          </span>
-          <span className="hidden lg:block">{t("oeffnung")}</span>
           {/* Choix de la langue : dans la barre de service pour rester visible
               en permanence, desktop comme mobile, sans encombrer la rangée
               d'icônes juste en dessous. */}
@@ -168,14 +163,6 @@ export async function Header() {
                   {common(`categoryNames.${item.slug}`)}
                 </Link>
               ))}
-              <span className="ml-auto hidden shrink-0 pl-6 lg:block">
-                <Link
-                  href="/livraison"
-                  className="messwert text-[0.78rem] font-bold whitespace-nowrap text-primary hover:underline"
-                >
-                  {t("lieferbanner")}
-                </Link>
-              </span>
             </div>
           </div>
         )}

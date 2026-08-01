@@ -42,7 +42,7 @@ export const MERCHANT_VAT_RATE = 0.1;
 // Doivent rester alignés sur COMPANY (src/content/legal/fr.ts), qui fait
 // autorité pour les mentions légales et la facture PDF.
 export const SHOP_NAME = "MLC Bois";
-export const SHOP_PHONE = "+33 1 23 45 67 89";
+export const SHOP_PHONE = "+33 6 35 01 35 57";
 
 /**
  * URL publique de la boutique. Toutes les URL du flux doivent être absolues et
@@ -64,7 +64,7 @@ export function absoluteUrl(pathOrUrl: string): string {
  * offerte, 3 à 5 jours ouvrés »). Ces valeurs DOIVENT rester
  * alignées sur ce qui est écrit sur le site : Google compare le flux et la page.
  *
- * Le mode express (70 €, 24–48 h) n'est volontairement pas déclaré ici : le flux
+ * Le mode express (60 €, 24–48 h) n'est volontairement pas déclaré ici : le flux
  * ne porte qu'une offre de livraison par produit, et c'est le mode par défaut —
  * donc le standard — qui doit y figurer. L'express reste proposé au panier.
  */

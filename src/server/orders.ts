@@ -314,8 +314,13 @@ export async function countOpenOrders(): Promise<number> {
  * Décalage volontaire du compteur : démarrer à 1 afficherait aux tout premiers
  * clients qu'ils sont les tout premiers clients. Partir d'un chiffre déjà
  * élevé donne l'image d'une boutique avec un historique de ventes établi.
+ *
+ * C'est un plancher, pas seulement une valeur de départ : même si une commande
+ * portant un numéro inférieur existe déjà, le prochain numéro repart à
+ * ORDER_NUMBER_BASE + 1. Relever cette base fait donc sauter le compteur en
+ * avant sans jamais reculer.
  */
-const ORDER_NUMBER_BASE = 500;
+const ORDER_NUMBER_BASE = 14_678;
 
 /**
  * Numéro lisible « MLC-AAAA-NNNNNN », séquentiel par année civile.
@@ -334,7 +339,11 @@ async function nextOrderNumber(): Promise<string> {
   const previous = last
     ? Number.parseInt(last.orderNumber.slice(prefix.length), 10)
     : ORDER_NUMBER_BASE;
-  const next = Number.isFinite(previous) ? previous + 1 : ORDER_NUMBER_BASE + 1;
+  // Plancher : le compteur ne redescend jamais sous ORDER_NUMBER_BASE, même si
+  // une commande plus ancienne porte un numéro inférieur.
+  const next = Number.isFinite(previous)
+    ? Math.max(previous + 1, ORDER_NUMBER_BASE + 1)
+    : ORDER_NUMBER_BASE + 1;
   return `${prefix}${String(next).padStart(6, "0")}`;
 }
 
@@ -514,7 +523,7 @@ export async function createOrder(
         line.productId,
         -line.quantity,
         "verkauf",
-        `Bestellung ${orderNumber}`,
+        `Commande ${orderNumber}`,
         "shop",
       );
       if (!result) throw new OrderError("product_unavailable");
@@ -599,7 +608,7 @@ export async function createOrder(
               create: {
                 kind: "status",
                 toValue: "eingegangen",
-                note: `Bestellung im Shop eingegangen (${method.label}, ${shippingMethod.label})`,
+                note: `Commande passée dans la boutique (${method.label}, ${shippingMethod.label})`,
                 createdBy: "shop",
               },
             },
@@ -718,6 +727,24 @@ export async function updatePaymentStatus(
   });
 
   return getOrder(id);
+}
+
+/**
+ * Mémorise la référence du prestataire de paiement (PaymentIntent Stripe, id de
+ * session…) sur la commande. Réutilise la colonne `stripePaymentIntentId` qui
+ * existe déjà : une seule référence externe par commande, quel que soit le
+ * prestataire actif. Sans effet si la référence est vide.
+ */
+export async function setOrderGatewayReference(
+  id: string,
+  reference: string,
+): Promise<void> {
+  const value = reference.trim();
+  if (!value) return;
+  await prisma.order.update({
+    where: { id },
+    data: { stripePaymentIntentId: value },
+  });
 }
 
 export async function updateAdminNote(

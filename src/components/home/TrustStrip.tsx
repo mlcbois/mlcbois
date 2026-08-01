@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Droplets, Ruler, ShieldCheck, Truck } from "lucide-react";
+import { Droplets, Ruler, ShieldCheck } from "lucide-react";
 
 /**
  * Bandeau de réassurance, juste sous le hero.
@@ -9,7 +9,6 @@ import { Droplets, Ruler, ShieldCheck, Truck } from "lucide-react";
  */
 const punkte = [
   { icon: Droplets, key: "feuchte", wert: "< 18", einheit: "%" },
-  { icon: Truck, key: "lieferung", wert: "48", einheit: "h" },
   { icon: Ruler, key: "laengen", wert: "25/33/50", einheit: "cm" },
   { icon: ShieldCheck, key: "herkunft", wert: "100", einheit: "% FR" },
 ] as const;
@@ -19,7 +18,7 @@ export async function TrustStrip() {
 
   return (
     <section className="border-b border-border bg-muted">
-      <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-x-6 gap-y-5 px-4 py-5 sm:px-6 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-x-6 gap-y-5 px-4 py-5 sm:grid-cols-3 sm:px-6">
         {punkte.map(({ icon: Icon, key, wert, einheit }) => (
           <div key={key} className="flex items-start gap-3">
             <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white text-primary shadow-sm">

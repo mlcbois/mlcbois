@@ -61,8 +61,8 @@ const MESSAGES: Record<AccountErrorCode, { fr: string; en: string }> = {
   },
   invalid_city: { fr: "Merci d'indiquer une ville.", en: "Please enter a city." },
   unsupported_country: {
-    fr: "Nous livrons actuellement uniquement en France métropolitaine.",
-    en: "We currently deliver within mainland France only.",
+    fr: "Merci d'indiquer un pays valide.",
+    en: "Please enter a valid country.",
   },
   invalid_token: {
     fr: "Ce lien a expiré ou a déjà été utilisé. Merci d'en demander un nouveau.",

@@ -144,7 +144,7 @@ export function PaypalMark() {
 
 export function SepaMark() {
   return (
-    <Card label="SEPA-Lastschrift">
+    <Card label="Prélèvement SEPA">
       <Wordmark fill="#10298E" fontSize={10} y={15} letterSpacing={0.5}>
         SEPA
       </Wordmark>
@@ -158,7 +158,7 @@ export function SepaMark() {
         letterSpacing="0.2"
         fill="#6b7280"
       >
-        LASTSCHRIFT
+        PRÉLÈVEMENT
       </text>
     </Card>
   );
@@ -176,7 +176,7 @@ export function SofortMark() {
 
 export function InvoiceMark() {
   return (
-    <Card label="Kauf auf Rechnung">
+    <Card label="Paiement sur facture">
       {/* Feuille de facture : quelques lignes et le montant en euros */}
       <rect
         x="16"
@@ -260,11 +260,17 @@ type Mark = ComponentType;
 export function brandMarksFor(key: string, icon: string): Mark[] | null {
   const normalized = key.trim().toLowerCase();
 
+  // Virement bancaire : pas de logo de marque, on laisse l'appelant afficher le
+  // pictogramme « banque » et le libellé du moyen de paiement.
+  if (["banque", "virement", "virement-bancaire"].includes(normalized)) return null;
+
   const byKey: Record<string, Mark[]> = {
     rechnung: [InvoiceMark],
     paypal: [PaypalMark],
     kreditkarte: [VisaMark, MastercardMark, AmexMark],
     creditcard: [VisaMark, MastercardMark, AmexMark],
+    "carte-bancaire": [VisaMark, MastercardMark, AmexMark],
+    cartebancaire: [VisaMark, MastercardMark, AmexMark],
     visa: [VisaMark],
     mastercard: [MastercardMark],
     amex: [AmexMark],

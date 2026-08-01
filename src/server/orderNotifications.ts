@@ -28,6 +28,7 @@ import {
   buildOrderNotificationEmail,
 } from "@/server/emails/order";
 import { buildInvoicePdf, invoiceFilename } from "@/server/invoice";
+import { getBankTransferSettings } from "@/server/bankTransfer";
 import type { OrderRecord } from "@/server/orders";
 
 /** Vrai uniquement en développement sans SMTP configuré. */
@@ -131,7 +132,10 @@ export async function sendOrderEmails(order: OrderRecord): Promise<void> {
     );
   }
 
-  const buyerMessage = buildOrderConfirmationEmail(order);
+  // Coordonnées du virement chargées une fois : la confirmation du client les
+  // affiche pour une commande réglée par virement, la notification vendeur non.
+  const bankTransfer = await getBankTransferSettings();
+  const buyerMessage = buildOrderConfirmationEmail(order, bankTransfer);
   const sellerMessage = buildOrderNotificationEmail(order);
 
   // Facture PDF jointe à la confirmation du client, et à la notification du

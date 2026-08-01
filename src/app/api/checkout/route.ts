@@ -1,10 +1,58 @@
 import { after, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { createOrder, OrderError, parseCheckoutPayload } from "@/server/orders";
-import type { CheckoutErrorCode } from "@/server/orders";
+import {
+  createOrder,
+  OrderError,
+  parseCheckoutPayload,
+  setOrderGatewayReference,
+} from "@/server/orders";
+import type { CheckoutErrorCode, OrderRecord } from "@/server/orders";
 import { getCurrentCustomer } from "@/server/customerSession";
 import { resolveCampaignContext } from "@/server/campaignContext";
 import { sendOrderEmails } from "@/server/orderNotifications";
+import { resolveGatewayForMethod } from "@/server/gateways";
+
+/**
+ * URL absolue et localisée de la page de confirmation. Le français vit à la
+ * racine, l'anglais sous /en (localePrefix « as-needed ») : la redirection de
+ * retour du prestataire doit respecter ce préfixe.
+ */
+function confirmationUrl(order: OrderRecord): string {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
+  const prefix = order.locale === "en" ? "/en" : "";
+  return `${base}${prefix}/confirmation/${order.orderNumber}?token=${order.accessToken}`;
+}
+
+/**
+ * Ouvre une session de paiement si le moyen choisi est encaissé en ligne, et
+ * rend l'URL vers laquelle rediriger le navigateur. Ne lève jamais : la commande
+ * est déjà écrite (statut « offen »), donc un prestataire injoignable la laisse
+ * réglable autrement plutôt que de casser une commande valable.
+ */
+async function startOnlinePayment(order: OrderRecord): Promise<string | undefined> {
+  const gateway = await resolveGatewayForMethod(order.paymentMethodKey);
+  if (!gateway) return undefined;
+
+  try {
+    const confirmation = confirmationUrl(order);
+    const session = await gateway.createCheckoutSession({
+      orderNumber: order.orderNumber,
+      accessToken: order.accessToken,
+      amountCents: order.totalCents,
+      currency: order.currency,
+      email: order.email,
+      locale: order.locale === "en" ? "en" : "fr",
+      description: `Commande ${order.orderNumber}`,
+      successUrl: confirmation,
+      cancelUrl: confirmation,
+    });
+    await setOrderGatewayReference(order.id, session.reference);
+    return session.redirectUrl;
+  } catch (error) {
+    console.error("[checkout] initialisation du paiement en ligne impossible:", error);
+    return undefined;
+  }
+}
 
 // Point d'entrée public du tunnel de commande.
 //
@@ -51,8 +99,8 @@ const MESSAGES: Record<CheckoutErrorCode, { fr: string; en: string }> = {
   },
   invalid_city: { fr: "Merci d'indiquer une ville.", en: "Please enter a city." },
   unsupported_country: {
-    fr: "Nous livrons actuellement uniquement en France métropolitaine.",
-    en: "We currently deliver within mainland France only.",
+    fr: "Merci d'indiquer un pays valide.",
+    en: "Please enter a valid country.",
   },
   invalid_phone: {
     fr: "Merci d'indiquer un numéro de téléphone valide.",
@@ -142,6 +190,11 @@ export async function POST(request: Request) {
     // Les stocks affichés dans la boutique ont changé.
     revalidatePath("/", "layout");
 
+    // Encaissement en ligne quand le moyen choisi y est rattaché : le client
+    // sera redirigé vers la page de paiement du prestataire. Sinon (virement,
+    // prestataire non configuré), on retombe sur le parcours habituel.
+    const redirectUrl = await startOnlinePayment(order);
+
     return NextResponse.json(
       {
         orderNumber: order.orderNumber,
@@ -149,6 +202,9 @@ export async function POST(request: Request) {
         // Chemin à suivre après la commande ; le jeton évite qu'un numéro
         // deviné donne accès à l'adresse du client.
         confirmationPath: `/confirmation/${order.orderNumber}?token=${order.accessToken}`,
+        // Présent uniquement si un paiement en ligne a été ouvert : le client
+        // doit alors quitter le site vers cette URL externe.
+        ...(redirectUrl ? { redirectUrl } : {}),
         status: order.status,
         paymentStatus: order.paymentStatus,
         totalCents: order.totalCents,

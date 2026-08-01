@@ -3,13 +3,18 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CheckCircle2, Info, Landmark, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Info, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { formatPrice } from "@/server/store";
 import { getOrderByNumber, type OrderAddress, type OrderRecord } from "@/server/orders";
+import {
+  BANK_TRANSFER_METHOD_KEY,
+  getBankTransferSettings,
+  isBankTransferConfigured,
+} from "@/server/bankTransfer";
 import { ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/orderStatus";
 
 type ConfirmationParams = Promise<{ locale: string; orderNumber: string }>;
@@ -19,18 +24,11 @@ type ConfirmationSearch = Promise<{ token?: string }>;
 // qu'avec le jeton remis à la fin du tunnel, jamais avec le seul numéro.
 export const dynamic = "force-dynamic";
 
-// Coordonnées bancaires de démonstration. Elles doivent impérativement être
-// remplacées par les vraies avant la mise en production — d'où l'avertissement
-// affiché en toutes lettres sur la page.
-const DEMO_BANK = {
-  holder: "MLC Bois SAS (démo)",
-  iban: "DE02 1203 0000 0000 2020 51",
-  bic: "BYLADEM1001",
-  bank: "Musterbank Berlin (Testdaten)",
-};
-
-/** Moyens de paiement encore branchés manuellement, faute de prestataire configuré. */
-const PROVIDER_KEYS = new Set(["paypal", "kreditkarte", "lastschrift", "sofort", "klarna", "applepay"]);
+/**
+ * Moyens de paiement encaissés par un prestataire en ligne : la page affiche un
+ * avis « paiement à confirmer » tant que le prestataire n'est pas branché.
+ */
+const PROVIDER_KEYS = new Set(["paypal", "carte-bancaire"]);
 
 export async function generateMetadata({
   params,
@@ -299,68 +297,39 @@ async function PaymentInstructions({ order }: { order: OrderRecord }) {
   const total = formatPrice(order.totalCents);
   const key = order.paymentMethodKey;
 
+  // Virement : coordonnées saisies en administration, jamais celles d'un compte
+  // de démonstration. Tant qu'aucun IBAN n'est renseigné, on retombe sur le
+  // message générique plutôt que d'afficher un cadre vide.
+  const bank = key === BANK_TRANSFER_METHOD_KEY ? await getBankTransferSettings() : null;
+  const bankReady = bank !== null && isBankTransferConfigured(bank);
+  const bankRow = (label: string, value: string, mono = false, full = false) =>
+    value.trim() ? (
+      <div className={`flex justify-between gap-3 sm:block${full ? " sm:col-span-2" : ""}`}>
+        <dt className="text-xs font-bold text-muted-foreground uppercase">{label}</dt>
+        <dd className={`font-semibold text-foreground${mono ? " font-mono" : ""}`}>{value}</dd>
+      </div>
+    ) : null;
+
   return (
     <section className="rounded-sm border border-border bg-white p-5">
       <h2 className="mb-3 text-lg font-black text-foreground">
         {t("confirmation.instructionsTitle")}
       </h2>
 
-      {key === "vorkasse" && (
+      {bankReady && bank && (
         <>
           <p className="text-sm leading-relaxed text-foreground">
             {t("confirmation.instructions.vorkasse", { total, orderNumber: order.orderNumber })}
           </p>
 
           <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 rounded-sm bg-muted p-4 text-sm sm:grid-cols-2">
-            <div className="flex justify-between gap-3 sm:block">
-              <dt className="text-xs font-bold text-muted-foreground uppercase">
-                {t("confirmation.bankHolder")}
-              </dt>
-              <dd className="font-semibold text-foreground">{DEMO_BANK.holder}</dd>
-            </div>
-            <div className="flex justify-between gap-3 sm:block">
-              <dt className="text-xs font-bold text-muted-foreground uppercase">
-                {t("confirmation.bankBank")}
-              </dt>
-              <dd className="font-semibold text-foreground">{DEMO_BANK.bank}</dd>
-            </div>
-            <div className="flex justify-between gap-3 sm:block">
-              <dt className="text-xs font-bold text-muted-foreground uppercase">
-                {t("confirmation.bankIban")}
-              </dt>
-              <dd className="font-mono font-semibold text-foreground">{DEMO_BANK.iban}</dd>
-            </div>
-            <div className="flex justify-between gap-3 sm:block">
-              <dt className="text-xs font-bold text-muted-foreground uppercase">
-                {t("confirmation.bankBic")}
-              </dt>
-              <dd className="font-mono font-semibold text-foreground">{DEMO_BANK.bic}</dd>
-            </div>
-            <div className="flex justify-between gap-3 sm:col-span-2 sm:block">
-              <dt className="text-xs font-bold text-muted-foreground uppercase">
-                {t("confirmation.bankReference")}
-              </dt>
-              <dd className="font-semibold text-foreground">{order.orderNumber}</dd>
-            </div>
+            {bankRow(t("confirmation.bankHolder"), bank.holder)}
+            {bankRow(t("confirmation.bankTransferType"), bank.transferType)}
+            {bankRow(t("confirmation.bankIban"), bank.iban, true)}
+            {bankRow(t("confirmation.bankBic"), bank.bic, true)}
+            {bankRow(t("confirmation.bankReference"), order.orderNumber, false, true)}
           </dl>
-
-          <p className="mt-3 flex items-start gap-2 rounded-sm border border-primary bg-primary/10 px-4 py-3 text-xs font-semibold text-foreground">
-            <Landmark className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-            <span>{t("confirmation.bankDemoNotice")}</span>
-          </p>
         </>
-      )}
-
-      {key === "rechnung" && (
-        <p className="text-sm leading-relaxed text-foreground">
-          {t("confirmation.instructions.rechnung", { total, orderNumber: order.orderNumber })}
-        </p>
-      )}
-
-      {key === "nachnahme" && (
-        <p className="text-sm leading-relaxed text-foreground">
-          {t("confirmation.instructions.nachnahme", { total, orderNumber: order.orderNumber })}
-        </p>
       )}
 
       {PROVIDER_KEYS.has(key) && (
@@ -375,7 +344,7 @@ async function PaymentInstructions({ order }: { order: OrderRecord }) {
         </>
       )}
 
-      {!PROVIDER_KEYS.has(key) && !["vorkasse", "rechnung", "nachnahme"].includes(key) && (
+      {!bankReady && !PROVIDER_KEYS.has(key) && (
         <p className="text-sm leading-relaxed text-foreground">
           {t("confirmation.instructions.generic")}
         </p>

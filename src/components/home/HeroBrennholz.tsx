@@ -4,7 +4,7 @@ import { ArrowDown, Phone } from "lucide-react";
 import { COMPANY } from "@/content/legal";
 
 // Même source que l'en-tête et les mentions légales : un seul numéro à changer.
-const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
+const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
 
 /**
  * Ouverture de la page d'accueil.
@@ -17,14 +17,6 @@ const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
  */
 export async function HeroBrennholz() {
   const t = await getTranslations("hero");
-
-  const belege = [
-    { wert: "18", einheit: "%", label: t("belege.feuchte") },
-    { wert: "48", einheit: "h", label: t("belege.lieferung") },
-    // Séparateur français : 2 100, avec espace insécable — le point se lirait comme
-    // deux nombres distincts.
-    { wert: "2.100", einheit: "kWh/rm", label: t("belege.heizwert") },
-  ];
 
   return (
     <section className="relative isolate overflow-hidden bg-secondary">
@@ -74,22 +66,6 @@ export async function HeroBrennholz() {
               <span className="messwert text-base font-bold text-white">{COMPANY.phone}</span>
             </a>
           </div>
-
-          {/* Les trois chiffres qui décident de l'achat, composés comme des
-              mesures et pas comme des arguments publicitaires. */}
-          <dl className="mt-9 flex flex-wrap gap-x-12 gap-y-5 border-t border-white/15 pt-6">
-            {belege.map((beleg) => (
-              <div key={beleg.label}>
-                <dd className="messwert flex items-baseline gap-1 text-[2.1rem] leading-none font-bold text-white">
-                  {beleg.wert}
-                  <span className="einheit text-white">{beleg.einheit}</span>
-                </dd>
-                <dt className="mt-2 max-w-[13rem] text-xs leading-snug text-white/60">
-                  {beleg.label}
-                </dt>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
     </section>

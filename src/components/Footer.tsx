@@ -5,7 +5,7 @@ import { Logo } from "@/components/brand/Logo";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { COMPANY, isLegalLocale } from "@/content/legal";
 
-const TEL_HREF = `tel:+33${COMPANY.phone.replace(/\D/g, "").slice(1)}`;
+const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
 import { getLegalFooterGroups } from "@/server/legalPages";
 
 export async function Footer() {

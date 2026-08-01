@@ -120,7 +120,8 @@
     "decreaseQuantity": "Diminuer la quantité de 1",
     "increaseQuantity": "Augmenter la quantité de 1",
     "addToCart": "Ajouter au panier",
-    "fastDelivery": "Livraison standard offerte (3 à 5 jours) · Express 70 € (24 à 48 h)",
+    "fastDelivery": "Livraison standard : gratuite (3-5 jours ouvrables)",
+    "expressDelivery": "Livraison express : 60 € (24-48 h)",
     "warranty": "14 jours de rétractation, sans avoir à se justifier",
     "vatNoteFreeShipping": "TVA incluse, livraison offerte en France métropolitaine",
     "galleryLabel": "Autres vues du produit",
@@ -164,8 +165,8 @@
   "footer": {
     "logoAlt": "MLC Bois",
     "homeAriaLabel": "MLC Bois – page d'accueil",
-    "deliveryTitle": "Livraison en 48 heures",
-    "deliveryDetail": "Partout en France métropolitaine — offerte dès 6 MAP",
+    "deliveryTitle": "Livraison standard : gratuite (3-5 jours ouvrables)",
+    "deliveryDetail": "Livraison express : 60 € (24-48 h)",
     "warrantyTitle": "Humidité sur brut inférieure à 18 %",
     "warrantyDetail": "Relevé de mesure joint à chaque livraison",
     "paymentTitle": "Paiement sécurisé",
@@ -220,7 +221,7 @@
     "vatIncluded": "dont TVA {rate} % ({amount})",
     "vatNote": "Tous les prix s'entendent TVA comprise.",
     "shippingStandardHint": "La livraison standard est offerte, sans montant minimum de commande.",
-    "shippingRule": "Livraison standard offerte (3 à 5 jours ouvrés), livraison express 70,00 € (24 à 48 heures). Le mode de livraison se choisit au moment de la commande.",
+    "shippingRule": "Livraison standard offerte (3 à 5 jours ouvrés), livraison express 60,00 € (24 à 48 heures). Le mode de livraison se choisit au moment de la commande.",
     "deliveryTime": "L'expédition intervient après réception du paiement.",
     "withdrawalHint": "En tant que consommateur, vous disposez d'un délai de rétractation de 14 jours (art. L221-18 du Code de la consommation). Le détail figure dans la page Droit de rétractation.",
     "toCheckout": "Passer commande",
@@ -271,7 +272,7 @@
     "city": "Ville",
     "country": "Pays",
     "countryFR": "France",
-    "countryHint": "Nous livrons actuellement uniquement en France métropolitaine.",
+    "countryHint": "Sélectionnez votre pays de livraison.",
     "countryPlaceholder": "Rechercher un pays",
     "countryToggle": "Ouvrir la liste des pays",
     "countryEmpty": "Aucun pays trouvé.",
@@ -327,7 +328,7 @@
       "invalid_street": "Merci d'indiquer le numéro et le nom de la rue.",
       "invalid_postal_code": "Merci d'indiquer un code postal valide (5 chiffres).",
       "invalid_city": "Merci d'indiquer une ville.",
-      "unsupported_country": "Nous livrons actuellement uniquement en France métropolitaine.",
+      "unsupported_country": "Merci d'indiquer un pays valide.",
       "invalid_phone": "Merci d'indiquer un numéro de téléphone valide.",
       "invalid_payment_method": "Merci de choisir un moyen de paiement disponible.",
       "terms_required": "Merci d'accepter les conditions générales de vente.",
@@ -367,6 +368,7 @@
       "bankIban": "IBAN",
       "bankBic": "BIC",
       "bankBank": "Banque",
+      "bankTransferType": "Type de virement",
       "bankReference": "Référence à indiquer",
       "bankDemoNotice": "Remarque : ces coordonnées bancaires sont un espace réservé pour l'environnement de test et ne correspondent à aucun compte réel. Elles doivent être remplacées par les vraies coordonnées avant la mise en production.",
       "providerNotice": "Le prestataire de paiement pour {label} se configure dans le back-office, rubrique « Intégrations ». D'ici là, nous confirmons manuellement la réception du paiement.",
@@ -424,7 +426,7 @@
       "city": "Ville",
       "country": "Pays",
       "countryFR": "France",
-      "countryHint": "Nous livrons actuellement uniquement en France métropolitaine.",
+      "countryHint": "Sélectionnez votre pays de livraison.",
       "email": "Adresse e-mail",
       "phone": "Téléphone",
       "phoneHint": "Uniquement pour les questions liées à la livraison.",
@@ -443,7 +445,7 @@
       "invalid_street": "Merci d'indiquer le numéro et le nom de la rue.",
       "invalid_postal_code": "Merci d'indiquer un code postal valide.",
       "invalid_city": "Merci d'indiquer une ville.",
-      "unsupported_country": "Nous livrons actuellement uniquement en France métropolitaine.",
+      "unsupported_country": "Merci d'indiquer un pays valide.",
       "invalid_token": "Ce lien a expiré ou a déjà été utilisé. Merci d'en demander un nouveau.",
       "rate_limited": "Trop de tentatives. Merci de patienter un instant avant de réessayer.",
       "not_found": "Introuvable.",
@@ -691,7 +693,7 @@
   "lieferung": {
     "eyebrow": "Livraison",
     "titel": "Du dépôt jusque devant chez vous",
-    "einleitung": "Nous livrons partout en France métropolitaine. En Île-de-France avec notre propre remorque, ailleurs sur palette par transporteur — dans les deux cas vous êtes prévenu avant le passage.",
+    "einleitung": "Nous livrons partout en France et dans certaine ville de la belgique. En France avec notre propre remorque, ailleurs sur palette par transporteur — dans les deux cas vous êtes prévenu avant le passage.",
     "schritte": {
       "bestellung": {
         "titel": "Commande",
@@ -703,7 +705,7 @@
       },
       "abladen": {
         "titel": "Déchargement",
-        "text": "Le déchargement en bord de voirie est compris dans le prix. Le rangement en cour, en cave ou au garage coûte 35 € par mètre cube apparent."
+        "text": "Le déchargement en bord de voirie est compris dans le prix. Nous disposons des transpalettes pour transporter les palettes jusqu'à votre garage ou parking de stockage."
       }
     },
     "tabelle": {
@@ -739,7 +741,7 @@
         "ort": "Vincennes",
         "kauf": "Hêtre 33 cm, palette",
         "note": "5",
-        "text": "Livré le mardi matin, le créneau annoncé a été tenu. J'ai remesuré moi-même : 15,8 %. Le bois prend au premier allume-feu, sans siffler."
+        "text": "Livré le mardi matin, le créneau annoncé a été tenu et le bois prend au premier allume-feu, sans siffler."
       },
       "annika": {
         "name": "Annie S.",
@@ -753,7 +755,7 @@
         "ort": "Rambouillet",
         "kauf": "Bûches densifiées, 960 kg",
         "note": "5",
-        "text": "La palette est arrivée une semaine après la date annoncée. En revanche on m'a prévenu avant et le prix a été ajusté sans que j'aie à le demander."
+        "text": "La palette est arrivée une semaine après la date annoncée. En revanche on m'a prévenu avant et le prix a été ajusté sans que j'ai à le demander."
       }
     }
   },
@@ -781,17 +783,9 @@
         "frage": "Comment stocker le bois après la livraison ?",
         "antwort": "Le bois séché en séchoir n'a plus besoin de sécher, mais il ne doit pas se réhumidifier. Sous abri, à distance du mur et pas à même le sol — une palette dessous suffit. Dans une cave fermée et sans ventilation, le bois reprend l'humidité de l'air et repasse au-dessus de 20 % en un an."
       },
-      "abladen": {
-        "frage": "Où se fait le déchargement, et que se passe-t-il si l'accès est étroit ?",
-        "antwort": "Par défaut en bord de voirie ou dans l'allée, à condition qu'un 7,5 tonnes puisse y entrer. Si l'accès est plus étroit, signalez-le à la commande : nous venons alors avec la petite remorque, moyennant 20 € de supplément. Le rangement en cour, en cave ou au garage coûte 35 € par mètre cube apparent."
-      },
       "restaurant": {
         "frage": "Livrez-vous aussi les restaurants et les boulangeries ?",
         "antwort": "Oui. Pour les fours à bois et les restaurants de grillades, nous proposons du hêtre en 25 et 33 cm à moins de 15 % d'humidité sur brut, en réapprovisionnement hebdomadaire sur demande. À partir de trois palettes par mois, un tarif dégressif s'applique. Écrivez-nous via le formulaire de contact, nous répondons le jour ouvré même."
-      },
-      "zahlung": {
-        "frage": "Quand dois-je payer ?",
-        "antwort": "Après la confirmation du créneau, par virement, PayPal ou carte bancaire. Le paiement en espèces à la livraison est possible, mais doit être indiqué au moment de la commande : les chauffeurs ne transportent pas de monnaie."
       }
     }
   },

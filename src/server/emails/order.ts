@@ -20,6 +20,14 @@ import { formatCents } from "@/lib/cart";
 import type { MailMessage } from "@/lib/mailer";
 import type { ShippingMethodKey } from "@/lib/cart";
 import type { OrderAddress, OrderRecord } from "@/server/orders";
+// Import de type seul : ce module reste pur (aucune ouverture de base), pour
+// que les tests le chargent sans DATABASE_URL. Les coordonnées lui sont passées
+// en argument, jamais lues ici.
+import type { BankTransferSettings } from "@/server/bankTransfer";
+
+/** Clé du moyen de paiement « virement bancaire » (dupliquée volontairement
+ *  pour ne pas importer de valeur runtime depuis le module bankTransfer). */
+const BANK_TRANSFER_KEY = "banque";
 
 export type OrderEmailLocale = "fr" | "en";
 
@@ -196,7 +204,7 @@ function itemsTable(
 
   const shippingValue =
     order.shippingCents === 0 ? labels.freeShipping : formatCents(order.shippingCents);
-  // Le mode de livraison est nommé sur la ligne des frais : « 70,00 € » seul
+  // Le mode de livraison est nommé sur la ligne des frais : « 60,00 € » seul
   // laisserait le client chercher d'où vient la somme.
   const shippingLabel = `${labels.shipping} — ${labels.shippingMethod}`;
 
@@ -296,23 +304,44 @@ function greeting(address: OrderAddress, fr: boolean): string {
   return fr ? `Bonjour ${full}` : `Hello ${full}`;
 }
 
-export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessage, "to"> {
+export function buildOrderConfirmationEmail(
+  order: OrderRecord,
+  bankTransfer?: BankTransferSettings,
+): Omit<MailMessage, "to"> {
   const fr = order.locale !== "en";
   const lang: OrderEmailLocale = fr ? "fr" : "en";
   const dateLocale = fr ? "fr-FR" : "en-GB";
   const orderUrl = `${siteUrl()}${fr ? "" : "/en"}/confirmation/${order.orderNumber}?token=${order.accessToken}`;
 
+  // Virement : le bloc de coordonnées n'apparaît que pour une commande réglée
+  // par virement dont l'IBAN est renseigné en administration.
+  const bankOrder =
+    order.paymentMethodKey === BANK_TRANSFER_KEY &&
+    !!bankTransfer &&
+    bankTransfer.iban.trim().length > 0
+      ? bankTransfer
+      : null;
+
   const heading = fr ? "Merci pour votre commande" : "Thank you for your order";
   const placed = formatDate(order.createdAt, dateLocale);
+
+  // Texte d'instructions fixe : seules les coordonnées changent.
+  const bankInstruction = bankOrder
+    ? fr
+      ? `Merci de confirmer votre commande en effectuant un virement de <strong>${escapeHtml(formatCents(order.totalCents))}</strong> sur le compte ci-dessous, en indiquant le numéro de commande en référence.`
+      : `Please confirm your order by transferring <strong>${escapeHtml(formatCents(order.totalCents))}</strong> to the account below, quoting the order number as the reference.`
+    : null;
 
   const intro = fr
     ? [
         `${escapeHtml(greeting(order.billing, true))},`,
         `nous avons bien reçu votre commande <strong>${escapeHtml(order.orderNumber)}</strong> du ${escapeHtml(placed)}. Cet e-mail vaut confirmation de commande.`,
+        ...(bankInstruction ? [bankInstruction] : []),
       ]
     : [
         `${escapeHtml(greeting(order.billing, false))},`,
         `we have received your order <strong>${escapeHtml(order.orderNumber)}</strong> placed on ${escapeHtml(placed)}. This email is your order confirmation.`,
+        ...(bankInstruction ? [bankInstruction] : []),
       ];
 
   const vatLabel = fr
@@ -338,6 +367,23 @@ export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessag
     order.paymentMethodFee ? escapeHtml(order.paymentMethodFee) : "",
   ]);
 
+  // Coordonnées du virement : mêmes champs que la page de confirmation, dans le
+  // même ordre. Chaque ligne n'apparaît que si elle est renseignée, sauf la
+  // référence — toujours le numéro de commande.
+  const bankPanel = bankOrder
+    ? panel(fr ? "Coordonnées bancaires" : "Bank details", [
+        bankOrder.holder
+          ? `${fr ? "Titulaire du compte" : "Account holder"} : <strong>${escapeHtml(bankOrder.holder)}</strong>`
+          : "",
+        bankOrder.transferType
+          ? `${fr ? "Type de virement" : "Transfer type"} : ${escapeHtml(bankOrder.transferType)}`
+          : "",
+        `IBAN : <strong>${escapeHtml(bankOrder.iban)}</strong>`,
+        bankOrder.bic ? `BIC : <strong>${escapeHtml(bankOrder.bic)}</strong>` : "",
+        `${fr ? "Référence à indiquer" : "Payment reference"} : <strong>${escapeHtml(order.orderNumber)}</strong>`,
+      ])
+    : "";
+
   const shippingPanel = panel(
     fr ? "Adresse de livraison" : "Delivery address",
     addressLines(order.shipping),
@@ -361,13 +407,33 @@ export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessag
       : `Order ${order.orderNumber} — ${formatCents(order.totalCents)}`,
     heading,
     intro,
-    blocks: [table, payment, shippingPanel, billingPanel, notePanel].filter(Boolean),
+    blocks: [bankPanel, table, payment, shippingPanel, billingPanel, notePanel].filter(Boolean),
     action: { label: fr ? "Voir ma commande" : "View order", url: orderUrl },
     footnote: escapeHtml(footnote),
     footer: fr
       ? "MLC Bois — message automatique relatif à votre commande."
       : "MLC Bois — automated message about your order.",
   });
+
+  const bankText = bankOrder
+    ? [
+        "",
+        fr
+          ? `Merci de confirmer votre commande en effectuant un virement de ${formatCents(order.totalCents)} sur le compte ci-dessous, en indiquant le numéro de commande en référence.`
+          : `Please confirm your order by transferring ${formatCents(order.totalCents)} to the account below, quoting the order number as the reference.`,
+        "",
+        fr ? "Coordonnées bancaires :" : "Bank details:",
+        ...(bankOrder.holder
+          ? [`${fr ? "Titulaire du compte" : "Account holder"} : ${bankOrder.holder}`]
+          : []),
+        ...(bankOrder.transferType
+          ? [`${fr ? "Type de virement" : "Transfer type"} : ${bankOrder.transferType}`]
+          : []),
+        `IBAN : ${bankOrder.iban}`,
+        ...(bankOrder.bic ? [`BIC : ${bankOrder.bic}`] : []),
+        `${fr ? "Référence à indiquer" : "Payment reference"} : ${order.orderNumber}`,
+      ]
+    : [];
 
   const text = [
     heading,
@@ -376,6 +442,7 @@ export function buildOrderConfirmationEmail(order: OrderRecord): Omit<MailMessag
     fr
       ? `nous avons bien reçu votre commande ${order.orderNumber} du ${placed}. Cet e-mail vaut confirmation de commande.`
       : `we have received your order ${order.orderNumber} placed on ${placed}. This email is your order confirmation.`,
+    ...bankText,
     "",
     itemsText(order),
     "",

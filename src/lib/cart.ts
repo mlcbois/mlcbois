@@ -46,8 +46,8 @@ export const SHIPPING_METHODS = [
   },
   {
     key: "express",
-    /** 70,00 € — supplément de service, soumis à la TVA comme la marchandise. */
-    cents: 7_000,
+    /** 60,00 € — supplément de service, soumis à la TVA comme la marchandise. */
+    cents: 6_000,
     minDays: 1,
     maxDays: 2,
     label: "Livraison express",
@@ -153,7 +153,7 @@ export interface TotalsOptions {
    *
    * N'a plus d'effet sur le montant depuis que le standard est gratuit sans
    * minimum d'achat, et ne couvre volontairement pas le supplément express :
-   * l'express est un service facturé 70 €, qu'une campagne promotionnelle
+   * l'express est un service facturé 60 €, qu'une campagne promotionnelle
    * n'offre pas. Le paramètre reste accepté pour que les campagnes en cours
    * continuent de fonctionner et de s'afficher.
    */

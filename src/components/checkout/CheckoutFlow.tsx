@@ -207,6 +207,7 @@ export function CheckoutFlow({
       const data = (await response.json().catch(() => null)) as {
         code?: string;
         confirmationPath?: string;
+        redirectUrl?: string;
         detail?: { name: string; available: number };
       } | null;
 
@@ -225,6 +226,15 @@ export function CheckoutFlow({
       // panier tout de suite ferait clignoter l'état « panier vide ».
       setDone(true);
       clear();
+
+      // Paiement en ligne : le serveur a ouvert une session chez le prestataire
+      // et renvoie une URL externe. On quitte le site vers cette page de
+      // paiement (window.location, et non le routeur i18n qui préfixe les URL
+      // internes). Sinon, parcours habituel vers la confirmation.
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+        return;
+      }
       router.push(data.confirmationPath);
     } catch {
       setPending(false);

@@ -220,7 +220,7 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
 
   totalLigne("Sous-total HT", euros(order.subtotalCents - Math.round((order.subtotalCents * order.taxRatePercent) / (100 + order.taxRatePercent))));
   // Le mode est nommé, pas seulement chiffré : la facture doit désigner la
-  // prestation rendue, et « Livraison 70,00 EUR » ne dit pas laquelle depuis
+  // prestation rendue, et « Livraison 60,00 EUR » ne dit pas laquelle depuis
   // que l'express existe.
   totalLigne(
     order.shippingMethodKey === "express"

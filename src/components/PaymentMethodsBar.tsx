@@ -37,7 +37,8 @@ const ICONS: Record<string, LucideIcon> = {
  * Seule la mention de gratuité, saisie de façon standardisée, est transposée.
  */
 function feeLabelFor(feeLabel: string, freeLabel: string): string {
-  return feeLabel.trim().toLowerCase() === "kostenlos" ? freeLabel : feeLabel;
+  const normalized = feeLabel.trim().toLowerCase();
+  return normalized === "gratuit" || normalized === "kostenlos" ? freeLabel : feeLabel;
 }
 
 interface PaymentMethodsBarProps {

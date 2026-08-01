@@ -33,7 +33,7 @@
     "beratung": "Advice & orders",
     "oeffnung": "Mon–Fri 8am–5pm · Sat 9am–1pm",
     "lieferbanner": "Free delivery from 6 loose m³",
-    "anrufenAria": "Call: +33 1 23 45 67 89"
+    "anrufenAria": "Call: {nummer}"
   },
   "hero": {
     "eyebrow": "Kiln-dried · under 18 % moisture content",
@@ -120,7 +120,8 @@
     "decreaseQuantity": "Decrease quantity by 1",
     "increaseQuantity": "Increase quantity by 1",
     "addToCart": "Add to cart",
-    "fastDelivery": "Standard delivery free (3–5 days) · Express €70 (24–48 h)",
+    "fastDelivery": "Standard delivery: free (3-5 business days)",
+    "expressDelivery": "Express delivery: €60 (24-48 h)",
     "warranty": "14-day right of withdrawal, no reason required",
     "vatNoteFreeShipping": "VAT included, free delivery within mainland France",
     "galleryLabel": "More product views",
@@ -220,7 +221,7 @@
     "vatIncluded": "incl. {rate} % VAT ({amount})",
     "vatNote": "All prices include VAT.",
     "shippingStandardHint": "Standard delivery is free, with no minimum order value.",
-    "shippingRule": "Standard delivery free (3–5 working days), express delivery €70.00 (24–48 hours). You choose the delivery method at checkout.",
+    "shippingRule": "Standard delivery free (3–5 working days), express delivery €60.00 (24–48 hours). You choose the delivery method at checkout.",
     "deliveryTime": "Dispatch takes place once payment has been received.",
     "withdrawalHint": "As a consumer you have a 14-day right of withdrawal (art. L221-18 of the French Consumer Code). Details are on the right of withdrawal page.",
     "toCheckout": "Proceed to checkout",
@@ -271,7 +272,7 @@
     "city": "Town",
     "country": "Country",
     "countryFR": "France",
-    "countryHint": "We currently deliver within mainland France only.",
+    "countryHint": "Select your delivery country.",
     "countryPlaceholder": "Search for a country",
     "countryToggle": "Open country list",
     "countryEmpty": "No country found.",
@@ -327,7 +328,7 @@
       "invalid_street": "Please enter a street and house number.",
       "invalid_postal_code": "Please enter a valid postcode (5 digits).",
       "invalid_city": "Please enter a town.",
-      "unsupported_country": "We currently deliver within mainland France only.",
+      "unsupported_country": "Please enter a valid country.",
       "invalid_phone": "Please enter a valid phone number.",
       "invalid_payment_method": "Please choose an available payment method.",
       "terms_required": "Please accept the terms and conditions.",
@@ -367,6 +368,7 @@
       "bankIban": "IBAN",
       "bankBic": "BIC",
       "bankBank": "Bank",
+      "bankTransferType": "Transfer type",
       "bankReference": "Payment reference",
       "bankDemoNotice": "Note: these bank details are a placeholder for the test environment and belong to no real account. They must be replaced with the real details before going live.",
       "providerNotice": "The payment provider for {label} is configured in the back office under “Integrations”. Until then we confirm incoming payments manually.",
@@ -424,7 +426,7 @@
       "city": "Town",
       "country": "Country",
       "countryFR": "France",
-      "countryHint": "We currently deliver within mainland France only.",
+      "countryHint": "Select your delivery country.",
       "email": "Email address",
       "phone": "Phone",
       "phoneHint": "Only for questions about the delivery.",
@@ -443,7 +445,7 @@
       "invalid_street": "Please enter a street and house number.",
       "invalid_postal_code": "Please enter a valid postcode.",
       "invalid_city": "Please enter a town.",
-      "unsupported_country": "We currently deliver within mainland France only.",
+      "unsupported_country": "Please enter a valid country.",
       "invalid_token": "This link has expired or has already been used. Please request a new one.",
       "rate_limited": "Too many attempts. Please wait a moment and try again.",
       "not_found": "Not found.",
@@ -781,17 +783,9 @@
         "frage": "How do I store the wood after delivery?",
         "antwort": "Kiln-dried wood no longer needs to dry, but it must not get wet again. Under cover, away from the wall and not directly on the ground — a pallet underneath is enough. In a closed cellar without ventilation, wood draws moisture from the air and is back above 20 % within a year."
       },
-      "abladen": {
-        "frage": "Where is it unloaded, and what happens if access is narrow?",
-        "antwort": "By default at the kerb or in the driveway, provided a 7.5-tonne truck can get in. If access is narrower, say so when ordering: we then come with the small trailer, which costs €20 extra. Stacking in a yard, cellar or garage costs €35 per loose cubic metre."
-      },
       "restaurant": {
         "frage": "Do you also deliver to restaurants and bakeries?",
         "antwort": "Yes. For wood-fired ovens and grill restaurants we supply beech in 25 and 33 cm at under 15 % moisture content, on weekly call-off if wanted. From three pallets a month a separate tiered price applies. Write to us via the contact form and we'll reply the same working day."
-      },
-      "zahlung": {
-        "frage": "When do I have to pay?",
-        "antwort": "After the slot is confirmed, by bank transfer, PayPal or card. Cash on delivery is possible but must be stated when ordering: the drivers carry no change."
       }
     }
   },

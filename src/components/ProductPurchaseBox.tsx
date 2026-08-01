@@ -85,6 +85,9 @@ export function ProductPurchaseBox({ product }: { product: Product }) {
           <Truck className="h-4 w-4 text-primary" /> {t("fastDelivery")}
         </p>
         <p className="flex items-center gap-2">
+          <Truck className="h-4 w-4 text-primary" /> {t("expressDelivery")}
+        </p>
+        <p className="flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-primary" /> {t("warranty")}
         </p>
       </div>

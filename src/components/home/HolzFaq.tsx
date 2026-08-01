@@ -10,7 +10,7 @@ import { Plus } from "lucide-react";
  * n'y a donc aucun risque de divergence entre la page et les données
  * structurées.
  */
-const fragen = ["srm", "trocken", "lagern", "abladen", "restaurant", "zahlung"] as const;
+const fragen = ["srm", "trocken", "lagern", "restaurant"] as const;
 
 export async function HolzFaq() {
   const t = await getTranslations("faq");
@@ -39,7 +39,6 @@ export async function HolzFaq() {
             <h2 className="font-heading text-3xl leading-tight font-black sm:text-4xl">
               {t("titel")}
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{t("einleitung")}</p>
           </div>
 
           <div className="divide-y divide-border border-y border-border">

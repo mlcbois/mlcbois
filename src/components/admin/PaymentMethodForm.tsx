@@ -35,7 +35,7 @@ export function PaymentMethodForm({
   const [label, setLabel] = useState(initialData?.label ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
   const [icon, setIcon] = useState(initialData?.icon ?? "credit-card");
-  const [feeLabel, setFeeLabel] = useState(initialData?.feeLabel ?? "kostenlos");
+  const [feeLabel, setFeeLabel] = useState(initialData?.feeLabel ?? "Gratuit");
   const [enabled, setEnabled] = useState(initialData?.enabled ?? true);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -71,7 +71,7 @@ export function PaymentMethodForm({
       setLabel("");
       setDescription("");
       setIcon("credit-card");
-      setFeeLabel("kostenlos");
+      setFeeLabel("Gratuit");
       setEnabled(true);
     }
     router.refresh();
@@ -90,7 +90,7 @@ export function PaymentMethodForm({
             required
             value={label}
             onChange={(event) => setLabel(event.target.value)}
-            placeholder="ex. Kauf auf Rechnung"
+            placeholder="ex. Paiement à la livraison"
             className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
           />
         </label>
@@ -101,7 +101,7 @@ export function PaymentMethodForm({
           <input
             value={feeLabel}
             onChange={(event) => setFeeLabel(event.target.value)}
-            placeholder="kostenlos"
+            placeholder="Gratuit"
             className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
           />
         </label>

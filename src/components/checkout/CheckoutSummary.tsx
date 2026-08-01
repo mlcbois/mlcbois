@@ -67,7 +67,7 @@ export function CheckoutSummary({
           <dt className="text-muted-foreground">{t("subtotal")}</dt>
           <dd className="font-semibold text-foreground">{formatCents(totals.subtotalCents)}</dd>
         </div>
-        {/* Le mode retenu est nommé sous le montant : « 70,00 € » sans mention
+        {/* Le mode retenu est nommé sous le montant : « 60,00 € » sans mention
             de l'express laisserait le client deviner d'où vient la somme. */}
         <div className="flex justify-between">
           <dt className="text-muted-foreground">
@@ -95,9 +95,7 @@ export function CheckoutSummary({
 
       <p className="mt-3 flex items-start gap-2 rounded-sm bg-muted px-3 py-2 text-xs text-muted-foreground">
         <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-        <span>
-          {t("deliveryTime")} {t("deliveryCountry")}
-        </span>
+        <span>{t("deliveryTime")}</span>
       </p>
     </div>
   );

@@ -39,7 +39,7 @@ export const COMPANY = {
   city: "21700 Villebichot",
   country: "France",
   email: "contact@mlc-bois.fr",
-  phone: "01 23 45 67 89",
+  phone: "+33 6 35 01 35 57",
   /** Président — directeur de la publication au sens de la LCEN. À COMPLÉTER. */
   managingDirector: "Prénom Nom (à compléter)",
   /** Immatriculation au registre du commerce et des sociétés. */
@@ -396,7 +396,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Tarifs",
-        body: "La livraison standard est offerte, sans montant minimum de commande. La livraison express est facturée 70,00 € et intervient sous 24 à 48 heures en zones A et B.\n\nÀ partir de 6 mètres cubes apparents, la livraison est offerte quelle que soit la formule en zones A et B.\n\nLes suppléments éventuels sont annoncés avant la validation de la commande :",
+        body: "La livraison standard est offerte, sans montant minimum de commande. La livraison express est facturée 60,00 € et intervient sous 24 à 48 heures en zones A et B.\n\nÀ partir de 6 mètres cubes apparents, la livraison est offerte quelle que soit la formule en zones A et B.\n\nLes suppléments éventuels sont annoncés avant la validation de la commande :",
         list: [
           "Accès étroit nécessitant la petite remorque : 20 €",
           "Rangement en cour, en cave ou au garage : 35 € par mètre cube apparent",

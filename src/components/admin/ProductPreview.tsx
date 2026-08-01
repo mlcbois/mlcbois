@@ -208,7 +208,7 @@ export function ProductPreview({
               )}
             </div>
             <p className="text-[11px] text-muted-foreground">
-              inkl. MwSt., zzgl. Versandkosten
+              TVA incluse, hors frais de livraison
             </p>
           </div>
 

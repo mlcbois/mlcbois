@@ -357,7 +357,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Rates",
-        body: "Standard delivery is free, with no minimum order value. Express delivery costs €70.00 and arrives within 24 to 48 hours in zones A and B.\n\nFrom 6 loose cubic metres, delivery is free whichever option you choose, in zones A and B.\n\nAny supplements are announced before the order is confirmed:",
+        body: "Standard delivery is free, with no minimum order value. Express delivery costs €60.00 and arrives within 24 to 48 hours in zones A and B.\n\nFrom 6 loose cubic metres, delivery is free whichever option you choose, in zones A and B.\n\nAny supplements are announced before the order is confirmed:",
         list: [
           "Narrow access requiring the small trailer: €20",
           "Stacking in a yard, cellar or garage: €35 per loose cubic metre",

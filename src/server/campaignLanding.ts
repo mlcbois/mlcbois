@@ -137,7 +137,7 @@ function discountLabel(kind: DiscountKind, value: number, english: boolean): str
         maximumFractionDigits: 2,
       })} €`;
     case "free_shipping":
-      return english ? "Free shipping" : "Versandkostenfrei";
+      return english ? "Free shipping" : "Livraison offerte";
     case "none":
       return "";
   }

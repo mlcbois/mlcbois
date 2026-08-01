@@ -330,7 +330,7 @@ function discountLabel(kind: DiscountKind, value: number, locale: CampaignLocale
     case "amount":
       return `-${formatCents(Math.round(value))}`;
     case "free_shipping":
-      return locale === "en" ? "Free shipping" : "Versandkostenfrei";
+      return locale === "en" ? "Free shipping" : "Livraison offerte";
     case "none":
       return "";
   }

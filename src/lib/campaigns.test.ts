@@ -91,10 +91,10 @@ describe("totaux du panier", () => {
     }
   });
 
-  it("facture 70 € pour l'express", () => {
+  it("facture 60 € pour l'express", () => {
     const totals = computeTotals([line(2_999)], { shippingMethodKey: "express" });
-    assert.equal(totals.shippingCents, 7_000);
-    assert.equal(totals.totalCents, 2_999 + 7_000);
+    assert.equal(totals.shippingCents, 6_000);
+    assert.equal(totals.totalCents, 2_999 + 6_000);
   });
 
   it("retombe sur le standard quand aucun mode n'est indiqué", () => {
@@ -104,7 +104,7 @@ describe("totaux du panier", () => {
   });
 
   it("ne facture pas l'express sur un panier vide", () => {
-    // Sinon la page panier vide afficherait « Total : 70,00 € ».
+    // Sinon la page panier vide afficherait « Total : 60,00 € ».
     const totals = computeTotals([], { shippingMethodKey: "express" });
     assert.equal(totals.shippingCents, 0);
     assert.equal(totals.totalCents, 0);
@@ -112,12 +112,12 @@ describe("totaux du panier", () => {
 
   it("n'offre pas l'express à une campagne qui annonce le port gratuit", () => {
     // Le standard est déjà gratuit : la campagne n'a rien à offrir de plus, et
-    // elle ne doit surtout pas faire cadeau des 70 € du service express.
+    // elle ne doit surtout pas faire cadeau des 60 € du service express.
     const totals = computeTotals([line(2_999)], {
       shippingMethodKey: "express",
       freeShipping: true,
     });
-    assert.equal(totals.shippingCents, 7_000);
+    assert.equal(totals.shippingCents, 6_000);
   });
 
   it("garde une TVA cohérente avec le total réellement facturé", () => {
@@ -129,7 +129,7 @@ describe("totaux du panier", () => {
     assert.equal(standard.taxCents, Math.round((2_999 * VAT_RATE_PERCENT) / (100 + VAT_RATE_PERCENT)));
     assert.equal(
       express.taxCents,
-      Math.round(((2_999 + 7_000) * VAT_RATE_PERCENT) / (100 + VAT_RATE_PERCENT)),
+      Math.round(((2_999 + 6_000) * VAT_RATE_PERCENT) / (100 + VAT_RATE_PERCENT)),
     );
   });
 });

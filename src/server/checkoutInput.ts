@@ -13,6 +13,7 @@
 
 import { DEFAULT_SHIPPING_METHOD_KEY, isShippingMethodKey, MAX_CART_LINES, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
 import type { ShippingMethodKey } from "@/lib/cart";
+import { COUNTRY_CODES } from "@/lib/countries";
 
 export interface OrderAddress {
   salutation: string;
@@ -61,8 +62,12 @@ export interface CheckoutInput {
   items: { productId: string; quantity: number }[];
 }
 
-/** Seule zone de livraison desservie pour l'instant. */
-export const SUPPORTED_COUNTRIES = ["FR"] as const;
+/**
+ * Aucun pays n'est refusé : la commande est ouverte à tous les pays proposés
+ * par la liste (la même que le sélecteur de pays). Le contrôle ne sert plus
+ * qu'à écarter une valeur vide ou invalide.
+ */
+export const SUPPORTED_COUNTRIES = COUNTRY_CODES;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const POSTAL_CODE_PATTERNS: Record<string, RegExp> = { FR: /^\d{5}$/ };
