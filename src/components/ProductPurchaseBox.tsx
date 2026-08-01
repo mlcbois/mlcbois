@@ -1,40 +1,80 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { ShieldCheck, Truck } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { CampaignCountdown } from "@/components/CampaignCountdown";
 import { WishlistButton } from "@/components/wishlist/WishlistButton";
+import { formatCents } from "@/lib/cart";
 import type { Product } from "@/types/home";
 
 export function ProductPurchaseBox({ product }: { product: Product }) {
   const t = useTranslations("product");
   const inStock = product.inStock !== false;
 
+  const variants = product.variants ?? [];
+  const hasVariants = variants.length > 0;
+  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
+  const selected = variants.find((v) => v.id === selectedId);
+  const displayPriceCents = selected?.priceCents ?? product.priceCents ?? 0;
+
   return (
     <div className="flex flex-col gap-4 rounded-sm border border-border p-4">
       <div>
-        {product.oldPrice && (
-          <p className="text-sm text-muted-foreground">
-            {t("originalPrice")} <span className="line-through">{product.oldPrice}</span>
-          </p>
-        )}
-        <div className="flex items-center gap-2">
-          <p className="text-3xl font-black text-primary">{product.price}</p>
-          {product.badge && (
-            <span className="rounded-sm bg-badge px-2 py-0.5 text-xs font-bold text-badge-foreground">
-              {product.badge}
-            </span>
-          )}
-        </div>
-        {/* Vente flash : le décompte est l'argument principal, il vient juste
-            sous le prix. Les autres campagnes affichent leur pastille et rien
-            de plus — un compte à rebours sur une offre de deux semaines
-            fabrique une urgence qui n'existe pas. */}
-        {product.promoCountdown && product.promoEndsAt && (
-          <div className="mt-2">
-            <CampaignCountdown endsAt={product.promoEndsAt} />
+        {hasVariants ? (
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-semibold text-foreground">{t("chooseVolume")}</p>
+            {!selected && (
+              <p className="text-3xl font-black text-primary">
+                <span className="text-sm font-normal text-muted-foreground">{t("fromPrice")} </span>
+                {formatCents(product.priceCents ?? 0)}
+              </p>
+            )}
+            <ul className="flex flex-col gap-1.5">
+              {variants.map((v) => (
+                <li key={v.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedId(v.id)}
+                    aria-pressed={selectedId === v.id}
+                    className={`flex w-full items-center justify-between rounded-sm border px-3 py-2 text-sm transition-colors ${
+                      selectedId === v.id ? "border-primary bg-muted font-bold" : "border-border hover:bg-muted"
+                    }`}
+                  >
+                    <span>{v.label}</span>
+                    <span className="font-bold text-primary">{formatCents(v.priceCents)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {selected && <p className="text-3xl font-black text-primary">{formatCents(selected.priceCents)}</p>}
           </div>
+        ) : (
+          <>
+            {product.oldPrice && (
+              <p className="text-sm text-muted-foreground">
+                {t("originalPrice")} <span className="line-through">{product.oldPrice}</span>
+              </p>
+            )}
+            <div className="flex items-center gap-2">
+              <p className="text-3xl font-black text-primary">{product.price}</p>
+              {product.badge && (
+                <span className="rounded-sm bg-badge px-2 py-0.5 text-xs font-bold text-badge-foreground">
+                  {product.badge}
+                </span>
+              )}
+            </div>
+            {/* Vente flash : le décompte est l'argument principal, il vient juste
+                sous le prix. Les autres campagnes affichent leur pastille et rien
+                de plus — un compte à rebours sur une offre de deux semaines
+                fabrique une urgence qui n'existe pas. */}
+            {product.promoCountdown && product.promoEndsAt && (
+              <div className="mt-2">
+                <CampaignCountdown endsAt={product.promoEndsAt} />
+              </div>
+            )}
+          </>
         )}
 
         {/* La mention doit refléter le tarif réellement appliqué au panier :
@@ -60,8 +100,10 @@ export function ProductPurchaseBox({ product }: { product: Product }) {
         name={product.name}
         image={product.image}
         path={product.href}
-        priceCents={product.priceCents ?? 0}
-        stock={product.stock ?? 0}
+        priceCents={displayPriceCents}
+        stock={hasVariants && !selected ? 0 : (product.stock ?? 0)}
+        variantId={selected?.id}
+        variantLabel={selected?.label}
         withBuyNow
       />
 

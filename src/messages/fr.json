@@ -114,7 +114,7 @@
     "metaTitle": "{name} | MLC Bois",
     "onRequest": "Sur demande",
     "originalPrice": "Prix d'origine",
-    "vatNote": "TVA incluse, hors service et frais de livraison",
+    "vatNote": "Prix hors service et frais de livraison",
     "inStock": "En stock – livraison standard offerte (3 à 5 jours)",
     "outOfStock": "Sur demande – disponible sous 2 à 4 semaines",
     "decreaseQuantity": "Diminuer la quantité de 1",
@@ -123,9 +123,12 @@
     "fastDelivery": "Livraison standard : gratuite (3-5 jours ouvrables)",
     "expressDelivery": "Livraison express : 60 € (24-48 h)",
     "warranty": "14 jours de rétractation, sans avoir à se justifier",
-    "vatNoteFreeShipping": "TVA incluse, livraison offerte en France métropolitaine",
+    "vatNoteFreeShipping": "Livraison standard offerte",
     "galleryLabel": "Autres vues du produit",
-    "galleryView": "Afficher la vue {index} sur {total}"
+    "galleryView": "Afficher la vue {index} sur {total}",
+    "chooseVolume": "Choisissez un volume",
+    "fromPrice": "à partir de",
+    "perStere": "le stère"
   },
   "reviews": {
     "title": "Avis clients",
@@ -187,7 +190,7 @@
     "linkPrivacy": "Confidentialité",
     "linkTerms": "CGV",
     "linkCookies": "Préférences cookies",
-    "copyright": "© {year} MLC Bois. Tous les prix s'entendent TVA comprise.",
+    "copyright": "© {year} MLC Bois.",
     "oeffnung": "Du lundi au vendredi 8h–17h · Samedi 9h–13h"
   },
   "cart": {
@@ -312,7 +315,7 @@
     "shippingFree": "offerte",
     "total": "Total",
     "vatIncluded": "dont TVA {rate} % ({amount})",
-    "priceNote": "Tous les prix sont des prix définitifs, TVA comprise.",
+    "priceNote": "Tous les prix sont des prix définitifs.",
     "termsLabel": "J'ai lu et j'accepte les <terms>conditions générales de vente</terms>. J'ai pris connaissance de la <privacy>politique de confidentialité</privacy>.",
     "withdrawalLabel": "J'ai lu les <withdrawal>informations sur le droit de rétractation</withdrawal> et je sais que je peux me rétracter de ce contrat dans un délai de 14 jours sans avoir à me justifier.",
     "consentRequired": "Merci de confirmer les deux mentions pour finaliser la commande.",
@@ -588,7 +591,7 @@
     "endsIn": "Se termine dans",
     "dayShort": "J",
     "validUntil": "Valable jusqu'au {date}",
-    "legalNote": "Les prix promotionnels indiqués sont valables jusqu'au {date} et sont appliqués automatiquement dans le panier. Au-delà, le prix habituel s'applique de nouveau. Tous les prix s'entendent TVA comprise, hors frais de livraison."
+    "legalNote": "Les prix promotionnels indiqués sont valables jusqu'au {date} et sont appliqués automatiquement dans le panier. Au-delà, le prix habituel s'applique de nouveau. Prix hors frais de livraison."
   },
   "rechner": {
     "titel": "Calculateur de volume",
@@ -617,7 +620,7 @@
     "gesamt": "Total",
     "freiHinweis": "Encore {fehlt} MAP pour la livraison offerte.",
     "cta": "Choisir {holz}",
-    "hinweis": "Prix TVA 10 % comprise. Déchargement en bord de voirie inclus.",
+    "hinweis": "Déchargement en bord de voirie inclus.",
     "openLabel": "Calculateur",
     "openAria": "Ouvrir le calculateur de volume",
     "closeAria": "Fermer le calculateur de volume",

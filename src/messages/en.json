@@ -114,7 +114,7 @@
     "metaTitle": "{name} | MLC Bois",
     "onRequest": "On request",
     "originalPrice": "Original price",
-    "vatNote": "VAT included, excluding service and delivery costs",
+    "vatNote": "Price excludes service and delivery costs",
     "inStock": "In stock – standard delivery free (3–5 days)",
     "outOfStock": "On request – available in 2–4 weeks",
     "decreaseQuantity": "Decrease quantity by 1",
@@ -123,9 +123,12 @@
     "fastDelivery": "Standard delivery: free (3-5 business days)",
     "expressDelivery": "Express delivery: €60 (24-48 h)",
     "warranty": "14-day right of withdrawal, no reason required",
-    "vatNoteFreeShipping": "VAT included, free delivery within mainland France",
+    "vatNoteFreeShipping": "Free standard delivery",
     "galleryLabel": "More product views",
-    "galleryView": "Show view {index} of {total}"
+    "galleryView": "Show view {index} of {total}",
+    "chooseVolume": "Choose a volume",
+    "fromPrice": "from",
+    "perStere": "per stère"
   },
   "reviews": {
     "title": "Customer reviews",
@@ -187,7 +190,7 @@
     "linkPrivacy": "Privacy",
     "linkTerms": "Terms & conditions",
     "linkCookies": "Cookie settings",
-    "copyright": "© {year} MLC Bois. All prices include VAT.",
+    "copyright": "© {year} MLC Bois.",
     "oeffnung": "Monday to Friday 8am–5pm · Saturday 9am–1pm"
   },
   "cart": {
@@ -312,7 +315,7 @@
     "shippingFree": "free",
     "total": "Total",
     "vatIncluded": "incl. {rate} % VAT ({amount})",
-    "priceNote": "All prices are final prices including VAT.",
+    "priceNote": "All prices are final prices.",
     "termsLabel": "I have read and accept the <terms>terms and conditions</terms>. I have taken note of the <privacy>privacy policy</privacy>.",
     "withdrawalLabel": "I have read the <withdrawal>right of withdrawal information</withdrawal> and understand that I may withdraw from this contract within 14 days without giving a reason.",
     "consentRequired": "Please confirm both statements to complete the order.",
@@ -588,7 +591,7 @@
     "endsIn": "Ends in",
     "dayShort": "D",
     "validUntil": "Valid until {date}",
-    "legalNote": "The promotional prices shown are valid until {date} and are applied automatically in the cart. After that, the regular price applies again. All prices include VAT, excluding delivery costs."
+    "legalNote": "The promotional prices shown are valid until {date} and are applied automatically in the cart. After that, the regular price applies again. Prices exclude delivery costs."
   },
   "rechner": {
     "titel": "Volume calculator",
@@ -617,7 +620,7 @@
     "gesamt": "Total",
     "freiHinweis": "{fehlt} more loose m³ for free delivery.",
     "cta": "Choose {holz}",
-    "hinweis": "Prices include 10 % VAT. Kerbside unloading included.",
+    "hinweis": "Kerbside unloading included.",
     "openLabel": "Calculator",
     "openAria": "Open the volume calculator",
     "closeAria": "Close the volume calculator",
