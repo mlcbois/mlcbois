@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check, Minus, Plus, ShoppingCart } from "lucide-react";
@@ -29,6 +29,9 @@ interface AddToCartButtonProps {
    */
   withBuyNow?: boolean;
   className?: string;
+  /** Variation choisie (volume) ; absente pour un produit simple. */
+  variantId?: string;
+  variantLabel?: string;
 }
 
 export function AddToCartButton({
@@ -43,6 +46,8 @@ export function AddToCartButton({
   withQuantity = true,
   withBuyNow = false,
   className,
+  variantId,
+  variantLabel,
 }: AddToCartButtonProps) {
   const t = useTranslations("cart");
   const router = useRouter();
@@ -60,7 +65,7 @@ export function AddToCartButton({
   const maxQuantity = Math.min(MAX_QUANTITY_PER_LINE, Math.max(1, stock));
 
   function ajouter() {
-    add({ productId, slug, brand, name, image, path, priceCents, stock }, quantity);
+    add({ productId, slug, brand, name, image, path, priceCents, stock, variantId, variantLabel }, quantity);
   }
 
   function handleAdd() {
