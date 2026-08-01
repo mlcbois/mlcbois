@@ -544,10 +544,12 @@ export async function createOrder(
       promotion.savingCents > 0 &&
       promotion.basePriceCents > 0;
     if (!lowersPrice) return line;
-    const discountedVariantPrice = Math.round(
-      (line.priceCents * promotion.priceCents) / promotion.basePriceCents,
+    const variantBaseCents = line.priceCents;
+    const finalCents = Math.min(
+      variantBaseCents,
+      Math.round(variantBaseCents * promotion.priceCents / promotion.basePriceCents),
     );
-    return { ...line, priceCents: discountedVariantPrice };
+    return { ...line, priceCents: finalCents };
   });
 
   // 3. Moyen de paiement : seuls ceux réellement activés sont acceptés.

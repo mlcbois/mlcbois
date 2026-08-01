@@ -572,11 +572,14 @@ function toViewProduct(
   // est calculé par le même ratio que pour le produit de référence, ce qui
   // garantit que l'affichage == ce qui sera facturé (voir orders.ts).
   const discountedVariants: VariantView[] = lowersPrice
-    ? view.variants?.map((v) => ({
-        ...v,
-        priceCents: Math.round((v.priceCents * promotion.priceCents) / promotion.basePriceCents),
-        oldPriceCents: v.priceCents,
-      })) ?? []
+    ? view.variants?.map((v) => {
+        const variantBaseCents = v.priceCents;
+        const finalCents = Math.min(
+          variantBaseCents,
+          Math.round(variantBaseCents * promotion.priceCents / promotion.basePriceCents),
+        );
+        return { ...v, priceCents: finalCents, oldPriceCents: variantBaseCents };
+      }) ?? []
     : view.variants ?? [];
 
   return {
