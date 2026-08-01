@@ -113,6 +113,11 @@ export default async function AdminOrderDetailPage({
                             </span>
                           </span>
                         )}
+                        {item.variantLabel && (
+                          <span className="block text-xs text-muted-foreground">
+                            {item.variantLabel}
+                          </span>
+                        )}
                       </td>
                       <td className="py-3 pr-3 text-muted-foreground">{item.sku || "—"}</td>
                       <td className="py-3 pr-3 text-right text-muted-foreground">

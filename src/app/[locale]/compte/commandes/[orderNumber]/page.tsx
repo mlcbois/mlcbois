@@ -140,6 +140,11 @@ export default async function AccountOrderDetailPage({ params }: { params: PageP
                         {item.name}
                       </span>
                     )}
+                    {item.variantLabel && (
+                      <span className="block text-xs text-muted-foreground">
+                        {item.variantLabel}
+                      </span>
+                    )}
                     <span className="block text-xs text-muted-foreground">
                       {checkout("quantityShort", { count: item.quantity })}{" "}
                       {formatPrice(item.unitPriceCents)}

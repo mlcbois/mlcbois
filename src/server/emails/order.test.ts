@@ -70,6 +70,7 @@ function order(overrides: Partial<OrderRecord> = {}): OrderRecord {
         id: "item_1",
         brand: "MLC Bois",
         name: "Hêtre 33 cm — palette 2 MAP",
+        variantLabel: "",
         sku: "HET-33-P2",
         slug: "hetre-33-palette-2map",
         image: "",

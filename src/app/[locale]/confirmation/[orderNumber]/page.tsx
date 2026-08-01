@@ -172,6 +172,11 @@ export default async function OrderConfirmationPage({
                             {item.name}
                           </span>
                         )}
+                        {item.variantLabel && (
+                          <span className="block text-xs text-muted-foreground">
+                            {item.variantLabel}
+                          </span>
+                        )}
                         <span className="block text-xs text-muted-foreground">
                           {t("quantityShort", { count: item.quantity })}{" "}
                           {formatPrice(item.unitPriceCents)}

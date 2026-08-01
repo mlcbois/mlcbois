@@ -176,6 +176,10 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     });
 
     plume.y -= 12;
+    if (article.variantLabel) {
+      page.drawText(winAnsi(article.variantLabel), { x: COL_DESIGNATION, y: plume.y, size: 7, font: normale, color: GRIS });
+      plume.y -= 10;
+    }
     page.drawText(winAnsi(`Ref. ${article.sku}`), { x: COL_DESIGNATION, y: plume.y, size: 7, font: normale, color: GRIS });
     plume.y -= 16;
   }

@@ -55,6 +55,8 @@ export interface OrderItemRecord {
   productId?: string;
   brand: string;
   name: string;
+  /** Libellé de la variation choisie (ex. « 1 MAP »), vide si aucune. */
+  variantLabel: string;
   sku: string;
   slug: string;
   image: string;
@@ -190,6 +192,7 @@ function toRecord(row: NonNullable<OrderRow>): OrderRecord {
       productId: item.productId ?? undefined,
       brand: item.brand,
       name: item.name,
+      variantLabel: item.variantLabel ?? "",
       sku: item.sku,
       slug: item.slug,
       image: item.image,

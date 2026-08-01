@@ -191,10 +191,11 @@ function itemsTable(
   const rows = order.items
     .map((item) => {
       const title = escapeHtml(`${item.brand} ${item.name}`.trim());
+      const variant = item.variantLabel ? `<br /><span style="font-size:12px; color:#4b5563;">${escapeHtml(item.variantLabel)}</span>` : "";
       const sku = item.sku ? `<br /><span style="font-size:12px; color:#4b5563;">Réf. ${escapeHtml(item.sku)}</span>` : "";
       const unit = item.quantity > 1 ? `<br /><span style="font-size:12px; color:#4b5563;">${escapeHtml(formatCents(item.unitPriceCents))} / u.</span>` : "";
       return `<tr>
-                    <td style="padding:12px 8px 12px 0; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#001424;">${title}${sku}${unit}</td>
+                    <td style="padding:12px 8px 12px 0; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#001424;">${title}${variant}${sku}${unit}</td>
                     <td align="center" style="padding:12px 8px; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#3f4854; white-space:nowrap;">${item.quantity}&nbsp;×</td>
                     <td align="right" style="padding:12px 0 12px 8px; border-bottom:1px solid #e0e2e6; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:21px; color:#001424; white-space:nowrap;">${escapeHtml(formatCents(item.lineTotalCents))}</td>
                   </tr>`;
@@ -278,10 +279,10 @@ function addressText(address: OrderAddress): string {
 
 function itemsText(order: OrderRecord): string {
   return order.items
-    .map(
-      (item) =>
-        `- ${item.quantity} × ${`${item.brand} ${item.name}`.trim()} — ${formatCents(item.lineTotalCents)}`,
-    )
+    .map((item) => {
+      const label = item.variantLabel ? ` (${item.variantLabel})` : "";
+      return `- ${item.quantity} × ${`${item.brand} ${item.name}`.trim()}${label} — ${formatCents(item.lineTotalCents)}`;
+    })
     .join("\n");
 }
 
