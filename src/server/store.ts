@@ -1,9 +1,10 @@
 import { prisma } from "@/server/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { slugify } from "@/lib/slugify";
 import { getActivePromotions, type ProductPromotion } from "@/server/promotions";
 import type { CategoryGuide, CategoryRecord, ProductGroup, ProductRecord } from "@/server/types";
 import type { Product } from "@/types/home";
-import { minActivePriceCents } from "@/lib/variantPricing";
+import { minActivePriceCents, type VariantInput } from "@/lib/variantPricing";
 
 // L'interface publique ne change pas : les catégories restent adressées par
 // "groupe/slug" et les prix circulent en chaînes formatées ("349,00 €").
@@ -320,6 +321,34 @@ export async function getProductRecord(id: string): Promise<ProductRecord | unde
   return row ? toProductRecord(row) : undefined;
 }
 
+/**
+ * Réécrit les variations d'un produit (ardoise propre : pas de clé naturelle
+ * stable côté formulaire). Renvoie le prix « à partir de » à appliquer au
+ * produit, ou undefined si le produit n'a pas de variation.
+ */
+async function writeVariants(
+  tx: Prisma.TransactionClient,
+  productId: string,
+  variants: VariantInput[] | undefined,
+): Promise<number | undefined> {
+  if (variants === undefined) return undefined; // champ non transmis : ne pas toucher
+  await tx.productVariant.deleteMany({ where: { productId } });
+  if (variants.length === 0) return undefined;
+  await tx.productVariant.createMany({
+    data: variants.map((v, index) => ({
+      productId,
+      label: v.label,
+      labelEn: v.labelEn ?? "",
+      sku: "",
+      priceCents: v.priceCents,
+      oldPriceCents: v.oldPriceCents ?? null,
+      position: v.position ?? index,
+      active: v.active ?? true,
+    })),
+  });
+  return minActivePriceCents(variants.map((v) => ({ priceCents: v.priceCents, active: v.active })));
+}
+
 export async function createProduct(input: Omit<ProductRecord, "id">): Promise<ProductRecord> {
   const parts = splitCategoryId(input.categoryId);
   if (!parts) {
@@ -333,32 +362,42 @@ export async function createProduct(input: Omit<ProductRecord, "id">): Promise<P
     throw new Error(`Unbekannte Kategorie: ${input.categoryId}`);
   }
 
-  const row = await prisma.product.create({
-    data: {
-      categoryId: category.id,
-      brand: input.brand,
-      name: input.name,
-      slug: await uniqueSlug(slugify(`${input.brand}-${input.name}`)),
-      sku: skuFor(input.brand, input.name),
-      shortDescription: input.shortDescription ?? "",
-      description: input.description ?? "",
-      bullets: JSON.stringify(input.bullets ?? []),
-      image: input.image ?? null,
-      images: JSON.stringify(input.images ?? []),
-      priceCents: toCents(input.price),
-      oldPriceCents: input.oldPrice ? toCents(input.oldPrice) : null,
-      badge: input.badge ?? null,
-      editorialRating: input.rating ?? null,
-      stock: input.stock ?? (input.inStock === false ? 0 : 10),
-      lowStockThreshold: input.lowStockThreshold ?? 5,
-      gtin: input.gtin || null,
-      mpn: input.mpn || null,
-      condition: input.condition || "new",
-      googleProductCategory: input.googleProductCategory ?? "",
-      shippingWeightGrams: input.shippingWeightGrams ?? null,
-      energyEfficiencyClass: input.energyEfficiencyClass || null,
-    },
-    include: productInclude,
+  const slug = await uniqueSlug(slugify(`${input.brand}-${input.name}`));
+
+  const row = await prisma.$transaction(async (tx) => {
+    const created = await tx.product.create({
+      data: {
+        categoryId: category.id,
+        brand: input.brand,
+        name: input.name,
+        slug,
+        sku: skuFor(input.brand, input.name),
+        shortDescription: input.shortDescription ?? "",
+        description: input.description ?? "",
+        bullets: JSON.stringify(input.bullets ?? []),
+        image: input.image ?? null,
+        images: JSON.stringify(input.images ?? []),
+        priceCents: toCents(input.price),
+        oldPriceCents: input.oldPrice ? toCents(input.oldPrice) : null,
+        badge: input.badge ?? null,
+        editorialRating: input.rating ?? null,
+        stock: input.stock ?? (input.inStock === false ? 0 : 10),
+        lowStockThreshold: input.lowStockThreshold ?? 5,
+        gtin: input.gtin || null,
+        mpn: input.mpn || null,
+        condition: input.condition || "new",
+        googleProductCategory: input.googleProductCategory ?? "",
+        shippingWeightGrams: input.shippingWeightGrams ?? null,
+        energyEfficiencyClass: input.energyEfficiencyClass || null,
+      },
+    });
+
+    const fromPrice = await writeVariants(tx, created.id, input.variants);
+    if (fromPrice !== undefined) {
+      await tx.product.update({ where: { id: created.id }, data: { priceCents: fromPrice } });
+    }
+
+    return tx.product.findUniqueOrThrow({ where: { id: created.id }, include: productInclude });
   });
 
   return toProductRecord(row);
@@ -399,39 +438,48 @@ export async function updateProduct(
   const brand = patch.brand ?? current.brand;
   const name = patch.name ?? current.name;
   const renamed = brand !== current.brand || name !== current.name;
+  const newSlug = renamed ? await uniqueSlug(slugify(`${brand}-${name}`)) : undefined;
 
-  const row = await prisma.product.update({
-    where: { id },
-    data: {
-      categoryId,
-      brand: patch.brand ?? undefined,
-      name: patch.name ?? undefined,
-      slug: renamed ? await uniqueSlug(slugify(`${brand}-${name}`)) : undefined,
-      sku: renamed ? skuFor(brand, name) : undefined,
-      shortDescription: patch.shortDescription ?? undefined,
-      description: patch.description ?? undefined,
-      bullets: patch.bullets ? JSON.stringify(patch.bullets) : undefined,
-      image: patch.image === undefined ? undefined : (patch.image || null),
-      // Un tableau vide vide bien la galerie : seul `undefined` laisse la valeur en place
-      images: patch.images === undefined ? undefined : JSON.stringify(patch.images),
-      priceCents: patch.price ? toCents(patch.price) : undefined,
-      oldPriceCents:
-        patch.oldPrice === undefined ? undefined : patch.oldPrice ? toCents(patch.oldPrice) : null,
-      badge: patch.badge === undefined ? undefined : (patch.badge || null),
-      editorialRating: patch.rating === undefined ? undefined : (patch.rating ?? null),
-      stock: patch.stock ?? undefined,
-      lowStockThreshold: patch.lowStockThreshold ?? undefined,
-      // Champs Google Merchant : une chaîne vide efface la valeur en base
-      gtin: patch.gtin === undefined ? undefined : patch.gtin || null,
-      mpn: patch.mpn === undefined ? undefined : patch.mpn || null,
-      condition: patch.condition || undefined,
-      googleProductCategory: patch.googleProductCategory ?? undefined,
-      shippingWeightGrams:
-        patch.shippingWeightGrams === undefined ? undefined : (patch.shippingWeightGrams ?? null),
-      energyEfficiencyClass:
-        patch.energyEfficiencyClass === undefined ? undefined : patch.energyEfficiencyClass || null,
-    },
-    include: productInclude,
+  const row = await prisma.$transaction(async (tx) => {
+    await tx.product.update({
+      where: { id },
+      data: {
+        categoryId,
+        brand: patch.brand ?? undefined,
+        name: patch.name ?? undefined,
+        slug: newSlug,
+        sku: renamed ? skuFor(brand, name) : undefined,
+        shortDescription: patch.shortDescription ?? undefined,
+        description: patch.description ?? undefined,
+        bullets: patch.bullets ? JSON.stringify(patch.bullets) : undefined,
+        image: patch.image === undefined ? undefined : (patch.image || null),
+        // Un tableau vide vide bien la galerie : seul `undefined` laisse la valeur en place
+        images: patch.images === undefined ? undefined : JSON.stringify(patch.images),
+        priceCents: patch.price ? toCents(patch.price) : undefined,
+        oldPriceCents:
+          patch.oldPrice === undefined ? undefined : patch.oldPrice ? toCents(patch.oldPrice) : null,
+        badge: patch.badge === undefined ? undefined : (patch.badge || null),
+        editorialRating: patch.rating === undefined ? undefined : (patch.rating ?? null),
+        stock: patch.stock ?? undefined,
+        lowStockThreshold: patch.lowStockThreshold ?? undefined,
+        // Champs Google Merchant : une chaîne vide efface la valeur en base
+        gtin: patch.gtin === undefined ? undefined : patch.gtin || null,
+        mpn: patch.mpn === undefined ? undefined : patch.mpn || null,
+        condition: patch.condition || undefined,
+        googleProductCategory: patch.googleProductCategory ?? undefined,
+        shippingWeightGrams:
+          patch.shippingWeightGrams === undefined ? undefined : (patch.shippingWeightGrams ?? null),
+        energyEfficiencyClass:
+          patch.energyEfficiencyClass === undefined ? undefined : patch.energyEfficiencyClass || null,
+      },
+    });
+
+    const fromPrice = await writeVariants(tx, id, patch.variants);
+    if (fromPrice !== undefined) {
+      await tx.product.update({ where: { id }, data: { priceCents: fromPrice } });
+    }
+
+    return tx.product.findUniqueOrThrow({ where: { id }, include: productInclude });
   });
 
   return toProductRecord(row);
