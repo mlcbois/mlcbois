@@ -59,7 +59,7 @@ export interface CheckoutInput {
   customerNote: string;
   termsAccepted: boolean;
   withdrawalAcknowledged: boolean;
-  items: { productId: string; quantity: number }[];
+  items: { productId: string; variantId?: string; quantity: number }[];
 }
 
 /**
@@ -153,22 +153,24 @@ export function parseCheckoutPayload(payload: unknown): {
 
   const rawItems = Array.isArray(raw.items) ? raw.items : [];
   const seen = new Set<string>();
-  const items: { productId: string; quantity: number }[] = [];
+  const items: { productId: string; variantId?: string; quantity: number }[] = [];
   let badQuantity = false;
   for (const entry of rawItems) {
     if (!entry || typeof entry !== "object") continue;
     const line = entry as Record<string, unknown>;
     const productId = text(line.productId, 60);
+    const variantId = text(line.variantId, 60) || undefined;
     const quantity = typeof line.quantity === "number" ? Math.floor(line.quantity) : 0;
-    if (!productId || seen.has(productId)) continue;
+    const dedup = variantId ? `${productId}::${variantId}` : productId;
+    if (!productId || seen.has(dedup)) continue;
     // Une quantité hors bornes est signalée, jamais corrigée en silence :
     // livrer 20 pièces là où le client en a demandé 50 modifierait sa commande.
     if (quantity < 1 || quantity > MAX_QUANTITY_PER_LINE) {
       badQuantity = true;
       continue;
     }
-    seen.add(productId);
-    items.push({ productId, quantity });
+    seen.add(dedup);
+    items.push({ productId, variantId, quantity });
   }
   if (badQuantity) errors.push("invalid_quantity");
   else if (items.length === 0) errors.push("cart_empty");
