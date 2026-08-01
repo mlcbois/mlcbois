@@ -1,4 +1,5 @@
-import { toCents } from "@/server/store";
+import { toCents } from "@/server/pricingUtils";
+import type { VariantInput } from "@/lib/variantPricing";
 import type { ProductRecord } from "@/server/types";
 
 // Validation commune des champs produit, partagée par les routes unitaires et
@@ -241,6 +242,41 @@ export function parseProductInput(raw: unknown, mode: "create" | "update"): Prod
 
   if (has("energyEfficiencyClass")) {
     values.energyEfficiencyClass = asTrimmedString(body.energyEfficiencyClass) ?? "";
+  }
+
+  if (has("variants")) {
+    const rawVariants = body.variants;
+    if (!Array.isArray(rawVariants)) {
+      errors.push("Les variations doivent être une liste.");
+    } else {
+      const parsed: VariantInput[] = [];
+      rawVariants.forEach((entry, index) => {
+        const v = (entry && typeof entry === "object" ? entry : {}) as Record<string, unknown>;
+        const label = asTrimmedString(v.label) ?? "";
+        const price = asTrimmedString(v.price) ?? "";
+        const oldPrice = asTrimmedString(v.oldPrice) ?? "";
+        if (!label) {
+          errors.push(`Variation ${index + 1} : libellé manquant.`);
+          return;
+        }
+        if (!price || toCents(price) <= 0) {
+          errors.push(`Variation ${index + 1} : prix invalide.`);
+          return;
+        }
+        parsed.push({
+          id: asTrimmedString(v.id) || undefined,
+          label,
+          labelEn: asTrimmedString(v.labelEn) ?? "",
+          priceCents: toCents(price),
+          oldPriceCents: oldPrice ? toCents(oldPrice) : undefined,
+          position: asInteger(v.position) ?? index,
+          active: v.active === undefined ? true : v.active !== false,
+        });
+      });
+      if (parsed.length === rawVariants.length || rawVariants.length === 0) {
+        values.variants = parsed;
+      }
+    }
   }
 
   return { values, errors };

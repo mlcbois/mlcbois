@@ -20,19 +20,11 @@ import { minActivePriceCents, type VariantInput } from "@/lib/variantPricing";
 //    promotions de campagne actives.
 
 // ---- Conversions ----
-
-export function formatPrice(cents: number): string {
-  return `${(cents / 100).toLocaleString("fr-FR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })} €`;
-}
-
-export function toCents(value: string): number {
-  const normalized = value.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, "");
-  const parsed = Number.parseFloat(normalized);
-  return Number.isFinite(parsed) ? Math.round(parsed * 100) : 0;
-}
+// Re-exportées depuis pricingUtils pour rester importables depuis ce module
+// sans casser les callers existants, tout en gardant la logique dans un
+// module pur testable sans base de données.
+export { formatPrice, toCents } from "@/server/pricingUtils";
+import { formatPrice, toCents } from "@/server/pricingUtils";
 
 function parseBullets(raw: string): string[] {
   try {
