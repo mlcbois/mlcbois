@@ -1,3 +1,5 @@
+import type { VariantInput } from "@/lib/variantPricing";
+
 export interface CategoryGuideSection {
   heading: string;
   body: string;
@@ -50,6 +52,8 @@ export interface ProductRecord {
   googleProductCategory?: string;
   shippingWeightGrams?: number;
   energyEfficiencyClass?: string;
+  /** Variations de volume ; vide pour un produit simple. */
+  variants?: VariantInput[];
 }
 
 export type ReviewStatus = "pending" | "approved" | "rejected";

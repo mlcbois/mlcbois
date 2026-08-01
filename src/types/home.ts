@@ -1,3 +1,5 @@
+import type { VariantView } from "@/lib/variantPricing";
+
 export interface NavLink {
   label: string;
   href: string;
@@ -46,6 +48,8 @@ export interface Product {
   reviewCount?: number;
   stock?: number;
   inStock?: boolean;
+  /** Variations de volume proposées ; vide pour un produit simple. */
+  variants?: VariantView[];
 }
 
 export interface BrandTeaser {
