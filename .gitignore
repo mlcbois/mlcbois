@@ -38,6 +38,9 @@ tsconfig.tsbuildinfo
 # Notes de travail personnelles
 /texte
 
+# Espace de travail des agents (registres SDD, rapports de revue) — scratch
+/.superpowers/
+
 # Système
 .DS_Store
 *.pem
