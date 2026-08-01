@@ -7,8 +7,6 @@ import {
   computeTotals,
   DEFAULT_SHIPPING_METHOD_KEY,
   isShippingMethodKey,
-  MAX_CART_LINES,
-  MAX_QUANTITY_PER_LINE,
   shippingMethodFor,
   VAT_RATE_PERCENT,
 } from "@/lib/cart";
