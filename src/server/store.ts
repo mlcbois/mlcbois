@@ -338,7 +338,12 @@ async function writeVariants(
       active: v.active ?? true,
     })),
   });
-  return minActivePriceCents(variants.map((v) => ({ priceCents: v.priceCents, active: v.active })));
+  // Si au moins une variation est active, on prend son prix minimum.
+  // Sinon (toutes inactives), on prend quand même le minimum de toutes les
+  // variations pour éviter de laisser un prix obsolète sur le produit.
+  const fromActive = minActivePriceCents(variants.map((v) => ({ priceCents: v.priceCents, active: v.active })));
+  if (fromActive !== undefined) return fromActive;
+  return Math.min(...variants.map((v) => v.priceCents));
 }
 
 export async function createProduct(input: Omit<ProductRecord, "id">): Promise<ProductRecord> {
@@ -354,9 +359,8 @@ export async function createProduct(input: Omit<ProductRecord, "id">): Promise<P
     throw new Error(`Unbekannte Kategorie: ${input.categoryId}`);
   }
 
-  const slug = await uniqueSlug(slugify(`${input.brand}-${input.name}`));
-
   const row = await prisma.$transaction(async (tx) => {
+    const slug = await uniqueSlug(tx, slugify(`${input.brand}-${input.name}`));
     const created = await tx.product.create({
       data: {
         categoryId: category.id,
@@ -396,10 +400,10 @@ export async function createProduct(input: Omit<ProductRecord, "id">): Promise<P
 }
 
 /** En cas de collision, ajoute -2, -3 … pour garder une URL unique. */
-async function uniqueSlug(base: string): Promise<string> {
+async function uniqueSlug(client: Prisma.TransactionClient, base: string): Promise<string> {
   let candidate = base;
   let suffix = 2;
-  while (await prisma.product.findUnique({ where: { slug: candidate } })) {
+  while (await client.product.findUnique({ where: { slug: candidate } })) {
     candidate = `${base}-${suffix}`;
     suffix += 1;
   }
@@ -430,9 +434,9 @@ export async function updateProduct(
   const brand = patch.brand ?? current.brand;
   const name = patch.name ?? current.name;
   const renamed = brand !== current.brand || name !== current.name;
-  const newSlug = renamed ? await uniqueSlug(slugify(`${brand}-${name}`)) : undefined;
 
   const row = await prisma.$transaction(async (tx) => {
+    const newSlug = renamed ? await uniqueSlug(tx, slugify(`${brand}-${name}`)) : undefined;
     await tx.product.update({
       where: { id },
       data: {
