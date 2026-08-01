@@ -62,6 +62,17 @@ export function ProductForm({
     shippingWeightGrams: initialData?.shippingWeightGrams?.toString() ?? "",
     energyEfficiencyClass: initialData?.energyEfficiencyClass ?? "",
   });
+  interface VariantRow { id?: string; label: string; price: string; oldPrice: string }
+  const [variants, setVariants] = useState<VariantRow[]>(
+    (initialData?.variants ?? []).map((v) => ({
+      id: v.id,
+      label: v.label,
+      price: (v.priceCents / 100).toLocaleString("fr-FR", { minimumFractionDigits: 2 }),
+      oldPrice: v.oldPriceCents
+        ? (v.oldPriceCents / 100).toLocaleString("fr-FR", { minimumFractionDigits: 2 })
+        : "",
+    })),
+  );
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   // Vue affichée dans l'aperçu : la fiche produit ou la carte telle qu'elle
@@ -106,6 +117,18 @@ export function ProductForm({
     // Ne pas envoyer les champs numériques vides pour conserver la valeur du serveur
     if (hasStock) payload.stock = stockNumber;
     if (Number.isFinite(thresholdNumber)) payload.lowStockThreshold = thresholdNumber;
+
+    // Variations de volume : envoi uniquement si le champ label ET prix sont renseignés
+    payload.variants = variants
+      .filter((v) => v.label.trim() && v.price.trim())
+      .map((v, index) => ({
+        id: v.id,
+        label: v.label.trim(),
+        price: v.price.trim(),
+        oldPrice: v.oldPrice.trim(),
+        position: index,
+        active: true,
+      }));
 
     // Champs Google Merchant : le poids part en nombre, vide = effacement
     payload.gtin = merchant.gtin;
@@ -288,6 +311,97 @@ export function ProductForm({
             />
           </label>
         </div>
+
+        {/* ── Variations de volume ─────────────────────────────────────────── */}
+        <fieldset className="mb-4">
+          <legend className="mb-2 text-sm font-semibold text-foreground">
+            Variations de volume
+          </legend>
+          {variants.length > 0 && (
+            <div className="mb-2 space-y-2" role="list" aria-label="Lignes de variation">
+              {variants.map((row, index) => (
+                <div
+                  key={index}
+                  role="listitem"
+                  className="grid grid-cols-[1fr_1fr_1fr_auto] items-end gap-2"
+                >
+                  <label className="text-sm">
+                    <span className="mb-1 block font-semibold text-foreground">Volume</span>
+                    <input
+                      required
+                      value={row.label}
+                      onChange={(event) =>
+                        setVariants((prev) =>
+                          prev.map((r, i) =>
+                            i === index ? { ...r, label: event.target.value } : r,
+                          ),
+                        )
+                      }
+                      placeholder="ex. 1 MAP"
+                      aria-label={`Volume de la variation ${index + 1}`}
+                      className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
+                    />
+                  </label>
+                  <label className="text-sm">
+                    <span className="mb-1 block font-semibold text-foreground">Prix</span>
+                    <input
+                      required
+                      value={row.price}
+                      onChange={(event) =>
+                        setVariants((prev) =>
+                          prev.map((r, i) =>
+                            i === index ? { ...r, price: event.target.value } : r,
+                          ),
+                        )
+                      }
+                      placeholder="ex. 175,00 €"
+                      aria-label={`Prix de la variation ${index + 1}`}
+                      className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
+                    />
+                  </label>
+                  <label className="text-sm">
+                    <span className="mb-1 block font-semibold text-foreground">
+                      Ancien prix{" "}
+                      <span className="font-normal text-muted-foreground">(facultatif)</span>
+                    </span>
+                    <input
+                      value={row.oldPrice}
+                      onChange={(event) =>
+                        setVariants((prev) =>
+                          prev.map((r, i) =>
+                            i === index ? { ...r, oldPrice: event.target.value } : r,
+                          ),
+                        )
+                      }
+                      placeholder="ex. 200,00 €"
+                      aria-label={`Ancien prix de la variation ${index + 1}`}
+                      className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setVariants((prev) => prev.filter((_, i) => i !== index))
+                    }
+                    aria-label={`Retirer la variation ${index + 1}`}
+                    className="rounded-sm border border-border px-3 py-2 text-sm text-destructive hover:bg-destructive/10"
+                  >
+                    Retirer
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={() =>
+              setVariants((prev) => [...prev, { label: "", price: "", oldPrice: "" }])
+            }
+            className="rounded-sm border border-border px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted"
+          >
+            + Ajouter un volume
+          </button>
+        </fieldset>
 
         <div className="mb-4 grid grid-cols-3 gap-4">
           <label className="text-sm">
