@@ -11,6 +11,7 @@ import {
   VAT_RATE_PERCENT,
 } from "@/lib/cart";
 import type { CartLine, ShippingMethodKey } from "@/lib/cart";
+import { discountedVariantCents } from "@/lib/variantPricing";
 import { isOrderStatus, isPaymentStatus } from "@/lib/orderStatus";
 import type { OrderStatus, PaymentStatus } from "@/lib/orderStatus";
 
@@ -539,16 +540,8 @@ export async function createOrder(
     // prix de base de la variation, lu en base ci-dessus — jamais depuis le
     // navigateur.
     const promotion = promotionMap.get(line.productId);
-    const lowersPrice =
-      promotion !== undefined &&
-      promotion.savingCents > 0 &&
-      promotion.basePriceCents > 0;
-    if (!lowersPrice) return line;
-    const variantBaseCents = line.priceCents;
-    const finalCents = Math.min(
-      variantBaseCents,
-      Math.round(variantBaseCents * promotion.priceCents / promotion.basePriceCents),
-    );
+    const finalCents = discountedVariantCents(line.priceCents, promotion);
+    if (finalCents === line.priceCents) return line;
     return { ...line, priceCents: finalCents };
   });
 

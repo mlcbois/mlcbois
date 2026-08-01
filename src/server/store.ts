@@ -4,7 +4,7 @@ import { slugify } from "@/lib/slugify";
 import { getActivePromotions, type ProductPromotion } from "@/server/promotions";
 import type { CategoryGuide, CategoryRecord, ProductGroup, ProductRecord } from "@/server/types";
 import type { Product } from "@/types/home";
-import { minActivePriceCents, type VariantInput, type VariantView } from "@/lib/variantPricing";
+import { discountedVariantCents, minActivePriceCents, type VariantInput, type VariantView } from "@/lib/variantPricing";
 
 // L'interface publique ne change pas : les catégories restent adressées par
 // "groupe/slug" et les prix circulent en chaînes formatées ("349,00 €").
@@ -574,10 +574,7 @@ function toViewProduct(
   const discountedVariants: VariantView[] = lowersPrice
     ? view.variants?.map((v) => {
         const variantBaseCents = v.priceCents;
-        const finalCents = Math.min(
-          variantBaseCents,
-          Math.round(variantBaseCents * promotion.priceCents / promotion.basePriceCents),
-        );
+        const finalCents = discountedVariantCents(variantBaseCents, promotion);
         return { ...v, priceCents: finalCents, oldPriceCents: variantBaseCents };
       }) ?? []
     : view.variants ?? [];

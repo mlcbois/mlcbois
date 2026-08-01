@@ -13,6 +13,7 @@ import {
   replaceCart,
 } from "@/lib/cart";
 import type { CartLine } from "@/lib/cart";
+import { cartLineKey } from "@/lib/variantPricing";
 
 // Le panier stocké dans le navigateur peut dater : au premier affichage on
 // redemande au serveur les prix et les stocks réels, puis on réécrit le
@@ -35,19 +36,31 @@ function useRevalidatedCart(): "none" | "updated" | "removed" {
         const response = await fetch("/api/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productIds: stored.map((line) => line.productId) }),
+          // Format variant-aware : une entrée par ligne, avec son variantId.
+          // Le serveur renvoie une ligne par paire (productId, variantId) et
+          // ne fusionne jamais deux volumes d'un même produit.
+          body: JSON.stringify({
+            lines: stored.map((line) => ({
+              productId: line.productId,
+              variantId: line.variantId,
+            })),
+          }),
         });
         if (!response.ok || cancelled) return;
 
         const data = (await response.json()) as { lines?: Omit<CartLine, "quantity">[] };
-        const fresh = new Map((data.lines ?? []).map((line) => [line.productId, line]));
+        // Clé composite pour distinguer deux volumes du même produit.
+        const fresh = new Map(
+          (data.lines ?? []).map((line) => [cartLineKey(line.productId, line.variantId), line]),
+        );
 
         const next: CartLine[] = [];
         let changed = false;
         let removed = false;
 
         for (const line of stored) {
-          const server = fresh.get(line.productId);
+          const key = cartLineKey(line.productId, line.variantId);
+          const server = fresh.get(key);
           if (!server) {
             removed = true;
             changed = true;
@@ -55,7 +68,15 @@ function useRevalidatedCart(): "none" | "updated" | "removed" {
           }
           const quantity = Math.max(1, Math.min(line.quantity, server.stock || 1));
           if (server.priceCents !== line.priceCents || quantity !== line.quantity) changed = true;
-          next.push({ ...server, quantity });
+          // Les champs d'identité (variantId, variantLabel) sont conservés depuis
+          // le stockage local pour ne pas les perdre si le serveur les omettait,
+          // mais le serveur les renvoie aussi (voir route.ts).
+          next.push({
+            ...server,
+            variantId: line.variantId,
+            variantLabel: line.variantLabel,
+            quantity,
+          });
         }
 
         if (cancelled) return;

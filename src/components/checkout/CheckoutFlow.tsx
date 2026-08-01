@@ -565,7 +565,7 @@ export function CheckoutFlow({
               <h3 className="mb-3 text-sm font-black text-foreground">{t("reviewItems")}</h3>
               <ul className="divide-y divide-border">
                 {lines.map((line) => (
-                  <li key={line.productId} className="flex items-start justify-between gap-4 py-3">
+                  <li key={`${line.productId}::${line.variantId ?? ""}`} className="flex items-start justify-between gap-4 py-3">
                     <span className="min-w-0">
                       <span className="block text-[11px] font-bold tracking-wide text-muted-foreground uppercase">
                         {line.brand}
