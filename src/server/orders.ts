@@ -450,6 +450,16 @@ export async function createOrder(
 
   const byId = new Map(products.map((product) => [product.id, product]));
 
+  // 1b. Variations citées dans le panier : seules les actives sont chargées.
+  const variantIds = input.items.map((i) => i.variantId).filter((x): x is string => !!x);
+  const variants = variantIds.length
+    ? await prisma.productVariant.findMany({
+        where: { id: { in: variantIds }, active: true },
+        select: { id: true, productId: true, label: true, priceCents: true },
+      })
+    : [];
+  const variantById = new Map(variants.map((v) => [v.id, v]));
+
   const lines: CartLine[] = [];
   for (const item of input.items) {
     const product = byId.get(item.productId);
@@ -460,14 +470,33 @@ export async function createOrder(
         available: Math.max(0, product.stock),
       });
     }
+
+    // Si une variation est demandée, son prix fait autorité — jamais le prix
+    // catalogue ni le moteur de promotions ne peuvent le réécrire.
+    let linePriceCents = product.priceCents;
+    let lineVariantId: string | undefined;
+    let lineVariantLabel: string | undefined;
+
+    if (item.variantId) {
+      const variant = variantById.get(item.variantId);
+      if (!variant || variant.productId !== product.id) {
+        throw new OrderError("product_unavailable");
+      }
+      linePriceCents = variant.priceCents;
+      lineVariantId = variant.id;
+      lineVariantLabel = variant.label;
+    }
+
     lines.push({
       productId: product.id,
+      variantId: lineVariantId,
+      variantLabel: lineVariantLabel,
       slug: product.slug,
       brand: product.brand,
       name: product.name,
       image: product.image || product.category.image,
       path: `/${product.category.group.slug}/${product.category.slug}/${product.slug}`,
-      priceCents: product.priceCents,
+      priceCents: linePriceCents,
       quantity: item.quantity,
       stock: product.stock,
     });
@@ -479,8 +508,14 @@ export async function createOrder(
   // sans avoir à saisir quoi que ce soit. Les appels partent ensemble, un
   // panier de quarante lignes ne doit pas coûter quarante allers-retours en
   // série.
+  // Les lignes portant une variation sont exclues du moteur de promotions :
+  // le prix de la variation est la valeur contractuelle, il fait foi.
   const priced = await Promise.all(
-    lines.map((line) => priceForOrder(line.productId, line.priceCents)),
+    lines.map((line) =>
+      line.variantId
+        ? Promise.resolve({ priceCents: line.priceCents, campaignId: null })
+        : priceForOrder(line.productId, line.priceCents),
+    ),
   );
   const billed: CartLine[] = lines.map((line, index) => ({
     ...line,
@@ -591,6 +626,8 @@ export async function createOrder(
             items: {
               create: billed.map((line) => ({
                 productId: line.productId,
+                variantId: line.variantId ?? null,
+                variantLabel: line.variantLabel ?? "",
                 brand: line.brand,
                 name: line.name,
                 sku: byId.get(line.productId)?.sku ?? "",
