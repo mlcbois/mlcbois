@@ -3,6 +3,7 @@ import { slugify } from "@/lib/slugify";
 import { getActivePromotions, type ProductPromotion } from "@/server/promotions";
 import type { CategoryGuide, CategoryRecord, ProductGroup, ProductRecord } from "@/server/types";
 import type { Product } from "@/types/home";
+import { minActivePriceCents } from "@/lib/variantPricing";
 
 // L'interface publique ne change pas : les catégories restent adressées par
 // "groupe/slug" et les prix circulent en chaînes formatées ("349,00 €").
@@ -98,6 +99,15 @@ interface ProductRow {
   shippingWeightGrams: number | null;
   energyEfficiencyClass: string | null;
   category: { slug: string; image: string; group: { slug: string } };
+  variants: {
+    id: string;
+    label: string;
+    labelEn: string;
+    priceCents: number;
+    oldPriceCents: number | null;
+    position: number;
+    active: boolean;
+  }[];
 }
 
 const categoryInclude = {
@@ -107,6 +117,7 @@ const categoryInclude = {
 
 const productInclude = {
   category: { include: { group: true } },
+  variants: { orderBy: { position: "asc" } },
 } as const;
 
 function guideFrom(row: CategoryRow): CategoryGuide {
@@ -156,6 +167,15 @@ function toProductRecord(row: ProductRow): ProductRecord {
     googleProductCategory: row.googleProductCategory,
     shippingWeightGrams: row.shippingWeightGrams ?? undefined,
     energyEfficiencyClass: row.energyEfficiencyClass ?? undefined,
+    variants: row.variants.map((v) => ({
+      id: v.id,
+      label: v.label,
+      labelEn: v.labelEn,
+      priceCents: v.priceCents,
+      oldPriceCents: v.oldPriceCents ?? undefined,
+      position: v.position,
+      active: v.active,
+    })),
   };
 }
 
@@ -486,6 +506,14 @@ function toViewProduct(
     stock: row.stock,
     inStock: row.stock > 0,
     href: `/${groupSlug}/${row.category.slug}/${row.slug}`,
+    variants: row.variants
+      .filter((v) => v.active)
+      .map((v) => ({
+        id: v.id,
+        label: v.label,
+        priceCents: v.priceCents,
+        oldPriceCents: v.oldPriceCents ?? undefined,
+      })),
   };
 
   if (!promotion) return view;
