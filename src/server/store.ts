@@ -4,7 +4,7 @@ import { slugify } from "@/lib/slugify";
 import { getActivePromotions, type ProductPromotion } from "@/server/promotions";
 import type { CategoryGuide, CategoryRecord, ProductGroup, ProductRecord } from "@/server/types";
 import type { Product } from "@/types/home";
-import { minActivePriceCents, type VariantInput } from "@/lib/variantPricing";
+import { minActivePriceCents, type VariantInput, type VariantView } from "@/lib/variantPricing";
 
 // L'interface publique ne change pas : les catégories restent adressées par
 // "groupe/slug" et les prix circulent en chaînes formatées ("349,00 €").
@@ -565,7 +565,19 @@ function toViewProduct(
   // Une campagne « livraison offerte » ne touche pas au prix de l'article :
   // reprendre son prix de référence en prix barré afficherait deux fois le même
   // montant, dont un rayé. Seule la pastille change alors.
-  const lowersPrice = promotion.savingCents > 0;
+  const lowersPrice = promotion.savingCents > 0 && promotion.basePriceCents > 0;
+
+  // Variations : on applique la même remise proportionnelle à chaque volume.
+  // Le prix barré devient le prix de base de la variation ; le prix affiché
+  // est calculé par le même ratio que pour le produit de référence, ce qui
+  // garantit que l'affichage == ce qui sera facturé (voir orders.ts).
+  const discountedVariants: VariantView[] = lowersPrice
+    ? view.variants?.map((v) => ({
+        ...v,
+        priceCents: Math.round((v.priceCents * promotion.priceCents) / promotion.basePriceCents),
+        oldPriceCents: v.priceCents,
+      })) ?? []
+    : view.variants ?? [];
 
   return {
     ...view,
@@ -579,6 +591,7 @@ function toViewProduct(
     badge: promotion.badge,
     promoEndsAt: promotion.endsAt.toISOString(),
     promoCountdown: promotion.showsCountdown,
+    variants: discountedVariants,
   };
 }
 

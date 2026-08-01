@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { prisma } from "@/server/prisma";
 import { adjustStock } from "@/server/stock";
 import { listEnabledPaymentMethods } from "@/server/payments";
-import { campaignGrantsFreeShipping, priceForOrder } from "@/server/promotions";
+import { campaignGrantsFreeShipping, getActivePromotions } from "@/server/promotions";
 import {
   computeTotals,
   DEFAULT_SHIPPING_METHOD_KEY,
@@ -511,19 +511,44 @@ export async function createOrder(
   // sans avoir à saisir quoi que ce soit. Les appels partent ensemble, un
   // panier de quarante lignes ne doit pas coûter quarante allers-retours en
   // série.
-  // Les lignes portant une variation sont exclues du moteur de promotions :
-  // le prix de la variation est la valeur contractuelle, il fait foi.
-  const priced = await Promise.all(
-    lines.map((line) =>
-      line.variantId
-        ? Promise.resolve({ priceCents: line.priceCents, campaignId: null })
-        : priceForOrder(line.productId, line.priceCents),
-    ),
-  );
-  const billed: CartLine[] = lines.map((line, index) => ({
-    ...line,
-    priceCents: priced[index].priceCents,
-  }));
+  // Pour les lignes avec variation, on charge la promotion du produit et on
+  // applique le même ratio que la vitrine : le prix affiché et le prix facturé
+  // sont ainsi identiques, quelle que soit la variation choisie.
+  const productIds = [...new Set(lines.map((line) => line.productId))];
+  const promotionMap = await getActivePromotions(productIds);
+
+  const billed: CartLine[] = lines.map((line) => {
+    if (!line.variantId) {
+      // Produit simple : priceForOrder est recalculé ici à partir de la map
+      // déjà chargée pour éviter un second aller-retour par ligne.
+      const promotion = promotionMap.get(line.productId);
+      const lowersPrice =
+        promotion !== undefined &&
+        promotion.savingCents > 0 &&
+        promotion.basePriceCents > 0;
+      const discountedPrice = lowersPrice
+        ? Math.min(
+            line.priceCents,
+            Math.round((line.priceCents * promotion.priceCents) / promotion.basePriceCents),
+          )
+        : line.priceCents;
+      return { ...line, priceCents: discountedPrice };
+    }
+
+    // Ligne avec variation : on applique la remise campagne (ratio) sur le
+    // prix de base de la variation, lu en base ci-dessus — jamais depuis le
+    // navigateur.
+    const promotion = promotionMap.get(line.productId);
+    const lowersPrice =
+      promotion !== undefined &&
+      promotion.savingCents > 0 &&
+      promotion.basePriceCents > 0;
+    if (!lowersPrice) return line;
+    const discountedVariantPrice = Math.round(
+      (line.priceCents * promotion.priceCents) / promotion.basePriceCents,
+    );
+    return { ...line, priceCents: discountedVariantPrice };
+  });
 
   // 3. Moyen de paiement : seuls ceux réellement activés sont acceptés.
   const methods = await listEnabledPaymentMethods();
