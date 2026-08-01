@@ -152,12 +152,6 @@ export default async function AdminOrderDetailPage({
                 <dt className="font-black text-foreground">Total</dt>
                 <dd className="font-black text-primary">{formatPrice(order.totalCents)}</dd>
               </div>
-              <div className="flex justify-between text-xs">
-                <dt className="text-muted-foreground">
-                  TVA incluse ({order.taxRatePercent} %)
-                </dt>
-                <dd className="text-muted-foreground">{formatPrice(order.taxCents)}</dd>
-              </div>
             </dl>
           </section>
 

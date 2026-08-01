@@ -92,12 +92,12 @@ describe("Confirmation à l'acheteur", () => {
     for (const part of [mail.html, mail.text]) {
       assert.match(part, /MLC-2026-000042/);
       assert.match(part, /Hêtre 33 cm/);
-      // Total, sous-total, port et TVA incluse : le décompte complet exigé par
-      // l'article L221-13 du Code de la consommation, au format français.
+      // Total, sous-total et port : le décompte exigé par l'article L221-13 du
+      // Code de la consommation, au format français. La TVA a été retirée du
+      // système, elle n'apparaît donc plus.
       assert.match(part, /903,95 €/);
       assert.match(part, /899,00 €/);
       assert.match(part, /4,95 €/);
-      assert.match(part, /82,18 €/);
       assert.match(part, /12 rue des Tilleuls/);
       assert.match(part, /Virement bancaire préalable/);
     }

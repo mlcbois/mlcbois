@@ -5,8 +5,8 @@
  *  - l'acheteur reçoit sa confirmation de commande, dans la langue où il a
  *    commandé (fr | en). C'est la confirmation sur support durable exigée par
  *    l'article L221-13 du Code de la consommation : elle doit récapituler la
- *    commande sans délai, donc contenir les articles, les montants, la TVA
- *    incluse et les adresses ;
+ *    commande sans délai, donc contenir les articles, les montants et les
+ *    adresses ;
  *  - le vendeur reçoit une notification de travail, en français comme le reste
  *    du back-office, avec les coordonnées du client et le lien direct vers la
  *    fiche de commande.
@@ -186,7 +186,6 @@ function itemsTable(
     shippingMethod: string;
     freeShipping: string;
     grandTotal: string;
-    vat: string;
   },
 ): string {
   const rows = order.items
@@ -227,9 +226,6 @@ function itemsTable(
                   ${summaryRow(labels.subtotal, formatCents(order.subtotalCents))}
                   ${summaryRow(shippingLabel, shippingValue)}
                   ${summaryRow(labels.grandTotal, formatCents(order.totalCents), true)}
-                  <tr>
-                    <td colspan="2" style="padding:2px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:20px; color:#4b5563;">${escapeHtml(labels.vat)}</td>
-                  </tr>
                 </table>`;
 }
 
@@ -344,10 +340,6 @@ export function buildOrderConfirmationEmail(
         ...(bankInstruction ? [bankInstruction] : []),
       ];
 
-  const vatLabel = fr
-    ? `Tous les prix s'entendent TVA ${order.taxRatePercent} % comprise (TVA incluse : ${formatCents(order.taxCents)}).`
-    : `All prices include ${order.taxRatePercent}% VAT (VAT included: ${formatCents(order.taxCents)}).`;
-
   const shippingMethod = shippingMethodText(order, lang);
 
   const table = itemsTable(order, {
@@ -358,8 +350,7 @@ export function buildOrderConfirmationEmail(
     shipping: fr ? "Livraison" : "Shipping",
     shippingMethod,
     freeShipping: fr ? "offerte" : "free",
-    grandTotal: fr ? "Total TTC" : "Total",
-    vat: vatLabel,
+    grandTotal: fr ? "Total" : "Total",
   });
 
   const payment = panel(fr ? "Paiement" : "Payment", [
@@ -448,8 +439,7 @@ export function buildOrderConfirmationEmail(
     "",
     `${fr ? "Sous-total" : "Subtotal"} : ${formatCents(order.subtotalCents)}`,
     `${fr ? "Livraison" : "Shipping"} — ${shippingMethod} : ${order.shippingCents === 0 ? (fr ? "offerte" : "free") : formatCents(order.shippingCents)}`,
-    `${fr ? "Total TTC" : "Total"} : ${formatCents(order.totalCents)}`,
-    vatLabel,
+    `${fr ? "Total" : "Total"} : ${formatCents(order.totalCents)}`,
     "",
     `${fr ? "Paiement" : "Payment"} : ${order.paymentMethodLabel}`,
     "",
@@ -501,8 +491,7 @@ export function buildOrderNotificationEmail(order: OrderRecord): Omit<MailMessag
     shipping: "Livraison",
     shippingMethod,
     freeShipping: "offerte",
-    grandTotal: "Total TTC",
-    vat: `Dont TVA ${order.taxRatePercent} % : ${formatCents(order.taxCents)}.`,
+    grandTotal: "Total",
   });
 
   const customer = panel("Client", [
@@ -538,7 +527,7 @@ export function buildOrderNotificationEmail(order: OrderRecord): Omit<MailMessag
     `${heading} : ${order.orderNumber}`,
     "",
     `Reçue le ${placed}`,
-    `Montant : ${formatCents(order.totalCents)} (dont TVA ${order.taxRatePercent} % : ${formatCents(order.taxCents)})`,
+    `Montant : ${formatCents(order.totalCents)}`,
     `Paiement : ${order.paymentMethodLabel}`,
     `Livraison : ${shippingMethod}`,
     "",
@@ -546,7 +535,7 @@ export function buildOrderNotificationEmail(order: OrderRecord): Omit<MailMessag
     "",
     `Sous-total : ${formatCents(order.subtotalCents)}`,
     `Livraison : ${order.shippingCents === 0 ? "offerte" : formatCents(order.shippingCents)}`,
-    `Total TTC : ${formatCents(order.totalCents)}`,
+    `Total : ${formatCents(order.totalCents)}`,
     "",
     "Client :",
     [order.billing.firstName, order.billing.lastName].filter(Boolean).join(" "),

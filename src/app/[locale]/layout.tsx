@@ -7,6 +7,8 @@ import { CartProvider } from "@/components/cart/CartProvider";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { SmartsuppChat } from "@/components/SmartsuppChat";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -42,6 +44,11 @@ export default async function LocaleLayout({
         {/* Popup de sortie : lit l'historique de consultation de la session,
             posé une seule fois pour toute la boutique. */}
         <ExitIntentPopup />
+        {/* Boutons de contact flottants : WhatsApp à gauche, chat Smartsupp à
+            droite. Smartsupp ne s'affiche que si sa clé d'environnement est
+            renseignée. */}
+        <WhatsAppButton />
+        <SmartsuppChat />
       </CartProvider>
     </NextIntlClientProvider>
   );

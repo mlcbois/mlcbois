@@ -1,20 +1,12 @@
 /**
  * Facture PDF jointe à la confirmation de commande.
  *
- * L'article 242 nonies A de l'annexe II au Code général des impôts fixe les
- * mentions obligatoires d'une facture française. Elles sont toutes reprises
- * ici :
- *   - nom et adresse complets du vendeur et de l'acheteur ;
- *   - numéro de TVA intracommunautaire du vendeur ;
- *   - date d'émission et numéro de facture unique ;
- *   - quantité et désignation de chaque article ;
- *   - date de livraison ou mention qu'elle suivra ;
- *   - montant hors taxe, taux et montant de TVA, total TTC.
+ * Mentions reprises : nom et adresse complets du vendeur et de l'acheteur,
+ * date d'émission et numéro de facture unique, quantité et désignation de
+ * chaque article, date de livraison ou mention qu'elle suivra, et le total.
  *
- * Les montants archivés dans la commande sont TTC, la TVA y étant *contenue*
- * (article L112-1 du Code de la consommation). La facture doit pourtant
- * présenter le hors taxe et la taxe séparément : ils sont donc recalculés à
- * partir du total, jamais ajoutés.
+ * La TVA a été retirée du système : la facture ne présente ni taux ni montant
+ * de taxe, seulement les prix réglés.
  *
  * pdf-lib n'embarque que les polices WinAnsi : tout caractère hors de ce jeu
  * doit être translittéré avant écriture, sinon la génération échoue.
@@ -198,11 +190,6 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   });
   plume.y -= 16;
 
-  // La TVA est contenue dans le total : on la déduit au lieu de l'ajouter.
-  const totalTTC = order.totalCents;
-  const tva = order.taxCents;
-  const totalHT = totalTTC - tva;
-
   const totalLigne = (etiquette: string, valeur: string, gras = false) => {
     const police = gras ? grasse : normale;
     const taille = gras ? 11 : 9;
@@ -218,28 +205,14 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
     plume.y -= gras ? 20 : 14;
   };
 
-  totalLigne("Sous-total HT", euros(order.subtotalCents - Math.round((order.subtotalCents * order.taxRatePercent) / (100 + order.taxRatePercent))));
-  // Le mode est nommé, pas seulement chiffré : la facture doit désigner la
-  // prestation rendue, et « Livraison 60,00 EUR » ne dit pas laquelle depuis
-  // que l'express existe.
+  totalLigne("Sous-total", euros(order.subtotalCents));
+  // Libellé court, pour ne jamais chevaucher le montant à droite. Le détail du
+  // mode et du délai figure dans la rubrique « Livraison » en bas de facture.
   totalLigne(
-    order.shippingMethodKey === "express"
-      ? "Livraison express (24-48 heures)"
-      : order.shippingCents === 0
-        ? "Livraison standard (offerte, 3-5 jours ouvres)"
-        : "Livraison standard",
+    order.shippingMethodKey === "express" ? "Livraison express" : "Livraison standard",
     euros(order.shippingCents),
   );
-  totalLigne(`TVA ${order.taxRatePercent} %`, euros(tva));
-  totalLigne("Total TTC", euros(totalTTC), true);
-
-  page.drawText(winAnsi(`Total HT ${euros(totalHT)}, TVA comprise ${euros(tva)}.`), {
-    x: 330,
-    y: plume.y,
-    size: 7,
-    font: normale,
-    color: GRIS,
-  });
+  totalLigne("Total", euros(order.totalCents), true);
 
   // ---- Mentions légales de bas de page ----
   let yPied = 116;
@@ -271,7 +244,7 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   pied("En cas de retard de paiement : penalites au taux de trois fois l'interet legal et indemnite forfaitaire de 40 EUR pour frais de recouvrement.");
   yPied -= 5;
   pied(`${COMPANY.name} · ${COMPANY.street} · ${COMPANY.city}`);
-  pied(`TVA intracommunautaire ${COMPANY.vatId} · ${COMPANY.register} · Capital ${COMPANY.capital}`);
+  pied(COMPANY.register);
 
   const octets = await doc.save();
   return Buffer.from(octets);
