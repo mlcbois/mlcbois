@@ -34,7 +34,7 @@ export async function buildLegalMetadata(slug: LegalSlug, locale: string): Promi
     alternates: {
       canonical: `${SITE_URL}${path}`,
       languages: {
-        de: `${SITE_URL}/${slug}`,
+        fr: `${SITE_URL}/${slug}`,
         en: `${SITE_URL}/en/${slug}`,
       },
     },
@@ -121,7 +121,9 @@ export function LegalPageArticle({ page, locale }: { page: LegalPage; locale: st
       </div>
 
       <p className="mt-10 border-t border-border pt-4 text-xs text-muted-foreground">
-        {locale === "en" ? "Last updated" : "Stand"}: {formatDate(page.updatedAt, locale)}
+        {locale === "en"
+          ? `Last updated: ${formatDate(page.updatedAt, locale)}`
+          : `Dernière mise à jour : ${formatDate(page.updatedAt, locale)}`}
       </p>
     </article>
   );
@@ -131,7 +133,7 @@ export async function LegalPageView({ slug, locale }: { slug: LegalSlug; locale:
   const page = await findLegalPage(slug, locale);
   if (!page) notFound();
 
-  const home = locale === "en" ? "Home" : "Start";
+  const home = locale === "en" ? "Home" : "Accueil";
 
   return (
     <>

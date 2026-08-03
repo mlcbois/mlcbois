@@ -53,7 +53,10 @@ export default async function FaqPage({ params }: { params: PageParams }) {
         <div className="border-b border-border bg-white">
           <div className="mx-auto max-w-screen-xl px-3 py-3">
             <Breadcrumb
-              items={[{ label: locale === "en" ? "Home" : "Start", href: "/" }, { label: page.title }]}
+              items={[
+                { label: locale === "en" ? "Home" : "Accueil", href: "/" },
+                { label: page.title },
+              ]}
             />
           </div>
         </div>
