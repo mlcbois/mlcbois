@@ -8,9 +8,31 @@ import { getClient } from "./prisma";
  * plutôt qu'une affectation à `undefined`, qui la transformerait en la
  * chaîne littérale "undefined" (process.env ne stocke que des chaînes).
  */
-function restaurer(cle: "NODE_ENV" | "DATABASE_URL", valeurOrigine: string | undefined): void {
+function restaurer(cle: "DATABASE_URL", valeurOrigine: string | undefined): void {
   if (valeurOrigine === undefined) delete process.env[cle];
   else process.env[cle] = valeurOrigine;
+}
+
+/**
+ * Écrit NODE_ENV. Next.js déclare cette clé `readonly` dans son augmentation
+ * de `ProcessEnv` (node_modules/next/types/global.d.ts) : une affectation
+ * directe (`process.env.NODE_ENV = ...`) est donc rejetée par `tsc` alors
+ * qu'elle fonctionnerait très bien à l'exécution — `npm test` (qui transpile
+ * via tsx sans vérifier les types) resterait vert, mais `npm run build`
+ * échouerait. `Object.defineProperty` contourne le type sans recourir à
+ * `any` : on redéfinit la propriété plutôt que de l'assigner.
+ */
+function definirNodeEnv(valeur: string | undefined): void {
+  if (valeur === undefined) {
+    delete (process.env as Record<string, string | undefined>).NODE_ENV;
+    return;
+  }
+  Object.defineProperty(process.env, "NODE_ENV", {
+    value: valeur,
+    configurable: true,
+    writable: true,
+    enumerable: true,
+  });
 }
 
 test("getClient mémorise le client Prisma y compris en production", () => {
@@ -24,7 +46,7 @@ test("getClient mémorise le client Prisma y compris en production", () => {
   const databaseUrlOrigine = process.env.DATABASE_URL;
 
   try {
-    process.env.NODE_ENV = "production";
+    definirNodeEnv("production");
     // Syntaxiquement valide mais jamais joignable : Prisma/pg n'ouvrent de
     // connexion réelle qu'à la première requête émise, et ce test n'en émet
     // aucune — il reste entièrement hors ligne.
@@ -32,7 +54,7 @@ test("getClient mémorise le client Prisma y compris en production", () => {
 
     assert.equal(getClient(), getClient());
   } finally {
-    restaurer("NODE_ENV", nodeEnvOrigine);
+    definirNodeEnv(nodeEnvOrigine);
     restaurer("DATABASE_URL", databaseUrlOrigine);
   }
 });
