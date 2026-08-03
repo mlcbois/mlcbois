@@ -37,6 +37,9 @@ résidus allemands au passage.
   `docs/DEPLOY.md`, `docs/HANDOVER.md` ni `src/components/admin/GatewaySettingsForm.tsx`.
 - Tests lancés par `npm test` (motif `src/**/*.test.ts`). Les scripts de `scripts/` ne sont
   pas couverts par ce motif : leur logique testable vit donc dans `src/lib/`.
+- **`npm test` ne suffit pas comme preuve** : `tsx` transpile sans vérifier les types.
+  Chaque tâche doit aussi rendre `npx tsc --noEmit -p .` sans aucune erreur, et le
+  reporter. Une régression de typage y échappe autrement jusqu'au `npm run build`.
 
 ---
 
@@ -554,18 +557,19 @@ async function main() {
 main().finally(() => prisma.$disconnect());
 ```
 
-- [ ] **Étape 7 : déclarer le script et retirer l'ancien**
+- [ ] **Étape 7 : retirer l'ancien script**
 
-Ajouter dans `package.json`, section `scripts` :
+Aucun script npm n'est déclaré : `package.json` porte le travail Square non commité et
+reste intouchable pour toute la durée de ce plan. Le script s'invoque directement :
 
-```json
-    "content:apply": "tsx --env-file=.env scripts/apply-product-content.ts",
+```bash
+npx tsx --env-file=.env scripts/apply-product-content.ts
 ```
 
-Ajouter `/.tmp-backup` à `.gitignore`, sous la ligne `/.tmp-*` si elle ne le couvre pas
-déjà — vérifier avec `git check-ignore -v .tmp-backup/test.json`.
+`.gitignore` n'a pas besoin d'être modifié non plus : sa règle `/.tmp-*` couvre déjà
+`.tmp-backup` — vérifié par `git check-ignore -v .tmp-backup/test.json`.
 
-Puis supprimer le script devenu inopérant :
+Supprimer le script devenu inopérant :
 
 ```bash
 git rm scripts/enrich-merchant-data.ts
@@ -573,17 +577,17 @@ git rm scripts/enrich-merchant-data.ts
 
 - [ ] **Étape 8 : vérifier que le script tourne à vide sans rien casser**
 
-Lancer : `npm run content:apply`
+Lancer : `npx tsx --env-file=.env scripts/apply-product-content.ts`
 Attendu : « Sauvegarde de 35 produits », puis « 0 produit(s) mis à jour ». Aucune écriture,
 `PRODUCT_CONTENT` étant vide.
 
 - [ ] **Étape 9 : commiter**
 
 La suppression de `scripts/enrich-merchant-data.ts` est déjà indexée par le `git rm` de
-l'étape 7.
+l'étape 7. `package.json` et `.gitignore` ne sont pas touchés.
 
 ```bash
-git add src/lib/productContent.ts src/lib/productContent.test.ts scripts/data/product-content.ts scripts/apply-product-content.ts package.json .gitignore
+git add src/lib/productContent.ts src/lib/productContent.test.ts scripts/data/product-content.ts scripts/apply-product-content.ts
 git commit -m "Ajoute le module de contenu produit et son application idempotente"
 ```
 
@@ -890,7 +894,7 @@ Attendu : SUCCÈS sur l'ensemble, dont `gtin.test.ts`, `productContent.test.ts` 
 
 - [ ] **Étape 2 : appliquer**
 
-Lancer : `npm run content:apply`
+Lancer : `npx tsx --env-file=.env scripts/apply-product-content.ts`
 Attendu : « Sauvegarde de 35 produits : .tmp-backup/products-… », puis « 35 produit(s) mis
 à jour, 0 SKU introuvable(s) ».
 
