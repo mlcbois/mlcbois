@@ -31,6 +31,10 @@ résidus allemands au passage.
 - `shortDescription` : une phrase, environ 140 caractères, **distincte** de `description`.
 - Aucun mot allemand nulle part — ni en base, ni dans le code, ni dans le flux.
 - Commentaires de code en français, TypeScript strict, pas de `any`.
+- **`git add -A` et `git commit -a` sont proscrits.** L'arbre contient une intégration
+  Square non commitée, étrangère à ce plan : n'indexer que des chemins nommés
+  explicitement, et ne jamais toucher à `src/server/gateways/`, `docs/PAIEMENT-SQUARE.md`,
+  `docs/DEPLOY.md`, `docs/HANDOVER.md` ni `src/components/admin/GatewaySettingsForm.tsx`.
 - Tests lancés par `npm test` (motif `src/**/*.test.ts`). Les scripts de `scripts/` ne sont
   pas couverts par ce motif : leur logique testable vit donc dans `src/lib/`.
 
@@ -928,12 +932,14 @@ Ouvrir sur `http://localhost:3000` une fiche MLC Bois, un poêle et un granulé,
 équivalents sous `/en`. Vérifier que `shortDescription` et `description` ne se répètent
 plus et que le texte anglais s'affiche bien.
 
-- [ ] **Étape 6 : commiter le relevé final**
+- [ ] **Étape 6 : consigner le relevé final**
 
-```bash
-git add -A
-git commit -m "Applique les descriptions et identifiants au catalogue"
-```
+Cette tâche écrit en base et ne modifie aucun fichier source : il n'y a normalement rien à
+commiter. Reporter le relevé de l'étape 3 dans le rapport de tâche.
+
+**`git add -A` est proscrit sur ce dépôt** : l'arbre de travail contient une intégration
+Square non commitée, étrangère à ce plan, qu'un ajout global emporterait. N'indexer que des
+chemins nommés explicitement, ici comme dans toutes les autres tâches.
 
 ---
 
