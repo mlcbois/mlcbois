@@ -39,8 +39,11 @@ export function Logo({ tone = "light", className, priority = false }: LogoProps)
       height={HAUTEUR_DE_REFERENCE}
       priority={priority}
       // Le descripteur « BOIS DE CHAUFFAGE » fait partie de l'image et n'occupe
-      // qu'un septième de sa hauteur : en deçà de 44 px, il n'est plus lisible.
-      className={cn("h-11 w-auto sm:h-12", className)}
+      // qu'un septième de sa hauteur. Quarante pixels sur mobile est le plancher
+      // retenu : le lettrage y reste lisible sur un écran à forte densité, et
+      // l'en-tête gagne la place que réclamait le logo sur les petites largeurs.
+      // Descendre plus bas exigerait un fichier sans descripteur.
+      className={cn("h-10 w-auto sm:h-12", className)}
     />
   );
 }
