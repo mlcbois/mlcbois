@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { Star } from "lucide-react";
+import { Plus, Star } from "lucide-react";
 import { listReviews } from "@/server/reviews";
 import { ReviewForm } from "@/components/ReviewForm";
 import { formatRating } from "@/lib/formatRating";
@@ -175,8 +175,23 @@ export async function ProductReviewSection({
         </div>
       )}
 
-      <h3 className="mb-3 text-lg font-black text-foreground">{t("writeTitle")}</h3>
-      <ReviewForm productId={productId} />
+      {/* Formulaire replié par défaut. Déployé en permanence, il occupait le bas
+          de chaque fiche produit alors qu'une infime part des visiteurs vient
+          pour déposer un avis — les autres lisent ceux des acheteurs. Le
+          <details> natif suffit : il se déplie sans JavaScript, reste
+          accessible au clavier et s'imprime ouvert. Même mécanique que la FAQ. */}
+      <details className="group rounded-sm border border-border">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-lg font-black text-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+          {t("writeTitle")}
+          <Plus
+            aria-hidden="true"
+            className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-45"
+          />
+        </summary>
+        <div className="border-t border-border px-4 py-4">
+          <ReviewForm productId={productId} />
+        </div>
+      </details>
     </section>
   );
 }
