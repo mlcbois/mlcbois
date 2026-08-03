@@ -54,3 +54,66 @@ test("un slug en double est signalé", () => {
   const anomalies = validateProductContent([entree(), entree()]);
   assert.ok(anomalies.some((a) => a.includes("double")), anomalies.join(" | "));
 });
+
+test("une shortDescription vide est signalée", () => {
+  const anomalies = validateProductContent([entree({ shortDescription: "   " })]);
+  assert.ok(anomalies.some((a) => a.includes("shortDescription") && a.includes("vide")), anomalies.join(" | "));
+});
+
+test("le vocabulaire promotionnel dans shortDescription est signalé", () => {
+  const anomalies = validateProductContent([
+    entree({ shortDescription: "Livraison offerte, profitez-en !" }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("shortDescription") && a.includes("promotionnel")), anomalies.join(" | "));
+});
+
+test("le HTML dans shortDescriptionEn est signalé", () => {
+  const anomalies = validateProductContent([
+    entree({ shortDescriptionEn: "<b>Beech</b> logs split to 25 cm." }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("shortDescriptionEn") && a.includes("HTML")), anomalies.join(" | "));
+});
+
+test("shortDescription hors fourchette 400-800 n'est pas signalée pour sa longueur", () => {
+  // Les champs courts visent ~140 caractères : la fourchette 400-800 ne doit
+  // pas s'y appliquer.
+  const anomalies = validateProductContent([entree({ shortDescription: "Bûches de hêtre." })]);
+  assert.ok(!anomalies.some((a) => a.includes("shortDescription") && a.includes("caractères")), anomalies.join(" | "));
+});
+
+test("le vocabulaire promotionnel anglais est signalé dans descriptionEn", () => {
+  const anomalies = validateProductContent([
+    entree({ descriptionEn: `Free shipping on this order. ${"b".repeat(450)}` }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("descriptionEn") && a.includes("promotionnel")), anomalies.join(" | "));
+});
+
+test("« sale » n'est pas détecté comme sous-chaîne de mots anglais légitimes", () => {
+  const anomalies = validateProductContent([
+    entree({ descriptionEn: `Wholesale pricing available for resale partners. ${"b".repeat(450)}` }),
+  ]);
+  assert.ok(!anomalies.some((a) => a.includes("promotionnel")), anomalies.join(" | "));
+});
+
+test("un mot allemand en minuscules est détecté (insensible à la casse)", () => {
+  const anomalies = validateProductContent([
+    entree({ description: `Ce produit a une bonne ausstattung. ${"a".repeat(450)}` }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("allemand")), anomalies.join(" | "));
+});
+
+test("un GTIN en double entre deux entrées est signalé", () => {
+  const anomalies = validateProductContent([
+    entree({ slug: "produit-un", gtin: "4006381333931" }),
+    entree({ slug: "produit-deux", gtin: "4006381333931" }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("GTIN") && a.includes("double")), anomalies.join(" | "));
+});
+
+test("un MPN en double entre deux entrées est signalé", () => {
+  const anomalies = validateProductContent([
+    entree({ slug: "produit-un", mpn: "REF-123" }),
+    entree({ slug: "produit-deux", mpn: "REF-123" }),
+  ]);
+  assert.ok(anomalies.some((a) => a.includes("MPN") && a.includes("double")), anomalies.join(" | "));
+});
