@@ -1,6 +1,7 @@
 import { toCents } from "@/server/pricingUtils";
 import type { VariantInput } from "@/lib/variantPricing";
 import type { ProductRecord } from "@/server/types";
+import { isValidGtin } from "@/lib/gtin";
 
 // Validation commune des champs produit, partagée par les routes unitaires et
 // l'import en masse. Les messages sont en français : ils s'affichent dans le back-office.
@@ -205,8 +206,13 @@ export function parseProductInput(raw: unknown, mode: "create" | "update"): Prod
   // fait suspendre le compte marchand.
   if (has("gtin")) {
     const gtin = (asTrimmedString(body.gtin) ?? "").replace(/[\s-]/g, "");
-    if (gtin && !/^\d{8}$|^\d{12}$|^\d{13}$|^\d{14}$/.test(gtin)) {
-      errors.push("Le GTIN doit comporter 8, 12, 13 ou 14 chiffres.");
+    // La longueur seule ne suffit pas : un GTIN de la bonne longueur mais à la
+    // clé de contrôle fausse (transposition de chiffre, faute de frappe) passerait
+    // sans être détecté et partirait tel quel dans le flux Merchant.
+    if (gtin && !isValidGtin(gtin)) {
+      errors.push(
+        "Le GTIN doit comporter 8, 12, 13 ou 14 chiffres et sa clé de contrôle doit être valide.",
+      );
     } else {
       values.gtin = gtin;
     }

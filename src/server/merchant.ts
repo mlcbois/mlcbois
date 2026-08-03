@@ -9,6 +9,7 @@ import {
   EU_ENERGY_LABEL_SLUGS,
   GOOGLE_CATEGORY_BY_SLUG,
 } from "@/lib/googleTaxonomy";
+import { isValidGtin } from "@/lib/gtin";
 
 export { GOOGLE_CATEGORY_BY_SLUG, googleCategoryPath } from "@/lib/googleTaxonomy";
 export type { GoogleCategory } from "@/lib/googleTaxonomy";
@@ -659,12 +660,12 @@ export function auditMerchantProduct(
     });
   }
 
-  if (product.gtin?.trim() && !/^\d{8}$|^\d{12,14}$/.test(product.gtin.replace(/\D/g, ""))) {
+  if (product.gtin?.trim() && !isValidGtin(product.gtin.replace(/\D/g, ""))) {
     issues.push({
       level: "error",
       attribute: "gtin",
       message:
-        "Le GTIN n'a pas une longueur valide (8, 12, 13 ou 14 chiffres). Un GTIN erroné entraîne le refus du compte.",
+        "Le GTIN n'est pas valide (longueur 8, 12, 13 ou 14 chiffres et clé de contrôle correcte attendues). Un GTIN erroné entraîne le refus du compte.",
     });
   }
 
