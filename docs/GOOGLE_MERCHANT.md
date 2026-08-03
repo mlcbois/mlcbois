@@ -29,7 +29,8 @@ Sources principales :
 | `src/components/seo/BreadcrumbJsonLd.tsx` | Balisage `BreadcrumbList`. |
 | `src/app/admin/(protected)/merchant/page.tsx` | Tableau de bord de conformité, produit par produit. |
 | `src/components/admin/MerchantFieldsFieldset.tsx` | Champs GTIN / MPN / condition / catégorie / poids / classe énergie. |
-| `scripts/enrich-merchant-data.ts` | Enrichissement automatisable du catalogue existant. |
+| `scripts/data/product-content.ts` | Contenu rédigé (descriptions, GTIN, MPN…) indexé par slug produit. |
+| `scripts/apply-product-content.ts` | Applique ce contenu en base après validation et sauvegarde préalables. |
 
 Le point clé : **le flux XML, le flux TSV et le JSON-LD passent tous par
 `buildMerchantRecord()`**. Prix, disponibilité, état et identifiants ne peuvent donc pas
@@ -185,29 +186,36 @@ retour, et une valeur fausse serait pire qu'une absence.
 
 ---
 
-## 7. Enrichissement du catalogue
+## 7. Application du contenu rédigé
 
 ```bash
-npx tsx scripts/enrich-merchant-data.ts
+npx tsx --env-file=.env scripts/apply-product-content.ts
 ```
 
-Le script est idempotent : il ne remplit que les champs vides et n'écrase jamais une
-saisie manuelle.
+Le contenu (descriptions FR/EN, GTIN, MPN, catégorie Google, poids d'expédition, classe
+d'efficacité énergétique) est rédigé à l'avance dans `scripts/data/product-content.ts`,
+sous forme d'un tableau indexé par `slug` — `slug` est `@unique` dans le schéma Prisma,
+contrairement au SKU, tronqué et susceptible d'entrer en collision.
 
-Résultat sur les 78 produits existants :
+Déroulé du script :
 
-| Action | Nombre |
-| --- | --- |
-| `googleProductCategory` posée depuis la catégorie | 78 |
-| `condition` normalisée à `new` | 0 (déjà à `new`) |
-| `mpn` dérivé du nom commercial | 67 |
-| Sans MPN dérivable, à saisir à la main | 11 |
-| `gtin` manquantes | 78 |
-| Poids d'expédition manquants | 78 |
+1. **Validation préalable** via `validateProductContent()` (`src/lib/productContent.ts`) :
+   longueur des descriptions (400 à 800 caractères), absence de HTML, absence de
+   vocabulaire promotionnel ou de résidu allemand, descriptions courtes non vides et
+   distinctes des descriptions longues, checksum GTIN valide, GTIN/MPN non dupliqués entre
+   entrées. À la moindre anomalie, **rien n'est écrit** : le script journalise la liste des
+   anomalies et sort en erreur.
+2. **Sauvegarde JSON** de l'intégralité de la table `Product` avant la première écriture,
+   dans `.tmp-backup/products-<horodatage>.json` — un retour en arrière reste possible même
+   après application.
+3. **Application en base** : chaque entrée est reliée à son produit par le slug ; un slug
+   absent de la base est journalisé et compté, sans faire échouer les autres mises à jour.
+   Les 35 mises à jour sont regroupées dans une transaction Prisma unique : une connexion
+   perdue en cours de route annule l'ensemble plutôt que de laisser le catalogue à moitié
+   modifié.
 
-Les 11 produits sans MPN dérivable sont ceux dont le nom ne contient pas de désignation de
-modèle : « Geschirrspüler vollintegrierbar », « Split-Klimagerät 3,5 kW », « 43" 4K
-Fernseher »…
+Le script termine en erreur (`process.exitCode = 1`) si la validation relève des anomalies
+ou si au moins un slug est resté introuvable en base.
 
 ---
 
