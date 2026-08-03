@@ -9,6 +9,7 @@ import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SmartsuppChat } from "@/components/SmartsuppChat";
+import { CodeSnippets } from "@/components/CodeSnippets";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -38,6 +39,10 @@ export default async function LocaleLayout({
   // côté serveur, le tiroir n'embarque aucune requête.
   return (
     <NextIntlClientProvider>
+      {/* Fragments posés depuis « Scripts & balises ». Placés ici, ils ne
+          touchent que la boutique : /admin ne traverse pas ce layout. */}
+      <CodeSnippets placement="head" />
+      <CodeSnippets placement="bodyStart" />
       <CartProvider>
         {children}
         <CartDrawer paymentSlot={<PaymentMethodsBar variant="inline" />} />
@@ -49,6 +54,7 @@ export default async function LocaleLayout({
             renseignée. */}
         <WhatsAppButton />
         <SmartsuppChat />
+        <CodeSnippets placement="bodyEnd" />
       </CartProvider>
     </NextIntlClientProvider>
   );
