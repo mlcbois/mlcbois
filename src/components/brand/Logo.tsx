@@ -38,12 +38,13 @@ export function Logo({ tone = "light", className, priority = false }: LogoProps)
       width={Math.round(HAUTEUR_DE_REFERENCE * RATIO)}
       height={HAUTEUR_DE_REFERENCE}
       priority={priority}
-      // Le descripteur « BOIS DE CHAUFFAGE » fait partie de l'image et n'occupe
-      // qu'un septième de sa hauteur : à trente-deux pixels il tombe sous cinq
-      // pixels, une taille où il ne se lit plus et ne vaut plus que comme
-      // texture sous le lettrage. Le nom « MLC Bois », lui, reste net. En deçà,
-      // mieux vaut le sigle seul (`BrandMark`) qu'un logo complet illisible.
-      className={cn("h-8 w-auto sm:h-12", className)}
+      // Vingt-huit pixels sur mobile. Le descripteur « BOIS DE CHAUFFAGE »,
+      // qui n'occupe qu'un septième de la hauteur de l'image, n'y est plus
+      // qu'un liseré : il ne se lit plus du tout et ne sert que d'assise
+      // visuelle au nom. Seul « MLC Bois » reste identifiable. C'est le
+      // dernier cran utile de ce fichier — au-delà, le logo complet n'apporte
+      // plus rien que le sigle seul (`BrandMark`) ne rendrait mieux.
+      className={cn("h-7 w-auto sm:h-12", className)}
     />
   );
 }
