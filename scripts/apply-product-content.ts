@@ -29,41 +29,58 @@ async function main() {
   let modifies = 0;
   let introuvables = 0;
 
-  for (const entry of PRODUCT_CONTENT) {
-    // Vérification préalable dans la sauvegarde : le slug est unique en base
-    // (`slug String @unique` dans le schéma Prisma), contrairement au SKU.
-    const cible = avant.find((p) => p.slug === entry.slug);
-    if (!cible) {
-      console.warn(`Slug introuvable en base, ignoré : ${entry.slug}`);
-      introuvables += 1;
-      continue;
-    }
+  // Transaction unique pour les 35 mises à jour : si la connexion tombe en
+  // cours de route, aucune n'est retenue plutôt que de laisser le catalogue
+  // à moitié modifié sans que rien ne le signale.
+  await prisma.$transaction(async (tx) => {
+    for (const entry of PRODUCT_CONTENT) {
+      // Vérification préalable dans la sauvegarde : le slug est unique en base
+      // (`slug String @unique` dans le schéma Prisma), contrairement au SKU.
+      const cible = avant.find((p) => p.slug === entry.slug);
+      if (!cible) {
+        console.warn(`Slug introuvable en base, ignoré : ${entry.slug}`);
+        introuvables += 1;
+        continue;
+      }
 
-    await prisma.product.update({
-      where: { slug: entry.slug },
-      data: {
-        description: entry.description,
-        shortDescription: entry.shortDescription,
-        descriptionEn: entry.descriptionEn,
-        shortDescriptionEn: entry.shortDescriptionEn,
-        // Les champs absents de l'entrée ne sont pas touchés.
-        ...(entry.gtin !== undefined ? { gtin: entry.gtin } : {}),
-        ...(entry.mpn !== undefined ? { mpn: entry.mpn } : {}),
-        ...(entry.googleProductCategory !== undefined
-          ? { googleProductCategory: entry.googleProductCategory }
-          : {}),
-        ...(entry.shippingWeightGrams !== undefined
-          ? { shippingWeightGrams: entry.shippingWeightGrams }
-          : {}),
-        ...(entry.energyEfficiencyClass !== undefined
-          ? { energyEfficiencyClass: entry.energyEfficiencyClass }
-          : {}),
-      },
-    });
-    modifies += 1;
-  }
+      await tx.product.update({
+        where: { slug: entry.slug },
+        data: {
+          description: entry.description,
+          shortDescription: entry.shortDescription,
+          descriptionEn: entry.descriptionEn,
+          shortDescriptionEn: entry.shortDescriptionEn,
+          // Les champs absents de l'entrée ne sont pas touchés.
+          ...(entry.gtin !== undefined ? { gtin: entry.gtin } : {}),
+          ...(entry.mpn !== undefined ? { mpn: entry.mpn } : {}),
+          ...(entry.googleProductCategory !== undefined
+            ? { googleProductCategory: entry.googleProductCategory }
+            : {}),
+          ...(entry.shippingWeightGrams !== undefined
+            ? { shippingWeightGrams: entry.shippingWeightGrams }
+            : {}),
+          ...(entry.energyEfficiencyClass !== undefined
+            ? { energyEfficiencyClass: entry.energyEfficiencyClass }
+            : {}),
+        },
+      });
+      modifies += 1;
+    }
+  });
 
   console.log(`${modifies} produit(s) mis à jour, ${introuvables} slug(s) introuvable(s).`);
+
+  // Une faute de frappe sur un slug ne doit pas ressortir en succès (code 0) :
+  // c'est le même genre d'anomalie silencieuse que la validation en amont
+  // cherche justement à éviter.
+  if (introuvables > 0) {
+    process.exitCode = 1;
+  }
 }
 
-main().finally(() => prisma.$disconnect());
+main()
+  .catch((erreur) => {
+    console.error("Échec de l'application du contenu :", erreur);
+    process.exitCode = 1;
+  })
+  .finally(() => prisma.$disconnect());
