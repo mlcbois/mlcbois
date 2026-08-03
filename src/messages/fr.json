@@ -700,7 +700,7 @@
     "schritte": {
       "bestellung": {
         "titel": "Commande",
-        "text": "Choisissez le type de bois, la longueur de bûche et la quantité. Le paiement n'intervient qu'une fois votre créneau confirmé."
+        "text": "Choisissez le type de bois, la longueur de bûche ou le pellet et la quantité puis validez votre commande"
       },
       "termin": {
         "titel": "Créneau",

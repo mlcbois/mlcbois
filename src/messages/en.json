@@ -700,7 +700,7 @@
     "schritte": {
       "bestellung": {
         "titel": "Order",
-        "text": "Choose the species, log length and quantity. You only pay once your preferred slot is confirmed."
+        "text": "Choose the wood type, the log length or pellets, and the quantity, then confirm your order"
       },
       "termin": {
         "titel": "Slot",
