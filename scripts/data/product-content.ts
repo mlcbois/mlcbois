@@ -472,9 +472,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Granulés (n° D79360-016, FCBA), conformes à la norme DIN EN ISO 17225-2. Le taux de cendres " +
       "reste inférieur ou égal à 0,5 %, pour une humidité inférieure ou égale à 8 % et un pouvoir " +
       "calorifique compris entre 4,8 et 5,3 kWh par kilogramme. Le diamètre des granulés est de " +
-      "6 mm. La palette regroupe 66 sacs de 15 kg, soit environ 1,17 tonne. Ces granulés " +
+      "6 mm. La palette regroupe 66 sacs de 15 kg, soit environ 0,99 tonne. Ces granulés " +
       "conviennent aux poêles, aux inserts et aux chaudières à granulés de bois.",
-    descriptionEn: "Virgin wood pellets, certified DINplus (no. 7A288) and NF Biocombustibles Solides Granulés (no. D79360-016, FCBA), compliant with the DIN EN ISO 17225-2 standard. Ash content stays at or below 0.5%, with moisture at or below 8% and a calorific value between 4.8 and 5.3 kWh per kilogram. Pellet diameter is 6 mm. The pallet holds 66 bags of 15 kg, about 1.17 tonnes. These pellets suit pellet stoves, inserts and pellet boilers.",
+    descriptionEn: "Virgin wood pellets, certified DINplus (no. 7A288) and NF Biocombustibles Solides Granulés (no. D79360-016, FCBA), compliant with the DIN EN ISO 17225-2 standard. Ash content stays at or below 0.5%, with moisture at or below 8% and a calorific value between 4.8 and 5.3 kWh per kilogram. Pellet diameter is 6 mm. The pallet holds 66 bags of 15 kg, about 0.99 tonnes. These pellets suit pellet stoves, inserts and pellet boilers.",
     shortDescriptionEn: "Woodstock virgin wood pellets, dual-certified DINplus and NF Biocombustibles, ash at or below 0.5%, pallet of 66 bags of 15 kg.",
   },
   {
