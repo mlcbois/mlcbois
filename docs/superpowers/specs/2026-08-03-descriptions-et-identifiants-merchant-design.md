@@ -131,8 +131,9 @@ Les deux passent en français.
 
 ## 8. Vérification
 
-1. `npm test` — les tests de `src/server/merchant.test.ts` couvrent déjà la construction
-   de l'enregistrement.
+1. `npm test`. Attention : `src/server/merchant.ts` n'a **aucun test** à ce jour. Les
+   tests de non-régression sont donc à créer — sur la validation du checksum GTIN et sur
+   l'absence d'allemand dans l'enregistrement produit.
 2. `curl localhost:3000/feed/google` — contrôle du XML produit : présence des
    descriptions longues, cohérence `gtin` / `identifier_exists`, absence d'« Aktion ».
 3. Relecture d'une fiche produit de chaque lot sur le site local, en français et en
