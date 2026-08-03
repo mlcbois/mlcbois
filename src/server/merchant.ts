@@ -338,10 +338,10 @@ export function merchantDescription(product: MerchantProduct): string {
 
   const bullets = parseBullets(product.bullets);
   const parts = [
-    `${product.brand} ${product.name} — ${product.category.label} von ${product.brand}.`,
+    `${product.brand} ${product.name} — ${product.category.label} par ${product.brand}.`,
     plainText(product.category.description),
-    bullets.length > 0 ? `Ausstattung: ${bullets.join(", ")}.` : "",
-    conditionFor(product.condition) === "new" ? "Zustand: fabrikneu und originalverpackt." : "",
+    bullets.length > 0 ? `Caractéristiques : ${bullets.join(", ")}.` : "",
+    conditionFor(product.condition) === "new" ? "État : neuf, jamais utilisé." : "",
     own,
   ];
 
@@ -517,7 +517,7 @@ export function buildMerchantRecord(product: MerchantProduct): MerchantRecord {
     ageGroup: isApparel ? "adult" : undefined,
     gender: isApparel ? "unisex" : undefined,
     customLabel0: product.category.group.label,
-    customLabel1: onSale ? "Aktion" : undefined,
+    customLabel1: onSale ? "Promotion" : undefined,
     priceValidUntil: priceValidUntil(priceCuttingPromotion(product)),
   };
 }
