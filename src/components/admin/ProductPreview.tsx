@@ -258,7 +258,9 @@ export function ProductPreview({
         {description.trim() && (
           <section className="mt-4 border-t border-border pt-4">
             <h2 className="mb-2 text-xs font-bold text-foreground">Artikelbeschreibung</h2>
-            <p className="text-xs text-muted-foreground">{description}</p>
+            {/* Même rendu que la fiche publique : les paragraphes saisis dans
+                le back-office doivent rester lisibles dans l'aperçu. */}
+            <p className="whitespace-pre-line text-xs text-muted-foreground">{description}</p>
           </section>
         )}
       </div>

@@ -12,6 +12,13 @@ export interface ProductContent {
   shortDescription: string;
   descriptionEn: string;
   shortDescriptionEn: string;
+  /**
+   * Caractéristiques affichées en liste sur la fiche produit (colonne `bullets`).
+   * Champ facultatif : une entrée qui ne le porte pas laisse intactes les
+   * caractéristiques déjà en base.
+   */
+  bullets?: string[];
+  bulletsEn?: string[];
   /** Écrit seulement si le checksum est valide et la source identifiable. */
   gtin?: string;
   mpn?: string;
@@ -20,8 +27,45 @@ export interface ProductContent {
   energyEfficiencyClass?: string;
 }
 
-const LONGUEUR_MIN = 400;
-const LONGUEUR_MAX = 800;
+// Fourchette de longueur des descriptions longues.
+//
+// Le plafond était fixé à 800 caractères, ce qui produisait des fiches jugées
+// trop maigres par le commerçant : à ce format, la description tient les
+// caractéristiques techniques et rien d'autre. Il est passé à 2400 pour laisser
+// place à ce qui fait vraiment décider un acheteur — quel appareil, quelle
+// autonomie, comment stocker, comment choisir entre deux longueurs.
+//
+// Deuxième passe : le commerçant demande des fiches rédigées en plusieurs
+// paragraphes (nature du produit, essence, séchage, usage, stockage). Le
+// plafond monte donc à 3800 et le plancher à 1100, pour que la fiche détaillée
+// soit la norme et non un cas particulier.
+//
+// Google Merchant accepte jusqu'à 5 000 caractères : la contrainte est
+// éditoriale, pas technique.
+const LONGUEUR_MIN = 1100;
+const LONGUEUR_MAX = 3800;
+
+/**
+ * Nombre de caractéristiques attendues quand le champ est renseigné.
+ *
+ * Le plafond était de 6, calibré pour une liste d'accroches. Les fiches portent
+ * désormais un vrai tableau « intitulé : valeur » (produit, composition,
+ * conditionnement, humidité, appareils compatibles, stockage…), dont seules les
+ * lignes réellement documentées sont écrites : 16 laisse la place au cas le
+ * plus complet sans autoriser une liste fourre-tout.
+ *
+ * À noter : `src/server/merchant.ts` ne reprend que les 10 premières entrées
+ * dans `product_highlights`. Les caractéristiques sont donc rangées de la plus
+ * distinctive à la plus accessoire.
+ */
+const BULLETS_MIN = 3;
+const BULLETS_MAX = 16;
+/**
+ * Une caractéristique reste une étiquette, pas un paragraphe. La borne passe de
+ * 90 à 120 caractères : le format « intitulé : valeur » consomme à lui seul une
+ * vingtaine de caractères avant la valeur utile.
+ */
+const BULLET_LONGUEUR_MAX = 120;
 
 // Vocabulaire commercial que Google refuse dans une description : il décrit
 // l'offre du marchand, pas le produit. `src/server/merchant.ts` (ligne ~336)
@@ -136,6 +180,48 @@ export function validateProductContent(entries: ProductContent[]): string[] {
         anomalies.push(`${ou} ${champ} est vide`);
       }
       controleContenu(ou, champ, texte, anomalies);
+    }
+
+    // Caractéristiques : facultatives, mais dès qu'elles sont fournies elles
+    // doivent l'être dans les deux langues et sous forme d'étiquettes courtes.
+    // C'est ce contrôle qui empêche de réintroduire les deux défauts relevés
+    // par le commerçant : une liste vide, ou une phrase entière recopiée en
+    // guise de caractéristique.
+    if (entry.bullets !== undefined || entry.bulletsEn !== undefined) {
+      for (const [champ, liste] of [
+        ["bullets", entry.bullets],
+        ["bulletsEn", entry.bulletsEn],
+      ] as const) {
+        if (!liste || liste.length === 0) {
+          anomalies.push(`${ou} ${champ} est absent alors que l'autre langue est renseignée`);
+          continue;
+        }
+        if (liste.length < BULLETS_MIN || liste.length > BULLETS_MAX) {
+          anomalies.push(
+            `${ou} ${champ} compte ${liste.length} entrées, attendu entre ${BULLETS_MIN} et ${BULLETS_MAX}`,
+          );
+        }
+        for (const texte of liste) {
+          if (!texte.trim()) {
+            anomalies.push(`${ou} ${champ} contient une entrée vide`);
+            continue;
+          }
+          if (texte.length > BULLET_LONGUEUR_MAX) {
+            anomalies.push(
+              `${ou} ${champ} : « ${texte.slice(0, 40)}… » fait ${texte.length} caractères, maximum ${BULLET_LONGUEUR_MAX}`,
+            );
+          }
+          controleContenu(ou, champ, texte, anomalies);
+        }
+      }
+
+      // Les deux listes décrivent le même produit : un décompte différent
+      // signale une traduction oubliée.
+      if (entry.bullets && entry.bulletsEn && entry.bullets.length !== entry.bulletsEn.length) {
+        anomalies.push(
+          `${ou} bullets (${entry.bullets.length}) et bulletsEn (${entry.bulletsEn.length}) n'ont pas le même nombre d'entrées`,
+        );
+      }
     }
 
     if (entry.description.trim() === entry.shortDescription.trim()) {
