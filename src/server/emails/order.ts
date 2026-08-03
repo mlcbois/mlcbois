@@ -367,11 +367,11 @@ export function buildOrderConfirmationEmail(
         bankOrder.holder
           ? `${fr ? "Titulaire du compte" : "Account holder"} : <strong>${escapeHtml(bankOrder.holder)}</strong>`
           : "",
+        `IBAN : <strong>${escapeHtml(bankOrder.iban)}</strong>`,
+        bankOrder.bic ? `BIC : <strong>${escapeHtml(bankOrder.bic)}</strong>` : "",
         bankOrder.transferType
           ? `${fr ? "Type de virement" : "Transfer type"} : ${escapeHtml(bankOrder.transferType)}`
           : "",
-        `IBAN : <strong>${escapeHtml(bankOrder.iban)}</strong>`,
-        bankOrder.bic ? `BIC : <strong>${escapeHtml(bankOrder.bic)}</strong>` : "",
         `${fr ? "Référence à indiquer" : "Payment reference"} : <strong>${escapeHtml(order.orderNumber)}</strong>`,
       ])
     : "";
@@ -418,11 +418,11 @@ export function buildOrderConfirmationEmail(
         ...(bankOrder.holder
           ? [`${fr ? "Titulaire du compte" : "Account holder"} : ${bankOrder.holder}`]
           : []),
+        `IBAN : ${bankOrder.iban}`,
+        ...(bankOrder.bic ? [`BIC : ${bankOrder.bic}`] : []),
         ...(bankOrder.transferType
           ? [`${fr ? "Type de virement" : "Transfer type"} : ${bankOrder.transferType}`]
           : []),
-        `IBAN : ${bankOrder.iban}`,
-        ...(bankOrder.bic ? [`BIC : ${bankOrder.bic}`] : []),
         `${fr ? "Référence à indiquer" : "Payment reference"} : ${order.orderNumber}`,
       ]
     : [];

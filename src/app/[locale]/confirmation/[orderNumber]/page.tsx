@@ -323,9 +323,9 @@ async function PaymentInstructions({ order }: { order: OrderRecord }) {
 
           <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 rounded-sm bg-muted p-4 text-sm sm:grid-cols-2">
             {bankRow(t("confirmation.bankHolder"), bank.holder)}
-            {bankRow(t("confirmation.bankTransferType"), bank.transferType)}
             {bankRow(t("confirmation.bankIban"), bank.iban, true)}
             {bankRow(t("confirmation.bankBic"), bank.bic, true)}
+            {bankRow(t("confirmation.bankTransferType"), bank.transferType)}
             {bankRow(t("confirmation.bankReference"), order.orderNumber, false, true)}
           </dl>
         </>
