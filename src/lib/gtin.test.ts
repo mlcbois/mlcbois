@@ -34,3 +34,32 @@ test("isValidGtin rejette tout ce qui n'est pas une suite de chiffres", () => {
 test("isValidGtin tolère les espaces autour du code", () => {
   assert.equal(isValidGtin("  4006381333931 "), true);
 });
+
+test("isValidGtin rejette les séquences entièrement nulles", () => {
+  assert.equal(isValidGtin("00000000"), false); // EAN-8
+  assert.equal(isValidGtin("000000000000"), false); // UPC-A
+  assert.equal(isValidGtin("0000000000000"), false); // EAN-13
+  assert.equal(isValidGtin("00000000000000"), false); // GTIN-14
+});
+
+test("isValidGtin rejette les EAN-13 à circulation restreinte (préfixe 2, 02, 04)", () => {
+  assert.equal(isValidGtin("2001234567893"), false); // préfixe 2
+  assert.equal(isValidGtin("2900000000001"), false); // préfixe 2
+  assert.equal(isValidGtin("0212345678909"), false); // préfixe 02
+  assert.equal(isValidGtin("0412345678903"), false); // préfixe 04
+});
+
+test("isValidGtin accepte les GTIN réellement utilisés par le catalogue", () => {
+  const catalogue = [
+    "3760366603266",
+    "3760366603273",
+    "3244330110009",
+    "3244330110542",
+    "3244330110696",
+    "3244330110801",
+    "8022724371008",
+  ];
+  for (const code of catalogue) {
+    assert.equal(isValidGtin(code), true, code);
+  }
+});
