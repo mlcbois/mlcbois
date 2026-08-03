@@ -1,28 +1,24 @@
 import type { ProductContent } from "../../src/lib/productContent";
 
 /**
- * Contenu rédigé produit par produit, indexé par SKU.
+ * Contenu rédigé produit par produit, indexé par slug.
  *
  * Chaque GTIN est accompagné en commentaire de la source où il a été relevé :
  * sans source vérifiable, le champ reste absent et le flux bascule
  * automatiquement sur identifier_exists « no ».
  *
- * NOTE — bug de données identifié lors de la tâche 6 (non corrigé ici, hors
- * périmètre) : `scripts/seed-bois-variations.ts` génère le SKU par troncature
- * du slug à 12 caractères alphanumériques (`skuFromSlug`). Les slugs
- * "bois-palette-30cm" et "bois-palette-33cm" partagent les mêmes 12 premiers
- * caractères ("boispalette3") et produisent donc le même SKU "BOISPALETTE3"
- * pour deux produits distincts en base (palette 30 cm et palette 33 cm).
- * Ajouter deux entrées avec ce SKU ferait échouer `validateProductContent`
- * ("SKU en double") pour tout le fichier, y compris les entrées déjà propres
- * des tâches 7/8/9. En attendant la correction du SKU en base (migration
- * hors périmètre de cette tâche), seule la palette 33 cm est couverte
- * ci-dessous ; la palette 30 cm reste sans contenu rédigé.
+ * L'indexation se fait par slug, et non par SKU : `slug` est `@unique` dans
+ * `prisma/schema.prisma`, alors que le SKU ne l'est pas — il est dérivé par
+ * troncature du slug à 12 caractères alphanumériques dans
+ * `scripts/seed-bois-variations.ts` (`skuFromSlug`), ce qui produit des
+ * collisions (ex. "bois-palette-30cm" et "bois-palette-33cm" partagent tous
+ * deux le SKU "BOISPALETTE3"). Le slug, lui, distingue correctement les
+ * 35 produits en base ; c'est donc la clé fiable pour `apply-product-content.ts`.
  */
 export const PRODUCT_CONTENT: ProductContent[] = [
   // --- Bûches prêtes à brûler, marque MLC Bois ---
   {
-    sku: "MLCBOISHET",
+    slug: "mlc-bois-hetre-pret-a-bruler-25-cm-2-metre-cube",
     shortDescription:
       "Bûches de hêtre fendues à 25 cm, séchées en séchoir sous 18 % d'humidité sur brut, conditionnées en 2 mètres cubes apparents, prêtes à brûler.",
     description:
@@ -37,7 +33,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "MLCBOISCHE",
+    slug: "mlc-bois-chene-pret-a-bruler-50-cm-2-metre-cube",
     shortDescription:
       "Bûches de chêne fendues à 50 cm, séchées sous 18 % d'humidité sur brut, à la phase de braise longue, conditionnées en 2 mètres cubes apparents.",
     description:
@@ -52,7 +48,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "MLCBOISBOU",
+    slug: "mlc-bois-bouleau-pret-a-bruler-25-cm-2-3-metre-cube",
     shortDescription:
       "Bûches de bouleau fendues à 25 cm, séchées sous 18 % d'humidité sur brut, à la flamme claire, conditionnées en 2,3 mètres cubes apparents.",
     description:
@@ -67,7 +63,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "MLCBOISFRE",
+    slug: "mlc-bois-frene-pret-a-bruler-50-cm-2-5-metre-cube",
     shortDescription:
       "Bûches de frêne fendues à 50 cm, séchées sous 18 % d'humidité sur brut, à combustion peu cendreuse, conditionnées en 2,5 mètres cubes apparents.",
     description:
@@ -84,7 +80,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
 
   // --- Bois en vrac ---
   {
-    sku: "BOISVRAC50CM",
+    slug: "bois-vrac-50cm",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 50 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 6 stères.",
     description:
@@ -99,7 +95,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "BOISVRAC33CM",
+    slug: "bois-vrac-33cm",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 33 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
     description:
@@ -114,7 +110,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "BOISVRAC25CM",
+    slug: "bois-vrac-25cm",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 25 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
     description:
@@ -131,7 +127,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
 
   // --- Bois sur palette ---
   {
-    sku: "BOISPALETTE4",
+    slug: "bois-palette-40cm",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 40 cm, sur palette filmée, humidité sous 20 %, de 1,5 à 2,5 stères.",
     description:
@@ -146,9 +142,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    // SKU partagé en base avec le produit « palette 30 cm » (bug de troncature dans
-    // skuFromSlug, voir note en tête de fichier) : seule la palette 33 cm est couverte.
-    sku: "BOISPALETTE3",
+    slug: "bois-palette-33cm",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 33 cm, sur palette filmée, humidité sous 20 %, de 2,5 à 3 stères.",
     description:
@@ -163,7 +157,24 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "BOISPALETTE2",
+    // 12e entrée : produit auparavant non couvert (voir note en tête de fichier),
+    // désormais distinguable de la palette 33 cm grâce à l'indexation par slug.
+    slug: "bois-palette-30cm",
+    shortDescription:
+      "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 30 cm, sur palette filmée, humidité sous 20 %, de 2 à 3 stères.",
+    description:
+      "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — coupées à 30 cm et livrées sur palette " +
+      "filmée. " +
+      "L'humidité reste sous 20 %, ce qui rend le bois prêt à brûler dès la livraison, sans séchage " +
+      "complémentaire. Le film plastique protège les bûches durant le transport ; il se retire dès réception " +
+      "pour laisser le bois respirer. Le conditionnement sur palette facilite le déchargement à l'aide d'un " +
+      "engin de manutention ou d'un transpalette. Le volume se choisit de 2 à 3 stères selon les besoins. " +
+      "La longueur de 30 cm convient à la plupart des inserts et poêles à bûches du marché.",
+    descriptionEn: "", // rempli en tâche 8
+    shortDescriptionEn: "", // rempli en tâche 8
+  },
+  {
+    slug: "bois-palette-25cm",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 25 cm, sur palette filmée, humidité sous 20 %, de 1,8 à 3 stères.",
     description:
@@ -178,7 +189,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     shortDescriptionEn: "", // rempli en tâche 8
   },
   {
-    sku: "BOISPALETTE5",
+    slug: "bois-palette-50cm",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 50 cm, sur palette filmée, humidité sous 20 %, de 2 à 3 stères.",
     description:

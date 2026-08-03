@@ -5,7 +5,7 @@ import { validateProductContent, type ProductContent } from "./productContent";
 
 function entree(surcharge: Partial<ProductContent> = {}): ProductContent {
   return {
-    sku: "MLCBOISHET",
+    slug: "hetre-pret-a-bruler-25-cm",
     description: "a".repeat(500),
     shortDescription: "Bûches de hêtre fendues à 25 cm, séchées sous 18 % d'humidité.",
     descriptionEn: "b".repeat(500),
@@ -50,7 +50,7 @@ test("un GTIN valide passe", () => {
   assert.deepEqual(validateProductContent([entree({ gtin: "4006381333931" })]), []);
 });
 
-test("un SKU en double est signalé", () => {
+test("un slug en double est signalé", () => {
   const anomalies = validateProductContent([entree(), entree()]);
   assert.ok(anomalies.some((a) => a.includes("double")), anomalies.join(" | "));
 });

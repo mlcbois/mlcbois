@@ -1,8 +1,13 @@
 import { isValidGtin } from "./gtin";
 
-/** Contenu rédigé pour un produit, appliqué en base par son SKU. */
+/**
+ * Contenu rédigé pour un produit, appliqué en base par son slug.
+ * On indexe par slug, pas par SKU : `slug` est `@unique` dans le schéma
+ * Prisma, alors que le SKU ne l'est pas (il est dérivé par troncature du
+ * slug dans `scripts/seed-bois-variations.ts` et peut entrer en collision).
+ */
 export interface ProductContent {
-  sku: string;
+  slug: string;
   description: string;
   shortDescription: string;
   descriptionEn: string;
@@ -44,10 +49,10 @@ export function validateProductContent(entries: ProductContent[]): string[] {
   const vus = new Set<string>();
 
   for (const entry of entries) {
-    const ou = `[${entry.sku}]`;
+    const ou = `[${entry.slug}]`;
 
-    if (vus.has(entry.sku)) anomalies.push(`${ou} SKU en double`);
-    vus.add(entry.sku);
+    if (vus.has(entry.slug)) anomalies.push(`${ou} slug en double`);
+    vus.add(entry.slug);
 
     for (const [champ, texte] of [
       ["description", entry.description],

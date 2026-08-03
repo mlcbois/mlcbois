@@ -4,7 +4,7 @@ import { prisma } from "../src/server/prisma";
 import { validateProductContent } from "../src/lib/productContent";
 import { PRODUCT_CONTENT } from "./data/product-content";
 
-// Applique le contenu rédigé au catalogue, par SKU.
+// Applique le contenu rédigé au catalogue, par slug (unique en base — le SKU ne l'est pas).
 // Lancement : npx tsx --env-file=.env scripts/apply-product-content.ts
 
 async function main() {
@@ -30,15 +30,17 @@ async function main() {
   let introuvables = 0;
 
   for (const entry of PRODUCT_CONTENT) {
-    const cible = avant.find((p) => p.sku === entry.sku);
+    // Vérification préalable dans la sauvegarde : le slug est unique en base
+    // (`slug String @unique` dans le schéma Prisma), contrairement au SKU.
+    const cible = avant.find((p) => p.slug === entry.slug);
     if (!cible) {
-      console.warn(`SKU introuvable en base, ignoré : ${entry.sku}`);
+      console.warn(`Slug introuvable en base, ignoré : ${entry.slug}`);
       introuvables += 1;
       continue;
     }
 
     await prisma.product.update({
-      where: { id: cible.id },
+      where: { slug: entry.slug },
       data: {
         description: entry.description,
         shortDescription: entry.shortDescription,
@@ -61,7 +63,7 @@ async function main() {
     modifies += 1;
   }
 
-  console.log(`${modifies} produit(s) mis à jour, ${introuvables} SKU introuvable(s).`);
+  console.log(`${modifies} produit(s) mis à jour, ${introuvables} slug(s) introuvable(s).`);
 }
 
 main().finally(() => prisma.$disconnect());
