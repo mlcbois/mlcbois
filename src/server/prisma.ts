@@ -30,6 +30,29 @@ function createClient(): PrismaClient {
 // enregistrement de fichier ouvrirait de nouvelles connexions.
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
+// Mémorisation dans une variable de module : elle doit être inconditionnelle,
+// quel que soit NODE_ENV. `globalThis` ne sert qu'au rechargement à chaud du
+// développement, qui réévalue les modules — pas à la mémorisation elle-même.
+// (Une mémorisation conditionnée à `NODE_ENV !== "production"` a longtemps
+// été sans conséquence, tant que le client était construit une seule fois à
+// l'évaluation du module. Une fois cette construction déplacée derrière un
+// Proxy déclenché à chaque accès de propriété, la même garde rappelait
+// `createClient()` — donc un nouveau pool `pg` de dix connexions jamais
+// fermé — à chaque `prisma.product`, chaque `prisma.$transaction`, en
+// production. Voir `getClient` et `src/server/prisma.test.ts`.)
+let client: PrismaClient | undefined;
+
+/**
+ * Rend le client, en l'ouvrant au premier appel. La variable de module suffit
+ * à garantir l'unicité dans un processus ; `globalThis` ne sert qu'au
+ * rechargement à chaud du développement, qui réévalue les modules.
+ */
+export function getClient(): PrismaClient {
+  client ??= globalForPrisma.prisma ?? createClient();
+  if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
+  return client;
+}
+
 /**
  * Client instancié à la première utilisation plutôt qu'à l'import : un module
  * qui importe merchant.ts pour sa logique pure — les tests, par exemple — n'a
@@ -37,12 +60,11 @@ const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
  */
 export const prisma = new Proxy({} as PrismaClient, {
   get(_cible, propriete) {
-    const client = globalForPrisma.prisma ?? createClient();
-    if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
-    const valeur = Reflect.get(client, propriete);
+    const cible = getClient();
+    const valeur: unknown = Reflect.get(cible, propriete);
     // Les méthodes Prisma (ex. product.findMany) accèdent à `this` en interne :
     // les renvoyer telles quelles depuis le Proxy les détacherait du client
     // réel. On les relie explicitement pour préserver leur contexte.
-    return typeof valeur === "function" ? valeur.bind(client) : valeur;
+    return typeof valeur === "function" ? valeur.bind(cible) : valeur;
   },
 });
