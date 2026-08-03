@@ -884,7 +884,8 @@ git commit -m "Traduit en anglais les descriptions des trente-cinq produits"
 - Aucun fichier source modifié. Écriture en base et contrôles.
 
 **Interfaces :**
-- Consomme : `npm run content:apply` (tâche 3), `PRODUCT_CONTENT` complet (tâches 6 à 8).
+- Consomme : `scripts/apply-product-content.ts` (tâche 3), `PRODUCT_CONTENT` complet
+  (tâches 6 à 8).
 - Produit : la base à jour, plus un relevé d'écart avant/après.
 
 - [ ] **Étape 1 : lancer les tests**
