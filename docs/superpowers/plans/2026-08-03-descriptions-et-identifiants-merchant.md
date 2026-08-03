@@ -294,7 +294,8 @@ git commit -m "Francise le repli de description et le libellé de campagne du fl
 - Créer : `scripts/data/product-content.ts` (les données, vide à ce stade)
 - Créer : `scripts/apply-product-content.ts` (sauvegarde puis écriture)
 - Supprimer : `scripts/enrich-merchant-data.ts` (calibré sur l'électroménager allemand)
-- Modifier : `package.json` (script `content:apply`)
+- **Ne pas modifier `package.json`** : il porte le travail Square non commité. Le script
+  s'invoque directement, sans passer par un script npm.
 
 **Interfaces :**
 - Consomme : `normalizeGtin` de la tâche 1.
@@ -495,7 +496,7 @@ import { validateProductContent } from "../src/lib/productContent";
 import { PRODUCT_CONTENT } from "./data/product-content";
 
 // Applique le contenu rédigé au catalogue, par SKU.
-// Lancement : npm run content:apply
+// Lancement : npx tsx --env-file=.env scripts/apply-product-content.ts
 
 async function main() {
   const anomalies = validateProductContent(PRODUCT_CONTENT);
