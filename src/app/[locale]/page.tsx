@@ -3,14 +3,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { HeroBrennholz } from "@/components/home/HeroBrennholz";
-import { StapelrechnerToggle } from "@/components/home/StapelrechnerToggle";
 import { VillesIntervention } from "@/components/home/VillesIntervention";
 import { TrustStrip } from "@/components/home/TrustStrip";
 import { SortimentGrid, type SortimentKarte } from "@/components/home/SortimentGrid";
 import { RestfeuchteSkala } from "@/components/home/RestfeuchteSkala";
 import { HolzartenVergleich } from "@/components/home/HolzartenVergleich";
 import { LieferungAblauf } from "@/components/home/LieferungAblauf";
-import { Kundenstimmen } from "@/components/home/Kundenstimmen";
 import { HolzFaq } from "@/components/home/HolzFaq";
 import { ProductGrid } from "@/components/ProductGrid";
 import { alternatesFor } from "@/lib/hreflang";
@@ -85,20 +83,11 @@ export default async function Home({ params }: { params: HomeParams }) {
     anzahl: category.products.length,
   }));
 
-  const bewertet = categories
-    .flatMap((category) => category.products)
-    .filter((product) => typeof product.rating === "number");
-  const schnitt =
-    bewertet.length > 0
-      ? bewertet.reduce((somme, product) => somme + (product.rating ?? 0), 0) / bewertet.length
-      : 0;
-
   return (
     <>
       <Header />
       <main className="flex-1">
         <HeroBrennholz />
-        <StapelrechnerToggle />
         <VillesIntervention />
         <TrustStrip />
         <SortimentGrid karten={karten} />
@@ -118,7 +107,6 @@ export default async function Home({ params }: { params: HomeParams }) {
 
         <HolzartenVergleich />
         <LieferungAblauf />
-        <Kundenstimmen schnitt={schnitt} anzahl={bewertet.length} locale={locale} />
         <HolzFaq />
       </main>
       <Footer />

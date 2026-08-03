@@ -11,9 +11,7 @@ const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
  *
  * Pas de carrousel : un marchand de bois n'a qu'une chose à prouver dès la
  * première seconde — que son bois est sec et qu'il arrive vite. Le titre le
- * dit, les trois chiffres le mesurent. Le calculateur, lui, vit dans le
- * panneau accessible par le bouton fixe (StapelrechnerToggle) : il ne
- * s'affiche qu'à la demande, pour laisser toute la place au message ici.
+ * dit, les trois chiffres le mesurent.
  */
 export async function HeroBrennholz() {
   const t = await getTranslations("hero");

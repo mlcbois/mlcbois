@@ -28,7 +28,6 @@
     "homeAriaLabel": "MLC Bois – page d'accueil",
     "logoAlt": "MLC Bois",
     "search": "Rechercher",
-    "bewertungen": "sur 312 avis",
     "lieferzusage": "Livraison partout en France métropolitaine",
     "beratung": "Conseil & commande",
     "oeffnung": "Lun–Ven 8h–17h · Sam 9h–13h",
@@ -163,7 +162,12 @@
   "payment": {
     "title": "Moyens de paiement sécurisés",
     "free": "gratuit",
-    "acceptedTitle": "Moyens de paiement acceptés"
+    "acceptedTitle": "Moyens de paiement acceptés",
+    "vitrine": {
+      "virement": "Virement bancaire",
+      "carte": "Carte bancaire",
+      "paypal": "PayPal"
+    }
   },
   "footer": {
     "logoAlt": "MLC Bois",
@@ -348,7 +352,7 @@
       "subtitle": "Nous avons bien reçu votre commande.",
       "orderNumber": "Numéro de commande",
       "orderDate": "Date de commande",
-      "emailNotice": "Conservez cette page ou le numéro de commande pour toute question. Vous pouvez nous joindre à contact@mlc-bois.fr.",
+      "emailNotice": "Veuillez consulter votre adresse email pour avoir les informations de paiement de votre commande afin de valider votre commande.",
       "notFoundTitle": "Commande introuvable",
       "notFoundText": "Le lien est incomplet ou a expiré. Merci d'utiliser le lien figurant dans votre confirmation de commande.",
       "itemsTitle": "Articles commandés",
@@ -592,40 +596,6 @@
     "dayShort": "J",
     "validUntil": "Valable jusqu'au {date}",
     "legalNote": "Les prix promotionnels indiqués sont valables jusqu'au {date} et sont appliqués automatiquement dans le panier. Au-delà, le prix habituel s'applique de nouveau. Prix hors frais de livraison."
-  },
-  "rechner": {
-    "titel": "Calculateur de volume",
-    "untertitel": "Prix livraison comprise",
-    "holzart": "Type de bois",
-    "scheitlaenge": "Longueur de bûche",
-    "menge": "Quantité et lieu de livraison",
-    "essenzen": {
-      "buche": "Hêtre",
-      "eiche": "Chêne",
-      "birke": "Bouleau",
-      "mix": "Mélange"
-    },
-    "ohneAufschlag": "Tarif de base",
-    "plz": "Code postal",
-    "plzPlatzhalter": "Saisir le code postal",
-    "wenigerAria": "Un mètre cube apparent de moins",
-    "mehrAria": "Un mètre cube apparent de plus",
-    "volumen": "Rangé, <wert>{rm}</wert> stères, environ <wert>{kg}</wert> kg.",
-    "zonen": {
-      "a": "Livraison zone A",
-      "b": "Livraison zone B",
-      "c": "Livraison zone C"
-    },
-    "frei": "offerte",
-    "gesamt": "Total",
-    "freiHinweis": "Encore {fehlt} MAP pour la livraison offerte.",
-    "cta": "Choisir {holz}",
-    "hinweis": "Déchargement en bord de voirie inclus.",
-    "openLabel": "Calculateur",
-    "openAria": "Ouvrir le calculateur de volume",
-    "closeAria": "Fermer le calculateur de volume",
-    "aideTitre": "Comment ça marche ?",
-    "aideTexte": "Choisissez une essence, une longueur et une quantité : le prix total s'affiche aussitôt, livraison comprise selon votre code postal, avec l'équivalent en stères et en kilos. Vous savez ce que ça coûte chez vous avant de commander, sans décrocher le téléphone."
   },
   "sortiment": {
     "eyebrow": "Catalogue",
