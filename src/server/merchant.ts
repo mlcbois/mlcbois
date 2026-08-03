@@ -330,7 +330,7 @@ export function merchantTitle(product: MerchantProduct): string {
 /**
  * Description du flux. La description saisie prime toujours ; sinon on compose un
  * texte factuel à partir des données réelles de la fiche. Aucune mention
- * promotionnelle (« gratuit », « bester Preis ») : Google les refuse.
+ * promotionnelle (« gratuit », « meilleur prix ») : Google les refuse.
  */
 export function merchantDescription(product: MerchantProduct): string {
   const own = plainText(product.description) || plainText(product.shortDescription);
@@ -592,7 +592,7 @@ export function auditMerchantProduct(
     issues.push({
       level: "warning",
       attribute: "description",
-      message: `Beschreibung ist mit ${record.description.length} Zeichen zu knapp (empfohlen: mindestens ${MIN_DESCRIPTION_LENGTH} Zeichen).`,
+      message: `Description trop courte (${record.description.length} caractères) — au moins ${MIN_DESCRIPTION_LENGTH} sont recommandés.`,
     });
   }
 
@@ -676,7 +676,7 @@ export function auditMerchantProduct(
     });
   }
 
-  // -- Klassifizierung --
+  // -- Classification --
   if (!record.googleProductCategory) {
     issues.push({
       level: "error",
@@ -685,7 +685,7 @@ export function auditMerchantProduct(
     });
   }
 
-  // -- Versand --
+  // -- Livraison --
   if (!record.shipping) {
     issues.push({
       level: "warning",
@@ -703,7 +703,7 @@ export function auditMerchantProduct(
     });
   }
 
-  // -- Energielabel (EU) --
+  // -- Étiquette énergie (UE) --
   if (EU_ENERGY_LABEL_SLUGS.has(product.category.slug)) {
     issues.push({
       level: "warning",
@@ -713,7 +713,7 @@ export function auditMerchantProduct(
     });
   }
 
-  // -- Apparel-Pflichtfelder (Smartwatches liegen in der Taxonomie unter Schmuck) --
+  // -- Champs obligatoires du textile (les montres connectées relèvent des bijoux dans la taxonomie) --
   if (record.ageGroup) {
     issues.push({
       level: "warning",

@@ -30,8 +30,19 @@ function createClient(): PrismaClient {
 // enregistrement de fichier ouvrirait de nouvelles connexions.
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-export const prisma = globalForPrisma.prisma ?? createClient();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+/**
+ * Client instancié à la première utilisation plutôt qu'à l'import : un module
+ * qui importe merchant.ts pour sa logique pure — les tests, par exemple — n'a
+ * pas à disposer d'une base.
+ */
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_cible, propriete) {
+    const client = globalForPrisma.prisma ?? createClient();
+    if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
+    const valeur = Reflect.get(client, propriete);
+    // Les méthodes Prisma (ex. product.findMany) accèdent à `this` en interne :
+    // les renvoyer telles quelles depuis le Proxy les détacherait du client
+    // réel. On les relie explicitement pour préserver leur contexte.
+    return typeof valeur === "function" ? valeur.bind(client) : valeur;
+  },
+});

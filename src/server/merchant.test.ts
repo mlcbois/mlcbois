@@ -1,7 +1,12 @@
 // src/server/merchant.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildMerchantRecord, merchantDescription, type MerchantProduct } from "./merchant";
+import {
+  auditMerchantProduct,
+  buildMerchantRecord,
+  merchantDescription,
+  type MerchantProduct,
+} from "./merchant";
 
 /** Produit minimal, complété au cas par cas dans chaque test. */
 function produit(surcharge: Partial<MerchantProduct> = {}): MerchantProduct {
@@ -37,7 +42,21 @@ function produit(surcharge: Partial<MerchantProduct> = {}): MerchantProduct {
   } as MerchantProduct;
 }
 
-const MOTS_ALLEMANDS = ["von", "Ausstattung", "Zustand", "fabrikneu", "originalverpackt", "Aktion"];
+const MOTS_ALLEMANDS = [
+  "von",
+  "Ausstattung",
+  "Zustand",
+  "fabrikneu",
+  "originalverpackt",
+  "Aktion",
+  "Beschreibung",
+  "Zeichen",
+  "Klassifizierung",
+  "Versand",
+  "Energielabel",
+  "Pflichtfelder",
+  "Preis",
+];
 
 test("le repli de description ne contient aucun mot allemand", () => {
   // Description sous 80 caractères : c'est le seul cas qui déclenche le repli.
@@ -69,4 +88,25 @@ test("customLabel1 est en français sur un produit en promotion", () => {
 test("customLabel1 reste vide hors promotion", () => {
   const record = buildMerchantRecord(produit());
   assert.equal(record.customLabel1, undefined);
+});
+
+test("le message d'audit sur une description trop courte ne contient aucun mot allemand", () => {
+  // 97 caractères : au-dessus du seuil de repli (80, donc la description propre
+  // est conservée telle quelle) mais sous le seuil recommandé de l'audit (160,
+  // donc l'avertissement "description" se déclenche).
+  const courte =
+    "Bûches de hêtre sélectionnées, fendues et séchées, prêtes à l'emploi pour insert ou poêle à bois.";
+  assert.equal(courte.length, 97);
+
+  const audit = auditMerchantProduct(produit({ description: courte, shortDescription: courte }));
+  const probleme = audit.issues.find((issue) => issue.attribute === "description");
+  assert.ok(probleme, "l'audit doit signaler la description trop courte");
+
+  for (const mot of MOTS_ALLEMANDS) {
+    assert.ok(
+      !new RegExp(`\\b${mot}\\b`).test(probleme!.message),
+      `« ${mot} » ne doit plus apparaître dans : ${probleme!.message}`,
+    );
+  }
+  assert.ok(probleme!.message.includes("97"), probleme!.message);
 });
