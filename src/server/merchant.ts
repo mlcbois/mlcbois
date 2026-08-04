@@ -632,12 +632,26 @@ export function auditMerchantProduct(
   }
 
   // -- Identifiants uniques --
+  //
+  // Google accepte explicitement `identifier_exists=no` dans trois cas : produit
+  // de marque de distributeur ou fabriqué par le seul vendeur, produit
+  // artisanal ou personnalisé, et **lot composé par le revendeur** — ce qu'est
+  // une palette de 66 sacs assemblée en boutique. C'est le cas de tout ce
+  // catalogue.
+  // Voir support.google.com/merchants/answer/160161.
+  //
+  // L'absence d'identifiant n'est donc pas un motif de refus ici, seulement une
+  // perte de portée : le niveau est « avertissement », et le message dit ce
+  // qu'il y a réellement à faire selon que la marque est la nôtre ou celle d'un
+  // fournisseur.
   if (!record.gtin && !record.mpn) {
+    const marquePropre = product.brand.trim().toLowerCase() === SHOP_NAME.toLowerCase();
     issues.push({
-      level: "error",
+      level: "warning",
       attribute: "gtin / mpn",
-      message:
-        "Ni GTIN (EAN) ni MPN renseigné. Google exige au moins l'un des deux pour les articles neufs de marque ; identifier_exists=no est généralement refusé pour les produits de marque.",
+      message: marquePropre
+        ? "Ni GTIN ni MPN. Le flux part en identifier_exists=no, ce que Google admet pour une marque propre — mais attribuer une référence fabricant (un code interne stable de votre choix) élargit nettement la diffusion."
+        : "Ni GTIN ni MPN. Le flux part en identifier_exists=no, admis pour un lot composé en boutique. Demandez au fournisseur l'EAN de l'unité vendue — celui de la palette, pas celui du sac — pour gagner en portée. N'inventez jamais de code : un GTIN fabriqué fait suspendre le compte.",
     });
   } else if (!record.gtin) {
     issues.push({
