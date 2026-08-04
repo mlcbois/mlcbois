@@ -10,7 +10,7 @@
 
 import type { PaymentStatus } from "@/lib/orderStatus";
 
-export const GATEWAY_IDS = ["stripe", "mollie", "square", "nexi"] as const;
+export const GATEWAY_IDS = ["stripe", "square", "mollie", "paypal", "nexi"] as const;
 export type GatewayId = (typeof GATEWAY_IDS)[number];
 
 export function isGatewayId(value: unknown): value is GatewayId {
@@ -49,6 +49,23 @@ export interface GatewayWebhookResult {
   paymentStatus: PaymentStatus | null;
   /** Référence prestataire à mémoriser (facultatif). */
   reference?: string;
+  /**
+   * Montant réellement encaissé, en centimes, tel que l'annonce le prestataire.
+   *
+   * La route de webhook le compare au total de la commande avant de la passer en
+   * « payée ». Ce contrôle ne protège pas d'un attaquant extérieur — sans la clé
+   * secrète du marchand, personne ne peut fabriquer d'événement signé — mais
+   * d'une erreur qui, elle, arrive : session rattachée au mauvais numéro de
+   * commande, paiement partiel accepté par le prestataire, montant modifié dans
+   * son tableau de bord. Sans cette vérification, une commande de 500 € réglée
+   * par 5 € passerait pour honorée.
+   *
+   * Laisser absent quand l'événement ne porte pas de montant exploitable : le
+   * contrôle est alors sauté plutôt que d'échouer à tort.
+   */
+  amountCents?: number;
+  /** Devise encaissée (ISO 4217), comparée à celle de la commande. */
+  currency?: string;
 }
 
 /** Un secret à saisir en administration, stocké chiffré via @/server/integrations. */
@@ -57,6 +74,30 @@ export interface GatewayKeyField {
   integrationKey: string;
   label: string;
   hint: string;
+  /**
+   * Champ facultatif : son absence n'empêche pas le prestataire d'encaisser
+   * (ex. l'environnement Square, « production » par défaut). Les champs
+   * obligatoires, eux, conditionnent `isConfigured()`.
+   */
+  optional?: boolean;
+}
+
+/**
+ * Résultat d'un test de connexion déclenché depuis le back-office.
+ *
+ * Sert à vérifier des clés fraîchement saisies sans passer une vraie commande :
+ * on interroge le prestataire en lecture seule et on rend de quoi corriger la
+ * configuration — y compris les valeurs à recopier (identifiants
+ * d'établissement, URL de webhook à déclarer).
+ */
+export interface GatewayConnectionCheck {
+  ok: boolean;
+  /** Phrase de synthèse, ex. « Compte MLC Bois — France, EUR ». */
+  summary: string;
+  /** Ce qui manque ou ne colle pas ; vide quand tout est bon. */
+  issues: string[];
+  /** Valeurs utiles à recopier (établissements, URL de webhook…). */
+  details: { label: string; value: string }[];
 }
 
 /** Métadonnées d'affichage et clés requises d'un prestataire. */
@@ -69,6 +110,11 @@ export interface GatewayMeta {
   keys: GatewayKeyField[];
   /** Vrai si l'adaptateur encaisse réellement, faux si seulement pré-câblé. */
   implemented: boolean;
+  /**
+   * Avertissement affiché en administration, quand l'adaptateur est écrit mais
+   * n'a pas pu être éprouvé contre un vrai compte. Absent = rien à signaler.
+   */
+  caution?: string;
 }
 
 export interface PaymentGateway {
@@ -83,4 +129,10 @@ export interface PaymentGateway {
    * réessaiera.
    */
   handleWebhook(request: Request): Promise<GatewayWebhookResult>;
+  /**
+   * Vérifie les clés enregistrées auprès du prestataire, sans rien encaisser.
+   * Facultatif : un prestataire qui ne l'implémente pas n'affiche simplement pas
+   * de bouton « Tester la connexion » en administration.
+   */
+  verifyConnection?(): Promise<GatewayConnectionCheck>;
 }

@@ -349,8 +349,11 @@ déploiement mais bloquent la vente réelle :
    avis réellement déposés par des clients ne sont pas concernés. À lancer
    **avant** d'ouvrir la boutique au public.
 
-1. Aucun paiement encaissé : virement et facture fonctionnent de bout en bout ;
-   les prestataires (PayPal, carte, SEPA) restent à brancher via Intégrations.
+1. Paiement en ligne à configurer : Stripe, Square, Mollie, PayPal et Nexi sont
+   câblés, mais n'encaissent qu'une fois leurs clés saisies dans **Admin →
+   Moyens de paiement** et leur webhook déclaré. Marche à suivre :
+   [`PAIEMENT.md`](PAIEMENT.md). Sans clés, toutes les commandes restent réglées
+   par virement. L'adaptateur Nexi reste à valider contre un vrai compte.
 2. **Rétractation en libre-service.** Le client doit aujourd'hui vous
    contacter pour se rétracter ; l'information légale est en place (page
    « Droit de rétractation ») mais rien n'automatise la démarche depuis son

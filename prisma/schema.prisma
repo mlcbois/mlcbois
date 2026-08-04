@@ -268,6 +268,12 @@ model Order {
   // passées avant l'activation du paiement.
   stripePaymentIntentId String?
 
+  // Jeton rendu par le prestataire à l'ouverture du paiement, à représenter
+  // pour authentifier ses notifications. Seul Nexi en a besoin : ses webhooks
+  // ne sont pas signés, ils rejouent ce jeton, qu'on compare à celui stocké
+  // ici. Vide pour tous les autres prestataires.
+  gatewaySecurityToken String?
+
   // eingegangen | in_bearbeitung | versandt | zugestellt | storniert
   status        String @default("eingegangen")
   // offen | bezahlt | erstattet | fehlgeschlagen

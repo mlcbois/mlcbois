@@ -3,6 +3,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { GatewayAdminState } from "@/server/gateways/admin";
+import type { GatewayConnectionCheck } from "@/server/gateways";
 import type { PaymentMethodRecord } from "@/server/types";
 
 interface GatewaySettingsFormProps {
@@ -21,6 +22,8 @@ export function GatewaySettingsForm({ state, methods }: GatewaySettingsFormProps
   // à la clé déjà enregistrée.
   const [secrets, setSecrets] = useState<Record<string, string>>({});
   const [pending, setPending] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [check, setCheck] = useState<GatewayConnectionCheck | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -33,6 +36,39 @@ export function GatewaySettingsForm({ state, methods }: GatewaySettingsFormProps
     setMethodKeys((current) =>
       on ? [...new Set([...current, key])] : current.filter((entry) => entry !== key),
     );
+  }
+
+  /**
+   * Enregistre les clés saisies puis interroge le prestataire en lecture seule.
+   * Le double effet est assumé — et annoncé par le libellé du bouton : tester
+   * une clé qu'on vient de taper suppose de l'avoir enregistrée.
+   */
+  async function handleTest() {
+    if (!selected) return;
+    setError(null);
+    setNotice(null);
+    setCheck(null);
+    setTesting(true);
+
+    const response = await fetch("/api/admin/payment-gateway/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ provider: selected.id, secrets }),
+    });
+    setTesting(false);
+
+    const data = (await response.json().catch(() => null)) as
+      | (GatewayConnectionCheck & { error?: string })
+      | null;
+
+    if (!response.ok || !data) {
+      setError(data?.error ?? "Le test de connexion a échoué.");
+      return;
+    }
+
+    setSecrets({});
+    setCheck(data);
+    router.refresh();
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -152,6 +188,12 @@ export function GatewaySettingsForm({ state, methods }: GatewaySettingsFormProps
               paiement en ligne opérationnel.
             </p>
           )}
+          {selected.caution && (
+            <p className="mb-3 rounded-sm border border-destructive bg-destructive/5 px-3 py-2 text-xs text-foreground">
+              <span className="font-bold text-destructive">À valider avant production — </span>
+              {selected.caution}
+            </p>
+          )}
           <div className="space-y-3">
             {selected.keys.map((key) => (
               <label key={key.integrationKey} className="block text-sm">
@@ -159,6 +201,8 @@ export function GatewaySettingsForm({ state, methods }: GatewaySettingsFormProps
                   {key.label}
                   {key.configured ? (
                     <span className="text-[11px] font-bold text-[#16a34a]">✓ enregistrée</span>
+                  ) : key.optional ? (
+                    <span className="text-[11px] font-bold text-muted-foreground">facultative</span>
                   ) : (
                     <span className="text-[11px] font-bold text-muted-foreground">non renseignée</span>
                   )}
@@ -177,6 +221,56 @@ export function GatewaySettingsForm({ state, methods }: GatewaySettingsFormProps
               </label>
             ))}
           </div>
+
+          {/* Vérification des clés auprès du prestataire, sans rien encaisser. */}
+          {selected.testable && (
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleTest}
+                disabled={testing}
+                className="rounded-sm border border-primary px-4 py-2 text-sm font-bold text-primary hover:bg-primary/5 disabled:opacity-60"
+              >
+                {testing ? "Test en cours…" : "Enregistrer les clés et tester la connexion"}
+              </button>
+
+              {check && (
+                <div
+                  className={`mt-3 rounded-sm border p-3 text-xs ${
+                    check.ok ? "border-[#16a34a] bg-[#16a34a]/5" : "border-destructive bg-destructive/5"
+                  }`}
+                >
+                  <p
+                    className={`text-sm font-bold ${
+                      check.ok ? "text-[#16a34a]" : "text-destructive"
+                    }`}
+                  >
+                    {check.ok ? "✓ " : "⚠ "}
+                    {check.summary}
+                  </p>
+
+                  {check.issues.length > 0 && (
+                    <ul className="mt-2 list-disc space-y-1 pl-4 text-foreground">
+                      {check.issues.map((issue) => (
+                        <li key={issue}>{issue}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {check.details.length > 0 && (
+                    <dl className="mt-3 space-y-1 border-t border-border pt-2">
+                      {check.details.map((detail) => (
+                        <div key={`${detail.label}-${detail.value}`} className="flex flex-wrap gap-2">
+                          <dt className="font-semibold text-foreground">{detail.label} :</dt>
+                          <dd className="font-mono break-all text-muted-foreground">{detail.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </fieldset>
       )}
 

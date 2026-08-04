@@ -126,9 +126,12 @@ depuis le back-office.
    obligatoire (§ 312i Abs. 1 Nr. 3 BGB). La clé `smtp_password` existe déjà
    dans Integrationen, il reste à brancher l'envoi. En attendant, la page de
    confirmation ne promet pas d'e-mail.
-2. **Aucun paiement n'est encaissé** — virement et facture fonctionnent de bout
-   en bout ; PayPal, carte, SEPA et Sofort créent la commande en attente de
-   paiement et affichent que le prestataire sera branché via Integrationen.
+2. **Paiement en ligne à configurer** — Stripe, Square, Mollie, PayPal et Nexi
+   sont câblés mais inactifs tant que leurs clés ne sont pas saisies dans
+   **Admin → Moyens de paiement**. Voir [`PAIEMENT.md`](PAIEMENT.md). Sans clés,
+   toutes les commandes restent réglées hors ligne (virement). L'adaptateur Nexi
+   n'a jamais été éprouvé contre un vrai compte : à valider par un paiement de
+   test avant de s'en servir.
 3. **Bouton de rétractation en ligne** — obligatoire depuis le 19 juin 2026
    (§ 356a BGB). Le texte est en place, la fonctionnalité reste à construire ;
    sans elle, le délai de rétractation se prolonge.

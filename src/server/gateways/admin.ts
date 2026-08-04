@@ -15,6 +15,7 @@ export interface GatewayKeyState {
   label: string;
   hint: string;
   configured: boolean;
+  optional: boolean;
 }
 
 export interface GatewayState {
@@ -22,6 +23,10 @@ export interface GatewayState {
   label: string;
   availability: string;
   implemented: boolean;
+  /** Avertissement à afficher, quand l'adaptateur n'a pas été éprouvé. */
+  caution?: string;
+  /** Vrai si le prestataire sait vérifier ses clés sans encaisser. */
+  testable: boolean;
   keys: GatewayKeyState[];
 }
 
@@ -46,11 +51,14 @@ export async function getGatewayAdminState(): Promise<GatewayAdminState> {
     label: gateway.meta.label,
     availability: gateway.meta.availability,
     implemented: gateway.meta.implemented,
+    ...(gateway.meta.caution ? { caution: gateway.meta.caution } : {}),
+    testable: typeof gateway.verifyConnection === "function",
     keys: gateway.meta.keys.map((key) => ({
       integrationKey: key.integrationKey,
       label: key.label,
       hint: key.hint,
       configured: configured.has(key.integrationKey),
+      optional: key.optional === true,
     })),
   }));
 
