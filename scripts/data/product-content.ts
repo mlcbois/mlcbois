@@ -25,6 +25,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   // hêtre — plutôt que de décliner un gabarit commun.
   {
     slug: "mlc-bois-hetre-pret-a-bruler-25-cm-2-metre-cube",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAB-HET-25",
     shortDescription:
       "Bûches de hêtre fendues à 25 cm, séchées en séchoir sous 18 % d'humidité sur brut, livrées par 2 mètres cubes apparents, prêtes à brûler.",
     description:
@@ -105,6 +108,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mlc-bois-chene-pret-a-bruler-50-cm-2-metre-cube",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAB-CHE-50",
     shortDescription:
       "Bûches de chêne fendues à 50 cm, séchées sous 18 % d'humidité sur brut, à braise longue, livrées par 2 mètres cubes apparents.",
     description:
@@ -185,6 +191,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mlc-bois-bouleau-pret-a-bruler-25-cm-2-3-metre-cube",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAB-BOU-25",
     shortDescription:
       "Bûches de bouleau fendues à 25 cm, séchées sous 18 % d'humidité sur brut, à flamme claire, livrées par 2,3 mètres cubes apparents.",
     description:
@@ -265,6 +274,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mlc-bois-frene-pret-a-bruler-50-cm-2-5-metre-cube",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAB-FRE-50",
     shortDescription:
       "Bûches de frêne fendues à 50 cm, séchées sous 18 % d'humidité sur brut, combustion peu cendreuse, livrées par 2,5 mètres cubes apparents.",
     description:
@@ -349,6 +361,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   // marché pour le 33 cm, chambres compactes pour le 25 cm.
   {
     slug: "bois-vrac-50cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-VRAC-50",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 50 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 6 stères.",
     description:
@@ -430,6 +445,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "bois-vrac-33cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-VRAC-33",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 33 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
     description:
@@ -508,6 +526,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "bois-vrac-25cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-VRAC-25",
     shortDescription:
       "Bûches de feuillus durs — chêne, charme et hêtre — de 25 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
     description:
@@ -592,6 +613,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   // différent à chaque fois plutôt que recopié.
   {
     slug: "bois-palette-40cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAL-40",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 40 cm, sur palette filmée, humidité sous 20 %, de 1,5 à 2,5 stères.",
     description:
@@ -674,6 +698,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "bois-palette-33cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAL-33",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 33 cm, sur palette filmée, humidité sous 20 %, de 2,5 à 3 stères.",
     description:
@@ -755,6 +782,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // 12e entrée : produit auparavant non couvert (voir note en tête de fichier),
     // désormais distinguable de la palette 33 cm grâce à l'indexation par slug.
     slug: "bois-palette-30cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAL-30",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 30 cm, sur palette filmée, humidité sous 20 %, de 2 à 3 stères.",
     description:
@@ -832,6 +862,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "bois-palette-25cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAL-25",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 25 cm, sur palette filmée, humidité sous 20 %, de 1,8 à 3 stères.",
     description:
@@ -910,6 +943,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "bois-palette-50cm",
+    // Marque propre : la référence est attribuée par MLC Bois, qui conditionne
+    // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
+    mpn: "MLC-PAL-50",
     shortDescription:
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 50 cm, sur palette filmée, humidité sous 20 %, de 2 à 3 stères.",
     description:
@@ -994,6 +1030,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   // la vitesse de montée en température — et le disent explicitement.
   {
     slug: "mkt-poele-interstoves-alessia-14-kw",
+    // Poids net de l'appareil, e.leclerc + fiche technique Interstoves. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 70000,
     shortDescription:
       "Poêle à bûches Interstoves Alessia 14 kW, rendement 82 %, classe énergétique A+, 70 kg, pose par un professionnel exigée.",
     description:
@@ -1088,6 +1127,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mkt-poele-interstoves-juan-14-kw",
+    // Poids net de l'appareil, e.leclerc + fiche technique Interstoves. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 70000,
     shortDescription:
       "Poêle à bûches Interstoves Juan avec four intégré, 14 kW, rendement 82 %, classe énergétique A+, 70 kg.",
     description:
@@ -1184,6 +1226,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // un code interne de revendeur plutot qu'un GTIN fabricant fiable : le champ reste vide et
     // le flux Merchant basculera sur identifier_exists=no pour cette fiche, ce qui est conforme.
     slug: "mkt-poele-interstoves-matteo-10-kw",
+    // Poids net de l'appareil, e.leclerc + fiche technique Interstoves. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 98000,
     shortDescription:
       "Poêle à bûches Interstoves Matteo, 10 kW, rendement 78,9 %, Flamme Verte 7 étoiles, classe énergétique A+, 98 kg.",
     description:
@@ -1275,6 +1320,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mkt-poele-deville-sandy-8-kw-lab",
+    // Poids net de l'appareil, fiche officielle deville.fr C077BD-06-DD. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 112000,
     shortDescription:
       "Poêle à bûches Deville C077BD.06-DD, 8 kW, rendement 77 %, classe énergétique A, 112 kg.",
     description:
@@ -1365,6 +1413,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mkt-poele-deville-toron-50-8-kw",
+    // Poids net de l'appareil, fiche officielle deville.fr C07768.06. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 150000,
     shortDescription:
       "Poêle à bûches Deville Toron 50, référence C07768.06, 8 kW, rendement 77 %, classe A, 150 kg.",
     description:
@@ -1454,6 +1505,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mkt-poele-deville-orense-8-kw",
+    // Poids net de l'appareil, fiche officielle deville.fr C077CD-06. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 192000,
     shortDescription:
       "Poêle à bûches Deville Orense, référence C077CD-06, 8 kW, rendement 77 %, classe énergétique A, 192 kg.",
     description:
@@ -1545,6 +1599,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // Reference fabricant actuelle C077BXN-06 (l'ancienne C077BX-06 est en fin de vie chez
     // Deville) ; c'est le GTIN associe a cette reference actuelle qui est retenu.
     slug: "mkt-poele-deville-eguzki-etanche-6-kw",
+    // Poids net de l'appareil, fiche officielle deville.fr Eguzki. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 124000,
     shortDescription:
       "Poêle à bûches étanche Deville Eguzki, référence C077BXN-06, 6 kW, rendement 75 %, classe A, 124 kg.",
     description:
@@ -1641,6 +1698,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
   },
   {
     slug: "mkt-poele-la-nordica-extraflame-isetta-evo-4-0",
+    // Poids net de l'appareil, maison-energy.com, recoupé chemineeo.fr. À majorer du calage et de la
+    // palette si l'expédition se fait conditionnée.
+    shippingWeightGrams: 160000,
     shortDescription:
       "Poêle à bûches La Nordica Extraflame Isetta Evo 4.0, 7,3 kW, rendement 83,6 %, classe énergétique A+, 160 kg.",
     description:
