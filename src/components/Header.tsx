@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { Phone, Search, Star, User } from "lucide-react";
+import { Phone, Search, User } from "lucide-react";
 import { Link, getPathname } from "@/i18n/navigation";
 import { CategoryMenu } from "@/components/CategoryMenu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -23,9 +23,8 @@ const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
  * le bouton de recherche, le prix, le nom de marque.
  *
  * L'en-tête entier reste fixé en haut de l'écran pendant tout le défilement,
- * barre de service comprise : sur ce catalogue, la note, le délai et le
- * numéro doivent rester joignables à tout moment, pas seulement en haut de
- * page.
+ * barre de service comprise : sur ce catalogue, le délai et le numéro doivent
+ * rester joignables à tout moment, pas seulement en haut de page.
  *
  * Le téléphone est traité comme un bouton et pas comme une mention : dans ce
  * métier, une commande sur deux se conclut par un appel.
@@ -44,11 +43,6 @@ export async function Header() {
     <header className="sticky top-0 z-50 w-full">
       <div className="bg-[#150e0b] text-[0.72rem] text-white/65">
         <div className="mx-auto flex max-w-screen-xl items-center gap-5 px-4 py-1.5">
-          <span className="flex items-center gap-1.5">
-            <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary" />
-            <span className="messwert text-white">4,8</span>
-            <span className="hidden sm:inline">{t("bewertungen")}</span>
-          </span>
           {/* Choix de la langue : dans la barre de service pour rester visible
               en permanence, desktop comme mobile, sans encombrer la rangée
               d'icônes juste en dessous. */}

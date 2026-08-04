@@ -87,9 +87,10 @@ export async function Footer() {
           ))}
         </div>
 
-        {/* Liste pilotée depuis le back-office : /admin/payments */}
+        {/* Liste figée : le pied de page annonce toujours virement, carte et
+            PayPal, même si l'un d'eux est désactivé dans /admin/payments. */}
         <div className="mt-8 border-t border-white/10 pt-6">
-          <PaymentMethodsBar />
+          <PaymentMethodsBar source="vitrine" />
         </div>
 
         <div className="mt-6 border-t border-white/10 pt-6 text-center text-xs text-white/60">

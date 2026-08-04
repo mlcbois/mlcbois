@@ -28,7 +28,7 @@ import {
   buildOrderNotificationEmail,
 } from "@/server/emails/order";
 import { buildInvoicePdf, invoiceFilename } from "@/server/invoice";
-import { getBankTransferSettings } from "@/server/bankTransfer";
+import { BANK_TRANSFER_METHOD_KEY, getBankTransferSettings } from "@/server/bankTransfer";
 import type { OrderRecord } from "@/server/orders";
 
 /** Vrai uniquement en développement sans SMTP configuré. */
@@ -147,7 +147,12 @@ export async function sendOrderEmails(order: OrderRecord): Promise<void> {
     facture = [
       {
         filename: invoiceFilename(order),
-        content: await buildInvoicePdf(order),
+        // Les coordonnées du compte ne sont portées sur la facture que si la
+        // commande se règle par virement.
+        content: await buildInvoicePdf(
+          order,
+          order.paymentMethodKey === BANK_TRANSFER_METHOD_KEY ? bankTransfer : undefined,
+        ),
         contentType: "application/pdf",
       },
     ];

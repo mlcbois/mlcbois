@@ -509,6 +509,38 @@ model Setting {
   updatedAt DateTime @updatedAt
 }
 
+// ---- Fragments de code injectés dans la boutique ----
+//
+// Gestionnaire de balises, pixel publicitaire, balise de vérification de
+// propriété : autant de fragments que le commerçant doit pouvoir poser sans
+// attendre un déploiement.
+//
+// Le contenu est du HTML brut, inséré tel quel dans les pages de la boutique.
+// Écrire ici revient à exécuter du code chez chaque visiteur : l'écriture est
+// réservée à un administrateur authentifié et chaque ligne porte le nom de qui
+// l'a publiée. Le back-office, lui, n'est jamais concerné — l'injection a lieu
+// dans le layout de la boutique, hors duquel /admin se trouve déjà.
+
+model CodeSnippet {
+  id String @id @default(cuid())
+  // Intitulé libre, pour s'y retrouver dans la liste : « Google Tag Manager »…
+  name String
+  // head | bodyStart | bodyEnd
+  placement String
+  content   String
+  // Un fragment naît désactivé : on le colle, on le relit, puis on l'allume.
+  enabled Boolean @default(false)
+  // Ordre d'insertion à emplacement égal. Il compte : un mode consentement doit
+  // s'exécuter avant les balises qu'il gouverne.
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  updatedBy String
+
+  // La boutique ne lit que les fragments actifs, emplacement par emplacement.
+  @@index([enabled, placement, position])
+}
+
 // ---- Pages légales et informatives ----
 //
 // Les onze pages de pied de page (Impressum, AGB, Datenschutz, FAQ…) sont

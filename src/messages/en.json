@@ -28,7 +28,6 @@
     "homeAriaLabel": "MLC Bois – home page",
     "logoAlt": "MLC Bois",
     "search": "Search",
-    "bewertungen": "from 312 reviews",
     "lieferzusage": "Delivered anywhere in mainland France",
     "beratung": "Advice & orders",
     "oeffnung": "Mon–Fri 8am–5pm · Sat 9am–1pm",
@@ -163,7 +162,12 @@
   "payment": {
     "title": "Secure payment methods",
     "free": "free",
-    "acceptedTitle": "Accepted payment methods"
+    "acceptedTitle": "Accepted payment methods",
+    "vitrine": {
+      "virement": "Bank transfer",
+      "carte": "Credit card",
+      "paypal": "PayPal"
+    }
   },
   "footer": {
     "logoAlt": "MLC Bois",
@@ -348,7 +352,7 @@
       "subtitle": "We have received your order.",
       "orderNumber": "Order number",
       "orderDate": "Order date",
-      "emailNotice": "Please keep this page or the order number for any questions. You can reach us at contact@mlc-bois.fr.",
+      "emailNotice": "Please check your email inbox for the payment details of your order in order to validate it.",
       "notFoundTitle": "Order not found",
       "notFoundText": "The link is incomplete or has expired. Please use the link from your order confirmation.",
       "itemsTitle": "Items ordered",
@@ -599,40 +603,6 @@
     "dayShort": "D",
     "validUntil": "Valid until {date}",
     "legalNote": "The promotional prices shown are valid until {date} and are applied automatically in the cart. After that, the regular price applies again. Prices exclude delivery costs."
-  },
-  "rechner": {
-    "titel": "Volume calculator",
-    "untertitel": "Price including delivery",
-    "holzart": "Species",
-    "scheitlaenge": "Log length",
-    "menge": "Quantity and delivery area",
-    "essenzen": {
-      "buche": "Beech",
-      "eiche": "Oak",
-      "birke": "Birch",
-      "mix": "Mixed"
-    },
-    "ohneAufschlag": "Base price",
-    "plz": "Postcode",
-    "plzPlatzhalter": "Enter postcode",
-    "wenigerAria": "One loose cubic metre less",
-    "mehrAria": "One loose cubic metre more",
-    "volumen": "Stacked, <wert>{rm}</wert> m³, roughly <wert>{kg}</wert> kg.",
-    "zonen": {
-      "a": "Delivery zone A",
-      "b": "Delivery zone B",
-      "c": "Delivery zone C"
-    },
-    "frei": "free",
-    "gesamt": "Total",
-    "freiHinweis": "{fehlt} more loose m³ for free delivery.",
-    "cta": "Choose {holz}",
-    "hinweis": "Kerbside unloading included.",
-    "openLabel": "Calculator",
-    "openAria": "Open the volume calculator",
-    "closeAria": "Close the volume calculator",
-    "aideTitre": "How does it work?",
-    "aideTexte": "Pick a species, a log length and a quantity: the total price appears right away, delivery included based on your postcode, along with the equivalent in stacked cubic metres and kilos. You know what it costs at your place before ordering, without picking up the phone."
   },
   "sortiment": {
     "eyebrow": "Range",

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { listEnabledPaymentMethods } from "@/server/payments";
 import { brandMarksFor } from "@/components/PaymentIcons";
+import type { PaymentMethodRecord } from "@/server/types";
 
 // Correspondance explicite entre les noms lucide stockés en base et les
 // composants importés : pas d'import dynamique, tout est dans le bundle serveur.
@@ -41,21 +42,52 @@ function feeLabelFor(feeLabel: string, freeLabel: string): string {
   return normalized === "gratuit" || normalized === "kostenlos" ? freeLabel : feeLabel;
 }
 
+/**
+ * Liste figée du pied de page : elle annonce toujours ces trois moyens, quels
+ * que soient les moyens activés dans le back-office. Les clés sont celles que
+ * `brandMarksFor` reconnaît, pour obtenir les mêmes logos que la liste pilotée
+ * en base : rien pour le virement, les trois cartes, le logotype PayPal.
+ */
+const VITRINE = [
+  { key: "banque", libelle: "vitrine.virement", icon: "landmark" },
+  { key: "carte-bancaire", libelle: "vitrine.carte", icon: "credit-card" },
+  { key: "paypal", libelle: "vitrine.paypal", icon: "wallet" },
+] as const;
+
 interface PaymentMethodsBarProps {
   /**
    * `section` — bandeau autonome avec titre, pour la fiche produit et le pied de page.
    * `inline` — rangée de logos seule, pour le panier, la caisse et le tiroir.
    */
   variant?: "section" | "inline";
+  /**
+   * `catalogue` — moyens activés dans le back-office, ceux réellement proposés
+   *   à la caisse.
+   * `vitrine` — liste figée, indépendante du back-office.
+   */
+  source?: "catalogue" | "vitrine";
   className?: string;
 }
 
 export async function PaymentMethodsBar({
   variant = "section",
+  source = "catalogue",
   className,
 }: PaymentMethodsBarProps = {}) {
   const t = await getTranslations("payment");
-  const methods = await listEnabledPaymentMethods();
+  const methods: PaymentMethodRecord[] =
+    source === "vitrine"
+      ? VITRINE.map((entree, index) => ({
+          id: entree.key,
+          key: entree.key,
+          label: t(entree.libelle),
+          description: "",
+          icon: entree.icon,
+          feeLabel: "",
+          enabled: true,
+          position: index,
+        }))
+      : await listEnabledPaymentMethods();
   if (methods.length === 0) return null;
 
   const freeLabel = t("free");
