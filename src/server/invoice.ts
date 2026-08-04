@@ -567,8 +567,16 @@ export async function buildInvoicePdf(
   pied(
     "En cas de retard de paiement : pénalités au taux de trois fois l'intérêt légal et indemnité forfaitaire de 40 € pour frais de recouvrement.",
   );
+  // Identité complète de l'émetteur sur une ligne : raison sociale, forme
+  // sociale, adresse, moyens de contact et immatriculation.
+  //
+  // Le téléphone et le courriel viennent de la branche « identité du vendeur »,
+  // qui les regroupait dans un second encadré à gauche. Cet encadré n'a pas été
+  // repris : il aurait chevauché celui de la TVA, posé juste en dessous par la
+  // refonte de la facture. Une ligne de plus suffit à porter la même
+  // information, sans toucher à la mise en page.
   pied(
-    `${COMPANY.name} · ${COMPANY.legalForm} · ${COMPANY.street} · ${COMPANY.city} · ${COMPANY.register}`,
+    `${COMPANY.name} · ${COMPANY.legalForm} · ${COMPANY.street} · ${COMPANY.city} · Tél. ${COMPANY.phone} · ${COMPANY.email} · ${COMPANY.register}`,
     7,
   );
 

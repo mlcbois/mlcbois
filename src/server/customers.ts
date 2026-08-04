@@ -41,7 +41,7 @@ import {
 import { getOrderByNumber, type OrderRecord } from "@/server/orders";
 import { isOrderStatus, isPaymentStatus } from "@/lib/orderStatus";
 import type { OrderStatus, PaymentStatus } from "@/lib/orderStatus";
-import { COUNTRY_CODES, isValidPostalCode } from "@/lib/countries";
+import { COUNTRY_CODES, DEFAULT_COUNTRY, isValidPostalCode } from "@/lib/countries";
 
 // ---- Constantes ----
 
@@ -245,7 +245,7 @@ export function readAddress(value: unknown): CustomerAddress {
     street: text(raw.street, 160),
     postalCode: text(raw.postalCode, 12).toUpperCase(),
     city: text(raw.city, 80),
-    country: (text(raw.country, 2) || "DE").toUpperCase(),
+    country: (text(raw.country, 2) || DEFAULT_COUNTRY).toUpperCase(),
   };
 }
 

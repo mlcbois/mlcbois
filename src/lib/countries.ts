@@ -129,3 +129,17 @@ export function countryOptions(locale: string): CountryOption[] {
     return display.sort((a, b) => a.label.localeCompare(b.label));
   }
 }
+
+/**
+ * Pays présélectionné dans les formulaires d'adresse.
+ *
+ * La boutique livre la France métropolitaine et s'adresse à une clientèle
+ * française : c'est donc « FR » qui doit être proposé d'emblée. La valeur était
+ * restée à « DE », héritage du site allemand dont ce projet est parti, ce qui
+ * obligeait chaque client à corriger le champ avant de commander.
+ *
+ * Définie ici plutôt que recopiée dans chaque formulaire : le tunnel de
+ * commande, l'espace client et la validation côté serveur doivent s'accorder
+ * sur la même valeur.
+ */
+export const DEFAULT_COUNTRY = "FR";

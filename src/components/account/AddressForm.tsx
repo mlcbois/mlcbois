@@ -14,6 +14,7 @@ import {
   LABEL,
   PRIMARY_BUTTON,
 } from "@/components/account/formStyles";
+import { DEFAULT_COUNTRY } from "@/lib/countries";
 
 export interface AddressValues {
   salutation: string;
@@ -34,7 +35,7 @@ export const EMPTY_ADDRESS_VALUES: AddressValues = {
   street: "",
   postalCode: "",
   city: "",
-  country: "DE",
+  country: DEFAULT_COUNTRY,
 };
 
 /**
