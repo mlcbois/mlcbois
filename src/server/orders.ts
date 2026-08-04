@@ -788,6 +788,35 @@ export async function updatePaymentStatus(
 }
 
 /**
+ * Consigne un événement sur une commande sans rien changer à son état.
+ *
+ * `updatePaymentStatus` n'écrit un événement que lorsque le statut bascule
+ * réellement : une anomalie détectée sur une commande déjà « en attente » n'y
+ * laisserait donc aucune trace. C'est précisément le cas d'un paiement reçu
+ * pour un montant qui ne correspond pas — il faut qu'il apparaisse dans
+ * l'historique du back-office, là où le commerçant le verra, et pas seulement
+ * dans les journaux du serveur.
+ */
+export async function recordOrderEvent(
+  id: string,
+  kind: string,
+  note: string,
+  actor?: string,
+): Promise<void> {
+  const exists = await prisma.order.findUnique({ where: { id }, select: { id: true } });
+  if (!exists) return;
+
+  await prisma.orderEvent.create({
+    data: {
+      orderId: id,
+      kind,
+      note: note.trim(),
+      createdBy: actor ?? null,
+    },
+  });
+}
+
+/**
  * Mémorise la référence du prestataire de paiement (PaymentIntent Stripe, id de
  * session…) sur la commande. Réutilise la colonne `stripePaymentIntentId` qui
  * existe déjà : une seule référence externe par commande, quel que soit le

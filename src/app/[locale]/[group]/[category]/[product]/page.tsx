@@ -160,7 +160,12 @@ export default async function ProductPage({ params }: { params: ProductPageParam
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             <div>
               <h3 className="mb-2 text-sm font-bold text-foreground">{t("description")}</h3>
-              <p className="text-sm text-muted-foreground">{description}</p>
+              {/* `whitespace-pre-line` : les descriptions sont rédigées en
+                  plusieurs paragraphes séparés par une ligne vide. Sans cette
+                  classe, le navigateur les réduirait à un seul bloc de texte. */}
+              <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                {description}
+              </p>
             </div>
             <div>
               <h3 className="mb-2 text-sm font-bold text-foreground">{t("features")}</h3>

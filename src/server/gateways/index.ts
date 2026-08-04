@@ -15,6 +15,7 @@ import { prisma } from "@/server/prisma";
 import { stripeGateway } from "./stripe";
 import { mollieGateway } from "./mollie";
 import { squareGateway } from "./square";
+import { paypalGateway } from "./paypal";
 import { nexiGateway } from "./nexi";
 import { GATEWAY_IDS, isGatewayId, type GatewayId, type PaymentGateway } from "./types";
 
@@ -22,6 +23,7 @@ export type {
   GatewayId,
   GatewayMeta,
   GatewayKeyField,
+  GatewayConnectionCheck,
   PaymentGateway,
   GatewayOrderContext,
 } from "./types";
@@ -31,8 +33,9 @@ const SETTING_KEY = "payment_gateway";
 
 const GATEWAYS: Record<GatewayId, PaymentGateway> = {
   stripe: stripeGateway,
-  mollie: mollieGateway,
   square: squareGateway,
+  mollie: mollieGateway,
+  paypal: paypalGateway,
   nexi: nexiGateway,
 };
 

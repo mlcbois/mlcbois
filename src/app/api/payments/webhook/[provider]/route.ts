@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getGateway, isGatewayId } from "@/server/gateways";
-import { getOrderByNumber, setOrderGatewayReference, updatePaymentStatus } from "@/server/orders";
+import {
+  getOrderByNumber,
+  recordOrderEvent,
+  setOrderGatewayReference,
+  updatePaymentStatus,
+} from "@/server/orders";
 
 // Point d'entrée des notifications de paiement (webhooks).
 //
@@ -49,6 +54,48 @@ export async function POST(request: Request, { params }: { params: Params }) {
 
   if (result.reference) {
     await setOrderGatewayReference(order.id, result.reference);
+  }
+
+  // Contrôle du montant avant de déclarer une commande payée.
+  //
+  // La signature garantit que l'événement vient bien du prestataire, pas qu'il
+  // porte sur la bonne somme. Un écart signale une anomalie qu'aucune signature
+  // ne détecte : session rattachée au mauvais numéro de commande, paiement
+  // partiel accepté, montant retouché dans le tableau de bord du prestataire.
+  // Dans ce cas la commande reste en attente et un événement le consigne —
+  // mieux vaut un règlement à vérifier à la main qu'une commande de 500 €
+  // expédiée pour 5 € encaissés.
+  //
+  // Le contrôle ne porte que sur le passage en « payée » : un échec ou un
+  // remboursement n'ont pas à correspondre au total.
+  if (result.paymentStatus === "bezahlt") {
+    const montantAnnonce = result.amountCents;
+    const deviseAnnoncee = result.currency?.toUpperCase();
+
+    const montantDiscordant = montantAnnonce !== undefined && montantAnnonce !== order.totalCents;
+    const deviseDiscordante =
+      deviseAnnoncee !== undefined && deviseAnnoncee !== order.currency.toUpperCase();
+
+    if (montantDiscordant || deviseDiscordante) {
+      const attendu = `${order.totalCents} ${order.currency.toUpperCase()}`;
+      const recu = `${montantAnnonce ?? "?"} ${deviseAnnoncee ?? "?"}`;
+      console.error(
+        `[webhook:${provider}] montant discordant sur ${order.orderNumber} — attendu ${attendu}, reçu ${recu}`,
+      );
+      // La commande reste dans l'état où elle est ; l'anomalie est consignée
+      // dans son historique pour que le commerçant la voie dans le back-office
+      // et tranche lui-même.
+      await recordOrderEvent(
+        order.id,
+        "payment",
+        `Paiement reçu pour un montant différent du total : attendu ${attendu}, reçu ${recu}. Commande laissée en attente, à vérifier manuellement.`,
+        `webhook:${provider}`,
+      );
+      // 200 volontaire : l'événement a bien été reçu et traité. Répondre 400
+      // ferait rejouer indéfiniment une notification que le prestataire, lui, a
+      // émise correctement.
+      return NextResponse.json({ received: true, amountMismatch: true });
+    }
   }
 
   // Idempotence : ne repasser le statut que s'il change réellement. Un webhook

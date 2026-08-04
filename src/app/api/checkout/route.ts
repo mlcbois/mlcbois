@@ -44,7 +44,13 @@ async function startOnlinePayment(order: OrderRecord): Promise<string | undefine
       locale: order.locale === "en" ? "en" : "fr",
       description: `Commande ${order.orderNumber}`,
       successUrl: confirmation,
-      cancelUrl: confirmation,
+      // Retour d'abandon distinct du retour de succès : sans ce marqueur, un
+      // client qui renonce sur la page du prestataire revenait sur un écran
+      // titré « Merci pour votre commande », alors que rien n'a été encaissé.
+      // La page de confirmation s'appuie d'abord sur le statut réel de la
+      // commande — un onglet fermé sans clic ne repasse par aucune de ces deux
+      // URL — et ce paramètre ne fait qu'affiner le message.
+      cancelUrl: `${confirmation}&paiement=interrompu`,
     });
     await setOrderGatewayReference(order.id, session.reference);
     return session.redirectUrl;

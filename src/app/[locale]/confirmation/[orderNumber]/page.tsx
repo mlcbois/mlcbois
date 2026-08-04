@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CheckCircle2, Info, ShieldCheck } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info, ShieldCheck, XCircle } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
@@ -18,7 +18,7 @@ import {
 import { ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/orderStatus";
 
 type ConfirmationParams = Promise<{ locale: string; orderNumber: string }>;
-type ConfirmationSearch = Promise<{ token?: string }>;
+type ConfirmationSearch = Promise<{ token?: string; paiement?: string }>;
 
 // La commande contient l'adresse complète du client : la page n'est accessible
 // qu'avec le jeton remis à la fin du tunnel, jamais avec le seul numéro.
@@ -29,6 +29,55 @@ export const dynamic = "force-dynamic";
  * avis « paiement à confirmer » tant que le prestataire n'est pas branché.
  */
 const PROVIDER_KEYS = new Set(["paypal", "carte-bancaire"]);
+
+/**
+ * En-tête de la page de confirmation, choisi sur le statut réel du paiement.
+ *
+ * Le point de départ est le statut en base, jamais l'URL de retour : un client
+ * qui ferme l'onglet de la page de paiement ne repasse par aucune des deux URL
+ * déclarées au prestataire, et Square n'accepte même qu'une seule adresse de
+ * redirection. Le paramètre `paiement=interrompu` n'affine donc que le texte
+ * d'un cas déjà détecté autrement.
+ *
+ * Enjeu : une commande dont le paiement en ligne n'a pas abouti ne doit jamais
+ * s'afficher sous un « Merci pour votre commande » assorti d'une coche verte.
+ * Le virement, lui, reste un succès normal — la commande est bien enregistrée,
+ * le règlement suit par un autre canal.
+ */
+function confirmationTone(
+  order: OrderRecord,
+  interrompu: boolean,
+): { tone: "success" | "warning" | "danger"; titleKey: string; textKey: string } {
+  if (order.paymentStatus === "bezahlt") {
+    return { tone: "success", titleKey: "confirmation.title", textKey: "confirmation.paidText" };
+  }
+  if (order.paymentStatus === "fehlgeschlagen") {
+    return {
+      tone: "danger",
+      titleKey: "confirmation.failedTitle",
+      textKey: "confirmation.failedText",
+    };
+  }
+  // Statut « en attente » sur un moyen encaissé en ligne : le client est passé
+  // par le prestataire sans aller au bout, ou le paiement n'est pas encore
+  // confirmé. Dans les deux cas, rien n'a été encaissé à cette seconde.
+  if (PROVIDER_KEYS.has(order.paymentMethodKey)) {
+    return {
+      tone: "warning",
+      titleKey: interrompu ? "confirmation.interruptedTitle" : "confirmation.pendingTitle",
+      textKey: interrompu ? "confirmation.interruptedText" : "confirmation.pendingText",
+    };
+  }
+  // Virement ou autre règlement hors ligne : la commande est prise, le paiement
+  // se fait ensuite. C'est le parcours nominal, pas un incident.
+  return { tone: "success", titleKey: "confirmation.title", textKey: "confirmation.subtitle" };
+}
+
+const TONE_STYLES = {
+  success: { icon: CheckCircle2, color: "text-[#16a34a]", box: "border-border bg-white" },
+  warning: { icon: AlertTriangle, color: "text-[#b45309]", box: "border-[#fcd34d] bg-[#fffbeb]" },
+  danger: { icon: XCircle, color: "text-[#dc2626]", box: "border-[#fca5a5] bg-[#fef2f2]" },
+} as const;
 
 export async function generateMetadata({
   params,
@@ -54,7 +103,7 @@ export default async function OrderConfirmationPage({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const { token } = await searchParams;
+  const { token, paiement } = await searchParams;
   const t = await getTranslations({ locale, namespace: "checkout" });
 
   const order = token
@@ -92,17 +141,23 @@ export default async function OrderConfirmationPage({
     timeStyle: "short",
   }).format(new Date(order.createdAt));
 
+  const headline = confirmationTone(order, paiement === "interrompu");
+  const HeadlineIcon = TONE_STYLES[headline.tone].icon;
+
   return (
     <>
       <Header />
       <main className="flex-1 bg-muted/40">
         <div className="mx-auto max-w-screen-lg px-3 py-8">
-          <div className="mb-6 rounded-sm border border-border bg-white p-6">
+          <div className={`mb-6 rounded-sm border p-6 ${TONE_STYLES[headline.tone].box}`}>
             <div className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 h-7 w-7 shrink-0 text-[#16a34a]" aria-hidden />
+              <HeadlineIcon
+                className={`mt-0.5 h-7 w-7 shrink-0 ${TONE_STYLES[headline.tone].color}`}
+                aria-hidden
+              />
               <div>
-                <h1 className="text-2xl font-black text-foreground">{t("confirmation.title")}</h1>
-                <p className="mt-1 text-sm text-muted-foreground">{t("confirmation.subtitle")}</p>
+                <h1 className="text-2xl font-black text-foreground">{t(headline.titleKey)}</h1>
+                <p className="mt-1 text-sm text-muted-foreground">{t(headline.textKey)}</p>
               </div>
             </div>
 

@@ -1,11 +1,11 @@
 /**
- * Fabrique d'adaptateurs « pré-câblés » : Mollie, Square et Nexi.
+ * Fabrique d'adaptateurs « pré-câblés » : Mollie et Nexi.
  *
- * Chacun expose le même contrat que Stripe et sait déjà lire ses clés, mais
- * l'encaissement lui-même reste à écrire — volontairement. Livrer trois
+ * Chacun expose le même contrat que Stripe et Square et sait déjà lire ses clés,
+ * mais l'encaissement lui-même reste à écrire — volontairement. Livrer des
  * intégrations non testables serait fragile ; on livre plutôt l'emplacement, le
  * stockage des clés et l'inscription au registre, pour que le jour où un compte
- * Mollie/Square/Nexi existe, il ne reste que la logique propre au prestataire à
+ * Mollie/Nexi existe, il ne reste que la logique propre au prestataire à
  * compléter dans createCheckoutSession / handleWebhook.
  */
 
@@ -32,7 +32,9 @@ export function scaffoldGateway(meta: GatewayMeta): PaymentGateway {
 
     async isConfigured(): Promise<boolean> {
       const values = await Promise.all(
-        meta.keys.map((field) => getIntegrationSecret(field.integrationKey)),
+        meta.keys
+          .filter((field) => !field.optional)
+          .map((field) => getIntegrationSecret(field.integrationKey)),
       );
       return values.every(Boolean);
     },

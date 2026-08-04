@@ -383,7 +383,14 @@
       "withdrawalText": "You have the right to withdraw from this contract within fourteen days without giving any reason, starting from the day on which you, or a third party named by you, take physical possession of the goods. The full text and the model withdrawal form are on the dedicated page.",
       "withdrawalLink": "See the right of withdrawal",
       "continueShopping": "Continue shopping",
-      "print": "Print order"
+      "print": "Print order",
+      "paidText": "We have received your order and your payment.",
+      "pendingTitle": "Order placed, payment to be confirmed",
+      "pendingText": "Your order has been placed, but we have not yet received confirmation of payment. It will be prepared as soon as the payment is confirmed.",
+      "interruptedTitle": "Payment interrupted",
+      "interruptedText": "Your order has been placed, but the payment was not completed and nothing has been charged. Contact us at contact@mlc-bois.fr with your order number to settle it.",
+      "failedTitle": "The payment did not go through",
+      "failedText": "Your order has been placed, but the payment was declined and nothing has been charged. Contact us at contact@mlc-bois.fr with your order number to choose another payment method."
     }
   },
   "wishlist": {

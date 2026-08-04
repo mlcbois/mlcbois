@@ -383,7 +383,14 @@
       "withdrawalText": "Vous disposez d'un délai de quatorze jours à compter du jour où vous, ou un tiers que vous avez désigné, prenez physiquement possession du bien pour vous rétracter de ce contrat sans avoir à vous justifier. Le texte complet et le formulaire type de rétractation figurent sur la page dédiée.",
       "withdrawalLink": "Voir le droit de rétractation",
       "continueShopping": "Continuer mes achats",
-      "print": "Imprimer la commande"
+      "print": "Imprimer la commande",
+      "paidText": "Nous avons bien reçu votre commande et votre paiement.",
+      "pendingTitle": "Commande enregistrée, paiement à confirmer",
+      "pendingText": "Votre commande est bien enregistrée, mais nous n'avons pas encore reçu la confirmation du paiement. Elle sera préparée dès que le règlement sera confirmé.",
+      "interruptedTitle": "Paiement interrompu",
+      "interruptedText": "Votre commande est enregistrée, mais le paiement n'a pas été finalisé : rien n'a été débité. Contactez-nous à contact@mlc-bois.fr avec votre numéro de commande pour la régler.",
+      "failedTitle": "Le paiement n'a pas abouti",
+      "failedText": "Votre commande est enregistrée, mais le paiement a été refusé et rien n'a été débité. Contactez-nous à contact@mlc-bois.fr avec votre numéro de commande pour choisir un autre moyen de règlement."
     }
   },
   "wishlist": {
