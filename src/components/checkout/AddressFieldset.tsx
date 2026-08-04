@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { CountryCombobox } from "@/components/ui/CountryCombobox";
+import { DEFAULT_COUNTRY } from "@/lib/countries";
 
 export interface AddressValue {
   salutation: string;
@@ -22,7 +23,7 @@ export const EMPTY_ADDRESS: AddressValue = {
   street: "",
   postalCode: "",
   city: "",
-  country: "DE",
+  country: DEFAULT_COUNTRY,
 };
 
 const INPUT =

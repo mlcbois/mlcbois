@@ -219,7 +219,10 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   totalLigne("Total", euros(order.totalCents), true);
 
   // ---- Mentions légales de bas de page ----
-  let yPied = 116;
+  //
+  // Départ relevé pour laisser sous elles l'encadré d'identification du
+  // vendeur : les deux blocs partagent la même colonne de gauche.
+  let yPied = 235;
   const pied = (texte: string, gras = false) => {
     page.drawText(winAnsi(texte), {
       x: MARGE,
@@ -246,9 +249,51 @@ export async function buildInvoicePdf(order: OrderRecord): Promise<Buffer> {
   );
   yPied -= 5;
   pied("En cas de retard de paiement : penalites au taux de trois fois l'interet legal et indemnite forfaitaire de 40 EUR pour frais de recouvrement.");
-  yPied -= 5;
-  pied(`${COMPANY.name} · ${COMPANY.street} · ${COMPANY.city}`);
-  pied(COMPANY.register);
+
+  // ---- Encadré d'identification du vendeur ----
+  //
+  // Regroupe dans un seul bloc ce qui identifie l'émetteur de la facture :
+  // raison sociale, adresse, moyens de contact, puis les deux mentions
+  // d'immatriculation exigées sur une facture française — numéro de TVA
+  // intracommunautaire et inscription au RCS. Elles figuraient jusqu'ici en
+  // texte libre au fil du pied de page, où elles se confondaient avec les
+  // mentions de retard de paiement.
+  const cadreLignes = [
+    { texte: COMPANY.name, gras: true },
+    { texte: `${COMPANY.country} ${COMPANY.city}, ${COMPANY.street}`, gras: false },
+    { texte: `Telephone : ${COMPANY.phone}`, gras: false },
+    { texte: COMPANY.email, gras: false },
+    { texte: `TVA intracommunautaire : ${COMPANY.vatId}`, gras: false },
+    { texte: COMPANY.register, gras: false },
+  ];
+
+  const CADRE_INTERLIGNE = 12;
+  const CADRE_MARGE_INTERNE = 12;
+  const cadreHauteur = CADRE_MARGE_INTERNE * 2 + cadreLignes.length * CADRE_INTERLIGNE;
+  const cadreBas = 48;
+
+  page.drawRectangle({
+    x: MARGE,
+    y: cadreBas,
+    width: 300,
+    height: cadreHauteur,
+    borderColor: NOIR,
+    borderWidth: 0.8,
+  });
+
+  // Première ligne calée depuis le haut du cadre : `drawText` positionne la
+  // ligne de base, d'où le décalage d'une hauteur de police.
+  let yCadre = cadreBas + cadreHauteur - CADRE_MARGE_INTERNE - 8;
+  for (const ligne of cadreLignes) {
+    page.drawText(winAnsi(ligne.texte), {
+      x: MARGE + CADRE_MARGE_INTERNE,
+      y: yCadre,
+      size: 8,
+      font: ligne.gras ? grasse : normale,
+      color: NOIR,
+    });
+    yCadre -= CADRE_INTERLIGNE;
+  }
 
   const octets = await doc.save();
   return Buffer.from(octets);

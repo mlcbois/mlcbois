@@ -13,7 +13,7 @@
 
 import { DEFAULT_SHIPPING_METHOD_KEY, isShippingMethodKey, MAX_CART_LINES, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
 import type { ShippingMethodKey } from "@/lib/cart";
-import { COUNTRY_CODES } from "@/lib/countries";
+import { COUNTRY_CODES, DEFAULT_COUNTRY } from "@/lib/countries";
 import { cartLineKey } from "@/lib/variantPricing";
 
 export interface OrderAddress {
@@ -87,7 +87,7 @@ function readAddress(value: unknown): OrderAddress {
     street: text(raw.street, 160),
     postalCode: text(raw.postalCode, 12).toUpperCase(),
     city: text(raw.city, 80),
-    country: (text(raw.country, 2) || "FR").toUpperCase(),
+    country: (text(raw.country, 2) || DEFAULT_COUNTRY).toUpperCase(),
   };
 }
 
