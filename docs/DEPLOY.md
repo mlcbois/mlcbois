@@ -191,6 +191,37 @@ npm run build
 **`DATABASE_URL` doit être lisible au moment du build**, pas seulement au
 démarrage. Sur hPanel, saisir les variables **avant** de lancer le build.
 
+**`DATABASE_URL` doit être la chaîne « pooled ».** L'endpoint Neon existe en
+deux formes ; c'est celle qui porte `-pooler` qu'il faut :
+
+```
+ep-xxxxxxxx-pooler.c-5.us-east-2.aws.neon.tech    ← oui
+ep-xxxxxxxx.c-5.us-east-2.aws.neon.tech           ← non, connexion directe
+```
+
+Sur la chaîne directe, le build échoue sur :
+
+```
+Error: timeout exceeded when trying to connect
+Failed to collect page data for /[locale]/[group]/[category]
+```
+
+La cause n'est pas une base injoignable mais un **épuisement des connexions**.
+Next dimensionne ses processus de build sur `os.cpus()`, qui sur un hébergement
+mutualisé renvoie les cœurs de la machine hôte — soixante-trois workers observés
+sur Hostinger. Chacun ouvre son propre client Prisma, jusqu'à dix connexions :
+plusieurs centaines de connexions simultanées sur un endpoint direct qui plafonne
+bien plus bas. Le pooler (PgBouncer) les absorbe.
+
+`next.config.ts` plafonne désormais le pool à quatre workers, ajustable par
+`NEXT_BUILD_CPUS`. Les deux correctifs sont complémentaires : le pooler traite la
+cause, le plafond limite la pression.
+
+**La latence compte aussi.** Une base Neon en `us-east-2` (Ohio) servie depuis un
+serveur européen fait payer l'aller-retour transatlantique à chaque connexion, ce
+qui rapproche d'autant du délai d'attente. Un projet Neon en région européenne
+supprime ce facteur — c'est une migration de base, pas un réglage.
+
 ### Build sur une machine limitée
 
 Si `npm run build` s'interrompt sans message — le processus est tué faute de
