@@ -673,7 +673,7 @@
   "lieferung": {
     "eyebrow": "Livraison",
     "titel": "Du dépôt jusque devant chez vous",
-    "einleitung": "Nous livrons partout en France et dans certaine ville de la belgique. En France avec notre propre remorque, ailleurs sur palette par transporteur — dans les deux cas vous êtes prévenu avant le passage.",
+    "einleitung": "Nous livrons partout en France et dans certaines villes de Belgique. En France avec notre propre remorque, ailleurs sur palette par transporteur — dans les deux cas vous êtes prévenu avant le passage.",
     "schritte": {
       "bestellung": {
         "titel": "Commande",
@@ -749,7 +749,7 @@
   "faq": {
     "eyebrow": "Questions fréquentes",
     "titel": "Ce que les acheteurs veulent savoir avant",
-    "einleitung": "Si votre question ne figure pas ici, appelez-nous. Du lundi au vendredi de 8h à 17h, la personne qui décroche a elle-même livré le bois.",
+    "einleitung": "Si votre question ne figure pas ici, appelez-nous. Du lundi au vendredi de 8h à 17h et le samedi de 9h à 13h, la personne qui décroche a elle-même livré le bois.",
     "fragen": {
       "srm": {
         "frage": "Quelle différence entre le mètre cube apparent, le stère et le mètre cube réel ?",
@@ -766,6 +766,14 @@
       "restaurant": {
         "frage": "Livrez-vous aussi les restaurants et les boulangeries ?",
         "antwort": "Oui. Pour les fours à bois et les restaurants de grillades, nous proposons du hêtre en 25 et 33 cm à moins de 15 % d'humidité sur brut, en réapprovisionnement hebdomadaire sur demande. À partir de trois palettes par mois, un tarif dégressif s'applique. Écrivez-nous via le formulaire de contact, nous répondons le jour ouvré même."
+      },
+      "livraison": {
+        "frage": "Combien coûte la livraison et sous quel délai ?",
+        "antwort": "La livraison standard est offerte, sans minimum de commande, sous 3 à 5 jours ouvrés. La livraison express est facturée 60 € et intervient sous 24 à 48 heures. Nous livrons partout en France et dans certaines villes de Belgique : en France avec notre propre remorque, ailleurs sur palette par transporteur. Dans les deux cas, vous êtes prévenu avant le passage."
+      },
+      "abladen": {
+        "frage": "Où le bois est-il déposé exactement ?",
+        "antwort": "Le déchargement en bord de voirie est compris dans le prix. Nous disposons de transpalettes pour amener les palettes jusqu'à votre garage ou votre parking de stockage. Signalez un accès étroit, un portail bas ou une cour fermée au moment de la commande : nous adaptons le véhicule."
       }
     }
   },

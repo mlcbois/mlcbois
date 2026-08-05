@@ -357,7 +357,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Rates",
-        body: "Standard delivery is free, with no minimum order value. Express delivery costs €60.00 and arrives within 24 to 48 hours in zones A and B.\n\nFrom 6 loose cubic metres, delivery is free whichever option you choose, in zones A and B.\n\nAny supplements are announced before the order is confirmed:",
+        body: "Standard delivery is free, with no minimum order value, within 3 to 5 working days.\n\nExpress delivery costs €60.00 and arrives within 24 to 48 hours.\n\nAny supplements are announced before the order is confirmed:",
         list: [
           "Narrow access requiring the small trailer: €20",
           "Stacking in a yard, cellar or garage: €35 per loose cubic metre",
@@ -504,7 +504,7 @@ export const enLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "How much wood do I need for a winter?",
-        body: "It depends on the appliance and how you use it. For a log stove used as supplementary heating in the evening and at weekends, allow 5 to 8 loose cubic metres per season. As primary heating in a reasonably insulated house, allow 12 to 18.\n\nThe calculator on the home page gives you the stacked volume and weight for the quantity you have in mind.",
+        body: "It depends on the appliance and how you use it. For a log stove used as supplementary heating in the evening and at weekends, allow 5 to 8 loose cubic metres per season. As primary heating in a reasonably insulated house, allow 12 to 18.\n\nTo picture those volumes: one loose cubic metre is roughly 0.7 stacked cubic metres once stacked, and weighs around 420 kg in hardwood below 18 % moisture. If you are unsure about the quantity, call us rather than guess.",
       },
       {
         heading: "Which log length should I choose?",
@@ -527,12 +527,20 @@ export const enLegalPages: LegalPageMap = {
         body: "Yes. For wood-fired ovens, grill restaurants and bakeries we supply beech in 25 and 33 cm below 15 % moisture content, on weekly call-off if wanted. Tiered pricing applies from three pallets a month.",
       },
       {
-        heading: "Can I choose the delivery date?",
-        body: "Yes. You give a preferred date when ordering and we call the day before to confirm a two-hour window. Payment is taken only once the slot is confirmed, except for immediate card payments.",
+        heading: "How much does delivery cost?",
+        body: "Standard delivery is free, with no minimum order value, and arrives within 3 to 5 working days.\n\nExpress delivery costs €60.00 and arrives within 24 to 48 hours. You choose the method at the first step of the checkout: the final total is shown before the payment page.",
       },
       {
-        heading: "What if access is difficult?",
-        body: "Tell us when ordering. We then come with the small trailer, for a €20 supplement. Without that information the lorry turns up, and a wasted journey is still charged.",
+        heading: "Do you deliver outside France?",
+        body: "We deliver anywhere in France, as well as to selected towns in Belgium.\n\nWithin France we deliver ourselves, on our own trailer. Elsewhere the goods travel on a pallet by freight carrier, and the service is then the carrier's. Either way, you are told before we come.",
+      },
+      {
+        heading: "Can I choose the delivery date?",
+        body: "Yes. You give a preferred date when ordering and we call the day before to confirm a two-hour window. You do not have to keep your whole day free.\n\nWhere delivery is handled by a freight carrier, they make contact directly, following their own procedures.",
+      },
+      {
+        heading: "Where is the wood left, and what if access is difficult?",
+        body: "Kerbside unloading is included in the price. We carry pallet trucks, so pallets can be taken through to your garage or storage bay.\n\nTell us about any narrow entrance, low gate, enclosed courtyard or parking restriction when you order and we will bring the right vehicle. Without that information the lorry turns up, and a wasted journey is still charged.",
       },
       {
         heading: "Can I order without creating an account?",

@@ -396,7 +396,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Tarifs",
-        body: "La livraison standard est offerte, sans montant minimum de commande. La livraison express est facturée 60,00 € et intervient sous 24 à 48 heures en zones A et B.\n\nÀ partir de 6 mètres cubes apparents, la livraison est offerte quelle que soit la formule en zones A et B.\n\nLes suppléments éventuels sont annoncés avant la validation de la commande :",
+        body: "La livraison standard est offerte, sans montant minimum de commande, sous 3 à 5 jours ouvrés.\n\nLa livraison express est facturée 60,00 € et intervient sous 24 à 48 heures.\n\nLes suppléments éventuels sont annoncés avant la validation de la commande :",
         list: [
           "Accès étroit nécessitant la petite remorque : 20 €",
           "Rangement en cour, en cave ou au garage : 35 € par mètre cube apparent",
@@ -543,7 +543,7 @@ export const frLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Quelle quantité de bois pour un hiver ?",
-        body: "Cela dépend de l'appareil et de l'usage. Pour un poêle à bûches utilisé en chauffage d'appoint le soir et le week-end, comptez 5 à 8 mètres cubes apparents par saison. En chauffage principal dans une maison correctement isolée, comptez 12 à 18 MAP.\n\nLe calculateur de la page d'accueil vous donne le volume rangé et le poids correspondants à la quantité que vous envisagez.",
+        body: "Cela dépend de l'appareil et de l'usage. Pour un poêle à bûches utilisé en chauffage d'appoint le soir et le week-end, comptez 5 à 8 mètres cubes apparents par saison. En chauffage principal dans une maison correctement isolée, comptez 12 à 18 MAP.\n\nPour situer ces volumes : un mètre cube apparent représente environ 0,7 stère une fois rangé, et pèse de l'ordre de 420 kg en feuillu à moins de 18 % d'humidité. En cas de doute sur la quantité, appelez-nous plutôt que de commander au jugé.",
       },
       {
         heading: "Quelle longueur de bûche choisir ?",
@@ -566,12 +566,20 @@ export const frLegalPages: LegalPageMap = {
         body: "Oui. Pour les fours à bois, les restaurants de grillades et les boulangeries, nous fournissons du hêtre en 25 et 33 cm à moins de 15 % d'humidité sur brut, en réapprovisionnement hebdomadaire sur demande. Un tarif dégressif s'applique à partir de trois palettes par mois.",
       },
       {
-        heading: "Peut-on choisir la date de livraison ?",
-        body: "Oui. Vous indiquez une date souhaitée à la commande et nous appelons la veille pour confirmer un créneau de deux heures. Le paiement n'intervient qu'après confirmation du créneau, sauf paiement par carte immédiat.",
+        heading: "Combien coûte la livraison ?",
+        body: "La livraison standard est offerte, sans montant minimum de commande, et intervient sous 3 à 5 jours ouvrés.\n\nLa livraison express est facturée 60,00 € et intervient sous 24 à 48 heures. Le mode se choisit à la première étape du tunnel de commande : le total définitif s'affiche avant la page de paiement.",
       },
       {
-        heading: "Que se passe-t-il si l'accès est difficile ?",
-        body: "Signalez-le à la commande. Nous venons alors avec la petite remorque, moyennant 20 € de supplément. Sans information de votre part, le camion se présente et un déplacement sans livraison possible reste facturé.",
+        heading: "Livrez-vous en dehors de la France ?",
+        body: "Nous livrons partout en France, ainsi que dans certaines villes de Belgique.\n\nEn France, nous livrons nous-mêmes avec notre remorque. Ailleurs, la marchandise part sur palette par transporteur : le service est alors celui du transporteur. Dans les deux cas, vous êtes prévenu avant le passage.",
+      },
+      {
+        heading: "Peut-on choisir la date de livraison ?",
+        body: "Oui. Vous indiquez une date souhaitée à la commande et nous appelons la veille pour confirmer un créneau de deux heures. Vous n'avez pas à bloquer votre journée.\n\nPour les livraisons confiées à un transporteur, celui-ci prend contact directement, selon ses propres procédures.",
+      },
+      {
+        heading: "Où le bois est-il déposé, et si l'accès est difficile ?",
+        body: "Le déchargement en bord de voirie est compris dans le prix. Nous disposons de transpalettes pour amener les palettes jusqu'à votre garage ou votre parking de stockage.\n\nSignalez tout accès étroit, portail bas, cour fermée ou stationnement contraint au moment de la commande : nous adaptons le véhicule. Sans cette information, le camion se présente et un déplacement sans livraison possible reste facturé.",
       },
       {
         heading: "Puis-je commander sans créer de compte ?",

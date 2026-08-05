@@ -749,7 +749,7 @@
   "faq": {
     "eyebrow": "Frequently asked questions",
     "titel": "What buyers want to know beforehand",
-    "einleitung": "If your question isn't here, give us a call. Monday to Friday from 8am to 5pm, the person who picks up has driven the wood themselves.",
+    "einleitung": "If your question is not here, give us a call. Monday to Friday 8am to 5pm and Saturday 9am to 1pm, the person who picks up has delivered the wood themselves.",
     "fragen": {
       "srm": {
         "frage": "What is the difference between a loose cubic metre, a stacked cubic metre and a solid cubic metre?",
@@ -766,6 +766,14 @@
       "restaurant": {
         "frage": "Do you also deliver to restaurants and bakeries?",
         "antwort": "Yes. For wood-fired ovens and grill restaurants we supply beech in 25 and 33 cm at under 15 % moisture content, on weekly call-off if wanted. From three pallets a month a separate tiered price applies. Write to us via the contact form and we'll reply the same working day."
+      },
+      "livraison": {
+        "frage": "How much does delivery cost, and how long does it take?",
+        "antwort": "Standard delivery is free, with no minimum order, within 3 to 5 working days. Express delivery costs €60 and arrives within 24 to 48 hours. We deliver anywhere in France and to selected towns in Belgium: in France on our own trailer, elsewhere on a pallet by freight carrier. Either way, you are told before we come."
+      },
+      "abladen": {
+        "frage": "Where exactly is the wood left?",
+        "antwort": "Kerbside unloading is included in the price. We carry pallet trucks, so pallets can be taken through to your garage or storage bay. Tell us about a narrow entrance, a low gate or an enclosed courtyard when you order and we will bring the right vehicle."
       }
     }
   },

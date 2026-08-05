@@ -10,7 +10,9 @@ import { Plus } from "lucide-react";
  * n'y a donc aucun risque de divergence entre la page et les données
  * structurées.
  */
-const fragen = ["srm", "trocken", "lagern", "restaurant"] as const;
+// Ordre d'affichage : la livraison d'abord, c'est la question que l'acheteur
+// se pose avant toutes les autres. Le détail du produit vient ensuite.
+const fragen = ["livraison", "abladen", "srm", "trocken", "lagern", "restaurant"] as const;
 
 export async function HolzFaq() {
   const t = await getTranslations("faq");
