@@ -6,46 +6,15 @@
 // ajouter une langue au site suffit à traduire la liste entière.
 
 /**
- * Codes ISO 3166-1 alpha-2 officiellement assignés.
+ * Codes ISO 3166-1 alpha-2 des pays réellement livrés.
  *
- * Les cinq territoires sans population permanente (AQ Antarctique, BV Bouvet,
- * HM Heard-et-MacDonald, TF Terres australes françaises, UM Îles mineures des
- * États-Unis) sont écartés : ce sont des destinations de livraison impossibles,
- * et les proposer dans un tunnel de commande n'a pas de sens. Les rétablir
- * revient à les ajouter à cette liste.
+ * La boutique livre elle-même la France métropolitaine à sa remorque, et fait
+ * appel à un transporteur pour certaines villes de Belgique — voir la page
+ * « Livraison » et les CGV. Proposer d'autres pays dans le sélecteur reviendrait
+ * à laisser une commande partir vers une destination qu'aucun des deux circuits
+ * ne dessert.
  */
-export const COUNTRY_CODES = [
-  "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
-  "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR",
-  "BS", "BT", "BW", "BY", "BZ",
-  "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV",
-  "CW", "CX", "CY", "CZ",
-  "DE", "DJ", "DK", "DM", "DO", "DZ",
-  "EC", "EE", "EG", "EH", "ER", "ES", "ET",
-  "FI", "FJ", "FK", "FM", "FO", "FR",
-  "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS",
-  "GT", "GU", "GW", "GY",
-  "HK", "HN", "HR", "HT", "HU",
-  "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT",
-  "JE", "JM", "JO", "JP",
-  "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ",
-  "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY",
-  "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR",
-  "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ",
-  "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ",
-  "OM",
-  "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY",
-  "QA",
-  "RE", "RO", "RS", "RU", "RW",
-  "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR",
-  "SS", "ST", "SV", "SX", "SY", "SZ",
-  "TC", "TD", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ",
-  "UA", "UG", "US", "UY", "UZ",
-  "VA", "VC", "VE", "VG", "VI", "VN", "VU",
-  "WF", "WS",
-  "YE", "YT",
-  "ZA", "ZM", "ZW",
-] as const;
+export const COUNTRY_CODES = ["BE", "FR"] as const;
 
 export type CountryCode = (typeof COUNTRY_CODES)[number];
 
@@ -75,37 +44,12 @@ export function countryName(code: string, locale: string): string {
 }
 
 /**
- * Format du code postal, par pays. Un pays absent de cette table n'est pas
- * refusé : sa valeur est acceptée telle quelle, faute de règle fiable. Mieux
- * vaut laisser passer une adresse exotique que rejeter un client dont on
- * connaît mal le format postal.
- *
- * Les codes sont comparés en majuscules — le serveur normalise avant de valider.
+ * Format du code postal, par pays. Les codes sont comparés en majuscules — le
+ * serveur normalise avant de valider.
  */
 const POSTAL_CODE_PATTERNS: Record<string, RegExp> = {
-  DE: /^\d{5}$/,
-  AT: /^\d{4}$/,
-  CH: /^\d{4}$/,
-  LI: /^\d{4}$/,
-  BE: /^\d{4}$/,
-  LU: /^\d{4}$/,
-  DK: /^\d{4}$/,
-  NL: /^\d{4}\s?[A-Z]{2}$/,
   FR: /^\d{5}$/,
-  MC: /^980\d{2}$/,
-  IT: /^\d{5}$/,
-  ES: /^\d{5}$/,
-  FI: /^\d{5}$/,
-  SE: /^\d{3}\s?\d{2}$/,
-  NO: /^\d{4}$/,
-  PL: /^\d{2}-?\d{3}$/,
-  CZ: /^\d{3}\s?\d{2}$/,
-  SK: /^\d{3}\s?\d{2}$/,
-  PT: /^\d{4}-?\d{3}$/,
-  US: /^\d{5}(-\d{4})?$/,
-  CA: /^[A-Z]\d[A-Z]\s?\d[A-Z]\d$/,
-  GB: /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/,
-  IE: /^[A-Z]\d{2}\s?[A-Z\d]{4}$/,
+  BE: /^\d{4}$/,
 };
 
 /** Vrai lorsque le code postal convient au pays, ou qu'aucune règle n'est connue. */

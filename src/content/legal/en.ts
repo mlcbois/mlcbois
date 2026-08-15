@@ -143,7 +143,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "6. Delivery",
-        body: `We deliver within mainland France. Zones, lead times and rates are set out on the “Delivery” page.\n\nDelivery is made to the boundary of the property: kerbside or driveway unloading is included in the price, provided a 7.5-tonne vehicle can gain access. Stacking in a yard, cellar or garage is subject to a supplement announced before the order.\n\nIn the absence of a stated date, we deliver no later than thirty days after the contract is concluded (article L216-1 of the French Consumer Code). If we fail to do so, you may require us to deliver within a reasonable additional period and then terminate the contract if we still fail to perform.\n\nRisk passes to the customer when physical possession of the goods is taken (article L216-4 of the French Consumer Code).`,
+        body: `We deliver within mainland France, as well as to selected towns in Belgium. Zones, lead times and rates are set out on the “Delivery” page.\n\nDelivery is made to the boundary of the property: kerbside or driveway unloading is included in the price, provided a 7.5-tonne vehicle can gain access. Stacking in a yard, cellar or garage is subject to a supplement announced before the order.\n\nIn the absence of a stated date, we deliver no later than thirty days after the contract is concluded (article L216-1 of the French Consumer Code). If we fail to do so, you may require us to deliver within a reasonable additional period and then terminate the contract if we still fail to perform.\n\nRisk passes to the customer when physical possession of the goods is taken (article L216-4 of the French Consumer Code).`,
       },
       {
         heading: "7. Right of withdrawal",

@@ -62,8 +62,8 @@ export const PASSWORD_MAX_LENGTH = 200;
 export const RESET_TTL_MINUTES = 30;
 
 /**
- * Pays acceptés dans une adresse — la liste ISO complète proposée par le
- * sélecteur du tunnel de commande. Le formulaire et le serveur lisent la même
+ * Pays acceptés dans une adresse — les mêmes que ceux livrés par le tunnel de
+ * commande (France, Belgique). Le formulaire et le serveur lisent la même
  * source : un pays affiché est donc toujours un pays enregistrable.
  */
 export const SUPPORTED_COUNTRIES = COUNTRY_CODES;

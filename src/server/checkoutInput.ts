@@ -13,7 +13,7 @@
 
 import { DEFAULT_SHIPPING_METHOD_KEY, isShippingMethodKey, MAX_CART_LINES, MAX_QUANTITY_PER_LINE } from "@/lib/cart";
 import type { ShippingMethodKey } from "@/lib/cart";
-import { COUNTRY_CODES, DEFAULT_COUNTRY } from "@/lib/countries";
+import { COUNTRY_CODES, DEFAULT_COUNTRY, isValidPostalCode } from "@/lib/countries";
 import { cartLineKey } from "@/lib/variantPricing";
 
 export interface OrderAddress {
@@ -64,14 +64,12 @@ export interface CheckoutInput {
 }
 
 /**
- * Aucun pays n'est refusé : la commande est ouverte à tous les pays proposés
- * par la liste (la même que le sélecteur de pays). Le contrôle ne sert plus
- * qu'à écarter une valeur vide ou invalide.
+ * Pays livrés — la France, livrée par notre propre remorque, et la Belgique,
+ * livrée par transporteur. La même liste alimente le sélecteur de pays.
  */
 export const SUPPORTED_COUNTRIES = COUNTRY_CODES;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const POSTAL_CODE_PATTERNS: Record<string, RegExp> = { FR: /^\d{5}$/ };
 
 function text(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -97,8 +95,7 @@ function validateAddress(address: OrderAddress): CheckoutErrorCode | undefined {
   if (!(SUPPORTED_COUNTRIES as readonly string[]).includes(address.country)) {
     return "unsupported_country";
   }
-  const pattern = POSTAL_CODE_PATTERNS[address.country];
-  if (pattern && !pattern.test(address.postalCode)) return "invalid_postal_code";
+  if (!isValidPostalCode(address.country, address.postalCode)) return "invalid_postal_code";
   if (address.city.length < 2) return "invalid_city";
   return undefined;
 }
