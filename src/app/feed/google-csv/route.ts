@@ -3,6 +3,7 @@ import {
   loadMerchantProducts,
   type MerchantRecord,
 } from "@/server/merchant";
+import { filterForFeed, getMerchantSelection } from "@/server/merchantSelection";
 
 // Même flux produits, au format tabulé (TSV) — l'autre format accepté par
 // Merchant Center. Google recommande explicitement le TSV plutôt que le CSV :
@@ -117,8 +118,14 @@ function row(record: MerchantRecord): string {
 }
 
 export async function GET(): Promise<Response> {
-  const products = await loadMerchantProducts();
-  const lines = [COLUMNS.join("\t"), ...products.map((product) => row(buildMerchantRecord(product)))];
+  const [products, selection] = await Promise.all([
+    loadMerchantProducts(),
+    getMerchantSelection(),
+  ]);
+  const lines = [
+    COLUMNS.join("\t"),
+    ...filterForFeed(products, selection).map((product) => row(buildMerchantRecord(product))),
+  ];
 
   return new Response(`${lines.join("\n")}\n`, {
     headers: {

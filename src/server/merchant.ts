@@ -761,6 +761,31 @@ export function auditMerchantProduct(
   };
 }
 
+export interface MerchantSelectionProductOption {
+  id: string;
+  brand: string;
+  name: string;
+  active: boolean;
+  categoryLabel: string;
+  groupLabel: string;
+}
+
+/** Catalogue léger proposé à l'écran de sélection du flux — un produit peut y
+ * apparaître désactivé (grisé, non cochable côté client) mais jamais absent :
+ * l'administrateur doit voir qu'un produit désactivé ne part de toute façon
+ * jamais dans le flux. */
+export async function listMerchantSelectionOptions(): Promise<MerchantSelectionProductOption[]> {
+  const products = await loadMerchantProducts({ includeInactive: true });
+  return products.map((product) => ({
+    id: product.id,
+    brand: product.brand,
+    name: product.name,
+    active: product.active,
+    categoryLabel: product.category.label,
+    groupLabel: product.category.group.label,
+  }));
+}
+
 export interface MerchantOverview {
   audits: MerchantAudit[];
   total: number;

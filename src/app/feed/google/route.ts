@@ -6,6 +6,7 @@ import {
   siteUrl,
   type MerchantRecord,
 } from "@/server/merchant";
+import { filterForFeed, getMerchantSelection } from "@/server/merchantSelection";
 
 // Flux produits Google Merchant Center au format RSS 2.0 avec l'espace de noms
 // « g: » (http://base.google.com/ns/1.0), tel que décrit dans la spécification
@@ -104,8 +105,13 @@ function itemXml(record: MerchantRecord): string {
 }
 
 export async function GET(): Promise<Response> {
-  const products = await loadMerchantProducts();
-  const items = products.map((product) => itemXml(buildMerchantRecord(product))).join("");
+  const [products, selection] = await Promise.all([
+    loadMerchantProducts(),
+    getMerchantSelection(),
+  ]);
+  const items = filterForFeed(products, selection)
+    .map((product) => itemXml(buildMerchantRecord(product)))
+    .join("");
   const base = siteUrl();
 
   const channelHeader =

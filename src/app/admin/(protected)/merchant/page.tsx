@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AlertTriangle, CheckCircle2, ExternalLink, FileDown, Info } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ExternalLink, FileDown, Info, ListChecks } from "lucide-react";
 import { requireAdminSession } from "@/lib/dal";
 import { AdminPagination } from "@/components/admin/AdminPagination";
 import { paginate, parsePageParam } from "@/lib/pagination";
 import { auditCatalog, siteUrl, type MerchantAudit, type MerchantIssue } from "@/server/merchant";
+import { getMerchantSelection } from "@/server/merchantSelection";
 
 // Page de contrôle « Google Merchant » : elle donne au commerçant, produit par
 // produit, la liste exacte de ce qui manque avant de lancer une campagne Shopping.
@@ -124,7 +125,7 @@ export default async function MerchantPage({
   // Deux clés distinctes : « page » pour les produits refusés, « warnPage » pour
   // ceux qui ne portent que des avertissements.
   const params = await searchParams;
-  const overview = await auditCatalog();
+  const [overview, selection] = await Promise.all([auditCatalog(), getMerchantSelection()]);
   const base = siteUrl();
 
   // Les produits bloqués d'abord, puis ceux qui n'ont que des avertissements.
@@ -133,6 +134,14 @@ export default async function MerchantPage({
 
   const blockedPageInfo = paginate(blocked, parsePageParam(params.page));
   const warnedPageInfo = paginate(warned, parsePageParam(params.warnPage));
+
+  // Le flux ne reprend les actifs que si la sélection ne les a pas exclus —
+  // c'est ce nombre-là, et non feedCount, qui part réellement chez Google.
+  const feedCount = selection.restricted
+    ? overview.audits.filter(
+        (audit) => audit.active && selection.includedProductIds.includes(audit.productId),
+      ).length
+    : overview.feedCount;
 
   return (
     <>
@@ -149,7 +158,11 @@ export default async function MerchantPage({
         <StatCard
           label="Produits au total"
           value={overview.total}
-          hint={`${overview.feedCount} actifs et présents dans le flux`}
+          hint={
+            selection.restricted
+              ? `${feedCount} présents dans le flux (sélection restreinte)`
+              : `${feedCount} actifs et présents dans le flux`
+          }
           tone="neutral"
         />
         <StatCard
@@ -172,7 +185,22 @@ export default async function MerchantPage({
         />
       </div>
 
-      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className={CARD}>
+          <h2 className="mb-1 text-sm font-black text-foreground">Sélection du flux</h2>
+          <p className="mb-3 text-xs text-muted-foreground">
+            {selection.restricted
+              ? `Restreinte à ${feedCount} produit${feedCount > 1 ? "s" : ""} choisi${feedCount > 1 ? "s" : ""}. Le reste du catalogue n'est pas transmis à Google.`
+              : "Tout le catalogue actif est transmis à Google. Restreignez la diffusion à une sélection de produits si besoin."}
+          </p>
+          <Link
+            href="/admin/merchant/selection"
+            className="flex items-center gap-2 text-sm font-bold text-primary underline"
+          >
+            <ListChecks className="h-4 w-4" /> Choisir les produits diffusés
+          </Link>
+        </div>
+
         <div className={CARD}>
           <h2 className="mb-1 text-sm font-black text-foreground">Sources de données produits</h2>
           <p className="mb-3 text-xs text-muted-foreground">
