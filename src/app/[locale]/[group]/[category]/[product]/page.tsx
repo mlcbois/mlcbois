@@ -16,7 +16,7 @@ import { getCategoryPages, getProductBySlug, getRelatedProducts } from "@/server
 import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localizedContent";
 import { productLongText, productShortText } from "@/lib/productText";
 import { formatRating } from "@/lib/formatRating";
-import { alternatesFor } from "@/lib/hreflang";
+import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import type { Locale } from "@/i18n/routing";
 
 type ProductPageParams = Promise<{
@@ -66,11 +66,15 @@ export async function generateMetadata({ params }: { params: ProductPageParams }
   if (!data) return {};
 
   const t = await getTranslations({ locale, namespace: "product" });
+  const title = t("metaTitle", { name: `${data.product.brand} ${data.product.name}` });
+  const description = data.product.bullets.join(" · ");
+  const href = `/${group}/${category}/${product}`;
 
   return {
-    title: t("metaTitle", { name: `${data.product.brand} ${data.product.name}` }),
-    description: data.product.bullets.join(" · "),
-    alternates: alternatesFor(`/${group}/${category}/${product}`, locale),
+    title,
+    description,
+    alternates: alternatesFor(href, locale),
+    ...openGraphFor({ href, locale, title, description, image: data.product.image }),
   };
 }
 

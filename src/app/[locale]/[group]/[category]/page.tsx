@@ -8,7 +8,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryProductBrowser } from "@/components/CategoryProductBrowser";
 import { CategoryGuide } from "@/components/CategoryGuide";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
-import { alternatesFor } from "@/lib/hreflang";
+import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import { getCategoryPage, listCategories } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localizedContent";
 import type { Locale } from "@/i18n/routing";
@@ -37,11 +37,15 @@ export async function generateMetadata({ params }: { params: CategoryPageParams 
   if (!data) return {};
 
   const t = await getTranslations({ locale, namespace: "category" });
+  const title = t("metaTitle", { label: data.label });
+  const description = data.description;
+  const href = `/${group}/${category}`;
 
   return {
-    title: t("metaTitle", { label: data.label }),
-    description: data.description,
-    alternates: alternatesFor(`/${group}/${category}`, locale),
+    title,
+    description,
+    alternates: alternatesFor(href, locale),
+    ...openGraphFor({ href, locale, title, description, image: data.image }),
   };
 }
 

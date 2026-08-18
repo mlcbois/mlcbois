@@ -11,7 +11,7 @@ import { HolzartenVergleich } from "@/components/home/HolzartenVergleich";
 import { LieferungAblauf } from "@/components/home/LieferungAblauf";
 import { HolzFaq } from "@/components/home/HolzFaq";
 import { ProductGrid } from "@/components/ProductGrid";
-import { alternatesFor } from "@/lib/hreflang";
+import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import { formatPrice, getCategoryPages, type CategoryPageView } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPages } from "@/server/localizedContent";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -52,11 +52,14 @@ function bestseller(categories: CategoryPageView[], limit: number): Product[] {
 export async function generateMetadata({ params }: { params: HomeParams }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
+  const title = t("metaTitle");
+  const description = t("metaDescription");
 
   return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
+    title,
+    description,
     alternates: alternatesFor("/", locale),
+    ...openGraphFor({ href: "/", locale, title, description }),
   };
 }
 
