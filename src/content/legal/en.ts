@@ -246,7 +246,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Cookies and trackers",
-        body: "The site uses only cookies strictly necessary for it to work: sign-in session, cart and language preference. Such cookies are exempt from consent under article 82 of the French Data Protection Act, as interpreted by the CNIL.\n\nNo third-party analytics, advertising or social media cookie is set without your prior consent. Should such trackers be added, a consent banner would be introduced and this page updated.",
+        body: "The site sets two categories of cookies.\n\nStrictly necessary for it to work — sign-in session, cart, language preference — these cookies are exempt from consent under article 82 of the French Data Protection Act, as interpreted by the CNIL.\n\nThe live chat cookie, provided by Smartsupp s.r.o. (Czech Republic), is only set after your explicit consent, collected through the banner shown on your first visit. It lets you open a conversation with our team and tells us which pages you are viewing, to help us assist you. You can change this choice at any time via the “Cookie settings” link in the footer; your answer is kept for six months, after which it is asked again.\n\nNo third-party analytics, advertising or social media cookie is set.",
       },
       {
         heading: "Your rights",

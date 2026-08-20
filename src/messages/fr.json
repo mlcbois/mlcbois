@@ -197,6 +197,13 @@
     "copyright": "© {year} MLC Bois.",
     "oeffnung": "Du lundi au vendredi 8h–17h · Samedi 9h–13h"
   },
+  "cookieConsent": {
+    "title": "Préférences cookies",
+    "message": "Nous utilisons un cookie non essentiel pour activer le chat en direct (Smartsupp) et vous répondre plus vite.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "learnMore": "En savoir plus"
+  },
   "cart": {
     "title": "Panier",
     "metaTitle": "Panier | MLC Bois",

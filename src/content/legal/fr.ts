@@ -285,7 +285,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Cookies et traceurs",
-        body: "Le site n'utilise que des cookies strictement nécessaires à son fonctionnement : session de connexion, panier et préférence de langue. Ces cookies sont dispensés de consentement au titre de l'article 82 de la loi Informatique et Libertés, tel qu'interprété par la CNIL.\n\nAucun cookie de mesure d'audience tierce, de publicité ou de réseau social n'est déposé sans votre consentement préalable. Si de tels traceurs devaient être ajoutés, un bandeau de recueil du consentement serait mis en place et cette page mise à jour.",
+        body: "Le site dépose deux catégories de cookies.\n\nStrictement nécessaires à son fonctionnement — session de connexion, panier, préférence de langue — ces cookies sont dispensés de consentement au titre de l'article 82 de la loi Informatique et Libertés, tel qu'interprété par la CNIL.\n\nLe cookie du chat en direct, fourni par Smartsupp s.r.o. (République tchèque), n'est déposé qu'après votre consentement explicite, recueilli par le bandeau affiché à votre première visite. Il permet d'ouvrir une conversation avec notre équipe et de nous indiquer les pages que vous consultez, pour mieux vous orienter. Vous pouvez revenir sur ce choix à tout moment via le lien « Préférences cookies » en pied de page ; votre réponse est conservée six mois, puis vous est de nouveau demandée.\n\nAucun cookie de mesure d'audience tierce, de publicité ou de réseau social n'est déposé.",
       },
       {
         heading: "Vos droits",

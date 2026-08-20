@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { getServerConsentSnapshot, readConsent, subscribeConsent } from "@/lib/cookieConsent";
 
 /**
  * File d'attente de l'API Smartsupp.
@@ -23,18 +24,23 @@ type Etat = "repos" | "chargement" | "ouvert" | "echec";
 /**
  * Bouton de chat, en bas à droite de la boutique.
  *
- * POURQUOI UN BOUTON PLUTÔT QUE LE WIDGET DIRECT. Le code d'installation
- * Smartsupp charge le chat sur toutes les pages, pour tous les visiteurs, et
- * dépose un identifiant de visiteur avant que quiconque ait demandé quoi que ce
- * soit. Cet identifiant n'est pas nécessaire au fonctionnement de la boutique :
- * il relève alors du consentement (article 82 de la loi Informatique et
- * Libertés), donc d'un bandeau.
+ * POURQUOI UN CONSENTEMENT PLUTÔT QU'UN CHARGEMENT SYSTÉMATIQUE. Le code
+ * d'installation Smartsupp charge le chat sur toutes les pages, pour tous les
+ * visiteurs, et dépose un identifiant de visiteur avant que quiconque ait
+ * demandé quoi que ce soit — ce n'est pas un cookie strictement nécessaire,
+ * donc son dépôt relève du consentement (article 82 de la loi Informatique et
+ * Libertés).
  *
- * Ici, rien ne part tant que le visiteur n'a pas cliqué. Le clic EST la demande
- * expresse du service, ce qui fait tomber l'obligation de recueil préalable —
- * et évite d'imposer un bandeau à tout le monde pour une fonction que peu de
- * gens utilisent. La page « Politique de confidentialité » décrit ce
- * fonctionnement ; les deux doivent rester d'accord.
+ * Deux voies mènent au chargement, l'une comme l'autre valables :
+ *  - un consentement déjà accepté (bandeau CookieConsentBanner, ou visite
+ *    précédente) charge le script au montage, sans ouvrir la fenêtre — c'est
+ *    ce qui active les messages automatiques et le suivi de navigation
+ *    configurés dans le tableau de bord Smartsupp ;
+ *  - à défaut de consentement, le bouton reste affiché : un clic dessus EST la
+ *    demande expresse du service, ce qui dispense de consentement préalable
+ *    pour cette seule ouverture (et ouvre alors la fenêtre immédiatement).
+ * La page « Politique de confidentialité » décrit ce fonctionnement ; les deux
+ * doivent rester d'accord.
  */
 export function SmartsuppLauncher({
   chatKey,
@@ -58,37 +64,55 @@ export function SmartsuppLauncher({
     () => false,
   );
 
-  const ouvrir = useCallback(() => {
-    if (etat !== "repos" && etat !== "echec") return;
-    setEtat("chargement");
+  const charger = useCallback(
+    (options: { ouvrirFenetre: boolean }) => {
+      if (etat !== "repos" && etat !== "echec") return;
+      setEtat("chargement");
 
-    window._smartsupp = window._smartsupp ?? {};
-    window._smartsupp.key = chatKey;
-    window._smartsupp.language = language;
+      window._smartsupp = window._smartsupp ?? {};
+      window._smartsupp.key = chatKey;
+      window._smartsupp.language = language;
 
-    if (!window.smartsupp) {
-      const file: SmartsuppQueue = Object.assign(
-        (...args: unknown[]) => {
-          file._.push(args);
-        },
-        { _: [] as unknown[][] },
-      );
-      window.smartsupp = file;
-    }
+      if (!window.smartsupp) {
+        const file: SmartsuppQueue = Object.assign(
+          (...args: unknown[]) => {
+            file._.push(args);
+          },
+          { _: [] as unknown[][] },
+        );
+        window.smartsupp = file;
+      }
 
-    const script = document.createElement("script");
-    script.async = true;
-    script.charset = "utf-8";
-    script.src = LOADER;
-    script.addEventListener("load", () => setEtat("ouvert"));
-    // Un bloqueur de publicité filtre couramment ce domaine : mieux vaut
-    // rendre la main au visiteur que laisser un bouton qui tourne dans le vide.
-    script.addEventListener("error", () => setEtat("echec"));
-    document.head.appendChild(script);
+      const script = document.createElement("script");
+      script.async = true;
+      script.charset = "utf-8";
+      script.src = LOADER;
+      script.addEventListener("load", () => setEtat("ouvert"));
+      // Un bloqueur de publicité filtre couramment ce domaine : mieux vaut
+      // rendre la main au visiteur que laisser un bouton qui tourne dans le vide.
+      script.addEventListener("error", () => setEtat("echec"));
+      document.head.appendChild(script);
 
-    // Mis en file : le chargeur l'exécutera, le chat s'ouvrira sans second clic.
-    window.smartsupp("chat:open");
-  }, [chatKey, etat, language]);
+      // Mis en file : le chargeur l'exécutera dès qu'il sera prêt.
+      if (options.ouvrirFenetre) window.smartsupp("chat:open");
+    },
+    [chatKey, etat, language],
+  );
+
+  // Le cookie vit hors de React : useSyncExternalStore le relit à chaque
+  // changement (bandeau accepté, ou consentement déjà donné lors d'une visite
+  // précédente), sans jamais avoir à appeler setState depuis un effet.
+  const consent = useSyncExternalStore(subscribeConsent, readConsent, getServerConsentSnapshot);
+
+  // Le script se charge sans qu'un clic soit nécessaire dès que le
+  // consentement est accordé ; la fenêtre reste fermée tant que le visiteur
+  // n'a rien demandé explicitement. Différé d'une micro-tâche : `charger` fait
+  // passer l'état à "chargement" en dehors du rendu en cours, plutôt que
+  // d'enchaîner un second rendu synchrone dans le même effet.
+  useEffect(() => {
+    if (consent !== "accepted") return;
+    queueMicrotask(() => charger({ ouvrirFenetre: false }));
+  }, [consent, charger]);
 
   // Une fois le chat chargé, c'est le widget Smartsupp qui occupe le coin :
   // notre bouton doit disparaître pour ne pas le recouvrir.
@@ -97,7 +121,7 @@ export function SmartsuppLauncher({
   return (
     <button
       type="button"
-      onClick={ouvrir}
+      onClick={() => charger({ ouvrirFenetre: true })}
       disabled={etat === "chargement"}
       aria-label={label}
       title={label}

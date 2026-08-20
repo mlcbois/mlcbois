@@ -9,6 +9,7 @@ import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SmartsuppChat } from "@/components/SmartsuppChat";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { CodeSnippets } from "@/components/CodeSnippets";
 
 export function generateStaticParams() {
@@ -54,6 +55,9 @@ export default async function LocaleLayout({
             renseignée. */}
         <WhatsAppButton />
         <SmartsuppChat />
+        {/* Recueille le consentement avant tout chargement automatique du
+            chat — voir SmartsuppLauncher pour la raison. */}
+        <CookieConsentBanner />
         <CodeSnippets placement="bodyEnd" />
       </CartProvider>
     </NextIntlClientProvider>

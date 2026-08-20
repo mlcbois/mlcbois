@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Logo } from "@/components/brand/Logo";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { COMPANY, isLegalLocale } from "@/content/legal";
+import { CookieConsentManage } from "@/components/CookieConsentManage";
 
 const TEL_HREF = `tel:+${COMPANY.phone.replace(/\D/g, "")}`;
 import { getLegalFooterGroups } from "@/server/legalPages";
@@ -93,9 +94,10 @@ export async function Footer() {
           <PaymentMethodsBar source="vitrine" />
         </div>
 
-        <div className="mt-6 border-t border-white/10 pt-6 text-center text-xs text-white/60">
+        <div className="mt-6 flex flex-col items-center gap-2 border-t border-white/10 pt-6 text-center text-xs text-white/60 sm:flex-row sm:justify-between">
           {/* Année passée en chaîne : sinon ICU l'afficherait comme « 2.026 » */}
           <p>{t("copyright", { year: String(new Date().getFullYear()) })}</p>
+          <CookieConsentManage />
         </div>
       </div>
     </footer>

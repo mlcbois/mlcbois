@@ -197,6 +197,13 @@
     "copyright": "© {year} MLC Bois.",
     "oeffnung": "Monday to Friday 8am–5pm · Saturday 9am–1pm"
   },
+  "cookieConsent": {
+    "title": "Cookie settings",
+    "message": "We use one non-essential cookie to enable live chat (Smartsupp) and get back to you faster.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Learn more"
+  },
   "cart": {
     "title": "Cart",
     "metaTitle": "Cart | MLC Bois",
