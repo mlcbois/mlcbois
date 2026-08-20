@@ -36,8 +36,8 @@
   },
   "hero": {
     "eyebrow": "Séché en séchoir · humidité sur brut inférieure à 18 %",
-    "titel": "Du bois qui brûle",
-    "titelAkzent": "dès qu'il arrive.",
+    "titel": "Bois de chauffage et pellets",
+    "titelAkzent": "qui brûlent dès qu'ils arrivent.",
     "beschreibung": "Hêtre, chêne, bouleau et frêne issus de forêts françaises. 72 heures en séchoir, puis directement sur la remorque. Vous ne le stockez pas deux étés : vous chauffez le soir même.",
     "bildAlt": "Bûches de hêtre fendues, rangées dans le séchoir",
     "belege": {
@@ -52,7 +52,7 @@
     "srListe": "Nous livrons notamment à {villes}."
   },
   "home": {
-    "metaTitle": "MLC Bois | Bois de chauffage séché en séchoir, livré en 48 heures",
+    "metaTitle": "MLC Bois | Bois de chauffage séché en séchoir, livré sous 3 à 5 jours",
     "metaDescription": "Hêtre, chêne, bouleau et frêne en 25, 33 et 50 cm. Humidité sur brut inférieure à 18 %, relevé de mesure joint à chaque livraison. Livraison en France métropolitaine et dans certaines villes de Belgique.",
     "bestsellerEyebrow": "Les plus commandés",
     "bestseller": "Ce qui part cette semaine",
