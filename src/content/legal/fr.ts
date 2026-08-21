@@ -40,16 +40,16 @@ export const COMPANY = {
   country: "France",
   email: "contact@mlc-bois.fr",
   phone: "+33 6 35 01 35 57",
-  /** Président — directeur de la publication au sens de la LCEN. À COMPLÉTER. */
-  managingDirector: "Prénom Nom (à compléter)",
+  /** Président — directeur de la publication au sens de la LCEN. */
+  managingDirector: "Clément Mauroy",
   /** Immatriculation au registre du commerce et des sociétés. */
   register: "RCS Dijon 990 527 871",
   /** Numéro unique d'identification (SIREN). */
   siren: "990 527 871",
   /** Établissement principal (SIRET du siège). */
   siret: "990 527 871 00018",
-  /** Capital social, mention obligatoire pour une société commerciale. À COMPLÉTER. */
-  capital: "à compléter",
+  /** Capital social, mention obligatoire pour une société commerciale. */
+  capital: "30 000 €",
   /** Numéro de TVA intracommunautaire. */
   vatId: "FR71990527871",
   domain: "www.mlc-bois.fr",

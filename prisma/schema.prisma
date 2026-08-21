@@ -751,3 +751,53 @@ model CampaignEvent {
   @@index([campaignId, kind])
   @@index([campaignId, createdAt])
 }
+
+// ---- Relance de panier abandonné ----
+//
+// Une ligne par adresse e-mail (jamais deux paniers suivis en parallèle pour
+// la même personne) : l'e-mail est saisi tôt dans le tunnel de commande
+// (étape « contact »), avant toute validation. Chaque nouvelle activité sur
+// le panier repousse `nextReminderAt` — le compte à rebours part donc du
+// dernier geste du client, pas du premier.
+//
+// Trois relances au maximum (25 min, puis 9 h, puis 9 h), voir
+// `src/server/abandonedCarts.ts`. Une commande passée avec cette adresse
+// arrête aussitôt la séquence (`recoveredAt`). Le jeton n'est renouvelé que
+// lorsqu'un nouveau cycle démarre après une séquence conclue (récupérée ou
+// épuisée) : un lien déjà envoyé doit rester valable tant que le cycle qui l'a
+// produit n'est pas terminé.
+model AbandonedCart {
+  id String @id @default(cuid())
+
+  // Jeton aléatoire de 32 octets, même principe que CampaignRecipient.token :
+  // porté par le lien de reprise et le lien de désinscription, jamais
+  // devinable.
+  token String @unique
+
+  // Toujours normalisée en minuscules avant écriture, comme EmailSuppression.email.
+  email     String @unique
+  firstName String @default("")
+  // fr | en — langue du tunnel au moment de la saisie
+  locale    String @default("fr")
+
+  // Panier au moment de la dernière activité, sérialisé en JSON (CartLine[]
+  // de src/lib/cart.ts).
+  items String
+
+  remindersSent  Int       @default(0)
+  lastReminderAt DateTime?
+  // Date de la prochaine relance ; null quand la séquence est terminée,
+  // épuisée ou que la commande a été passée.
+  nextReminderAt DateTime?
+  // Verrou anti-concurrence, posé le temps d'un envoi — même principe que
+  // Campaign.dispatchingAt.
+  sendingAt      DateTime?
+
+  recoveredAt      DateTime?
+  recoveredOrderId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([nextReminderAt])
+}

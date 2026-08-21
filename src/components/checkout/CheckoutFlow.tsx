@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   Banknote,
@@ -118,6 +118,41 @@ export function CheckoutFlow({
   const [done, setDone] = useState(false);
 
   const selectedMethod = methods.find((method) => method.key === paymentKey);
+
+  // Instantané du panier pour la relance d'abandon, dès que l'e-mail saisi a
+  // une forme valable. Différé de 1,5 s après la dernière frappe : on ne veut
+  // pas un appel réseau par caractère tapé, seulement une fois que le client
+  // s'est arrêté d'écrire. Échoue en silence — voir /api/cart/track — la
+  // commande elle-même n'en dépend jamais.
+  useEffect(() => {
+    if (!EMAIL_PATTERN.test(email.trim()) || lines.length === 0) return;
+
+    const timer = window.setTimeout(() => {
+      void fetch("/api/cart/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          firstName: billing.firstName.trim(),
+          locale,
+          items: lines.map((line) => ({
+            productId: line.productId,
+            variantId: line.variantId,
+            variantLabel: line.variantLabel,
+            slug: line.slug,
+            brand: line.brand,
+            name: line.name,
+            image: line.image,
+            path: line.path,
+            priceCents: line.priceCents,
+            quantity: line.quantity,
+          })),
+        }),
+      }).catch(() => {});
+    }, 1500);
+
+    return () => window.clearTimeout(timer);
+  }, [email, billing.firstName, locale, lines]);
 
   // Totaux recalculés ici plutôt que repris du panier : seul le tunnel connaît
   // le mode de livraison retenu. Le récapitulatif de droite suit donc le clic du

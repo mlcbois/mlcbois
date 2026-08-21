@@ -342,6 +342,21 @@ Sur VPS : `crontab -e`. Sur hébergement web : hPanel → **Cron Jobs**.
 Appeler la route trop souvent est sans effet : le répartiteur ne fait rien tant
 que l'heure du prochain lot n'est pas atteinte.
 
+## 8. Tâche planifiée des relances de panier abandonné
+
+Sans elle, les trois e-mails de relance (25 minutes, puis 9 heures, puis
+9 heures après la dernière activité d'un panier) ne partent jamais. La
+première relance ayant un délai de 25 minutes, cette route doit être appelée
+plus souvent que celle des campagnes — toutes les cinq minutes :
+
+```
+*/5 * * * * curl -fsS -X POST -H "Authorization: Bearer LE_CRON_SECRET" https://mlc-bois.fr/api/cron/abandoned-carts > /dev/null
+```
+
+Même jeton `CRON_SECRET`, même méthode d'installation que la tâche
+précédente. Appeler la route trop souvent est sans effet : elle ne renvoie
+que les relances dont l'heure est atteinte.
+
 ## 8. Vérifications après mise en ligne
 
 ```bash

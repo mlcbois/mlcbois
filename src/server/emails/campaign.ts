@@ -46,7 +46,7 @@ const IMPRESSUM = {
   street: "27 Grande Rue",
   city: "21700 Villebichot",
   country: "France",
-  managingDirector: "Prénom Nom (à compléter)",
+  managingDirector: "Clément Mauroy",
   register: "RCS Dijon 990 527 871",
   vatId: "FR71990527871",
 } as const;

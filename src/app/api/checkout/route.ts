@@ -11,6 +11,7 @@ import { getCurrentCustomer } from "@/server/customerSession";
 import { resolveCampaignContext } from "@/server/campaignContext";
 import { sendOrderEmails } from "@/server/orderNotifications";
 import { resolveGatewayForMethod } from "@/server/gateways";
+import { markAbandonedCartRecovered } from "@/server/abandonedCarts";
 
 /**
  * URL absolue et localisée de la page de confirmation. Le français vit à la
@@ -192,6 +193,12 @@ export async function POST(request: Request) {
     // dans les journaux et dans l'historique de la commande, jamais une erreur
     // 500 sur une commande valable.
     after(() => sendOrderEmails(order));
+
+    // Arrête toute relance de panier abandonné en cours pour cette adresse :
+    // la commande vient d'être passée, la relancer n'aurait plus de sens.
+    // `markAbandonedCartRecovered` ne lève jamais — un panier jamais suivi
+    // pour cette adresse est un no-op silencieux.
+    after(() => markAbandonedCartRecovered(order.email, order.id));
 
     // Les stocks affichés dans la boutique ont changé.
     revalidatePath("/", "layout");

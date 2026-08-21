@@ -16,15 +16,16 @@ import { PAGE_MAINTENANCE } from "@/lib/maintenancePage";
 const routageMultilingue = createMiddleware(routing);
 
 /**
- * Le back-office, les API, le flux Merchant et les trois routes de campagne
- * restent hors du routage multilingue.
+ * Le back-office, les API, le flux Merchant et les routes de campagne et de
+ * relance de panier restent hors du routage multilingue.
  *
- * Les routes de campagne sont volontairement courtes — un lien de message doit
- * rester lisible et tenir sur une ligne — et n'ont pas de version par langue :
- * /c et /p ne renvoient qu'une redirection ou une image, et /desinscription choisit
- * sa langue d'après le destinataire enregistré, pas d'après l'URL. Les faire
- * passer par le routage multilingue les réécrirait en /fr/c/... et casserait
- * tous les liens déjà partis dans les boîtes des clients.
+ * Ces routes sont volontairement courtes — un lien de message doit rester
+ * lisible et tenir sur une ligne — et n'ont pas de version par langue : /c et
+ * /p ne renvoient qu'une redirection ou une image, /r restaure un panier
+ * avant de renvoyer vers /panier, et /desinscription choisit sa langue
+ * d'après le destinataire enregistré, pas d'après l'URL. Les faire passer par
+ * le routage multilingue les réécrirait en /fr/c/... et casserait tous les
+ * liens déjà partis dans les boîtes des clients.
  */
 function horsRoutageMultilingue(pathname: string): boolean {
   return (
@@ -33,6 +34,7 @@ function horsRoutageMultilingue(pathname: string): boolean {
     pathname.startsWith("/feed") ||
     pathname.startsWith("/c/") ||
     pathname.startsWith("/p/") ||
+    pathname.startsWith("/r/") ||
     pathname.startsWith("/desinscription/") ||
     // Servis à la racine, sans version par langue : les faire passer par le
     // routage multilingue les réécrirait en /fr/sitemap.xml, qui n'existe pas.

@@ -5,6 +5,12 @@
  * envoyé, il doit rester valable tel quel pour toujours. La langue vient donc
  * du destinataire enregistré, pas de l'URL.
  *
+ * Un même jeton ne peut jamais correspondre qu'à une seule source — campagne
+ * ou relance de panier abandonné — les deux tables générant leurs jetons de
+ * la même façon (32 octets aléatoires) : `findUnsubscribeTarget` cherche dans
+ * l'une puis l'autre et ramène une forme commune, pour que le reste de la
+ * page ignore d'où vient le destinataire.
+ *
  * Point capital : la désinscription n'a lieu qu'au POST, après un clic
  * explicite sur le bouton. Les antivirus, les passerelles de sécurité et les
  * aperçus de Gmail et d'Outlook visitent les liens contenus dans les messages
@@ -20,6 +26,52 @@ import { CheckCircle2, MailX } from "lucide-react";
 import { prisma } from "@/server/prisma";
 import { recordEvent } from "@/server/campaigns";
 import { suppressEmail } from "@/server/contacts";
+
+interface UnsubscribeTarget {
+  source: "campaign" | "abandonedCart";
+  id: string;
+  campaignId?: string;
+  email: string;
+  locale: string;
+  unsubscribedAt: Date | null;
+}
+
+async function findUnsubscribeTarget(token: string): Promise<UnsubscribeTarget | null> {
+  const recipient = await prisma.campaignRecipient.findUnique({
+    where: { token },
+    select: { id: true, campaignId: true, email: true, locale: true, unsubscribedAt: true },
+  });
+  if (recipient) {
+    return {
+      source: "campaign",
+      id: recipient.id,
+      campaignId: recipient.campaignId,
+      email: recipient.email,
+      locale: recipient.locale,
+      unsubscribedAt: recipient.unsubscribedAt,
+    };
+  }
+
+  const cart = await prisma.abandonedCart.findUnique({
+    where: { token },
+    select: { id: true, email: true, locale: true },
+  });
+  if (cart) {
+    // La relance de panier n'a pas de colonne « désinscrit » propre : la
+    // liste de blocage globale, seule source de vérité pour ce qu'on envoie
+    // réellement, en tient lieu pour l'affichage.
+    const suppressed = await prisma.emailSuppression.findUnique({ where: { email: cart.email } });
+    return {
+      source: "abandonedCart",
+      id: cart.id,
+      email: cart.email,
+      locale: cart.locale,
+      unsubscribedAt: suppressed ? suppressed.createdAt : null,
+    };
+  }
+
+  return null;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -82,18 +134,25 @@ async function confirmUnsubscribe(formData: FormData): Promise<void> {
   const token = String(formData.get("token") ?? "");
   if (!token) return;
 
-  const recipient = await prisma.campaignRecipient.findUnique({
-    where: { token },
-    select: { id: true, campaignId: true, email: true, unsubscribedAt: true },
-  });
+  const target = await findUnsubscribeTarget(token);
 
-  if (recipient && !recipient.unsubscribedAt) {
-    await suppressEmail(recipient.email, "desinscription", recipient.campaignId);
-    await prisma.campaignRecipient.update({
-      where: { id: recipient.id },
-      data: { unsubscribedAt: new Date() },
-    });
-    await recordEvent(recipient.campaignId, "desinscription", recipient.id);
+  if (target && !target.unsubscribedAt) {
+    await suppressEmail(target.email, "desinscription", target.campaignId);
+
+    if (target.source === "campaign") {
+      await prisma.campaignRecipient.update({
+        where: { id: target.id },
+        data: { unsubscribedAt: new Date() },
+      });
+      await recordEvent(target.campaignId!, "desinscription", target.id);
+    } else {
+      // Pas de colonne dédiée : arrêter la séquence suffit, la liste de
+      // blocage globale fait déjà foi pour l'affichage « déjà désinscrit ».
+      await prisma.abandonedCart.update({
+        where: { id: target.id },
+        data: { nextReminderAt: null },
+      });
+    }
   }
 
   redirect(`/desinscription/${token}?erledigt=1`);
@@ -109,10 +168,7 @@ export default async function UnsubscribePage({
   const { token } = await params;
   const { erledigt } = await searchParams;
 
-  const recipient = await prisma.campaignRecipient.findUnique({
-    where: { token },
-    select: { email: true, locale: true, unsubscribedAt: true },
-  });
+  const recipient = await findUnsubscribeTarget(token);
 
   const locale: PageLocale = recipient?.locale === "en" ? "en" : "fr";
   const texts = TEXTS[locale];
