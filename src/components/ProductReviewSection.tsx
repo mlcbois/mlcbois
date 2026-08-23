@@ -52,13 +52,7 @@ function StarRating({ value, size, label }: { value: number; size: "sm" | "lg"; 
   );
 }
 
-export async function ProductReviewSection({
-  productId,
-  editorialRating,
-}: {
-  productId: string;
-  editorialRating?: number;
-}) {
+export async function ProductReviewSection({ productId }: { productId: string }) {
   const t = await getTranslations("reviews");
   const locale = await getLocale();
   const dateFormatter = dateFormatterFor(locale);
@@ -111,11 +105,6 @@ export async function ProductReviewSection({
         <div className="mb-6 rounded-sm border border-border p-5">
           <p className="font-bold text-foreground">{t("emptyTitle")}</p>
           <p className="mt-1 text-sm text-muted-foreground">{t("emptyHint")}</p>
-          {typeof editorialRating === "number" && (
-            <p className="mt-3 text-sm text-muted-foreground">
-              {t("editorial", { rating: formatRating(editorialRating, locale) })}
-            </p>
-          )}
         </div>
       )}
 

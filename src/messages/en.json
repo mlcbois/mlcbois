@@ -138,7 +138,6 @@
     "scrollHint": "{count, plural, one {# review} other {All # reviews}} — scroll within the box",
     "emptyTitle": "This product has no customer reviews yet.",
     "emptyHint": "Share your experience and write the first review — it helps others decide.",
-    "editorial": "Editorial assessment: {rating} out of 5",
     "writeTitle": "Write a review",
     "formRatingLabel": "Your rating",
     "formRatingAria": "{value} out of 5 stars",
@@ -716,35 +715,6 @@
       }
     },
     "freiHinweis": "From 6 loose m³ delivery is free in zones A and B. Zone C covers the rest of the country: it ships on a pallet by freight carrier, who does not unload."
-  },
-  "stimmen": {
-    "eyebrow": "Customer voices",
-    "titel": "What's left after the first winter",
-    "basis": "Average across {anzahl} rated items",
-    "sterneAria": "{wert} out of 5 stars",
-    "kunden": {
-      "frank": {
-        "name": "Franck D.",
-        "ort": "Vincennes",
-        "kauf": "Beech 33 cm, pallet",
-        "note": "5",
-        "text": "Delivered Tuesday morning, the announced window was kept. I measured it again myself: 15.8 %. The wood catches on the first firelighter, without hissing."
-      },
-      "annika": {
-        "name": "Annie S.",
-        "ort": "Melun",
-        "kauf": "Mixed hardwood 25 cm",
-        "note": "4",
-        "text": "Good value, but the logs vary in thickness — I had to re-split a few for my small stove. Next time I'll take pure beech in 25 cm."
-      },
-      "jochen": {
-        "name": "Joachim R.",
-        "ort": "Rambouillet",
-        "kauf": "Wood briquettes, 960 kg",
-        "note": "5",
-        "text": "The pallet arrived a week later than first stated. On the other hand they called ahead and adjusted the price without my having to ask."
-      }
-    }
   },
   "recherche": {
     "metaTitle": "Results for “{query}” | MLC Bois",

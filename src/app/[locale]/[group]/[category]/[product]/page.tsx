@@ -186,7 +186,7 @@ export default async function ProductPage({ params }: { params: ProductPageParam
 
         {productData.id && (
           <div className="border-t border-border">
-            <ProductReviewSection productId={productData.id} editorialRating={productData.rating} />
+            <ProductReviewSection productId={productData.id} />
           </div>
         )}
 

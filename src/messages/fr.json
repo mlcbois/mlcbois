@@ -138,7 +138,6 @@
     "scrollHint": "{count, plural, one {# avis} other {Les # avis}} — faites défiler dans le cadre",
     "emptyTitle": "Ce produit n'a pas encore reçu d'avis client.",
     "emptyHint": "Partagez votre expérience et rédigez le premier avis — il aidera les autres à choisir.",
-    "editorial": "Appréciation de la rédaction : {rating} sur 5",
     "writeTitle": "Rédiger un avis",
     "formRatingLabel": "Votre note",
     "formRatingAria": "{value} étoiles sur 5",
@@ -716,35 +715,6 @@
       }
     },
     "freiHinweis": "À partir de 6 MAP, la livraison est offerte en zones A et B. La zone C couvre le reste du pays : elle part sur palette par transporteur, qui n'assure pas le déchargement."
-  },
-  "stimmen": {
-    "eyebrow": "Avis clients",
-    "titel": "Ce qu'il en reste après le premier hiver",
-    "basis": "Moyenne sur {anzahl} articles notés",
-    "sterneAria": "{wert} étoiles sur 5",
-    "kunden": {
-      "frank": {
-        "name": "Franck D.",
-        "ort": "Vincennes",
-        "kauf": "Hêtre 33 cm, palette",
-        "note": "5",
-        "text": "Livré le mardi matin, le créneau annoncé a été tenu et le bois prend au premier allume-feu, sans siffler."
-      },
-      "annika": {
-        "name": "Annie S.",
-        "ort": "Melun",
-        "kauf": "Mélange feuillus 25 cm",
-        "note": "4",
-        "text": "Le rapport qualité-prix est là, mais les bûches sont d'épaisseur inégale — j'ai dû en refendre quelques-unes pour mon petit poêle. La prochaine fois je prendrai du hêtre pur en 25 cm."
-      },
-      "jochen": {
-        "name": "Joachim R.",
-        "ort": "Rambouillet",
-        "kauf": "Bûches densifiées, 960 kg",
-        "note": "5",
-        "text": "La palette est arrivée une semaine après la date annoncée. En revanche on m'a prévenu avant et le prix a été ajusté sans que j'ai à le demander."
-      }
-    }
   },
   "recherche": {
     "metaTitle": "Résultats pour « {query} » | MLC Bois",
