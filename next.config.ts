@@ -52,6 +52,13 @@ const nextConfig: NextConfig = {
       ["/jobs", "/a-propos"],
       ["/presse", "/a-propos"],
       ["/partnerprogramm", "/a-propos"],
+      // Ancien slug affirmant une certification ENplus A1 non détenue (voir
+      // docs/research/identifiants-granules.md) — corrigé suite au refus
+      // Merchant Center du 23 août 2026 pour déclaration trompeuse.
+      [
+        "/bois-de-chauffage/granules/limouzi-limouzi-granules-enplus-a1-palette-de-66-sacs-de-15-kg",
+        "/bois-de-chauffage/granules/limouzi-limouzi-granules-palette-de-66-sacs-de-15-kg",
+      ],
     ];
 
     return pairs.flatMap(([source, destination]) => [

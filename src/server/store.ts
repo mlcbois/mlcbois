@@ -544,8 +544,10 @@ function toViewProduct(
     price: formatPrice(row.priceCents),
     priceCents: row.priceCents,
     badge: row.badge ?? undefined,
-    // Les avis clients validés priment sur la note éditoriale
-    rating: approved?.count ? Number(approved.average.toFixed(1)) : (row.editorialRating ?? undefined),
+    // Seuls de vrais avis clients validés affichent une note : une note
+    // éditoriale prendrait l'apparence d'un avis client authentique, ce que
+    // Google et l'art. L121-4, 23° du Code de la consommation sanctionnent.
+    rating: approved?.count ? Number(approved.average.toFixed(1)) : undefined,
     reviewCount: approved?.count ?? 0,
     stock: row.stock,
     inStock: row.stock > 0,
