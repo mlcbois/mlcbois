@@ -1034,11 +1034,11 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // palette si l'expédition se fait conditionnée.
     shippingWeightGrams: 70000,
     shortDescription:
-      "Poêle à bûches Interstoves Alessia 14 kW, rendement 82 %, classe énergétique A+, 70 kg, pose par un professionnel exigée.",
+      "Poêle à bûches Interstoves Alessia 14 kW, rendement 82 %, 70 kg, pose par un professionnel exigée.",
     description:
       "Poêle à bois de la marque Interstoves, modèle Alessia, référence ALESSIAC50NOIR. Puissance " +
-      "nominale de 14 kW, rendement mesuré de 82 %, conformité Eco Design 2022 et classe " +
-      "d'efficacité énergétique A+. Corps en acier, 70 kg." +
+      "nominale de 14 kW, rendement mesuré de 82 %, conformité Eco Design 2022. Corps en acier, " +
+      "70 kg." +
       "\n\n" +
       "Avec 14 kW, c'est l'appareil le plus puissant de notre sélection, et cette puissance appelle " +
       "une vérification avant l'achat plutôt qu'après. L'ordre de grandeur retenu est d'environ " +
@@ -1065,8 +1065,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "commander.",
     descriptionEn:
       "Wood-burning stove from Interstoves, Alessia model, reference ALESSIAC50NOIR. Nominal output " +
-      "of 14 kW, measured efficiency of 82%, EcoDesign 2022 compliance and energy efficiency class " +
-      "A+. Steel body, 70 kg." +
+      "of 14 kW, measured efficiency of 82%, EcoDesign 2022 compliance. Steel body, 70 kg." +
       "\n\n" +
       "At 14 kW this is the most powerful appliance in our selection, and that output calls for a " +
       "check before purchase rather than after. The working rule of thumb is about 1 kW per 10 m² " +
@@ -1090,10 +1089,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "governs renovation grants where these apply. Have the condition and sizing of the existing " +
       "flue checked before ordering.",
     shortDescriptionEn:
-      "Interstoves Alessia wood-burning stove, 14 kW, 82% efficiency, energy class A+, 70 kg, professional installation required.",
+      "Interstoves Alessia wood-burning stove, 14 kW, 82% efficiency, 70 kg, professional installation required.",
     gtin: "3760366603266", // gtin13 structuré + tableau EAN, e.leclerc.fr ; recoupé but.fr
     mpn: "ALESSIAC50NOIR",
-    energyEfficiencyClass: "A+",
     bullets: [
       "Produit : Poêle à bois",
       "Type de produit : Poêle à bûches indépendant",
@@ -1101,7 +1099,6 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition : Acier",
       "Puissance nominale : 14 kW",
       "Rendement : 82 %",
-      "Classe d'efficacité énergétique : A+",
       "Normes et labels : Eco Design 2022",
       "Combustible : Bûches de bois, sans raccordement électrique",
       "Surface chauffée : Environ 140 m² en logement correctement isolé",
@@ -1116,7 +1113,6 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition: Steel",
       "Nominal output: 14 kW",
       "Efficiency: 82%",
-      "Energy efficiency class: A+",
       "Standards and labels: EcoDesign 2022",
       "Fuel: Wood logs, no electrical connection",
       "Heated area: Around 140 m² in a properly insulated home",
@@ -1131,11 +1127,11 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // palette si l'expédition se fait conditionnée.
     shippingWeightGrams: 70000,
     shortDescription:
-      "Poêle à bûches Interstoves Juan avec four intégré, 14 kW, rendement 82 %, classe énergétique A+, 70 kg.",
+      "Poêle à bûches Interstoves Juan avec four intégré, 14 kW, rendement 82 %, 70 kg.",
     description:
       "Poêle à bois de la marque Interstoves, modèle Juan, référence JUANC50NOIR, doté d'un four " +
-      "intégré. Puissance nominale de 14 kW, rendement de 82 %, conformité Eco Design 2022, classe " +
-      "d'efficacité énergétique A+. Corps en acier, 70 kg." +
+      "intégré. Puissance nominale de 14 kW, rendement de 82 %, conformité Eco Design 2022. Corps " +
+      "en acier, 70 kg." +
       "\n\n" +
       "Le four est ce qui distingue ce modèle. Il transforme l'appareil en équipement double : le " +
       "poêle chauffe la pièce, et la chaleur qu'il produit de toute façon sert en même temps à " +
@@ -1161,8 +1157,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "rénovation.",
     descriptionEn:
       "Wood-burning stove from Interstoves, Juan model, reference JUANC50NOIR, fitted with a " +
-      "built-in oven. Nominal output of 14 kW, efficiency of 82%, EcoDesign 2022 compliance, energy " +
-      "efficiency class A+. Steel body, 70 kg." +
+      "built-in oven. Nominal output of 14 kW, efficiency of 82%, EcoDesign 2022 compliance. Steel " +
+      "body, 70 kg." +
       "\n\n" +
       "The oven is what sets this model apart. It turns the appliance into a dual-purpose one: the " +
       "stove heats the room, and the heat it produces anyway is used at the same time for cooking. " +
@@ -1184,10 +1180,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "professional: home insurers require it for any appliance connected to a flue, and it also " +
       "governs renovation grants where these apply.",
     shortDescriptionEn:
-      "Interstoves Juan wood-burning stove with built-in oven, 14 kW, 82% efficiency, energy class A+, 70 kg.",
+      "Interstoves Juan wood-burning stove with built-in oven, 14 kW, 82% efficiency, 70 kg.",
     gtin: "3760366603273", // gtin13 structuré + tableau EAN, e.leclerc.fr
     mpn: "JUANC50NOIR",
-    energyEfficiencyClass: "A+",
     bullets: [
       "Produit : Poêle à bois",
       "Type de produit : Poêle à bûches avec four intégré",
@@ -1195,7 +1190,6 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition : Acier",
       "Puissance nominale : 14 kW",
       "Rendement : 82 %",
-      "Classe d'efficacité énergétique : A+",
       "Normes et labels : Eco Design 2022",
       "Combustible : Bûches de bois, sans raccordement électrique",
       "Surface chauffée : Environ 140 m² en logement correctement isolé",
@@ -1210,7 +1204,6 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition: Steel",
       "Nominal output: 14 kW",
       "Efficiency: 82%",
-      "Energy efficiency class: A+",
       "Standards and labels: EcoDesign 2022",
       "Fuel: Wood logs, no electrical connection",
       "Heated area: Around 140 m² in a properly insulated home",
@@ -1230,24 +1223,17 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // palette si l'expédition se fait conditionnée.
     shippingWeightGrams: 98000,
     shortDescription:
-      "Poêle à bûches Interstoves Matteo, 10 kW, rendement 78,9 %, Flamme Verte 7 étoiles, classe énergétique A+, 98 kg.",
+      "Poêle à bûches Interstoves Matteo, 10 kW, rendement 78,9 %, 98 kg.",
     description:
       "Poêle à bois de la marque Interstoves, modèle Matteo, référence MATTEO500NR. Puissance " +
-      "nominale de 10 kW, rendement de 78,9 %, classe d'efficacité énergétique A+. Corps en acier " +
-      "noir, 98 kg." +
+      "nominale de 10 kW, rendement de 78,9 %, conformité Eco Design 2022. Corps en acier noir, " +
+      "98 kg." +
       "\n\n" +
-      "C'est le seul appareil de la sélection à afficher explicitement le label Flamme Verte 7 " +
-      "étoiles, en plus de la conformité Eco Design 2022. Flamme Verte est un label français porté " +
-      "par les fabricants d'appareils de chauffage au bois : il classe les appareils sur une " +
-      "échelle d'étoiles qui combine le rendement et les émissions de polluants — monoxyde de " +
-      "carbone, particules, composés organiques. Sept étoiles correspond au niveau le plus élevé " +
-      "de cette échelle." +
-      "\n\n" +
-      "Ce label a une portée pratique au-delà de la performance affichée : il fait partie des " +
-      "critères régulièrement demandés lors d'un dossier de rénovation énergétique, et il est " +
-      "reconnu par les collectivités qui encadrent le chauffage au bois dans les zones soumises à " +
-      "un plan de protection de l'atmosphère. Renseignez-vous sur les règles en vigueur dans votre " +
-      "commune avant l'achat si vous êtes en agglomération." +
+      "Avec un rendement de 78,9 %, l'appareil se situe dans la moyenne haute de la sélection " +
+      "Interstoves : la part d'énergie du bois qui passe réellement dans la pièce plutôt que dans " +
+      "les fumées joue directement sur la quantité de bûches consommées sur une saison de chauffe " +
+      "complète. Le corps en acier noir mat, moins salissant à l'usage qu'une finition brillante, " +
+      "s'accorde aussi bien avec un intérieur contemporain qu'avec un séjour plus classique." +
       "\n\n" +
       "Avec 10 kW, l'appareil couvre environ 100 m² dans un logement correctement isolé, en " +
       "retenant l'ordre de grandeur d'un kilowatt pour dix mètres carrés. C'est la puissance " +
@@ -1261,18 +1247,13 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "conduit de fumée.",
     descriptionEn:
       "Wood-burning stove from Interstoves, Matteo model, reference MATTEO500NR. Nominal output of " +
-      "10 kW, efficiency of 78.9%, energy efficiency class A+. Black steel body, 98 kg." +
+      "10 kW, efficiency of 78.9%, EcoDesign 2022 compliance. Black steel body, 98 kg." +
       "\n\n" +
-      "It is the only appliance in the selection to state the Flamme Verte 7-star label explicitly, " +
-      "alongside EcoDesign 2022 compliance. Flamme Verte is a French label backed by manufacturers " +
-      "of wood-heating appliances: it rates appliances on a star scale combining efficiency and " +
-      "pollutant emissions — carbon monoxide, particulates, organic compounds. Seven stars is the " +
-      "highest level on that scale." +
-      "\n\n" +
-      "The label carries practical weight beyond the stated performance: it is among the criteria " +
-      "regularly required in an energy-renovation application, and it is recognised by local " +
-      "authorities that regulate wood heating in areas covered by an air protection plan. If you " +
-      "are in a built-up area, check the rules in force in your commune before buying." +
+      "At 78.9%, efficiency sits in the upper-middle of the Interstoves range: the share of the " +
+      "wood's energy that actually reaches the room rather than going up the flue has a direct " +
+      "effect on how much wood a full heating season burns through. The matte black steel body, " +
+      "less prone to showing marks than a gloss finish, suits a contemporary interior as readily " +
+      "as a more classic living room." +
       "\n\n" +
       "At 10 kW, the appliance covers around 100 m² in a properly insulated home, using the rule of " +
       "thumb of one kilowatt per ten square metres. It is the mid-range output in the Interstoves " +
@@ -1284,9 +1265,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Runs solely on logs, with no electricity. Installation should be entrusted to a qualified " +
       "professional, a requirement of home insurers for any appliance connected to a flue.",
     shortDescriptionEn:
-      "Interstoves Matteo wood-burning stove, 10 kW, 78.9% efficiency, Flamme Verte 7-star, energy class A+, 98 kg.",
+      "Interstoves Matteo wood-burning stove, 10 kW, 78.9% efficiency, 98 kg.",
     mpn: "MATTEO500NR",
-    energyEfficiencyClass: "A+",
     bullets: [
       "Produit : Poêle à bois",
       "Type de produit : Poêle à bûches indépendant",
@@ -1294,8 +1274,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition : Acier noir",
       "Puissance nominale : 10 kW",
       "Rendement : 78,9 %",
-      "Classe d'efficacité énergétique : A+",
-      "Normes et labels : Eco Design 2022, Flamme Verte 7 étoiles",
+      "Normes et labels : Eco Design 2022",
       "Combustible : Bûches de bois, sans raccordement électrique",
       "Surface chauffée : Environ 100 m² en logement correctement isolé",
       "Poids : 98 kg",
@@ -1309,8 +1288,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Composition: Black steel",
       "Nominal output: 10 kW",
       "Efficiency: 78.9%",
-      "Energy efficiency class: A+",
-      "Standards and labels: EcoDesign 2022, Flamme Verte 7-star",
+      "Standards and labels: EcoDesign 2022",
       "Fuel: Wood logs, no electrical connection",
       "Heated area: Around 100 m² in a properly insulated home",
       "Weight: 98 kg",
@@ -1702,11 +1680,11 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // palette si l'expédition se fait conditionnée.
     shippingWeightGrams: 160000,
     shortDescription:
-      "Poêle à bûches La Nordica Extraflame Isetta Evo 4.0, 7,3 kW, rendement 83,6 %, classe énergétique A+, 160 kg.",
+      "Poêle à bûches La Nordica Extraflame Isetta Evo 4.0, 7,3 kW, rendement 83,6 %, 160 kg.",
     description:
       "Poêle à bois La Nordica Extraflame, modèle Isetta Evo 4.0, référence 7119002. Puissance " +
       "nominale de 7,3 kW, rendement de 83,6 %, conformité à la norme NF EN 13240 et à la " +
-      "réglementation Eco Design 2022, classe d'efficacité énergétique A+. Poids de 160 kg." +
+      "réglementation Eco Design 2022. Poids de 160 kg." +
       "\n\n" +
       "Avec 83,6 %, c'est le rendement le plus élevé de notre sélection de poêles. Le rendement " +
       "désigne la part de l'énergie contenue dans le bois qui passe effectivement dans la pièce, " +
@@ -1733,7 +1711,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     descriptionEn:
       "La Nordica Extraflame wood-burning stove, Isetta Evo 4.0 model, reference 7119002. Nominal " +
       "output of 7.3 kW, efficiency of 83.6%, compliance with the NF EN 13240 standard and the " +
-      "EcoDesign 2022 regulation, energy efficiency class A+. Weight 160 kg." +
+      "EcoDesign 2022 regulation. Weight 160 kg." +
       "\n\n" +
       "At 83.6%, this is the highest efficiency in our stove selection. Efficiency is the share of " +
       "the energy contained in the wood that actually reaches the room, the rest going up the flue. " +
@@ -1756,17 +1734,15 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "a qualified professional, a requirement of home insurers for any appliance connected to a " +
       "flue.",
     shortDescriptionEn:
-      "La Nordica Extraflame Isetta Evo 4.0 wood-burning stove, 7.3 kW, 83.6% efficiency, energy class A+, 160 kg.",
+      "La Nordica Extraflame Isetta Evo 4.0 wood-burning stove, 7.3 kW, 83.6% efficiency, 160 kg.",
     gtin: "8022724371008", // itemprop="gtin13" + EAN visible, maison-energy.com ; recoupé chemineeo.fr
     mpn: "7119002", // référence numérique reprise par chemineeo.fr et bernay-habitat.com
-    energyEfficiencyClass: "A+",
     bullets: [
       "Produit : Poêle à bois",
       "Type de produit : Poêle à bûches indépendant",
       "Référence fabricant : 7119002",
       "Puissance nominale : 7,3 kW",
       "Rendement : 83,6 %",
-      "Classe d'efficacité énergétique : A+",
       "Normes et labels : NF EN 13240, Eco Design 2022",
       "Combustible : Bûches de bois, sans raccordement électrique",
       "Volume chauffé : Environ 338 m³ en logement correctement isolé",
@@ -1781,7 +1757,6 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Manufacturer reference: 7119002",
       "Nominal output: 7.3 kW",
       "Efficiency: 83.6%",
-      "Energy efficiency class: A+",
       "Standards and labels: NF EN 13240, EcoDesign 2022",
       "Fuel: Wood logs, no electrical connection",
       "Heated volume: Around 338 m³ in a properly insulated home",
