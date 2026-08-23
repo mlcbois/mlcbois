@@ -58,6 +58,8 @@ function itemXml(record: MerchantRecord): string {
   parts.push(tag("g:price", record.price));
   parts.push(tag("g:sale_price", record.salePrice));
   parts.push(tag("g:sale_price_effective_date", record.salePriceEffectiveDate));
+  parts.push(tag("g:unit_pricing_measure", record.unitPricingMeasure));
+  parts.push(tag("g:unit_pricing_base_measure", record.unitPricingBaseMeasure));
 
   // ---- Identifiants uniques ----
   parts.push(tag("g:brand", record.brand));

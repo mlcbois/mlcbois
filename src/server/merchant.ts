@@ -265,6 +265,23 @@ export function formatShippingWeight(grams: number): string {
   return grams >= 1000 ? `${(grams / 1000).toFixed(2)} kg` : `${grams} g`;
 }
 
+/**
+ * Mesure du produit pour l'attribut Google `unit_pricing_measure` — le format
+ * attendu colle le nombre à l'unité, sans espace (« 990kg », pas « 990 kg »).
+ * Tout le catalogue se vendant par lot pesé (palette, sac), c'est ce poids
+ * d'expédition qui sert de mesure : Google calcule ensuite lui-même le prix
+ * ramené à `unit_pricing_base_measure`, fixé à 1 kg pour tout le catalogue.
+ */
+export function formatUnitPricingMeasure(grams: number): string {
+  if (grams < 1000) return `${grams}g`;
+  const kg = grams / 1000;
+  const text = Number.isInteger(kg) ? String(kg) : kg.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+  return `${text}kg`;
+}
+
+/** Base de comparaison uniforme du catalogue : le prix au kilogramme. */
+export const MERCHANT_UNIT_PRICING_BASE_MEASURE = "1kg";
+
 function parseBullets(raw: string): string[] {
   try {
     const parsed = JSON.parse(raw) as unknown;
@@ -420,6 +437,10 @@ export interface MerchantRecord {
    * quand la remise vient d'une campagne, qui seule connaît ses dates.
    */
   salePriceEffectiveDate?: string;
+  /** Mesure du lot vendu (« 990kg »), pour le calcul Google du prix au kilo. */
+  unitPricingMeasure?: string;
+  /** Base de comparaison du prix au kilo — toujours « 1kg » sur ce catalogue. */
+  unitPricingBaseMeasure?: string;
   brand: string;
   gtin?: string;
   mpn?: string;
@@ -495,6 +516,14 @@ export function buildMerchantRecord(product: MerchantProduct): MerchantRecord {
     salePriceEffectiveDate: onSale
       ? salePriceWindow(priceCuttingPromotion(product))
       : undefined,
+    unitPricingMeasure:
+      product.shippingWeightGrams && product.shippingWeightGrams > 0
+        ? formatUnitPricingMeasure(product.shippingWeightGrams)
+        : undefined,
+    unitPricingBaseMeasure:
+      product.shippingWeightGrams && product.shippingWeightGrams > 0
+        ? MERCHANT_UNIT_PRICING_BASE_MEASURE
+        : undefined,
     brand: product.brand.slice(0, 70),
     gtin,
     mpn: mpn?.slice(0, 70),
