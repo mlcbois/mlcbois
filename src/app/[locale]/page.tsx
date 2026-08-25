@@ -15,8 +15,15 @@ import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import { formatPrice, getCategoryPages, type CategoryPageView } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPages } from "@/server/localizedContent";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
+import { COMPANY } from "@/content/legal/fr";
 import type { Locale } from "@/i18n/routing";
 import type { Product } from "@/types/home";
+
+// COMPANY.city mêle code postal et commune ("21700 Villebichot") : les
+// mentions légales n'ont besoin que du texte affiché, mais le balisage
+// Organization attend les deux séparément.
+const [COMPANY_POSTAL_CODE, ...COMPANY_LOCALITY_PARTS] = COMPANY.city.split(" ");
+const COMPANY_LOCALITY = COMPANY_LOCALITY_PARTS.join(" ");
 
 type HomeParams = Promise<{ locale: Locale }>;
 
@@ -115,7 +122,13 @@ export default async function Home({ params }: { params: HomeParams }) {
       <Footer />
 
       {/* Identité du marchand, lue par Google pour rattacher le site à la boutique */}
-      <OrganizationJsonLd />
+      <OrganizationJsonLd
+        address={{
+          streetAddress: COMPANY.street,
+          postalCode: COMPANY_POSTAL_CODE,
+          addressLocality: COMPANY_LOCALITY,
+        }}
+      />
     </>
   );
 }
