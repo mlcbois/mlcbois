@@ -53,8 +53,16 @@ export const COMPANY = {
   /** Numéro de TVA intracommunautaire. */
   vatId: "FR71990527871",
   domain: "www.mlc-bois.fr",
-  /** Hébergeur, à nommer au titre de l'article 6 III 1° de la LCEN. */
-  host: "Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne — +49 9831 505-0",
+  /**
+   * Hébergeur réel, à nommer au titre de l'article 6 III 1° de la LCEN —
+   * raison sociale et siège vérifiés le 25/08/2026 sur les conditions
+   * générales officielles de Hostinger (hostinger.com/legal/universal-terms-
+   * of-service-agreement) : Hostinger International Limited y est
+   * l'entité contractante par défaut, la France ne figurant pas parmi les
+   * pays rattachés à l'une des entités locales listées (Royaume-Uni,
+   * Indonésie, Singapour, Luxembourg).
+   */
+  host: "Hostinger International Limited, 61 Lordou Vironos str., 6023 Larnaca, Chypre",
 } as const;
 
 /** Adresse de retour (identique au siège dans ce modèle). */

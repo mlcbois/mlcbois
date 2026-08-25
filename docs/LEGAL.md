@@ -86,7 +86,7 @@ Renseigné depuis le registre (relevé du 30/07/2026) :
 | `managingDirector` | Prénom Nom (à compléter) | Président, Kbis |
 | `phone` | 01 23 45 67 89 (fictif) | Ligne réellement décrochée |
 | `email` | contact@mlc-bois.fr | Boîte réellement relevée |
-| `host` | Hetzner Online GmbH… | Hébergeur réel — mention obligatoire (art. 6 III 1° LCEN) |
+| `host` | Hostinger International Limited (25/08/2026, vérifié) | Hébergeur réel — mention obligatoire (art. 6 III 1° LCEN) |
 
 Le **greffe** (`RCS Dijon`) est déduit du code postal 21700 (Côte-d'Or) : à
 confirmer sur le Kbis, c'est la seule valeur du premier tableau qui ne vienne pas
