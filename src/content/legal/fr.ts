@@ -135,13 +135,6 @@ export const frLegalPages: LegalPageMap = {
         ],
       },
       {
-        heading: "Médiation de la consommation",
-        body:
-          "Conformément aux articles L612-1 et suivants du Code de la consommation, tout consommateur a le droit de recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige qui l'oppose à un professionnel.\n\n" +
-          "Avant toute saisine du médiateur, adressez d'abord une réclamation écrite à notre service client : nous trouvons une solution dans la très grande majorité des cas.\n\n" +
-          "La plateforme européenne de règlement en ligne des litiges a définitivement cessé son activité le 20 juillet 2025. Aucun lien vers cette plateforme ne doit donc plus figurer sur le site.",
-      },
-      {
         heading: "Responsabilité relative au contenu",
         body: "Nous apportons le plus grand soin à l'exactitude des informations publiées sur ce site. Des erreurs ou omissions peuvent néanmoins subsister, notamment sur les caractéristiques des produits et les délais annoncés. Ces informations sont fournies à titre indicatif et sont susceptibles d'évoluer ; elles ne sauraient engager notre responsabilité au-delà de ce que prévoient les dispositions légales impératives, en particulier celles du Code de la consommation.",
       },

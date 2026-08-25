@@ -88,13 +88,6 @@ export const enLegalPages: LegalPageMap = {
         ],
       },
       {
-        heading: "Consumer mediation",
-        body:
-          "Under articles L612-1 et seq. of the French Consumer Code, every consumer is entitled to free recourse to a consumer ombudsman with a view to the amicable settlement of a dispute with a trader.\n\n" +
-          "Before referring the matter to the ombudsman, please first send a written complaint to our customer service: we find a solution in the vast majority of cases.\n\n" +
-          "The European online dispute resolution platform ceased operating permanently on 20 July 2025. No link to that platform may therefore appear on the site.",
-      },
-      {
         heading: "Liability for content",
         body: "We take the greatest care over the accuracy of the information published on this site. Errors or omissions may nonetheless remain, in particular regarding product characteristics and stated lead times. Such information is indicative and subject to change; it cannot engage our liability beyond what mandatory legal provisions — in particular those of the French Consumer Code — require.",
       },
