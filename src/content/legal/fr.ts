@@ -126,15 +126,6 @@ export const frLegalPages: LegalPageMap = {
         body: `Le site est hébergé par :\n\n${COMPANY.host}`,
       },
       {
-        heading: "Assurance responsabilité civile professionnelle",
-        body: "Informations relatives à l'assurance responsabilité civile professionnelle et produits (mention facultative, obligatoire pour certaines activités réglementées) :",
-        list: [
-          "Assureur : nom de la compagnie (valeur d'exemple)",
-          "Adresse de l'assureur (valeur d'exemple)",
-          "Étendue géographique de la couverture : France métropolitaine (valeur d'exemple)",
-        ],
-      },
-      {
         heading: "Responsabilité relative au contenu",
         body: "Nous apportons le plus grand soin à l'exactitude des informations publiées sur ce site. Des erreurs ou omissions peuvent néanmoins subsister, notamment sur les caractéristiques des produits et les délais annoncés. Ces informations sont fournies à titre indicatif et sont susceptibles d'évoluer ; elles ne sauraient engager notre responsabilité au-delà de ce que prévoient les dispositions légales impératives, en particulier celles du Code de la consommation.",
       },

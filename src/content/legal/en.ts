@@ -79,15 +79,6 @@ export const enLegalPages: LegalPageMap = {
         body: `The site is hosted by:\n\n${COMPANY.host}`,
       },
       {
-        heading: "Professional liability insurance",
-        body: "Information on professional and product liability insurance (optional disclosure, mandatory for certain regulated activities):",
-        list: [
-          "Insurer: name of the company (placeholder)",
-          "Insurer's address (placeholder)",
-          "Geographical scope of cover: mainland France (placeholder)",
-        ],
-      },
-      {
         heading: "Liability for content",
         body: "We take the greatest care over the accuracy of the information published on this site. Errors or omissions may nonetheless remain, in particular regarding product characteristics and stated lead times. Such information is indicative and subject to change; it cannot engage our liability beyond what mandatory legal provisions — in particular those of the French Consumer Code — require.",
       },
