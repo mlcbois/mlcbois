@@ -154,8 +154,8 @@ export const enLegalPages: LegalPageMap = {
         body: "The processing of personal data collected when an order is placed is described on the “Privacy policy” page. Data strictly necessary for the performance of the contract and for the retention of accounting records is kept for the statutory periods.",
       },
       {
-        heading: "11. Complaints and mediation",
-        body: `Any complaint must first be sent to our customer service, by email to ${COMPANY.email} or by post to the registered office. We reply within fourteen days.\n\nIf no solution is found, a consumer may refer the matter free of charge to the consumer ombudsman whose details appear in the legal notice, within one year of the written complaint at the latest.`,
+        heading: "11. Complaints",
+        body: `Any complaint must first be sent to our customer service, by email to ${COMPANY.email} or by post to the registered office. We reply within fourteen days.`,
       },
       {
         heading: "12. Governing law and jurisdiction",
@@ -478,10 +478,6 @@ export const enLegalPages: LegalPageMap = {
       {
         heading: "Refunds",
         body: "Refunds are made using the same means of payment as the order, unless you expressly agree to another means. They are made no later than fourteen days after the goods are received back or after proof of their dispatch.",
-      },
-      {
-        heading: "Mediation",
-        body: "If our answer does not satisfy you, you may refer the matter free of charge to the consumer ombudsman whose details appear in the legal notice, within one year of your written complaint at the latest.",
       },
     ],
   },

@@ -201,8 +201,8 @@ export const frLegalPages: LegalPageMap = {
         body: "Le traitement des données personnelles collectées à l'occasion d'une commande est décrit sur la page « Politique de confidentialité ». Les données strictement nécessaires à l'exécution du contrat et à la conservation des pièces comptables sont conservées pour les durées légales.",
       },
       {
-        heading: "11. Réclamation et médiation",
-        body: `Toute réclamation doit d'abord être adressée à notre service client, par e-mail à ${COMPANY.email} ou par courrier à l'adresse du siège. Nous répondons sous quatorze jours.\n\nÀ défaut de solution, le consommateur peut saisir gratuitement le médiateur de la consommation dont les coordonnées figurent dans les mentions légales, dans un délai maximal d'un an à compter de la réclamation écrite.`,
+        heading: "11. Réclamation",
+        body: `Toute réclamation doit d'abord être adressée à notre service client, par e-mail à ${COMPANY.email} ou par courrier à l'adresse du siège. Nous répondons sous quatorze jours.`,
       },
       {
         heading: "12. Droit applicable et juridiction",
@@ -525,10 +525,6 @@ export const frLegalPages: LegalPageMap = {
       {
         heading: "Remboursement",
         body: "Le remboursement intervient par le même moyen de paiement que celui utilisé pour la commande, sauf accord exprès de votre part pour un autre moyen. Il est effectué au plus tard quatorze jours après réception des biens retournés ou après la preuve de leur expédition.",
-      },
-      {
-        heading: "Médiation",
-        body: "Si notre réponse ne vous satisfait pas, vous pouvez saisir gratuitement le médiateur de la consommation dont les coordonnées figurent dans les mentions légales, dans un délai maximal d'un an à compter de votre réclamation écrite.",
       },
     ],
   },
