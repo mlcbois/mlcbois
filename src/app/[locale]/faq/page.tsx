@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { buildLegalMetadata, SectionBody, SectionList } from "@/components/legal/LegalPageView";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { HowToJsonLd } from "@/components/seo/HowToJsonLd";
 import { RichText } from "@/components/RichText";
 import { findLegalPage } from "@/server/legalPages";
 import { stripMarks } from "@/lib/richText";
@@ -25,6 +26,12 @@ export default async function FaqPage({ params }: { params: PageParams }) {
 
   const page = await findLegalPage(SLUG, locale);
   if (!page) notFound();
+
+  // La question sur le stockage se prête à un balisage HowTo : sa réponse est
+  // déjà rédigée en règles distinctes (voir la liste ci-dessous), pas une
+  // suite de faits en vrac — condition posée pour tout balisage HowTo de ce
+  // site, voir HowToJsonLd.
+  const storageSection = page.sections.find((section) => /stocker|store the wood/i.test(section.heading));
 
   // Balisage FAQPage : Google peut afficher les questions directement
   // dans les résultats de recherche. Le balisage attend du texte nu — les
@@ -100,6 +107,13 @@ export default async function FaqPage({ params }: { params: PageParams }) {
       <Footer />
 
       <JsonLd data={jsonLd} />
+      {storageSection && storageSection.list && storageSection.list.length > 0 && (
+        <HowToJsonLd
+          name={stripMarks(storageSection.heading)}
+          description={stripMarks(storageSection.body)}
+          steps={storageSection.list.map((item) => ({ name: stripMarks(item), text: stripMarks(item) }))}
+        />
+      )}
     </>
   );
 }

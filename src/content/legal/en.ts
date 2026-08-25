@@ -331,7 +331,7 @@ export const enLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Delivery area",
-        body: "We deliver within France and to selected towns in Belgium. Corsica and the overseas territories are not served for now: transport there would cost more than the goods.\n\nOur rounds within France are organised in three zones:",
+        body: "We deliver within France and to selected towns in Belgium.\n\nOur rounds within France are organised in three zones:",
         list: [
           "Zone A — Paris and inner suburbs (75, 92, 93, 94): delivery within 48 hours",
           "Zone B — outer Île-de-France, Oise and Eure-et-Loir (77, 78, 91, 95, 60, 28): delivery within 3 to 5 working days",
@@ -499,7 +499,12 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "How should I store the wood after delivery?",
-        body: "Under cover, away from the wall so air can circulate, and never directly on the ground — a pallet underneath is enough. Kiln-dried wood no longer needs to dry, but it takes moisture back up if it is exposed.\n\nIn a closed, unventilated cellar, wood is back above 20 % within a year.",
+        body: "Kiln-dried wood no longer needs to dry, but it takes moisture back up if stored poorly. Three rules are enough:",
+        list: [
+          "Keep the stack under cover, away from direct rain.",
+          "Let air circulate: away from the wall, never straight on the ground — a pallet underneath is enough.",
+          "Avoid closed, unventilated cellars: wood there climbs back above 20% moisture within a year.",
+        ],
       },
       {
         heading: "Do you supply businesses?",

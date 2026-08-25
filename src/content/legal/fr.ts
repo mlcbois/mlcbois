@@ -378,7 +378,7 @@ export const frLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Zone de livraison",
-        body: "Nous livrons en France et dans certaines villes de Belgique. La Corse et les territoires ultramarins ne sont pas desservis pour l'instant : le coût du transport y dépasserait celui de la marchandise.\n\nTrois zones structurent nos tournées en France :",
+        body: "Nous livrons en France et dans certaines villes de Belgique.\n\nTrois zones structurent nos tournées en France :",
         list: [
           "Zone A — Paris et petite couronne (75, 92, 93, 94) : livraison sous 48 heures",
           "Zone B — grande couronne, Oise et Eure-et-Loir (77, 78, 91, 95, 60, 28) : livraison sous 3 à 5 jours ouvrés",
@@ -546,7 +546,12 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Comment stocker le bois après la livraison ?",
-        body: "Sous abri, à distance du mur pour laisser circuler l'air, et jamais à même le sol — une palette dessous suffit. Le bois séché en séchoir n'a plus besoin de sécher, mais il reprend l'humidité s'il est exposé.\n\nDans une cave fermée et non ventilée, le bois repasse au-dessus de 20 % en un an.",
+        body: "Le bois séché en séchoir n'a plus besoin de sécher, mais il reprend l'humidité s'il est mal stocké. Trois règles suffisent :",
+        list: [
+          "Installez la pile sous abri, à l'écart de la pluie directe.",
+          "Laissez l'air circuler : à distance du mur, jamais à même le sol — une palette dessous suffit.",
+          "Évitez les caves fermées et non ventilées : le bois y repasse au-dessus de 20 % d'humidité en un an.",
+        ],
       },
       {
         heading: "Livrez-vous les professionnels ?",
