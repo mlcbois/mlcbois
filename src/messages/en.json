@@ -28,7 +28,7 @@
     "homeAriaLabel": "MLC Bois – home page",
     "logoAlt": "MLC Bois",
     "search": "Search",
-    "lieferzusage": "Delivered anywhere in mainland France",
+    "lieferzusage": "Delivery in France and Belgium",
     "beratung": "Advice & orders",
     "oeffnung": "Mon–Fri 8am–5pm · Sat 9am–1pm",
     "lieferbanner": "Free delivery from 6 loose m³",
@@ -53,14 +53,14 @@
   },
   "home": {
     "metaTitle": "MLC Bois | Kiln-dried firewood, delivered within 3-5 days",
-    "metaDescription": "Beech, oak, birch and ash in 25, 33 and 50 cm, under 18% moisture, measured on every delivery. Delivered across mainland France and to Belgium.",
+    "metaDescription": "Beech, oak, birch and ash in 25, 33 and 50 cm, under 18% moisture, measured on every delivery. Delivery in France and Belgium.",
     "bestsellerEyebrow": "Most ordered",
     "bestseller": "What's going out this week",
     "bestsellerCta": "Full range"
   },
   "trust": {
     "feuchte": "Every batch measured before it leaves",
-    "lieferung": "Anywhere in mainland France, 48 h in Île-de-France",
+    "lieferung": "Anywhere in France and Belgium, 48 h in Île-de-France",
     "laengen": "Three log lengths, split and ready to burn",
     "herkunft": "Wood from French forests, PEFC certified"
   },
@@ -319,7 +319,7 @@
     },
     "deliveryTitle": "Delivery",
     "deliveryTime": "Dispatch takes place once payment has been received.",
-    "deliveryCountry": "Delivery within mainland France.",
+    "deliveryCountry": "Delivery in France and Belgium.",
     "summaryTitle": "Total amount",
     "subtotal": "Subtotal",
     "shipping": "Delivery costs",
@@ -614,7 +614,7 @@
   "sortiment": {
     "eyebrow": "Range",
     "titel": "Five aisles, one level of dryness",
-    "einleitung": "Split logs loose or on pallets, pellets, compressed logs and stoves. All kiln-dried, shipped from our Saint-Denis depot to anywhere in mainland France.",
+    "einleitung": "Split logs loose or on pallets, pellets, compressed logs and stoves. All kiln-dried, shipped from our Saint-Denis depot to anywhere in France and Belgium.",
     "artikel": "{anzahl} items",
     "beschreibung": {
       "vrac": "Delivered in a large crate and tipped at your door. Best price per cubic metre.",
@@ -680,7 +680,7 @@
   "lieferung": {
     "eyebrow": "Delivery",
     "titel": "From the depot to your driveway",
-    "einleitung": "We deliver anywhere in mainland France. In Île-de-France on our own trailer, elsewhere on a pallet by freight carrier — either way you are told before we come.",
+    "einleitung": "We deliver anywhere in France and to selected towns in Belgium. In France on our own trailer, elsewhere on a pallet by freight carrier — either way you are told before we come.",
     "schritte": {
       "bestellung": {
         "titel": "Order",
@@ -712,7 +712,7 @@
       },
       "c": {
         "name": "Zone C",
-        "gebiet": "Rest of mainland France, by freight carrier"
+        "gebiet": "Rest of France, by freight carrier"
       }
     },
     "freiHinweis": "From 6 loose m³ delivery is free in zones A and B. Zone C covers the rest of the country: it ships on a pallet by freight carrier, who does not unload."

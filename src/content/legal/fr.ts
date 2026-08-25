@@ -173,7 +173,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "6. Livraison",
-        body: `Nous livrons en France métropolitaine, ainsi que dans certaines villes de Belgique. Les zones, les délais et les tarifs figurent sur la page « Livraison ».\n\nLa livraison s'entend au seuil de la propriété : le déchargement en bord de voirie ou dans l'allée est compris dans le prix, à condition qu'un véhicule de 7,5 tonnes puisse accéder. Le rangement en cour, en cave ou au garage fait l'objet d'un supplément annoncé avant la commande.\n\nÀ défaut d'indication de date, nous livrons au plus tard trente jours après la conclusion du contrat (article L216-1 du Code de la consommation). En cas de manquement, vous pouvez nous enjoindre de livrer dans un délai supplémentaire raisonnable, puis résoudre le contrat si nous n'exécutons toujours pas.\n\nLes risques sont transférés au client au moment de la prise de possession physique du bien (article L216-4 du Code de la consommation).`,
+        body: `Nous livrons en France, ainsi que dans certaines villes de Belgique. Les zones, les délais et les tarifs figurent sur la page « Livraison ».\n\nLa livraison s'entend au seuil de la propriété : le déchargement en bord de voirie ou dans l'allée est compris dans le prix, à condition qu'un véhicule de 7,5 tonnes puisse accéder. Le rangement en cour, en cave ou au garage fait l'objet d'un supplément annoncé avant la commande.\n\nÀ défaut d'indication de date, nous livrons au plus tard trente jours après la conclusion du contrat (article L216-1 du Code de la consommation). En cas de manquement, vous pouvez nous enjoindre de livrer dans un délai supplémentaire raisonnable, puis résoudre le contrat si nous n'exécutons toujours pas.\n\nLes risques sont transférés au client au moment de la prise de possession physique du bien (article L216-4 du Code de la consommation).`,
       },
       {
         heading: "7. Droit de rétractation",
@@ -378,11 +378,11 @@ export const frLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Zone de livraison",
-        body: "Nous livrons en France métropolitaine. La Corse et les territoires ultramarins ne sont pas desservis pour l'instant : le coût du transport y dépasserait celui de la marchandise.\n\nTrois zones structurent nos tournées :",
+        body: "Nous livrons en France et dans certaines villes de Belgique. La Corse et les territoires ultramarins ne sont pas desservis pour l'instant : le coût du transport y dépasserait celui de la marchandise.\n\nTrois zones structurent nos tournées en France :",
         list: [
           "Zone A — Paris et petite couronne (75, 92, 93, 94) : livraison sous 48 heures",
           "Zone B — grande couronne, Oise et Eure-et-Loir (77, 78, 91, 95, 60, 28) : livraison sous 3 à 5 jours ouvrés",
-          "Zone C — reste de la France métropolitaine : expédition sur palette par transporteur, 5 à 8 jours ouvrés",
+          "Zone C — reste de la France : expédition sur palette par transporteur, 5 à 8 jours ouvrés",
         ],
       },
       {
@@ -601,7 +601,7 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Notre propre logistique",
-        body: "Nous livrons dans toute la France métropolitaine, selon deux modes que nous distinguons clairement.\n\nEn Île-de-France, nous livrons nous-mêmes avec notre remorque. Pas d'avis de passage, pas de palette qui attend trois jours en dépôt. Nous appelons la veille et annonçons un créneau de deux heures.\n\nDans le reste du pays, nous expédions sur palette par transporteur : le service est alors celui du transporteur, et nous le disons plutôt que de le laisser croire.",
+        body: "Nous livrons dans toute la France et dans certaines villes de Belgique, selon deux modes que nous distinguons clairement.\n\nEn Île-de-France, nous livrons nous-mêmes avec notre remorque. Pas d'avis de passage, pas de palette qui attend trois jours en dépôt. Nous appelons la veille et annonçons un créneau de deux heures.\n\nAilleurs, nous expédions sur palette par transporteur : le service est alors celui du transporteur, et nous le disons plutôt que de le laisser croire.",
       },
       {
         heading: "Origine du bois",

@@ -20,7 +20,7 @@ const lato = Lato({
 // elles, précisent openGraph/twitter avec leur propre contenu.
 const FALLBACK_TITLE = "MLC Bois | Bois de chauffage prêt à brûler, moins de 18 % d'humidité";
 const FALLBACK_DESCRIPTION =
-  "Hêtre, chêne et bouleau séchés en séchoir, en bûches de 25, 33 et 50 cm, sous 18 % d'humidité. Livré en France métropolitaine et en Belgique.";
+  "Hêtre, chêne et bouleau séchés en séchoir, en bûches de 25, 33 et 50 cm, sous 18 % d'humidité. Livraison en France et Belgique.";
 /** Seule image du site qui représente la boutique sans dépendre d'un produit précis. */
 const FALLBACK_IMAGE = "/images/brennholz/hero-holzstapel.jpg";
 

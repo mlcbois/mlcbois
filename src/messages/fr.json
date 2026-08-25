@@ -28,7 +28,7 @@
     "homeAriaLabel": "MLC Bois – page d'accueil",
     "logoAlt": "MLC Bois",
     "search": "Rechercher",
-    "lieferzusage": "Livraison partout en France métropolitaine",
+    "lieferzusage": "Livraison en France et Belgique",
     "beratung": "Conseil & commande",
     "oeffnung": "Lun–Ven 8h–17h · Sam 9h–13h",
     "lieferbanner": "Livraison offerte dès 6 MAP",
@@ -53,14 +53,14 @@
   },
   "home": {
     "metaTitle": "MLC Bois | Bois de chauffage séché en séchoir, livré sous 3 à 5 jours",
-    "metaDescription": "Hêtre, chêne, bouleau et frêne en 25, 33 et 50 cm, humidité sous 18 % mesurée à chaque livraison. Livré en France métropolitaine et en Belgique.",
+    "metaDescription": "Hêtre, chêne, bouleau et frêne en 25, 33 et 50 cm, humidité sous 18 % mesurée à chaque livraison. Livraison en France et Belgique.",
     "bestsellerEyebrow": "Les plus commandés",
     "bestseller": "Ce qui part cette semaine",
     "bestsellerCta": "Tout le catalogue"
   },
   "trust": {
     "feuchte": "Chaque lot mesuré avant le départ",
-    "lieferung": "Partout en France métropolitaine, 48 h en Île-de-France",
+    "lieferung": "Partout en France et Belgique, 48 h en Île-de-France",
     "laengen": "Trois longueurs de bûche, fendues et prêtes à brûler",
     "herkunft": "Bois issu de forêts françaises, certifié PEFC"
   },
@@ -319,7 +319,7 @@
     },
     "deliveryTitle": "Livraison",
     "deliveryTime": "L'expédition intervient après réception du paiement.",
-    "deliveryCountry": "Livraison en France métropolitaine.",
+    "deliveryCountry": "Livraison en France et Belgique.",
     "summaryTitle": "Montant total",
     "subtotal": "Sous-total",
     "shipping": "Frais de livraison",
@@ -614,7 +614,7 @@
   "sortiment": {
     "eyebrow": "Catalogue",
     "titel": "Cinq rayons, un seul degré de séchage",
-    "einleitung": "Du bois bûche en vrac ou sur palette, des granulés, du bois compressé et des poêles. Tout est séché en séchoir et part de notre dépôt de Saint-Denis vers toute la France métropolitaine.",
+    "einleitung": "Du bois bûche en vrac ou sur palette, des granulés, du bois compressé et des poêles. Tout est séché en séchoir et part de notre dépôt de Saint-Denis vers toute la France et la Belgique.",
     "artikel": "{anzahl} articles",
     "beschreibung": {
       "vrac": "Livré en grande caisse et déversé chez vous. Le meilleur prix au mètre cube apparent.",
@@ -712,7 +712,7 @@
       },
       "c": {
         "name": "Zone C",
-        "gebiet": "Reste de la France métropolitaine, par transporteur"
+        "gebiet": "Reste de la France, par transporteur"
       }
     },
     "freiHinweis": "À partir de 6 MAP, la livraison est offerte en zones A et B. La zone C couvre le reste du pays : elle part sur palette par transporteur, qui n'assure pas le déchargement."

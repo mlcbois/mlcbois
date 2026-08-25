@@ -126,7 +126,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "6. Delivery",
-        body: `We deliver within mainland France, as well as to selected towns in Belgium. Zones, lead times and rates are set out on the “Delivery” page.\n\nDelivery is made to the boundary of the property: kerbside or driveway unloading is included in the price, provided a 7.5-tonne vehicle can gain access. Stacking in a yard, cellar or garage is subject to a supplement announced before the order.\n\nIn the absence of a stated date, we deliver no later than thirty days after the contract is concluded (article L216-1 of the French Consumer Code). If we fail to do so, you may require us to deliver within a reasonable additional period and then terminate the contract if we still fail to perform.\n\nRisk passes to the customer when physical possession of the goods is taken (article L216-4 of the French Consumer Code).`,
+        body: `We deliver within France, as well as to selected towns in Belgium. Zones, lead times and rates are set out on the “Delivery” page.\n\nDelivery is made to the boundary of the property: kerbside or driveway unloading is included in the price, provided a 7.5-tonne vehicle can gain access. Stacking in a yard, cellar or garage is subject to a supplement announced before the order.\n\nIn the absence of a stated date, we deliver no later than thirty days after the contract is concluded (article L216-1 of the French Consumer Code). If we fail to do so, you may require us to deliver within a reasonable additional period and then terminate the contract if we still fail to perform.\n\nRisk passes to the customer when physical possession of the goods is taken (article L216-4 of the French Consumer Code).`,
       },
       {
         heading: "7. Right of withdrawal",
@@ -331,11 +331,11 @@ export const enLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Delivery area",
-        body: "We deliver within mainland France. Corsica and the overseas territories are not served for now: transport there would cost more than the goods.\n\nOur rounds are organised in three zones:",
+        body: "We deliver within France and to selected towns in Belgium. Corsica and the overseas territories are not served for now: transport there would cost more than the goods.\n\nOur rounds within France are organised in three zones:",
         list: [
           "Zone A — Paris and inner suburbs (75, 92, 93, 94): delivery within 48 hours",
           "Zone B — outer Île-de-France, Oise and Eure-et-Loir (77, 78, 91, 95, 60, 28): delivery within 3 to 5 working days",
-          "Zone C — rest of mainland France: shipped on a pallet by freight carrier, 5 to 8 working days",
+          "Zone C — rest of France: shipped on a pallet by freight carrier, 5 to 8 working days",
         ],
       },
       {
@@ -554,7 +554,7 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Our own logistics",
-        body: "We deliver throughout mainland France, in two clearly distinct ways.\n\nIn Île-de-France we deliver ourselves, with our own trailer. No delivery notification card, no pallet sitting three days in a depot. We call the day before and give a two-hour window.\n\nAcross the rest of the country we ship on pallets by freight carrier: the service is then the carrier's, and we say so rather than let anyone assume otherwise.",
+        body: "We deliver throughout France and to selected towns in Belgium, in two clearly distinct ways.\n\nIn Île-de-France we deliver ourselves, with our own trailer. No delivery notification card, no pallet sitting three days in a depot. We call the day before and give a two-hour window.\n\nElsewhere we ship on pallets by freight carrier: the service is then the carrier's, and we say so rather than let anyone assume otherwise.",
       },
       {
         heading: "Where the wood comes from",
