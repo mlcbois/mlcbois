@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { HowToJsonLd } from "@/components/seo/HowToJsonLd";
 
 /**
  * Livraison : le déroulé et les zones.
@@ -15,6 +16,14 @@ export async function LieferungAblauf() {
 
   return (
     <section className="relative isolate overflow-hidden bg-secondary py-14 text-white sm:py-20">
+      <HowToJsonLd
+        name={t("titel")}
+        description={t("einleitung")}
+        steps={schritte.map((schritt) => ({
+          name: t(`schritte.${schritt}.titel`),
+          text: t(`schritte.${schritt}.text`),
+        }))}
+      />
       {/* La photo reste une texture de fond : assez présente pour rappeler la
           matière, assez discrète pour que le tableau des zones se lise. */}
       <Image
