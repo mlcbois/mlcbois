@@ -17,6 +17,7 @@ import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localize
 import { productLongText, productShortText } from "@/lib/productText";
 import { formatRating } from "@/lib/formatRating";
 import { alternatesFor, openGraphFor } from "@/lib/hreflang";
+import { truncateForMeta } from "@/lib/metaDescription";
 import type { Locale } from "@/i18n/routing";
 
 type ProductPageParams = Promise<{
@@ -67,7 +68,7 @@ export async function generateMetadata({ params }: { params: ProductPageParams }
 
   const t = await getTranslations({ locale, namespace: "product" });
   const title = t("metaTitle", { name: `${data.product.brand} ${data.product.name}` });
-  const description = data.product.bullets.join(" · ");
+  const description = truncateForMeta(data.product.bullets.join(" · "));
   const href = `/${group}/${category}/${product}`;
 
   return {

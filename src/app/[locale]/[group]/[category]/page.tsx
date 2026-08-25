@@ -10,6 +10,7 @@ import { CategoryGuide } from "@/components/CategoryGuide";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { alternatesFor, openGraphFor } from "@/lib/hreflang";
+import { truncateForMeta } from "@/lib/metaDescription";
 import { getCategoryPage, listCategories } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localizedContent";
 import type { Locale } from "@/i18n/routing";
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: { params: CategoryPageParams 
 
   const t = await getTranslations({ locale, namespace: "category" });
   const title = t("metaTitle", { label: data.label });
-  const description = data.description;
+  const description = truncateForMeta(data.description);
   const href = `/${group}/${category}`;
 
   return {
