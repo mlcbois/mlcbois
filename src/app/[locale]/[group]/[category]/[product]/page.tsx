@@ -182,6 +182,30 @@ export default async function ProductPage({ params }: { params: ProductPageParam
               </ul>
             </div>
           </div>
+
+          {/* Citations de sources externes (registre de certification, fiche
+              réglementaire fabricant…) : de vrais liens <a>, distincts de la
+              description et des caractéristiques rendues en texte brut. */}
+          {productData.sourceLinks && productData.sourceLinks.length > 0 && (
+            <div className="mt-6 border-t border-border pt-6">
+              <h3 className="mb-2 text-sm font-bold text-foreground">{t("sources")}</h3>
+              <ul className="space-y-1.5 text-sm">
+                {productData.sourceLinks.map((source) => (
+                  <li key={source.url} className="flex gap-2">
+                    <span className="text-primary">↗</span>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline-offset-2 hover:underline"
+                    >
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
 
         {productData.id && (

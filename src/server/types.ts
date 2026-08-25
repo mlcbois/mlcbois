@@ -1,4 +1,5 @@
 import type { VariantInput } from "@/lib/variantPricing";
+import type { SourceLink } from "@/lib/sourceLinks";
 
 export interface CategoryGuideSection {
   heading: string;
@@ -31,6 +32,9 @@ export interface ProductRecord {
   brand: string;
   name: string;
   bullets: string[];
+  /** Sources externes citées en fiche produit (registre de certification, fiche
+   * fabricant…), affichées comme de vrais liens ; absent du flux Merchant. */
+  sourceLinks?: SourceLink[];
   /** Description courte, affichée sous le titre de la fiche produit */
   shortDescription?: string;
   /** Description longue, affichée plus bas dans la fiche produit */

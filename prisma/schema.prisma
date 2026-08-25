@@ -81,6 +81,12 @@ model Product {
   description           String   @default("")
   // Encodé en JSON : pas de liste scalaire, le schéma reste portable
   bullets               String   @default("[]")
+  // Sources externes citées en fiche produit (registre DIN CERTCO, fiche
+  // réglementaire fabricant…) : liste JSON de { label, url }. Affichées comme de
+  // vrais liens <a> sur la fiche produit, jamais dans le flux Google Merchant —
+  // voir src/server/merchant.ts, qui sélectionne ses champs explicitement et
+  // n'inclut pas celui-ci.
+  sourceLinks           String   @default("[]")
   // Traductions anglaises ; vides = repli sur le français
   nameEn                String   @default("")
   shortDescriptionEn    String   @default("")

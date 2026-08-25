@@ -2,6 +2,7 @@ import { toCents } from "@/server/pricingUtils";
 import type { VariantInput } from "@/lib/variantPricing";
 import type { ProductRecord } from "@/server/types";
 import { isValidGtin } from "@/lib/gtin";
+import { toSourceLink } from "@/lib/sourceLinks";
 
 // Validation commune des champs produit, partagée par les routes unitaires et
 // l'import en masse. Les messages sont en français : ils s'affichent dans le back-office.
@@ -150,6 +151,22 @@ export function parseProductInput(raw: unknown, mode: "create" | "update"): Prod
         .filter(Boolean);
     } else {
       errors.push("Les caractéristiques (bullets) doivent être une liste.");
+    }
+  }
+
+  if (has("sourceLinks")) {
+    const rawSourceLinks = body.sourceLinks;
+    if (rawSourceLinks === null) {
+      values.sourceLinks = [];
+    } else if (Array.isArray(rawSourceLinks)) {
+      // Une entrée sans libellé ou sans URL http(s) valide est écartée en
+      // silence plutôt que rejetée : ce sont des citations facultatives, pas un
+      // identifiant Merchant où une valeur fausse ferait suspendre le compte.
+      values.sourceLinks = rawSourceLinks
+        .map((entry) => toSourceLink(entry))
+        .filter((entry): entry is NonNullable<typeof entry> => entry !== undefined);
+    } else {
+      errors.push("Les sources (sourceLinks) doivent être une liste.");
     }
   }
 

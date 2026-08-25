@@ -105,6 +105,7 @@
     "details": "Product details & service information",
     "description": "Product description",
     "features": "Features",
+    "sources": "Sources",
     "related": "Similar products",
     "sku": "Item no.",
     "ratingOf": "{rating} out of 5",
@@ -618,7 +619,7 @@
     "beschreibung": {
       "vrac": "Delivered in a large crate and tipped at your door. Best price per cubic metre.",
       "palette": "Stacked and strapped on a pallet, set down on the ground. Nothing to stack in a hurry.",
-      "granules": "ENplus A1 certified, for pellet stoves and boilers.",
+      "granules": "DINplus certified, for pellet stoves and boilers.",
       "bois-compresse": "A third of the space, embers through the night.",
       "poele-a-bois": "Log and pellet stoves, chosen for efficiency and spare-part availability."
     }

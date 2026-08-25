@@ -105,6 +105,7 @@
     "details": "Détails du produit & informations service",
     "description": "Description de l'article",
     "features": "Caractéristiques",
+    "sources": "Sources",
     "related": "Produits similaires",
     "sku": "Réf.",
     "ratingOf": "{rating} sur 5",
@@ -618,7 +619,7 @@
     "beschreibung": {
       "vrac": "Livré en grande caisse et déversé chez vous. Le meilleur prix au mètre cube apparent.",
       "palette": "Rangé et cerclé sur palette, déposé au sol. Rien à empiler dans l'urgence.",
-      "granules": "Certifiés ENplus A1, pour poêle et chaudière à granulés.",
+      "granules": "Certifiés DINplus, pour poêle et chaudière à granulés.",
       "bois-compresse": "Un tiers de la place, des braises qui tiennent la nuit.",
       "poele-a-bois": "Poêles à bûches et à granulés, choisis pour leur rendement et leurs pièces détachées."
     }

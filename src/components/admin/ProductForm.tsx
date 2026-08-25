@@ -12,6 +12,7 @@ import { PreviewPanel } from "@/components/admin/PreviewPanel";
 import { ProductPreview, type ProductPreviewView } from "@/components/admin/ProductPreview";
 import { slugify } from "@/lib/slugify";
 import type { CategoryRecord, ProductRecord } from "@/server/types";
+import type { SourceLink } from "@/lib/sourceLinks";
 
 interface ProductFormProps {
   mode: "new" | "edit";
@@ -44,6 +45,7 @@ export function ProductForm({
   const [shortDescription, setShortDescription] = useState(initialData?.shortDescription ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
   const [bulletsText, setBulletsText] = useState((initialData?.bullets ?? []).join("\n"));
+  const [sourceLinks, setSourceLinks] = useState<SourceLink[]>(initialData?.sourceLinks ?? []);
   const [image, setImage] = useState(initialData?.image ?? "");
   const [images, setImages] = useState<string[]>(initialData?.images ?? []);
   const [oldPrice, setOldPrice] = useState(initialData?.oldPrice ?? "");
@@ -107,6 +109,9 @@ export function ProductForm({
       shortDescription,
       description,
       bullets: bulletsText.split("\n").map((line) => line.trim()).filter(Boolean),
+      // N'envoie que les lignes complètes : une entrée à moitié saisie serait
+      // silencieusement écartée côté serveur de toute façon (voir productInput.ts).
+      sourceLinks: sourceLinks.filter((entry) => entry.label.trim() && entry.url.trim()),
       image,
       images,
       oldPrice,
@@ -271,6 +276,69 @@ export function ProductForm({
             className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
           />
         </label>
+
+        {/* ── Sources externes citées en fiche produit ─────────────────────── */}
+        <fieldset className="mb-4">
+          <legend className="mb-2 text-sm font-semibold text-foreground">
+            Sources externes (registre de certification, fiche fabricant…)
+          </legend>
+          <p className="mb-2 text-xs text-muted-foreground">
+            Affichées comme de vrais liens sur la fiche produit, sous les caractéristiques.
+            Ne citer qu&apos;une source personnellement vérifiée — jamais envoyée au flux Google
+            Merchant.
+          </p>
+          {sourceLinks.length > 0 && (
+            <div className="mb-2 space-y-2" role="list" aria-label="Lignes de source">
+              {sourceLinks.map((row, index) => (
+                <div key={index} role="listitem" className="grid grid-cols-[1fr_1.4fr_auto] items-end gap-2">
+                  <label className="text-sm">
+                    <span className="mb-1 block font-semibold text-foreground">Libellé</span>
+                    <input
+                      value={row.label}
+                      onChange={(event) =>
+                        setSourceLinks((prev) =>
+                          prev.map((r, i) => (i === index ? { ...r, label: event.target.value } : r)),
+                        )
+                      }
+                      placeholder="ex. Certification DINplus — registre DIN CERTCO"
+                      aria-label={`Libellé de la source ${index + 1}`}
+                      className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
+                    />
+                  </label>
+                  <label className="text-sm">
+                    <span className="mb-1 block font-semibold text-foreground">URL</span>
+                    <input
+                      value={row.url}
+                      onChange={(event) =>
+                        setSourceLinks((prev) =>
+                          prev.map((r, i) => (i === index ? { ...r, url: event.target.value } : r)),
+                        )
+                      }
+                      placeholder="https://…"
+                      aria-label={`URL de la source ${index + 1}`}
+                      className="w-full rounded-sm border border-border px-3 py-2 outline-none focus:border-primary"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setSourceLinks((prev) => prev.filter((_, i) => i !== index))}
+                    aria-label={`Retirer la source ${index + 1}`}
+                    className="rounded-sm border border-border px-3 py-2 text-sm text-destructive hover:bg-destructive/10"
+                  >
+                    Retirer
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={() => setSourceLinks((prev) => [...prev, { label: "", url: "" }])}
+            className="rounded-sm border border-border px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted"
+          >
+            + Ajouter une source
+          </button>
+        </fieldset>
 
         <ImageUploadField
           value={image}

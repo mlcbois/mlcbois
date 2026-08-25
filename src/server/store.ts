@@ -5,6 +5,7 @@ import { getActivePromotions, type ProductPromotion } from "@/server/promotions"
 import type { CategoryGuide, CategoryRecord, ProductGroup, ProductRecord } from "@/server/types";
 import type { Product } from "@/types/home";
 import { discountedVariantCents, minActivePriceCents, type VariantInput, type VariantView } from "@/lib/variantPricing";
+import { parseSourceLinks } from "@/lib/sourceLinks";
 
 // L'interface publique ne change pas : les catégories restent adressées par
 // "groupe/slug" et les prix circulent en chaînes formatées ("349,00 €").
@@ -76,6 +77,7 @@ interface ProductRow {
   shortDescription: string;
   description: string;
   bullets: string;
+  sourceLinks: string;
   image: string | null;
   images: string;
   priceCents: number;
@@ -143,6 +145,7 @@ function toProductRecord(row: ProductRow): ProductRecord {
     brand: row.brand,
     name: row.name,
     bullets: parseBullets(row.bullets),
+    sourceLinks: parseSourceLinks(row.sourceLinks),
     shortDescription: row.shortDescription,
     description: row.description,
     image: row.image ?? undefined,
@@ -371,6 +374,7 @@ export async function createProduct(input: Omit<ProductRecord, "id">): Promise<P
         shortDescription: input.shortDescription ?? "",
         description: input.description ?? "",
         bullets: JSON.stringify(input.bullets ?? []),
+        sourceLinks: JSON.stringify(input.sourceLinks ?? []),
         image: input.image ?? null,
         images: JSON.stringify(input.images ?? []),
         priceCents: toCents(input.price),
@@ -448,6 +452,9 @@ export async function updateProduct(
         shortDescription: patch.shortDescription ?? undefined,
         description: patch.description ?? undefined,
         bullets: patch.bullets ? JSON.stringify(patch.bullets) : undefined,
+        // Un tableau vide vide bien la liste de sources : seul `undefined` laisse
+        // la valeur en place, même règle que pour `images` ci-dessous.
+        sourceLinks: patch.sourceLinks === undefined ? undefined : JSON.stringify(patch.sourceLinks),
         image: patch.image === undefined ? undefined : (patch.image || null),
         // Un tableau vide vide bien la galerie : seul `undefined` laisse la valeur en place
         images: patch.images === undefined ? undefined : JSON.stringify(patch.images),
@@ -534,6 +541,7 @@ function toViewProduct(
     brand: row.brand,
     name: row.name,
     bullets: parseBullets(row.bullets),
+    sourceLinks: parseSourceLinks(row.sourceLinks),
     shortDescription: row.shortDescription || undefined,
     description: row.description || undefined,
     // Sans visuel propre, le produit reprend l'image de sa catégorie

@@ -543,11 +543,11 @@ export const frLegalPages: LegalPageMap = {
       },
       {
         heading: "Quelle longueur de bûche choisir ?",
-        body: "Mesurez la largeur du foyer et retirez cinq centimètres de chaque côté. Les longueurs de 25 cm conviennent aux poêles compacts, 33 cm est la longueur la plus courante, 50 cm s'adresse aux inserts larges et aux cheminées ouvertes.\n\nEn cas de doute, prenez la longueur inférieure : une bûche trop longue ne rentre pas, une bûche trop courte brûle très bien.",
+        body: "Mesurez la largeur du foyer et retirez cinq centimètres de chaque côté. Les longueurs de 25 cm conviennent aux [poêles compacts](/equipement/poele-a-bois), 33 cm est la longueur la plus courante, 50 cm s'adresse aux inserts larges et aux cheminées ouvertes.\n\nEn cas de doute, prenez la longueur inférieure : une bûche trop longue ne rentre pas, une bûche trop courte brûle très bien.",
       },
       {
         heading: "Quelle différence entre MAP, stère et mètre cube réel ?",
-        body: "Un mètre cube apparent (MAP) est un mètre cube de bois versé en vrac. Rangé proprement, le même volume donne environ 0,7 stère. En retirant tout l'air entre les bûches, il reste environ 0,4 mètre cube de bois réel.\n\nNous vendons au mètre cube apparent, parce que c'est la quantité qui arrive réellement chez vous.",
+        body: "Un mètre cube apparent (MAP) est un mètre cube de bois [versé en vrac](/bois-de-chauffage/vrac). Rangé proprement, le même volume donne environ 0,7 stère. En retirant tout l'air entre les bûches, il reste environ 0,4 mètre cube de bois réel.\n\nNous vendons au mètre cube apparent, parce que c'est la quantité qui arrive réellement chez vous.",
       },
       {
         heading: "Le bois est-il vraiment sec ?",
@@ -598,7 +598,7 @@ export const frLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "Ce que nous vendons",
-        body: "Du bois de chauffage prêt à brûler, séché en séchoir, livré par nos soins. Hêtre, chêne, bouleau et frêne issus de forêts françaises, en bûches de 25, 33 et 50 cm, complétés par des bûches densifiées, des granulés certifiés ENplus A1 et du petit bois d'allumage.",
+        body: "Du bois de chauffage prêt à brûler, séché en séchoir, livré par nos soins. Hêtre, chêne, bouleau et frêne issus de forêts françaises, en bûches de 25, 33 et 50 cm, complétés par des [bûches densifiées](/bois-de-chauffage/bois-compresse), des [granulés certifiés DINplus](/bois-de-chauffage/granules) et du petit bois d'allumage.",
       },
       {
         heading: "Pourquoi le séchage en séchoir",

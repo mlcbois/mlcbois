@@ -8,6 +8,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryProductBrowser } from "@/components/CategoryProductBrowser";
 import { CategoryGuide } from "@/components/CategoryGuide";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import { getCategoryPage, listCategories } from "@/server/store";
 import { loadCatalogTranslations, localizeCategoryPage } from "@/server/localizedContent";
@@ -99,6 +100,14 @@ export default async function CategoryPage({ params }: { params: CategoryPagePar
         <CategoryGuide label={data.label} guide={data.guide} />
       </main>
       <Footer />
+
+      <BreadcrumbJsonLd
+        items={[
+          { label: t("home"), href: "/" },
+          { label: data.groupLabel, href: `/${data.group}` },
+          { label: data.label },
+        ]}
+      />
     </>
   );
 }

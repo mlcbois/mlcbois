@@ -1,4 +1,5 @@
 import type { VariantView } from "@/lib/variantPricing";
+import type { SourceLink } from "@/lib/sourceLinks";
 
 export interface NavLink {
   label: string;
@@ -32,6 +33,9 @@ export interface Product {
   image: string;
   /** Vues complémentaires pour la galerie de la fiche produit, sans l'image principale */
   images?: string[];
+  /** Sources externes citées en fiche produit (registre de certification, fiche
+   * fabricant…). Vide la plupart du temps ; jamais transmis au flux Merchant. */
+  sourceLinks?: SourceLink[];
   alt: string;
   oldPrice?: string;
   price: string;

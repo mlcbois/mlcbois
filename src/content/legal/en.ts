@@ -496,11 +496,11 @@ export const enLegalPages: LegalPageMap = {
       },
       {
         heading: "Which log length should I choose?",
-        body: "Measure the width of the firebox and take five centimetres off each side. 25 cm suits compact stoves, 33 cm is the most common length, 50 cm is for wide inserts and open fireplaces.\n\nIf in doubt, take the shorter length: a log that is too long will not fit, whereas a shorter one burns perfectly well.",
+        body: "Measure the width of the firebox and take five centimetres off each side. 25 cm suits [compact stoves](/equipement/poele-a-bois), 33 cm is the most common length, 50 cm is for wide inserts and open fireplaces.\n\nIf in doubt, take the shorter length: a log that is too long will not fit, whereas a shorter one burns perfectly well.",
       },
       {
         heading: "What is the difference between loose, stacked and solid cubic metres?",
-        body: "A loose cubic metre is a cubic metre of wood tipped in loose. Neatly stacked, the same volume gives roughly 0.7 stacked cubic metres. Remove all the air between the logs and about 0.4 solid cubic metres of actual wood remains.\n\nWe sell by the loose cubic metre, because that is the quantity that actually arrives at your place.",
+        body: "A loose cubic metre is a cubic metre of [wood tipped in loose](/bois-de-chauffage/vrac). Neatly stacked, the same volume gives roughly 0.7 stacked cubic metres. Remove all the air between the logs and about 0.4 solid cubic metres of actual wood remains.\n\nWe sell by the loose cubic metre, because that is the quantity that actually arrives at your place.",
       },
       {
         heading: "Is the wood really dry?",
@@ -551,7 +551,7 @@ export const enLegalPages: LegalPageMap = {
     sections: [
       {
         heading: "What we sell",
-        body: "Firewood that is ready to burn, kiln-dried, delivered by us. Beech, oak, birch and ash from French forests, in 25, 33 and 50 cm logs, alongside wood briquettes, ENplus A1 certified pellets and kindling.",
+        body: "Firewood that is ready to burn, kiln-dried, delivered by us. Beech, oak, birch and ash from French forests, in 25, 33 and 50 cm logs, alongside [wood briquettes](/bois-de-chauffage/bois-compresse), [DINplus certified pellets](/bois-de-chauffage/granules) and kindling.",
       },
       {
         heading: "Why kiln drying",
