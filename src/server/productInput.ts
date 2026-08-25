@@ -267,6 +267,10 @@ export function parseProductInput(raw: unknown, mode: "create" | "update"): Prod
     values.energyEfficiencyClass = asTrimmedString(body.energyEfficiencyClass) ?? "";
   }
 
+  if (has("eprelCode")) {
+    values.eprelCode = asTrimmedString(body.eprelCode) ?? "";
+  }
+
   if (has("variants")) {
     const rawVariants = body.variants;
     if (!Array.isArray(rawVariants)) {

@@ -75,7 +75,13 @@ function itemXml(record: MerchantRecord): string {
   // ---- Attributs recommandés ----
   parts.push(tag("g:adult", record.adult));
   parts.push(tag("g:is_bundle", record.isBundle));
-  parts.push(tag("g:energy_efficiency_class", record.energyEfficiencyClass));
+  if (record.certification) {
+    parts.push("    <g:certification>\n");
+    parts.push(tag("g:certification_authority", record.certification.authority, "      "));
+    parts.push(tag("g:certification_name", record.certification.name, "      "));
+    parts.push(tag("g:certification_code", record.certification.code, "      "));
+    parts.push("    </g:certification>\n");
+  }
   parts.push(tag("g:age_group", record.ageGroup));
   parts.push(tag("g:gender", record.gender));
 

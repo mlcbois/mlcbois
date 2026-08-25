@@ -117,6 +117,7 @@ export interface MerchantProduct {
   googleProductCategory: string;
   shippingWeightGrams: number | null;
   energyEfficiencyClass: string | null;
+  eprelCode: string | null;
   image: string | null;
   images: string;
   priceCents: number;
@@ -155,6 +156,7 @@ const merchantSelect = {
   googleProductCategory: true,
   shippingWeightGrams: true,
   energyEfficiencyClass: true,
+  eprelCode: true,
   image: true,
   images: true,
   priceCents: true,
@@ -416,6 +418,13 @@ export function merchantShipping(product: MerchantProduct): MerchantShippingEntr
 
 // ---- Enregistrement complet ----
 
+/** Bloc `certification` attendu par Google — voir support.google.com/merchants/answer/13528839. */
+export interface MerchantCertification {
+  authority: "EC";
+  name: "EPREL";
+  code: string;
+}
+
 export interface MerchantRecord {
   id: string;
   title: string;
@@ -455,8 +464,14 @@ export interface MerchantRecord {
   shipping?: MerchantShippingEntry;
   shippingWeight?: string;
   shipsFromCountry: string;
-  /** Ne vaut plus que pour CH/NO/UK ; dans l'UE, Google attend certification/EPREL. */
-  energyEfficiencyClass?: string;
+  /**
+   * `energy_efficiency_class` n'est plus accepté que pour CH/NO/UK depuis
+   * avril 2025 — dans l'UE, Google attend l'attribut `certification` avec le
+   * numéro EPREL. Ce catalogue ne livrant qu'en France, l'ancien attribut
+   * n'est donc jamais émis ; `certification` ne l'est que si un vrai numéro
+   * EPREL est enregistré (`Product.eprelCode`), jamais déduit.
+   */
+  certification?: MerchantCertification;
   ageGroup?: string;
   gender?: string;
   customLabel0: string;
@@ -543,7 +558,9 @@ export function buildMerchantRecord(product: MerchantProduct): MerchantRecord {
         ? formatShippingWeight(product.shippingWeightGrams)
         : undefined,
     shipsFromCountry: MERCHANT_COUNTRY,
-    energyEfficiencyClass: product.energyEfficiencyClass?.trim() || undefined,
+    certification: product.eprelCode?.trim()
+      ? { authority: "EC", name: "EPREL", code: product.eprelCode.trim() }
+      : undefined,
     ageGroup: isApparel ? "adult" : undefined,
     gender: isApparel ? "unisex" : undefined,
     customLabel0: product.category.group.label,
@@ -748,12 +765,12 @@ export function auditMerchantProduct(
   }
 
   // -- Étiquette énergie (UE) --
-  if (EU_ENERGY_LABEL_SLUGS.has(product.category.slug)) {
+  if (EU_ENERGY_LABEL_SLUGS.has(product.category.slug) && !record.certification) {
     issues.push({
       level: "warning",
       attribute: "certification",
       message:
-        "Appareil soumis à l'étiquetage énergétique : pour l'UE, Google attend le numéro d'enregistrement EPREL dans l'attribut certification (EC/EPREL/numéro). Sans GTIN, Google ne peut pas le compléter automatiquement.",
+        "Appareil soumis à l'étiquetage énergétique : pour l'UE, Google attend le numéro d'enregistrement EPREL dans l'attribut certification (EC/EPREL/numéro), à saisir dans la fiche produit. energy_efficiency_class n'est plus accepté que pour la Suisse, la Norvège et le Royaume-Uni — ce catalogue ne livrant qu'en France, cet attribut n'est jamais transmis.",
     });
   }
 

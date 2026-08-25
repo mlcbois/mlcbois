@@ -168,12 +168,15 @@ export async function ProductJsonLd({ product }: ProductJsonLdProps) {
   if (record.productHighlights.length > 0) {
     data.additionalProperty = record.productHighlights.map((highlight) => ({
       "@type": "PropertyValue",
-      name: "Ausstattung",
+      name: "Caractéristique",
       value: highlight,
     }));
   }
 
-  const energyCategory = EU_ENERGY_CATEGORY[record.energyEfficiencyClass ?? ""];
+  // Balisage schema.org, distinct de l'attribut `energy_efficiency_class` du flux
+  // Merchant (retiré pour l'UE depuis avril 2025, voir buildMerchantRecord) : la
+  // classe reste une donnée de la fiche produit, lue directement sur `row`.
+  const energyCategory = EU_ENERGY_CATEGORY[row.energyEfficiencyClass ?? ""];
   if (energyCategory) {
     data.hasEnergyConsumptionDetails = {
       "@type": "EnergyConsumptionDetails",

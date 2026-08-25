@@ -25,6 +25,7 @@ function produit(surcharge: Partial<MerchantProduct> = {}): MerchantProduct {
     googleProductCategory: "",
     shippingWeightGrams: null,
     energyEfficiencyClass: null,
+    eprelCode: null,
     image: "/images/hetre.jpg",
     images: "[]",
     priceCents: 25000,

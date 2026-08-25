@@ -110,4 +110,9 @@ export const EU_ENERGY_LABEL_SLUGS = new Set([
   "backoefen-herde",
   "klimageraete",
   "fernseher",
+  // Poêles à bois : appareils de chauffage à combustible solide, soumis à
+  // l'étiquetage énergétique européen depuis le règlement délégué (UE)
+  // 2015/1186 — chaque fiche Deville de ce catalogue porte d'ailleurs déjà
+  // une classe et un indice d'efficacité énergétique mesurés officiellement.
+  "poele-a-bois",
 ]);

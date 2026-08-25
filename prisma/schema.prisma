@@ -101,6 +101,11 @@ model Product {
   // Poids d'expédition en grammes, utilisé par le flux Merchant
   shippingWeightGrams   Int?
   energyEfficiencyClass String?
+  /// Numéro d'enregistrement EPREL (eprel.ec.europa.eu/screen/product/…/CODE) —
+  /// remplace energyEfficiencyClass dans le flux Merchant pour l'UE depuis
+  /// avril 2025. Laissé vide tant qu'aucun numéro réel n'est vérifié : jamais
+  /// déduit ni inventé, voir docs/GOOGLE_MERCHANT.md § 5.
+  eprelCode              String?
   image                 String?
   // Vues complémentaires, en JSON comme `bullets`. `image` demeure la vignette
   // de référence (listes, panier, flux Google) ; ces images-ci n'apparaissent

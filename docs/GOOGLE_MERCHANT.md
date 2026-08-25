@@ -71,7 +71,11 @@ Google exige **soit une GTIN exacte, soit la combinaison `brand` + `mpn`**.
 `brand`, `condition`, `sale_price`, `google_product_category`, `product_type`, `adult`,
 `is_bundle`, `product_highlight` (2 à 10 valeurs, issues des `bullets`), `shipping`
 (pays / service / prix / délais), `shipping_weight`, `ships_from_country`,
-`energy_efficiency_class`, `age_group`, `gender`, `custom_label_0`, `custom_label_1`.
+`unit_pricing_measure` / `unit_pricing_base_measure`, `certification` (EPREL, si renseigné —
+voir § 5), `age_group`, `gender`, `custom_label_0`, `custom_label_1`.
+
+`energy_efficiency_class` n'est **jamais** émis : Google ne l'accepte plus que pour
+CH/NO/UK depuis avril 2025, et ce catalogue ne livre qu'en France (voir § 5).
 
 Aucune balise vide n'est jamais écrite : une valeur absente est simplement omise.
 
@@ -82,7 +86,6 @@ Aucune balise vide n'est jamais écrite : une valeur absente est simplement omis
 | `item_group_id` | Le catalogue n'a pas de variantes (pas de déclinaisons couleur/taille partageant un parent). |
 | `tax` | Réservé aux États-Unis. En France la TVA est incluse dans `price`. |
 | `availability_date` | Ne concerne que `preorder` / `backorder`, non utilisés. |
-| `certification` | Nécessite la clé EPREL, que le commerçant doit fournir (voir § 5). |
 | `additional_image_link` | Aucun visuel secondaire en base aujourd'hui. |
 
 ### Prix barré (`sale_price`)
@@ -153,14 +156,19 @@ Norvège et le Royaume-Uni**. Pour l'Union européenne, Google attend l'attribut
 
 Le code est le numéro d'enregistrement issu de l'URL `https://eprel.ec.europa.eu/screen/product/…/123456`.
 
-Catégories concernées ici : lave-linge, lave-vaisselle, fours, climatiseurs, téléviseurs.
-L'audit lève un avertissement `certification` pour chacune. Google peut renseigner
-l'EPREL automatiquement à partir de la GTIN ou de la MPN — raison de plus pour saisir les
-vraies GTIN.
+Catégories concernées ici : poêles à bois (`EU_ENERGY_LABEL_SLUGS`, `src/lib/googleTaxonomy.ts`) —
+et, si le catalogue s'étend un jour à de l'électroménager, lave-linge, lave-vaisselle, fours,
+climatiseurs, téléviseurs. L'audit lève un avertissement `certification` pour chacune tant
+qu'aucun numéro EPREL n'est saisi. Google peut renseigner l'EPREL automatiquement à partir de
+la GTIN ou de la MPN — raison de plus pour saisir les vraies GTIN.
 
-**Le champ EPREL n'existe pas encore en base.** Il faudra soit ajouter une colonne
-`eprelCode` au modèle `Product`, soit renseigner la certification directement dans
-Merchant Center via un flux supplémentaire.
+**Implémenté** (25/08/2026) : colonne `Product.eprelCode`, éditable dans la fiche produit
+(back-office), transmise au flux via l'attribut `certification` — `buildMerchantRecord()`
+dans `src/server/merchant.ts`. `energy_efficiency_class` n'est plus jamais émis, ce catalogue
+ne livrant qu'en France. **Aucun des quatre poêles Deville n'a de numéro EPREL renseigné** :
+le champ reste vide tant qu'il n'est pas vérifié sur eprel.ec.europa.eu (interface
+consultable uniquement via navigateur — non trouvé en recherche automatisée lors de l'audit
+du 25 août) — jamais déduit du reste de la fiche.
 
 ---
 

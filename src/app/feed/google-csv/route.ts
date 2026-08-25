@@ -40,7 +40,7 @@ const COLUMNS = [
   "product_type",
   "adult",
   "is_bundle",
-  "energy_efficiency_class",
+  "certification(certification_authority:certification_name:certification_code)",
   "age_group",
   "gender",
   "product_highlight",
@@ -84,6 +84,10 @@ function row(record: MerchantRecord): string {
       ].join(":")
     : "";
 
+  const certification = record.certification
+    ? [record.certification.authority, record.certification.name, record.certification.code].join(":")
+    : "";
+
   const values: (string | number | undefined)[] = [
     record.id,
     record.title,
@@ -107,7 +111,7 @@ function row(record: MerchantRecord): string {
     record.productType,
     record.adult,
     record.isBundle,
-    record.energyEfficiencyClass,
+    certification,
     record.ageGroup,
     record.gender,
     repeated(record.productHighlights),

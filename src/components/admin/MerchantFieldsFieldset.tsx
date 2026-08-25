@@ -14,6 +14,8 @@ export interface MerchantFieldsValues {
   /** Poids en grammes, saisi en texte pour rester cohérent avec le reste du formulaire. */
   shippingWeightGrams: string;
   energyEfficiencyClass: string;
+  /** Numéro d'enregistrement EPREL (eprel.ec.europa.eu/screen/product/…/CODE). */
+  eprelCode: string;
 }
 
 export const EMPTY_MERCHANT_FIELDS: MerchantFieldsValues = {
@@ -23,6 +25,7 @@ export const EMPTY_MERCHANT_FIELDS: MerchantFieldsValues = {
   googleProductCategory: "",
   shippingWeightGrams: "",
   energyEfficiencyClass: "",
+  eprelCode: "",
 };
 
 interface MerchantFieldsFieldsetProps {
@@ -144,6 +147,22 @@ export function MerchantFieldsFieldset({
               </option>
             ))}
           </select>
+        </label>
+
+        <label className="text-sm">
+          <span className="mb-1 block font-semibold text-foreground">Numéro EPREL</span>
+          <input
+            type="text"
+            value={values.eprelCode}
+            onChange={(event) => onChange({ eprelCode: event.target.value })}
+            placeholder="ex. 1234567"
+            className={inputClass}
+          />
+          <span className="mt-1 block text-xs text-muted-foreground">
+            Remplace la classe d&apos;efficacité énergétique dans le flux Merchant pour l&apos;UE
+            depuis avril 2025 — numéro tiré de l&apos;URL eprel.ec.europa.eu du produit. Laisser
+            vide tant qu&apos;il n&apos;est pas vérifié.
+          </span>
         </label>
       </div>
 

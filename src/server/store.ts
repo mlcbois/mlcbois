@@ -93,6 +93,7 @@ interface ProductRow {
   googleProductCategory: string;
   shippingWeightGrams: number | null;
   energyEfficiencyClass: string | null;
+  eprelCode: string | null;
   category: { slug: string; image: string; group: { slug: string } };
   variants: {
     id: string;
@@ -163,6 +164,7 @@ function toProductRecord(row: ProductRow): ProductRecord {
     googleProductCategory: row.googleProductCategory,
     shippingWeightGrams: row.shippingWeightGrams ?? undefined,
     energyEfficiencyClass: row.energyEfficiencyClass ?? undefined,
+    eprelCode: row.eprelCode ?? undefined,
     variants: row.variants.map((v) => ({
       id: v.id,
       label: v.label,
@@ -389,6 +391,7 @@ export async function createProduct(input: Omit<ProductRecord, "id">): Promise<P
         googleProductCategory: input.googleProductCategory ?? "",
         shippingWeightGrams: input.shippingWeightGrams ?? null,
         energyEfficiencyClass: input.energyEfficiencyClass || null,
+        eprelCode: input.eprelCode || null,
       },
     });
 
@@ -474,6 +477,7 @@ export async function updateProduct(
           patch.shippingWeightGrams === undefined ? undefined : (patch.shippingWeightGrams ?? null),
         energyEfficiencyClass:
           patch.energyEfficiencyClass === undefined ? undefined : patch.energyEfficiencyClass || null,
+        eprelCode: patch.eprelCode === undefined ? undefined : patch.eprelCode || null,
       },
     });
 

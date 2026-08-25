@@ -56,6 +56,8 @@ export interface ProductRecord {
   googleProductCategory?: string;
   shippingWeightGrams?: number;
   energyEfficiencyClass?: string;
+  /** Numéro d'enregistrement EPREL — voir Product.eprelCode. */
+  eprelCode?: string;
   /** Variations de volume ; vide pour un produit simple. */
   variants?: VariantInput[];
 }

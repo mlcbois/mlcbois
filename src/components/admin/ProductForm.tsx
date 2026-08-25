@@ -63,6 +63,7 @@ export function ProductForm({
     googleProductCategory: initialData?.googleProductCategory ?? "",
     shippingWeightGrams: initialData?.shippingWeightGrams?.toString() ?? "",
     energyEfficiencyClass: initialData?.energyEfficiencyClass ?? "",
+    eprelCode: initialData?.eprelCode ?? "",
   });
   interface VariantRow { id?: string; label: string; price: string; oldPrice: string }
   const [variants, setVariants] = useState<VariantRow[]>(
@@ -144,6 +145,7 @@ export function ProductForm({
       ? Number.parseInt(merchant.shippingWeightGrams, 10)
       : null;
     payload.energyEfficiencyClass = merchant.energyEfficiencyClass;
+    payload.eprelCode = merchant.eprelCode;
 
     const url = mode === "new" ? "/api/admin/products" : `/api/admin/products/${initialData?.id}`;
     const method = mode === "new" ? "POST" : "PUT";
