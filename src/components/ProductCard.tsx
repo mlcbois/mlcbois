@@ -77,7 +77,7 @@ export function ProductCard({ product }: { product: Product }) {
               {product.oldPrice}
             </span>
           )}
-          <span className="messwert text-lg font-bold text-primary-text">{product.price}</span>
+          <span className="messwert text-lg font-bold text-primary">{product.price}</span>
         </div>
         {product.inStock === false && (
           <span className="text-[11px] font-semibold text-muted-foreground">{t("onRequest")}</span>
