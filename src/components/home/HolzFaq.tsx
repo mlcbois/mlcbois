@@ -37,7 +37,7 @@ export async function HolzFaq() {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[22rem_1fr] lg:gap-16">
           <div>
-            <p className="eyebrow mb-3 text-primary">{t("eyebrow")}</p>
+            <p className="eyebrow mb-3 text-primary-text">{t("eyebrow")}</p>
             <h2 className="font-heading text-3xl leading-tight font-black sm:text-4xl">
               {t("titel")}
             </h2>

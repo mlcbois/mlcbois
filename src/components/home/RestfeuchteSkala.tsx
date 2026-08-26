@@ -35,7 +35,7 @@ export async function RestfeuchteSkala() {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-end">
           <div>
-            <p className="eyebrow mb-3 text-primary">{t("eyebrow")}</p>
+            <p className="eyebrow mb-3 text-primary-text">{t("eyebrow")}</p>
             <h2 className="max-w-2xl font-heading text-3xl leading-tight font-black sm:text-[2.6rem]">
               {t("titel")}
             </h2>

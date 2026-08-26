@@ -49,6 +49,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-text: var(--primary-text);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -86,6 +87,13 @@
    */
   --primary: #ff5c00;
   --primary-foreground: #ffffff;
+  /*
+   * Même orange, assombri pour rester lisible en texte fin sur fond clair :
+   * #ff5c00 direct n'y passe pas l'AA (3,1:1, voir plus haut). #cc4a00 sur
+   * blanc calcule à 4,62:1. Réservé aux usages texte (prix, eyebrows) — les
+   * boutons/remplissages continuent d'utiliser --primary tel quel.
+   */
+  --primary-text: #cc4a00;
   --secondary: #000000;
   --secondary-foreground: #f7f2ea;
   --muted: #f6f2ec;

@@ -4,11 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { CartProvider } from "@/components/cart/CartProvider";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
-import { ExitIntentPopup } from "@/components/ExitIntentPopup";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { SmartsuppChat } from "@/components/SmartsuppChat";
+import { DeferredWidgets } from "@/components/DeferredWidgets";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { CodeSnippets } from "@/components/CodeSnippets";
 
@@ -46,15 +43,10 @@ export default async function LocaleLayout({
       <CodeSnippets placement="bodyStart" />
       <CartProvider>
         {children}
-        <CartDrawer paymentSlot={<PaymentMethodsBar variant="inline" />} />
-        {/* Popup de sortie : lit l'historique de consultation de la session,
-            posé une seule fois pour toute la boutique. */}
-        <ExitIntentPopup />
-        {/* Boutons de contact flottants : WhatsApp à gauche, chat Smartsupp à
-            droite. Smartsupp ne s'affiche que si sa clé d'environnement est
-            renseignée. */}
-        <WhatsAppButton />
-        <SmartsuppChat />
+        {/* Tiroir panier, popup de sortie, boutons de contact flottants :
+            aucun n'a de rôle dans le premier rendu, tous chargés hors du
+            paquet JS initial — voir DeferredWidgets. */}
+        <DeferredWidgets paymentSlot={<PaymentMethodsBar variant="inline" />} />
         {/* Recueille le consentement avant tout chargement automatique du
             chat — voir SmartsuppLauncher pour la raison. */}
         <CookieConsentBanner />
