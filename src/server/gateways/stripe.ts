@@ -77,6 +77,12 @@ export const stripeGateway: PaymentGateway = {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      // Sans ce champ, Stripe choisit lui-même les moyens de paiement à
+      // proposer (Klarna, Satispay, Amazon Pay…) d'après ce qui est activé sur
+      // le compte — au-delà de la seule carte que le client vient de choisir
+      // dans le tunnel de la boutique. La fiche « Carte bancaire » ne doit
+      // proposer que la carte.
+      payment_method_types: ["card"],
       locale: order.locale === "en" ? "en" : "fr",
       customer_email: order.email,
       // Rattache la session à la commande des deux façons : le webhook lira l'une
