@@ -368,7 +368,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Bûches de feuillus durs — chêne, charme et hêtre — de 50 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 6 stères.",
     description:
       "Bois de chauffage en bûches de 50 cm, issu d'un mélange de feuillus durs : chêne, charme et hêtre. Le " +
-      "bois est vendu au stère, de 1 à 6 stères selon le volume retenu, et livré en vrac par camion-grue qui " +
+      "bois est vendu au stère, de 1 à 6 stères selon le volume retenu — soit environ 1,4 à 8,6 mètres cubes " +
+      "apparents, à raison d'environ 0,7 stère par mètre cube apparent — et livré en vrac par camion-grue qui " +
       "le dépose au sol à l'endroit convenu. Aucun emballage, aucune palette à retourner : c'est la formule la " +
       "plus économique au stère, en échange du temps d'empilage." +
       "\n\n" +
@@ -394,9 +395,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     descriptionEn:
       "Firewood in 50 cm logs, from a mix of dense hardwoods: oak, hornbeam and beech. The wood is sold by the " +
       "stère (the French unit for stacked wood, roughly 0.7 m³), from 1 to 6 stères depending on the volume " +
-      "chosen, and delivered loose by crane truck, which sets it down at the agreed spot. No packaging and no " +
-      "pallet to return: this is the most economical option per stère, in exchange for the time spent " +
-      "stacking." +
+      "chosen — about 1.4 to 8.6 loose cubic metres — and delivered loose by crane truck, which sets it down " +
+      "at the agreed spot. No packaging and no pallet to return: this is the most economical option per " +
+      "stère, in exchange for the time spent stacking." +
       "\n\n" +
       "The three species were chosen for their density. Oak brings the long ember phase and the staying power " +
       "at the end of a burn, hornbeam a slow combustion and sustained heat, beech a calm and regular flame. " +
@@ -423,7 +424,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs, livrées en vrac",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Vrac sans emballage, déversé au sol par camion-grue",
-      "Quantité : De 1 à 6 stères selon la variante retenue",
+      "Quantité : De 1 à 6 stères, soit environ 1,4 à 8,6 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 50 cm",
       "Taux d'humidité : Environ 30 %, bois mi-sec",
       "Appareils compatibles : Cheminées à foyer ouvert et inserts à grande chambre de combustion",
@@ -435,7 +436,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Dense hardwood logs, delivered loose",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Loose and unpackaged, tipped on the ground by crane truck",
-      "Quantity: 1 to 6 stères depending on the option chosen",
+      "Quantity: 1 to 6 stères, about 1.4 to 8.6 loose m³, depending on the option chosen",
       "Size: Logs cut to 50 cm",
       "Moisture content: Around 30%, part-seasoned wood",
       "Suitable appliances: Open fireplaces and inserts with a large firebox",
@@ -449,11 +450,13 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
     mpn: "MLC-VRAC-33",
     shortDescription:
-      "Bûches de feuillus durs — chêne, charme et hêtre — de 33 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
+      "Bûches de feuillus durs — chêne, charme et hêtre — de 33 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 5 stères.",
     description:
       "Bois de chauffage en bûches de 33 cm, coupé dans un mélange de feuillus durs — chêne, charme et hêtre — " +
-      "et livré en vrac, sans conditionnement. Le volume se choisit de 1 à 7 stères, la livraison s'effectuant " +
-      "par camion-grue qui dépose le bois au sol à l'emplacement indiqué." +
+      "et livré en vrac, sans conditionnement. Le volume se choisit de 1 à 5 stères, soit environ 1,4 à " +
+      "7,1 mètres cubes apparents (1 mètre cube apparent équivaut à environ 0,7 stère, l'équivalence usuelle " +
+      "entre les deux unités), la livraison s'effectuant par camion-grue qui dépose le bois au sol à " +
+      "l'emplacement indiqué." +
       "\n\n" +
       "Le 33 cm est le format le plus répandu du marché français, et celui qui pose le moins de questions de " +
       "compatibilité : la grande majorité des inserts et des poêles à bûches vendus en France acceptent cette " +
@@ -476,8 +479,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "assure la poursuite du séchage.",
     descriptionEn:
       "Firewood in 33 cm logs, cut from a mix of dense hardwoods — oak, hornbeam and beech — and delivered " +
-      "loose, with no packaging. Volume can be chosen from 1 to 7 stères (the French unit for stacked wood, " +
-      "roughly 0.7 m³ each), with delivery by crane truck, which sets the wood down at the spot you indicate." +
+      "loose, with no packaging. Volume can be chosen from 1 to 5 stères, about 1.4 to 7.1 loose cubic metres " +
+      "(one loose cubic metre equals roughly 0.7 stère, the French unit for stacked wood), with delivery by " +
+      "crane truck, which sets the wood down at the spot you indicate." +
       "\n\n" +
       "33 cm is the most widespread format on the French market, and the one that raises the fewest " +
       "compatibility questions: the great majority of inserts and log stoves sold in France take this length, " +
@@ -498,13 +502,13 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "A raised stack, open to the air along the sides and covered across the top only, lets the seasoning " +
       "continue.",
     shortDescriptionEn:
-      "Loose-tipped hardwood logs — oak, hornbeam, beech — 33 cm, delivered by crane truck, about 30% moisture, 1 to 7 stères.",
+      "Loose-tipped hardwood logs — oak, hornbeam, beech — 33 cm, delivered by crane truck, about 30% moisture, 1 to 5 stères.",
     bullets: [
       "Produit : Bois de chauffage en bûches",
       "Type de produit : Bûches de feuillus durs, livrées en vrac",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Vrac sans emballage, déversé au sol par camion-grue",
-      "Quantité : De 1 à 7 stères selon la variante retenue",
+      "Quantité : De 1 à 5 stères, soit environ 1,4 à 7,1 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 33 cm",
       "Taux d'humidité : Environ 30 %, bois mi-sec",
       "Appareils compatibles : La plupart des inserts et poêles à bûches du marché",
@@ -516,7 +520,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Dense hardwood logs, delivered loose",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Loose and unpackaged, tipped on the ground by crane truck",
-      "Quantity: 1 to 7 stères depending on the option chosen",
+      "Quantity: 1 to 5 stères, about 1.4 to 7.1 loose m³, depending on the option chosen",
       "Size: Logs cut to 33 cm",
       "Moisture content: Around 30%, part-seasoned wood",
       "Suitable appliances: Most inserts and log stoves on the market",
@@ -530,11 +534,12 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // et vend ce produit. Google accepte marque + MPN à défaut de code-barres.
     mpn: "MLC-VRAC-25",
     shortDescription:
-      "Bûches de feuillus durs — chêne, charme et hêtre — de 25 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 7 stères.",
+      "Bûches de feuillus durs — chêne, charme et hêtre — de 25 cm, livrées en vrac par camion-grue, humidité autour de 30 %, de 1 à 5 stères.",
     description:
       "Bois de chauffage en bûches courtes de 25 cm, issu d'un mélange de feuillus durs : chêne, charme et " +
       "hêtre. Livraison en vrac par camion-grue, qui dépose le bois au sol sans conditionnement ; le volume se " +
-      "choisit de 1 à 7 stères." +
+      "choisit de 1 à 5 stères, soit environ 1,4 à 7,1 mètres cubes apparents (1 mètre cube apparent équivaut " +
+      "à environ 0,7 stère, l'équivalence usuelle entre les deux unités)." +
       "\n\n" +
       "C'est la longueur des chambres de combustion compactes : petits inserts, poêles à bûches d'appoint, " +
       "foyers peu profonds, appareils de faible puissance installés dans un logement bien isolé. Une bûche de " +
@@ -557,7 +562,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     descriptionEn:
       "Firewood in short 25 cm logs, from a mix of dense hardwoods: oak, hornbeam and beech. Delivered loose " +
       "by crane truck, which sets the wood down on the ground with no packaging; volume can be chosen from 1 " +
-      "to 7 stères (the French unit for stacked wood, roughly 0.7 m³ each)." +
+      "to 5 stères, about 1.4 to 7.1 loose cubic metres (one loose cubic metre equals roughly 0.7 stère, the " +
+      "French unit for stacked wood)." +
       "\n\n" +
       "This is the length for compact fireboxes: small inserts, secondary log stoves, shallow hearths, " +
       "low-output appliances fitted in a well-insulated home. A 25 cm log leaves room around the charge for " +
@@ -577,13 +583,13 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "wood arrives in a heap; stack it raised a few centimetres off the ground, leaving air to circulate " +
       "along the sides, and cover only the top of the pile.",
     shortDescriptionEn:
-      "Loose-tipped hardwood logs — oak, hornbeam, beech — 25 cm, delivered by crane truck, about 30% moisture, 1 to 7 stères.",
+      "Loose-tipped hardwood logs — oak, hornbeam, beech — 25 cm, delivered by crane truck, about 30% moisture, 1 to 5 stères.",
     bullets: [
       "Produit : Bois de chauffage en bûches",
       "Type de produit : Bûches de feuillus durs, livrées en vrac",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Vrac sans emballage, déversé au sol par camion-grue",
-      "Quantité : De 1 à 7 stères selon la variante retenue",
+      "Quantité : De 1 à 5 stères, soit environ 1,4 à 7,1 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 25 cm",
       "Taux d'humidité : Environ 30 %, bois mi-sec",
       "Appareils compatibles : Foyers et poêles à bûches à chambre de combustion compacte",
@@ -595,7 +601,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Dense hardwood logs, delivered loose",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Loose and unpackaged, tipped on the ground by crane truck",
-      "Quantity: 1 to 7 stères depending on the option chosen",
+      "Quantity: 1 to 5 stères, about 1.4 to 7.1 loose m³, depending on the option chosen",
       "Size: Logs cut to 25 cm",
       "Moisture content: Around 30%, part-seasoned wood",
       "Suitable appliances: Fireplaces and log stoves with a compact firebox",
@@ -620,9 +626,10 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 40 cm, sur palette filmée, humidité sous 20 %, de 1,5 à 2,5 stères.",
     description:
       "Bois de chauffage extra-sec en bûches de 40 cm, coupé dans un mélange de feuillus durs — chêne, charme " +
-      "et hêtre — et livré sur palette filmée, rangé et prêt à brûler. Les lots vont de 1,5 à 2,5 stères ; " +
-      "c'est le seul format de la gamme à descendre jusqu'à 1,5 stère, ce qui en fait le lot d'appoint pour " +
-      "compléter une réserve en cours de saison sans engager le volume d'une palette pleine." +
+      "et hêtre — et livré sur palette filmée, rangé et prêt à brûler. Les lots vont de 1,5 à 2,5 stères, " +
+      "soit environ 2,1 à 3,6 mètres cubes apparents ; c'est le seul format de la gamme à descendre jusqu'à " +
+      "1,5 stère, ce qui en fait le lot d'appoint pour compléter une réserve en cours de saison sans engager " +
+      "le volume d'une palette pleine." +
       "\n\n" +
       "Le 40 cm est une longueur intermédiaire, entre le format standard des inserts et les bûches de " +
       "cheminée. Il s'adresse aux foyers ouverts et aux inserts à grande chambre de combustion, où une bûche " +
@@ -646,10 +653,10 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "emplacement couvert et aéré suffit à conserver le taux d'humidité jusqu'à la dernière bûche.",
     descriptionEn:
       "Extra-dry firewood in 40 cm logs, cut from a mix of dense hardwoods — oak, hornbeam and beech — and " +
-      "delivered on a shrink-wrapped pallet, stacked and ready to burn. Lots run from 1.5 to 2.5 stères (the " +
-      "French unit for stacked wood, roughly 0.7 m³ each); this is the only format in the range that goes down " +
-      "to 1.5 stère, which makes it the top-up lot for replenishing a store mid-season without committing to a " +
-      "full pallet." +
+      "delivered on a shrink-wrapped pallet, stacked and ready to burn. Lots run from 1.5 to 2.5 stères, about " +
+      "2.1 to 3.6 loose cubic metres (one loose cubic metre equals roughly 0.7 stère, the French unit for " +
+      "stacked wood); this is the only format in the range that goes down to 1.5 stère, which makes it the " +
+      "top-up lot for replenishing a store mid-season without committing to a full pallet." +
       "\n\n" +
       "40 cm is an intermediate length, between the standard insert format and true fireplace logs. It is " +
       "aimed at open fires and inserts with a large firebox, where a 33 cm log leaves wasted space at the " +
@@ -676,7 +683,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs extra-secs, sur palette",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Palette filmée, film à retirer dès la réception",
-      "Quantité : De 1,5 à 2,5 stères selon la variante retenue",
+      "Quantité : De 1,5 à 2,5 stères, soit environ 2,1 à 3,6 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 40 cm",
       "Taux d'humidité : Inférieur à 20 %, bois extra-sec",
       "Appareils compatibles : Foyers ouverts et inserts à grande chambre de combustion",
@@ -688,7 +695,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Extra-dry dense hardwood logs, palletised",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Shrink-wrapped pallet, film to be removed on receipt",
-      "Quantity: 1.5 to 2.5 stères depending on the option chosen",
+      "Quantity: 1.5 to 2.5 stères, about 2.1 to 3.6 loose m³, depending on the option chosen",
       "Size: Logs cut to 40 cm",
       "Moisture content: Below 20%, extra-dry wood",
       "Suitable appliances: Open fires and inserts with a large firebox",
@@ -705,9 +712,10 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Bûches de feuillus durs extra-secs — chêne, charme et hêtre — de 33 cm, sur palette filmée, humidité sous 20 %, de 2,5 à 3 stères.",
     description:
       "Bois de chauffage extra-sec en bûches de 33 cm, issu d'un mélange de feuillus durs — chêne, charme et " +
-      "hêtre — livré sur palette filmée. Deux volumes sont proposés, 2,5 et 3 stères : ce sont les lots les " +
-      "plus importants de la gamme sur palette, dimensionnés pour couvrir une saison de chauffage complète " +
-      "en une seule livraison plutôt que d'enchaîner les réassorts." +
+      "hêtre — livré sur palette filmée. Deux volumes sont proposés, 2,5 et 3 stères, soit environ 3,6 à " +
+      "4,3 mètres cubes apparents : ce sont les lots les plus importants de la gamme sur palette, dimensionnés " +
+      "pour couvrir une saison de chauffage complète en une seule livraison plutôt que d'enchaîner les " +
+      "réassorts." +
       "\n\n" +
       "Le 33 cm est le format de référence du marché français. C'est la longueur pour laquelle la grande " +
       "majorité des inserts et des poêles à bûches vendus en France sont dimensionnés, et celle qui pose le " +
@@ -730,9 +738,10 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "saison.",
     descriptionEn:
       "Extra-dry firewood in 33 cm logs, from a mix of dense hardwoods — oak, hornbeam and beech — delivered " +
-      "on a shrink-wrapped pallet. Two volumes are offered, 2.5 and 3 stères (the French unit for stacked " +
-      "wood, roughly 0.7 m³ each): these are the largest lots in the palletised range, sized to cover a full " +
-      "heating season in a single delivery rather than through repeated top-ups." +
+      "on a shrink-wrapped pallet. Two volumes are offered, 2.5 and 3 stères, about 3.6 to 4.3 loose cubic " +
+      "metres (one loose cubic metre equals roughly 0.7 stère, the French unit for stacked wood): these are " +
+      "the largest lots in the palletised range, sized to cover a full heating season in a single delivery " +
+      "rather than through repeated top-ups." +
       "\n\n" +
       "33 cm is the reference format on the French market. It is the length most inserts and log stoves sold " +
       "in France are designed around, and the one that raises the fewest questions at the point of choosing: " +
@@ -758,7 +767,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs extra-secs, sur palette",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Palette filmée, film à retirer dès la réception",
-      "Quantité : 2,5 ou 3 stères selon la variante retenue",
+      "Quantité : 2,5 ou 3 stères, soit environ 3,6 à 4,3 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 33 cm",
       "Taux d'humidité : Inférieur à 20 %, bois extra-sec",
       "Appareils compatibles : La plupart des inserts et poêles à bûches du marché",
@@ -770,7 +779,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Extra-dry dense hardwood logs, palletised",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Shrink-wrapped pallet, film to be removed on receipt",
-      "Quantity: 2.5 or 3 stères depending on the option chosen",
+      "Quantity: 2.5 or 3 stères, about 3.6 to 4.3 loose m³, depending on the option chosen",
       "Size: Logs cut to 33 cm",
       "Moisture content: Below 20%, extra-dry wood",
       "Suitable appliances: Most inserts and log stoves on the market",
@@ -790,7 +799,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     description:
       "Bois de chauffage extra-sec en bûches de 30 cm, coupé dans un mélange de feuillus durs — chêne, charme " +
       "et hêtre — et livré sur palette filmée, prêt à brûler. Trois volumes sont proposés : 2, 2,5 et " +
-      "3 stères." +
+      "3 stères, soit environ 2,9 à 4,3 mètres cubes apparents." +
       "\n\n" +
       "Le 30 cm existe pour une raison très pratique : la marge. Une bûche annoncée à 33 cm peut, selon la " +
       "coupe, dépasser de un ou deux centimètres, et un foyer dont la profondeur utile est tout juste de " +
@@ -814,8 +823,9 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "fait descendre.",
     descriptionEn:
       "Extra-dry firewood in 30 cm logs, cut from a mix of dense hardwoods — oak, hornbeam and beech — and " +
-      "delivered on a shrink-wrapped pallet, ready to burn. Three volumes are offered: 2, 2.5 and 3 stères " +
-      "(the French unit for stacked wood, roughly 0.7 m³ each)." +
+      "delivered on a shrink-wrapped pallet, ready to burn. Three volumes are offered: 2, 2.5 and 3 stères, " +
+      "about 2.9 to 4.3 loose cubic metres (one loose cubic metre equals roughly 0.7 stère, the French unit " +
+      "for stacked wood)." +
       "\n\n" +
       "30 cm exists for a very practical reason: clearance. A log sold as 33 cm may, depending on the cut, " +
       "run over by a centimetre or two, and a firebox with a usable depth of exactly 33 cm then becomes " +
@@ -840,7 +850,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs extra-secs, sur palette",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Palette filmée, film à retirer dès la réception",
-      "Quantité : De 2 à 3 stères selon la variante retenue",
+      "Quantité : De 2 à 3 stères, soit environ 2,9 à 4,3 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 30 cm",
       "Taux d'humidité : Inférieur à 20 %, bois extra-sec",
       "Appareils compatibles : Inserts et poêles à bûches, y compris foyers donnés pour 33 cm",
@@ -852,7 +862,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Extra-dry dense hardwood logs, palletised",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Shrink-wrapped pallet, film to be removed on receipt",
-      "Quantity: 2 to 3 stères depending on the option chosen",
+      "Quantity: 2 to 3 stères, about 2.9 to 4.3 loose m³, depending on the option chosen",
       "Size: Logs cut to 30 cm",
       "Moisture content: Below 20%, extra-dry wood",
       "Suitable appliances: Inserts and log stoves, including fireboxes rated for 33 cm",
@@ -870,7 +880,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     description:
       "Bois de chauffage extra-sec en bûches courtes de 25 cm, issu d'un mélange de feuillus durs — chêne, " +
       "charme et hêtre — et livré sur palette filmée. C'est le format qui offre la plus large gamme de " +
-      "volumes : 1,8, 2 ou 3 stères, du lot d'appoint à la réserve de saison." +
+      "volumes : 1,8, 2 ou 3 stères, soit environ 2,6 à 4,3 mètres cubes apparents, du lot d'appoint à la " +
+      "réserve de saison." +
       "\n\n" +
       "La coupe à 25 cm est celle des chambres de combustion compactes : petits inserts, poêles à bûches " +
       "d'appoint, foyers peu profonds, appareils de faible puissance installés dans un logement bien isolé. " +
@@ -894,8 +905,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     descriptionEn:
       "Extra-dry firewood in short 25 cm logs, from a mix of dense hardwoods — oak, hornbeam and beech — " +
       "delivered on a shrink-wrapped pallet. This is the format with the widest choice of volumes: 1.8, 2 or " +
-      "3 stères (the French unit for stacked wood, roughly 0.7 m³ each), from a top-up lot to a full season's " +
-      "store." +
+      "3 stères, about 2.6 to 4.3 loose cubic metres (one loose cubic metre equals roughly 0.7 stère, the " +
+      "French unit for stacked wood), from a top-up lot to a full season's store." +
       "\n\n" +
       "The 25 cm cut is the one for compact fireboxes: small inserts, secondary log stoves, shallow hearths, " +
       "low-output appliances fitted in a well-insulated home. In a firebox of that size, a short log leaves " +
@@ -921,7 +932,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs extra-secs, sur palette",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Palette filmée, film à retirer dès la réception",
-      "Quantité : 1,8, 2 ou 3 stères selon la variante retenue",
+      "Quantité : 1,8, 2 ou 3 stères, soit environ 2,6 à 4,3 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 25 cm",
       "Taux d'humidité : Inférieur à 20 %, bois extra-sec",
       "Appareils compatibles : Foyers et poêles à bûches à chambre de combustion compacte",
@@ -933,7 +944,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Extra-dry dense hardwood logs, palletised",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Shrink-wrapped pallet, film to be removed on receipt",
-      "Quantity: 1.8, 2 or 3 stères depending on the option chosen",
+      "Quantity: 1.8, 2 or 3 stères, about 2.6 to 4.3 loose m³, depending on the option chosen",
       "Size: Logs cut to 25 cm",
       "Moisture content: Below 20%, extra-dry wood",
       "Suitable appliances: Fireplaces and log stoves with a compact firebox",
@@ -951,7 +962,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     description:
       "Bois de chauffage extra-sec en bûches de 50 cm, coupé dans un mélange de feuillus durs — chêne, charme " +
       "et hêtre — et livré sur palette filmée, rangé et prêt à brûler. Deux volumes sont proposés : 2 ou " +
-      "3 stères." +
+      "3 stères, soit environ 2,9 à 4,3 mètres cubes apparents." +
       "\n\n" +
       "C'est la plus grande longueur de la gamme, et elle suppose un appareil dimensionné en conséquence : " +
       "cheminée à foyer ouvert, insert de grande largeur, poêle à bûches de forte puissance. La profondeur " +
@@ -974,7 +985,8 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     descriptionEn:
       "Extra-dry firewood in 50 cm logs, cut from a mix of dense hardwoods — oak, hornbeam and beech — and " +
       "delivered on a shrink-wrapped pallet, stacked and ready to burn. Two volumes are offered: 2 or " +
-      "3 stères (the French unit for stacked wood, roughly 0.7 m³ each)." +
+      "3 stères, about 2.9 to 4.3 loose cubic metres (one loose cubic metre equals roughly 0.7 stère, the " +
+      "French unit for stacked wood)." +
       "\n\n" +
       "This is the longest format in the range, and it assumes an appliance sized to match: an open " +
       "fireplace, a wide insert, a high-output log stove. The usable depth of a compact appliance rarely " +
@@ -1000,7 +1012,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Type de produit : Bûches de feuillus durs extra-secs, sur palette",
       "Composition : Chêne, charme et hêtre",
       "Conditionnement : Palette filmée, film à retirer dès la réception",
-      "Quantité : 2 ou 3 stères selon la variante retenue",
+      "Quantité : 2 ou 3 stères, soit environ 2,9 à 4,3 m³ apparents, selon la variante retenue",
       "Taille : Bûches coupées à 50 cm",
       "Taux d'humidité : Inférieur à 20 %, bois extra-sec",
       "Appareils compatibles : Cheminées à foyer ouvert et inserts à grande chambre de combustion",
@@ -1012,7 +1024,7 @@ export const PRODUCT_CONTENT: ProductContent[] = [
       "Product type: Extra-dry dense hardwood logs, palletised",
       "Composition: Oak, hornbeam and beech",
       "Packaging: Shrink-wrapped pallet, film to be removed on receipt",
-      "Quantity: 2 or 3 stères depending on the option chosen",
+      "Quantity: 2 or 3 stères, about 2.9 to 4.3 loose m³, depending on the option chosen",
       "Size: Logs cut to 50 cm",
       "Moisture content: Below 20%, extra-dry wood",
       "Suitable appliances: Open fireplaces and inserts with a large firebox",
@@ -2296,7 +2308,10 @@ export const PRODUCT_CONTENT: ProductContent[] = [
     // Correction : le bullet en base annoncait a tort "Certifie ENplus A1". La recherche
     // (registre DIN CERTCO, fabricant GDM Group, plusieurs distributeurs) etablit une
     // certification DINplus, sans aucune trace d'ENplus. C'est DINplus qui figure ci-dessous.
-    slug: "limouzi-limouzi-granules-enplus-a1-palette-de-66-sacs-de-15-kg",
+    // Slug realigne sur la base le 2026-08-26 : la ligne "...-enplus-a1-..." a ete
+    // renommee en base au moment de la correction ci-dessus, mais ce fichier avait
+    // garde l'ancien slug — l'entree devenait donc invisible pour apply-product-content.ts.
+    slug: "limouzi-limouzi-granules-palette-de-66-sacs-de-15-kg",
     shortDescription:
       "Granulés de bois Limouzi, résineux du Limousin, certifiés DINplus et PEFC, palette de 66 sacs de 15 kg.",
     description:
