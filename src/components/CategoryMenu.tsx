@@ -38,7 +38,6 @@ export function CategoryMenu() {
         type="button"
         aria-haspopup="true"
         aria-expanded={open}
-        aria-label={t("categories")}
         onClick={() => setOpen((current) => !current)}
         className="flex items-center gap-2 rounded-sm bg-muted px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-border"
       >

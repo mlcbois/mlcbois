@@ -30,7 +30,7 @@ export async function SortimentGrid({ karten }: { karten: SortimentKarte[] }) {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="eyebrow mb-3 text-primary-text">{t("eyebrow")}</p>
+            <p className="eyebrow mb-3 text-primary">{t("eyebrow")}</p>
             <h2 className="font-heading text-3xl leading-tight font-black sm:text-[2.6rem]">
               {t("titel")}
             </h2>
@@ -67,7 +67,7 @@ export async function SortimentGrid({ karten }: { karten: SortimentKarte[] }) {
                   </p>
                   <p className="mt-auto flex items-baseline gap-1.5 pt-4">
                     <span className="text-[0.7rem] text-muted-foreground">{common("from")}</span>
-                    <span className="messwert text-lg font-bold text-primary-text">{karte.abPreis}</span>
+                    <span className="messwert text-lg font-bold text-primary">{karte.abPreis}</span>
                     <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                   </p>
                 </div>

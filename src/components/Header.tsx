@@ -116,7 +116,6 @@ export async function Header() {
               <Link
                 href="/compte"
                 prefetch={false}
-                aria-label={common("account")}
                 className="flex flex-col items-center gap-1 rounded-sm transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <User className="h-5 w-5" />

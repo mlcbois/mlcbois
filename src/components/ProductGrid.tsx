@@ -23,7 +23,7 @@ export function ProductGrid({
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           {eyebrow && (
-            <p className="eyebrow mb-3 text-primary-text">{eyebrow}</p>
+            <p className="eyebrow mb-3 text-primary">{eyebrow}</p>
           )}
           <h2 className="font-heading text-3xl leading-tight font-black text-foreground sm:text-[2.6rem]">
             {heading}
