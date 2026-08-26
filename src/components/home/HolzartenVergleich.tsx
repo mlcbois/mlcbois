@@ -33,7 +33,7 @@ export async function HolzartenVergleich() {
     <section className="bg-white py-14 sm:py-20">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
         <div className="mb-10 max-w-2xl">
-          <p className="eyebrow mb-3 text-primary">{t("eyebrow")}</p>
+          <p className="eyebrow mb-3 text-primary-text">{t("eyebrow")}</p>
           <h2 className="font-heading text-3xl leading-tight font-black sm:text-[2.6rem]">
             {t("titel")}
           </h2>
@@ -110,9 +110,9 @@ export async function HolzartenVergleich() {
             >
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="font-heading text-base font-bold">{t(`namen.${holz.key}`)}</h3>
-                <span className="messwert text-sm font-bold text-primary">
+                <span className="messwert text-sm font-bold text-primary-text">
                   {holz.kwh.toLocaleString("fr-FR")}
-                  <span className="einheit ml-1 text-primary">kWh/rm</span>
+                  <span className="einheit ml-1 text-primary-text">kWh/rm</span>
                 </span>
               </div>
               <span className="mt-2 block h-2 w-full overflow-hidden rounded-full bg-muted">
