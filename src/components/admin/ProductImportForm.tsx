@@ -57,7 +57,7 @@ export function ProductImportForm({ categories }: { categories: CategoryOption[]
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
-  const exampleCategoryId = categories[0]?.id ?? "haushalt/waschmaschinen";
+  const exampleCategoryId = categories[0]?.id ?? "bois-de-chauffage/vrac";
 
   async function run(dryRun: boolean) {
     setPending(true);

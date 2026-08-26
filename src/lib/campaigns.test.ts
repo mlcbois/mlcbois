@@ -32,11 +32,11 @@ import type { CartLine } from "./cart";
 function line(priceCents: number, quantity = 1): CartLine {
   return {
     productId: `p-${priceCents}-${quantity}`,
-    slug: "artikel",
-    brand: "Bosch",
-    name: "Serie 6",
-    image: "/images/artikel.jpg",
-    path: "/kuechengeraete/waschmaschinen/artikel",
+    slug: "article",
+    brand: "MLC Bois",
+    name: "Hêtre 33 cm",
+    image: "/images/bois/buche.jpg",
+    path: "/bois-de-chauffage/palette/article",
     priceCents,
     quantity,
     stock: 10,

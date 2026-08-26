@@ -229,7 +229,7 @@ export function ProductPreview({
                 : "bg-muted text-muted-foreground"
             }`}
           >
-            In den Warenkorb
+            Ajouter au panier
           </span>
 
           <div className="flex flex-col gap-1.5 border-t border-border pt-3 text-[11px] text-muted-foreground">

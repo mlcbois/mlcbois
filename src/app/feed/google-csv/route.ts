@@ -138,7 +138,7 @@ export async function GET(): Promise<Response> {
   return new Response(`${lines.join("\n")}\n`, {
     headers: {
       "Content-Type": "text/tab-separated-values; charset=utf-8",
-      "Content-Disposition": 'inline; filename="hausgeraete-pfeffer-google-feed.tsv"',
+      "Content-Disposition": 'inline; filename="mlc-bois-google-feed.tsv"',
       "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
       "X-Robots-Tag": "noindex",
     },

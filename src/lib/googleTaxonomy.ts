@@ -34,58 +34,6 @@ export const GOOGLE_CATEGORY_BY_SLUG: Record<string, GoogleCategory> = {
   // combustible, et le déclarer sous 625 ferait refuser la fiche par Merchant
   // Center. À renseigner avec la bonne feuille de taxonomie le jour où des
   // appareils entrent au catalogue.
-  kaffeemaschinen: {
-    id: "736",
-    path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Machines à café et à expresso",
-  },
-  waschmaschinen: {
-    id: "2549",
-    path: "Maison et jardin > Électroménager > Lavage et séchage > Lave-linge",
-  },
-  geschirrspueler: {
-    id: "680",
-    path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Lave-vaisselle",
-  },
-  staubsauger: {
-    id: "619",
-    path: "Maison et jardin > Électroménager > Aspirateurs",
-  },
-  "backoefen-herde": {
-    id: "683",
-    path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Fours",
-  },
-  kuechenmaschinen: {
-    id: "505666",
-    path: "Maison et jardin > Cuisine et salle à manger > Appareils de cuisine > Mixeurs et mixeurs plongeants",
-  },
-  klimageraete: {
-    id: "605",
-    path: "Maison et jardin > Électroménager > Climatisation > Climatiseurs",
-  },
-  smartphones: {
-    id: "267",
-    path: "Électronique > Appareils de communication > Téléphones > Téléphones mobiles",
-  },
-  fernseher: {
-    id: "404",
-    path: "Elektronik > Video > Fernseher",
-  },
-  computer: {
-    id: "278",
-    path: "Elektronik > Computer",
-  },
-  videospiele: {
-    id: "1279",
-    path: "Software > PC- & Videospiele",
-  },
-  smartwatches: {
-    id: "201",
-    path: "Bekleidung & Accessoires > Schmuck > Armbanduhren & Taschenuhren",
-  },
-  drohnen: {
-    id: "2546",
-    path: "Spielzeuge & Spiele > Spielzeuge > Ferngesteuertes Spielzeug",
-  },
 };
 
 /** Retrouve le chemin lisible d'un identifiant de catégorie Google. */
@@ -94,10 +42,11 @@ export function googleCategoryPath(id: string): string | undefined {
 }
 
 /**
- * Catégories rattachées à « Bekleidung & Accessoires » : Google y exige
- * age_group, gender, color et size pour la France.
+ * Catégories d'habillement, où Google exige age_group, gender, color et size
+ * pour la France. Aucune sur ce catalogue de bois de chauffage — l'ensemble
+ * reste vide plutôt que supprimé, `merchant.ts` s'appuyant dessus.
  */
-export const APPAREL_CATEGORY_IDS = new Set(["201"]);
+export const APPAREL_CATEGORY_IDS = new Set<string>();
 
 /**
  * Catégories soumises à l'étiquette énergie européenne. Depuis avril 2025,
@@ -105,11 +54,6 @@ export const APPAREL_CATEGORY_IDS = new Set(["201"]);
  * Google attend l'attribut certification (EC / EPREL / numéro d'enregistrement).
  */
 export const EU_ENERGY_LABEL_SLUGS = new Set([
-  "waschmaschinen",
-  "geschirrspueler",
-  "backoefen-herde",
-  "klimageraete",
-  "fernseher",
   // Poêles à bois : appareils de chauffage à combustible solide, soumis à
   // l'étiquetage énergétique européen depuis le règlement délégué (UE)
   // 2015/1186 — chaque fiche Deville de ce catalogue porte d'ailleurs déjà

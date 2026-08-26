@@ -45,7 +45,7 @@ export async function RestfeuchteSkala() {
           </div>
           <div className="relative hidden aspect-[4/3] overflow-hidden rounded-lg lg:block">
             <Image
-              src="/images/brennholz/kaminfeuer.jpg"
+              src="/images/bois/kaminfeuer.jpg"
               alt={t("bildAlt")}
               fill
               sizes="20rem"

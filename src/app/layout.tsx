@@ -22,7 +22,7 @@ const FALLBACK_TITLE = "MLC Bois | Bois de chauffage prêt à brûler, moins de 
 const FALLBACK_DESCRIPTION =
   "Hêtre, chêne et bouleau séchés en séchoir, en bûches de 25, 33 et 50 cm, sous 18 % d'humidité. Livraison en France et Belgique.";
 /** Seule image du site qui représente la boutique sans dépendre d'un produit précis. */
-const FALLBACK_IMAGE = "/images/brennholz/hero-holzstapel.jpg";
+const FALLBACK_IMAGE = "/images/bois/hero-holzstapel.jpg";
 
 export const metadata: Metadata = {
   // Nécessaire pour que Next résolve en URL absolue les chemins d'image

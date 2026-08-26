@@ -19,7 +19,7 @@ export async function HeroBrennholz() {
   return (
     <section className="relative isolate overflow-hidden bg-secondary">
       <Image
-        src="/images/brennholz/hero-holzstapel.jpg"
+        src="/images/bois/hero-holzstapel.jpg"
         alt={t("bildAlt")}
         fill
         priority

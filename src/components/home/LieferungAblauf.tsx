@@ -27,7 +27,7 @@ export async function LieferungAblauf() {
       {/* La photo reste une texture de fond : assez présente pour rappeler la
           matière, assez discrète pour que le tableau des zones se lise. */}
       <Image
-        src="/images/brennholz/lose-schuettung.jpg"
+        src="/images/bois/lose-schuettung.jpg"
         alt=""
         aria-hidden="true"
         fill

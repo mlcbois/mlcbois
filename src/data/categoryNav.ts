@@ -44,22 +44,22 @@ export const categoryGroups: CategoryNavGroup[] = [
       {
         slug: "vrac",
         href: "/bois-de-chauffage/vrac",
-        image: "/images/brennholz/lose-schuettung.jpg",
+        image: "/images/bois/lose-schuettung.jpg",
       },
       {
         slug: "palette",
         href: "/bois-de-chauffage/palette",
-        image: "/images/brennholz/palette-box.jpg",
+        image: "/images/bois/palette-box.jpg",
       },
       {
         slug: "granules",
         href: "/bois-de-chauffage/granules",
-        image: "/images/brennholz/pellets.jpg",
+        image: "/images/bois/pellets.jpg",
       },
       {
         slug: "bois-compresse",
         href: "/bois-de-chauffage/bois-compresse",
-        image: "/images/brennholz/briketts.jpg",
+        image: "/images/bois/briketts.jpg",
       },
     ],
   },
@@ -70,7 +70,7 @@ export const categoryGroups: CategoryNavGroup[] = [
       {
         slug: "poele-a-bois",
         href: "/equipement/poele-a-bois",
-        image: "/images/brennholz/kaminfeuer.jpg",
+        image: "/images/bois/kaminfeuer.jpg",
       },
     ],
   },

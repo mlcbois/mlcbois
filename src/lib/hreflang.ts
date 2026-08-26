@@ -39,7 +39,7 @@ const OG_LOCALE: Record<Locale, string> = { fr: "fr_FR", en: "en_US" };
  * Le tas de bûches est la seule image du site qui représente la boutique sans
  * dépendre d'un produit précis.
  */
-const DEFAULT_OG_IMAGE = "/images/brennholz/hero-holzstapel.jpg";
+const DEFAULT_OG_IMAGE = "/images/bois/hero-holzstapel.jpg";
 
 /**
  * Bloc « openGraph » + « twitter » prêt pour l'API Metadata de Next.
