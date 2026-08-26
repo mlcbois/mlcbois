@@ -9,6 +9,7 @@ import { CategoryProductBrowser } from "@/components/CategoryProductBrowser";
 import { CategoryGuide } from "@/components/CategoryGuide";
 import { PaymentMethodsBar } from "@/components/PaymentMethodsBar";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ItemListJsonLd } from "@/components/seo/ItemListJsonLd";
 import { alternatesFor, openGraphFor } from "@/lib/hreflang";
 import { truncateForMeta } from "@/lib/metaDescription";
 import { getCategoryPage, listCategories } from "@/server/store";
@@ -108,6 +109,12 @@ export default async function CategoryPage({ params }: { params: CategoryPagePar
           { label: data.groupLabel, href: `/${data.group}` },
           { label: data.label },
         ]}
+      />
+      <ItemListJsonLd
+        items={data.products.map((product) => ({
+          name: `${product.brand} ${product.name}`,
+          href: product.href,
+        }))}
       />
     </>
   );
