@@ -3,8 +3,9 @@
  *
  * Mise en page : logo, bloc client à gauche et bloc vendeur à droite, références
  * de facture au centre, tableau des articles avec vignette produit, totaux à
- * droite, puis les coordonnées de paiement centrées et l'encadré de TVA
- * intracommunautaire en pied de page.
+ * droite, puis les coordonnées de paiement centrées et un pied de page où
+ * toutes les mentions légales (livraison, paiement, identité du vendeur, TVA
+ * intracommunautaire) suivent le même style — aucune mise en avant séparée.
  *
  * Mentions reprises : nom et adresse complets du vendeur et de l'acheteur,
  * date d'émission et numéro de facture unique, quantité et désignation de
@@ -93,8 +94,22 @@ function dateFrancaise(iso: string): string {
   return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
 }
 
+/**
+ * Civilité traduite pour affichage — même correspondance que le courriel de
+ * confirmation de commande (`src/server/emails/order.ts`). `salutation` n'est
+ * qu'une valeur interne du formulaire ("herr" / "frau" / "divers") : l'écrire
+ * telle quelle sur la facture l'aurait affichée mot pour mot au client.
+ */
+function civilite(salutation: string | undefined): string | undefined {
+  if (salutation === "herr") return "Monsieur";
+  if (salutation === "frau") return "Madame";
+  return undefined;
+}
+
 function lignesAdresse(adresse: OrderAddress): string[] {
-  const nom = [adresse.salutation, adresse.firstName, adresse.lastName].filter(Boolean).join(" ");
+  const nom = [civilite(adresse.salutation), adresse.firstName, adresse.lastName]
+    .filter(Boolean)
+    .join(" ");
   return [
     adresse.company,
     nom,
@@ -579,27 +594,10 @@ export async function buildInvoicePdf(
     `${COMPANY.name} · ${COMPANY.legalForm} · ${COMPANY.street} · ${COMPANY.city} · Tél. ${COMPANY.phone} · ${COMPANY.email} · ${COMPANY.register}`,
     7,
   );
-
-  const mentionTva = `TVA intracommunautaire : ${COMPANY.vatId}`;
-  const largeurMention = grasse.widthOfTextAtSize(winAnsi(mentionTva), 10);
-  const largeurCadre = largeurMention + 40;
-  const hauteurCadre = 26;
-  const yCadre = 52;
-  f.page.drawRectangle({
-    x: CENTRE - largeurCadre / 2,
-    y: yCadre,
-    width: largeurCadre,
-    height: hauteurCadre,
-    borderColor: NOIR,
-    borderWidth: 1,
-  });
-  texte(f, mentionTva, {
-    x: CENTRE,
-    y: yCadre + 9,
-    ancrage: "centre",
-    taille: 10,
-    gras: true,
-  });
+  // Même style que le reste du pied de page plutôt qu'un encadré à part : la
+  // TVA intracommunautaire reste une mention légale parmi d'autres, pas une
+  // information qui mérite d'être mise en avant différemment des autres.
+  pied(`TVA intracommunautaire : ${COMPANY.vatId}`, 7);
 
   const octets = await doc.save();
   return Buffer.from(octets);
