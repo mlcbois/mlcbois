@@ -1,5 +1,6 @@
 import { JsonLd, type JsonLdValue } from "@/components/seo/JsonLd";
-import { MERCHANT_COUNTRY, MERCHANT_LANGUAGE, SHOP_NAME, SHOP_PHONE, siteUrl } from "@/server/merchant";
+import { MERCHANT_LANGUAGE, SHOP_NAME, SHOP_PHONE, siteUrl } from "@/server/merchant";
+import { COUNTRY_CODES } from "@/lib/countries";
 
 // Balisage Organization + WebSite du site.
 //
@@ -31,12 +32,16 @@ export function OrganizationJsonLd({ sameAs, address }: OrganizationJsonLdProps)
     logo: `${base}/images/logo-full.png`,
     image: `${base}/images/logo-full.png`,
     telephone: SHOP_PHONE,
-    areaServed: MERCHANT_COUNTRY,
+    // La zone réellement livrée (voir src/lib/countries.ts) : le compte
+    // Merchant Center ne cible que la France, mais ce balisage sert de
+    // référence d'entité générale, pas la soumission produit — le limiter à
+    // "FR" contredirait le texte visible de la page « Livraison ».
+    areaServed: [...COUNTRY_CODES],
     contactPoint: {
       "@type": "ContactPoint",
       telephone: SHOP_PHONE,
       contactType: "customer service",
-      areaServed: MERCHANT_COUNTRY,
+      areaServed: [...COUNTRY_CODES],
       availableLanguage: [MERCHANT_LANGUAGE, "en"],
     },
     sameAs: sameAs && sameAs.length > 0 ? sameAs : undefined,
@@ -46,7 +51,8 @@ export function OrganizationJsonLd({ sameAs, address }: OrganizationJsonLdProps)
           streetAddress: address.streetAddress,
           postalCode: address.postalCode,
           addressLocality: address.addressLocality,
-          addressCountry: MERCHANT_COUNTRY,
+          // Le siège lui-même est en France, quelle que soit la zone livrée.
+          addressCountry: "FR",
         }
       : undefined,
   };

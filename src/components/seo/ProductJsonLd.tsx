@@ -10,7 +10,16 @@ import {
   merchantProductType,
   merchantReferencePriceCents,
 } from "@/server/merchant";
+import { COUNTRY_CODES } from "@/lib/countries";
 import type { Product } from "@/types/home";
+
+// `MERCHANT_SHIPPING.country` / `MERCHANT_RETURN_POLICY.country` restent à
+// "FR" : ce sont les valeurs soumises au flux Google Merchant Center, où le
+// pays cible est un réglage du compte, pas une simple case de contenu. Le
+// balisage schema.org affiché sur la page n'a pas cette contrainte : il peut
+// et doit refléter la zone réellement livrée (voir COUNTRY_CODES), sous
+// peine de contredire le texte visible de la page « Livraison ».
+const SHIPPING_DESTINATION_COUNTRIES: readonly string[] = COUNTRY_CODES;
 
 // Balisage JSON-LD Product + Offer de la page produit.
 //
@@ -109,7 +118,7 @@ export async function ProductJsonLd({ product }: ProductJsonLdProps) {
       },
       shippingDestination: {
         "@type": "DefinedRegion",
-        addressCountry: MERCHANT_SHIPPING.country,
+        addressCountry: [...SHIPPING_DESTINATION_COUNTRIES],
       },
       deliveryTime: {
         "@type": "ShippingDeliveryTime",
@@ -131,7 +140,7 @@ export async function ProductJsonLd({ product }: ProductJsonLdProps) {
 
   offer.hasMerchantReturnPolicy = {
     "@type": "MerchantReturnPolicy",
-    applicableCountry: MERCHANT_RETURN_POLICY.country,
+    applicableCountry: [...SHIPPING_DESTINATION_COUNTRIES],
     returnPolicyCategory: MERCHANT_RETURN_POLICY.category,
     merchantReturnDays: MERCHANT_RETURN_POLICY.days,
     returnMethod: MERCHANT_RETURN_POLICY.method,

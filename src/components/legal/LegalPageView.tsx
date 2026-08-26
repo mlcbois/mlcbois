@@ -6,9 +6,10 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { RichText } from "@/components/RichText";
 import { findLegalPage } from "@/server/legalPages";
 import { paragraphsOf, stripMarks } from "@/lib/richText";
+import { alternatesFor, openGraphFor } from "@/lib/hreflang";
+import { truncateForMeta } from "@/lib/metaDescription";
+import type { Locale } from "@/i18n/routing";
 import type { LegalPage, LegalSection, LegalSlug } from "@/content/legal/types";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mlc-bois.fr";
 
 function formatDate(iso: string, locale: string): string {
   return new Date(iso).toLocaleDateString(locale === "en" ? "en-GB" : "fr-FR", {
@@ -18,26 +19,25 @@ function formatDate(iso: string, locale: string): string {
   });
 }
 
-/** Métadonnées communes à toutes les pages légales, hreflang compris. */
+/** Métadonnées communes à toutes les pages légales, hreflang et Open Graph compris. */
 export async function buildLegalMetadata(slug: LegalSlug, locale: string): Promise<Metadata> {
   const page = await findLegalPage(slug, locale);
   if (!page) return {};
 
-  const path = locale === "en" ? `/en/${slug}` : `/${slug}`;
+  const href = `/${slug}`;
+  const loc = locale as Locale;
+  const title = `${page.title} | MLC Bois`;
   // La description est du texte nu : les marques de formatage n'ont rien à
-  // faire dans un extrait de résultat de recherche.
-  const first = stripMarks(page.intro ?? page.sections[0]?.body ?? "");
+  // faire dans un extrait de résultat de recherche. Sans `truncateForMeta`,
+  // une page longue coupait en plein mot pile à 155 caractères — l'anglais
+  // héritait en plus toujours du texte français faute de bloc dédié.
+  const description = truncateForMeta(stripMarks(page.intro ?? page.sections[0]?.body ?? ""));
 
   return {
-    title: `${page.title} | MLC Bois`,
-    description: first.slice(0, 155),
-    alternates: {
-      canonical: `${SITE_URL}${path}`,
-      languages: {
-        fr: `${SITE_URL}/${slug}`,
-        en: `${SITE_URL}/en/${slug}`,
-      },
-    },
+    title,
+    description,
+    alternates: alternatesFor(href, loc),
+    ...openGraphFor({ href, locale: loc, title, description }),
   };
 }
 
