@@ -100,6 +100,7 @@ export default async function AdminAbandonedCartsPage({
             <tr>
               <th className="px-4 py-3">Client</th>
               <th className="px-4 py-3">Panier</th>
+              <th className="px-4 py-3">Origine</th>
               <th className="px-4 py-3">Relances</th>
               <th className="px-4 py-3">Dernier envoi</th>
               <th className="px-4 py-3">Statut</th>
@@ -109,7 +110,7 @@ export default async function AdminAbandonedCartsPage({
           <tbody>
             {page.items.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">
                   Aucun panier abandonné trouvé.
                 </td>
               </tr>
@@ -128,6 +129,12 @@ export default async function AdminAbandonedCartsPage({
                     <span className="font-semibold text-foreground">
                       {formatPrice(cart.totalCents)}
                     </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className="block font-semibold text-foreground">{cart.origin.label}</span>
+                    {cart.origin.detail && (
+                      <span className="block text-xs text-muted-foreground">{cart.origin.detail}</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">
                     {cart.remindersSent} / {MAX_REMINDERS}

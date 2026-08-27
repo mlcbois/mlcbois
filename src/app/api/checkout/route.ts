@@ -12,6 +12,8 @@ import { resolveCampaignContext } from "@/server/campaignContext";
 import { sendOrderEmails } from "@/server/orderNotifications";
 import { resolveGatewayForMethod } from "@/server/gateways";
 import { markAbandonedCartRecovered } from "@/server/abandonedCarts";
+import { cookies } from "next/headers";
+import { ATTRIBUTION_COOKIE, parseAttributionCookie } from "@/lib/attribution";
 
 /**
  * URL absolue et localisée de la page de confirmation. Le français vit à la
@@ -175,11 +177,16 @@ export async function POST(request: Request) {
   // navigateur n'envoie qu'un jeton, jamais un montant ni un droit.
   const campaign = await resolveCampaignContext();
 
+  // Origine générale (recherche, publicité, réseau social…), lue dans le
+  // cookie posé par proxy.ts au premier atterrissage — voir @/lib/attribution.
+  const traffic = parseAttributionCookie((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
+
   try {
     const order = await createOrder(
       input,
       customer?.id,
       campaign ? { campaignId: campaign.campaignId, recipientId: campaign.recipientId } : undefined,
+      traffic,
     );
 
     // Confirmation au client, notification au vendeur.

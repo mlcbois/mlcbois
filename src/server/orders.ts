@@ -14,6 +14,7 @@ import type { CartLine, ShippingMethodKey } from "@/lib/cart";
 import { discountedVariantCents } from "@/lib/variantPricing";
 import { isOrderStatus, isPaymentStatus } from "@/lib/orderStatus";
 import type { OrderStatus, PaymentStatus } from "@/lib/orderStatus";
+import { deriveTrafficChannel, EMPTY_ATTRIBUTION, type TrafficAttribution, type TrafficChannel } from "@/lib/attribution";
 
 // Commandes de la boutique.
 //
@@ -108,6 +109,7 @@ export interface OrderRecord {
   updatedAt: string;
   paidAt?: string;
   shippedAt?: string;
+  origin: TrafficChannel;
   items: OrderItemRecord[];
   events: OrderEventRecord[];
 }
@@ -130,6 +132,7 @@ export class OrderError extends Error {
 const orderInclude = {
   items: { orderBy: { name: "asc" } },
   events: { orderBy: { createdAt: "desc" } },
+  campaign: { select: { name: true } },
 } as const;
 
 type OrderRow = Awaited<ReturnType<typeof prisma.order.findFirst<{ include: typeof orderInclude }>>>;
@@ -188,6 +191,14 @@ function toRecord(row: NonNullable<OrderRow>): OrderRecord {
     updatedAt: row.updatedAt.toISOString(),
     paidAt: row.paidAt?.toISOString(),
     shippedAt: row.shippedAt?.toISOString(),
+    origin: deriveTrafficChannel({
+      utmSource: row.utmSource,
+      utmMedium: row.utmMedium,
+      utmCampaign: row.utmCampaign,
+      gclid: row.gclid,
+      referrerHost: row.referrerHost,
+      campaignName: row.campaign?.name,
+    }),
     items: row.items.map((item) => ({
       id: item.id,
       productId: item.productId ?? undefined,
@@ -435,6 +446,7 @@ export async function createOrder(
   input: CheckoutInput,
   customerId?: string,
   campaignContext?: CampaignContext,
+  traffic?: TrafficAttribution,
 ): Promise<OrderRecord> {
   // 1. Produits réels, actifs uniquement.
   const products = await prisma.product.findMany({
@@ -646,6 +658,11 @@ export async function createOrder(
             // Tracé à part du port à zéro, qui peut aussi venir du franco
             // habituel : seule cette colonne dit que c'est la campagne qui a payé.
             campaignFreeShipping: freeShipping,
+            utmSource: traffic?.utmSource ?? EMPTY_ATTRIBUTION.utmSource,
+            utmMedium: traffic?.utmMedium ?? EMPTY_ATTRIBUTION.utmMedium,
+            utmCampaign: traffic?.utmCampaign ?? EMPTY_ATTRIBUTION.utmCampaign,
+            gclid: traffic?.gclid ?? EMPTY_ATTRIBUTION.gclid,
+            referrerHost: traffic?.referrerHost ?? EMPTY_ATTRIBUTION.referrerHost,
             items: {
               create: billed.map((line) => ({
                 productId: line.productId,

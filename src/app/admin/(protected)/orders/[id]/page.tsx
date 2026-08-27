@@ -229,6 +229,14 @@ export default async function AdminOrderDetailPage({
           />
 
           <section className="rounded-sm border border-border bg-white p-5">
+            <h2 className="mb-3 text-sm font-black text-foreground">Origine</h2>
+            <p className="text-sm font-semibold text-foreground">{order.origin.label}</p>
+            {order.origin.detail && (
+              <p className="text-xs text-muted-foreground">{order.origin.detail}</p>
+            )}
+          </section>
+
+          <section className="rounded-sm border border-border bg-white p-5">
             <h2 className="mb-3 text-sm font-black text-foreground">Client</h2>
             <p className="text-sm text-muted-foreground">
               <a href={`mailto:${order.email}`} className="hover:text-primary hover:underline">

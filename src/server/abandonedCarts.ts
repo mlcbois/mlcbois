@@ -25,6 +25,7 @@ import {
   buildAbandonedCartReminder3,
   type AbandonedCartItem,
 } from "@/server/emails/abandonedCart";
+import { deriveTrafficChannel, EMPTY_ATTRIBUTION, type TrafficAttribution, type TrafficChannel } from "@/lib/attribution";
 
 const TOKEN_BYTES = 32;
 
@@ -107,6 +108,7 @@ export async function trackAbandonedCart(input: {
   firstName: string;
   locale: AbandonedCartLocale;
   items: readonly TrackedCartItem[];
+  traffic?: TrafficAttribution;
 }): Promise<void> {
   const email = normalizeEmail(input.email);
   if (!email || input.items.length === 0) return;
@@ -117,6 +119,7 @@ export async function trackAbandonedCart(input: {
   const now = new Date();
   const nextReminderAt = new Date(now.getTime() + REMINDER_DELAYS_MS[0]);
   const items = JSON.stringify(input.items);
+  const traffic = input.traffic ?? EMPTY_ATTRIBUTION;
   const existing = await prisma.abandonedCart.findUnique({ where: { email } });
 
   if (!existing) {
@@ -128,6 +131,11 @@ export async function trackAbandonedCart(input: {
         locale: input.locale,
         items,
         nextReminderAt,
+        utmSource: traffic.utmSource,
+        utmMedium: traffic.utmMedium,
+        utmCampaign: traffic.utmCampaign,
+        gclid: traffic.gclid,
+        referrerHost: traffic.referrerHost,
       },
     });
     return;
@@ -301,6 +309,7 @@ export interface AdminAbandonedCartRow {
   nextReminderAt: Date | null;
   status: AbandonedCartStatus;
   recoveredOrderId: string | null;
+  origin: TrafficChannel;
   createdAt: Date;
 }
 
@@ -339,6 +348,13 @@ export async function listAbandonedCartsForAdmin(query?: string): Promise<AdminA
       nextReminderAt: row.nextReminderAt,
       status: cartStatus(row),
       recoveredOrderId: row.recoveredOrderId,
+      origin: deriveTrafficChannel({
+        utmSource: row.utmSource,
+        utmMedium: row.utmMedium,
+        utmCampaign: row.utmCampaign,
+        gclid: row.gclid,
+        referrerHost: row.referrerHost,
+      }),
       createdAt: row.createdAt,
     };
   });

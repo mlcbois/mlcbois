@@ -1,0 +1,13 @@
+-- AlterTable
+ALTER TABLE "AbandonedCart" ADD COLUMN     "gclid" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "referrerHost" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmCampaign" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmMedium" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmSource" TEXT NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN     "gclid" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "referrerHost" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmCampaign" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmMedium" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "utmSource" TEXT NOT NULL DEFAULT '';

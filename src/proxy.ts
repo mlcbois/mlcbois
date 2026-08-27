@@ -8,6 +8,7 @@ import {
   maintenanceActive,
 } from "@/lib/maintenance";
 import { PAGE_MAINTENANCE } from "@/lib/maintenancePage";
+import { ATTRIBUTION_COOKIE, ATTRIBUTION_MAX_AGE_SECONDS, type TrafficAttribution } from "@/lib/attribution";
 
 // Anciennement `middleware.ts` : Next 16 a renommé la convention en `proxy`.
 // Le proxy tourne en runtime Node.js, ce qui permet d'y vérifier la signature
@@ -83,6 +84,55 @@ function reponseMaintenance(pathname: string): NextResponse {
   });
 }
 
+/**
+ * Pose le cookie d'origine au premier atterrissage. Ne s'exécute que sur les
+ * pages de la boutique elle-même (routage multilingue) : ce sont celles où un
+ * visiteur arrive vraiment depuis une recherche, une pub ou un e-mail — pas
+ * les appels d'API ou le back-office.
+ *
+ * Premier contact, pas dernier : un cookie déjà posé n'est jamais réécrit,
+ * même si le visiteur revient plus tard par un autre canal. C'est ce qui rend
+ * la donnée exploitable — sinon la dernière page vue avant achat écraserait
+ * systématiquement l'annonce ou la recherche qui a fait découvrir la boutique.
+ */
+function poserAttributionSiAbsente(request: NextRequest, response: NextResponse): void {
+  if (request.cookies.has(ATTRIBUTION_COOKIE)) return;
+
+  const params = request.nextUrl.searchParams;
+  let referrerHost = "";
+  const referer = request.headers.get("referer");
+  if (referer) {
+    try {
+      const refererUrl = new URL(referer);
+      if (refererUrl.hostname !== request.nextUrl.hostname) {
+        referrerHost = refererUrl.hostname;
+      }
+    } catch {
+      // En-tête Referer malformé : ignoré, l'accès reste classé « direct ».
+    }
+  }
+
+  const attribution: TrafficAttribution = {
+    utmSource: params.get("utm_source") ?? "",
+    utmMedium: params.get("utm_medium") ?? "",
+    utmCampaign: params.get("utm_campaign") ?? "",
+    gclid: params.get("gclid") ?? "",
+    referrerHost,
+  };
+
+  // Rien à retenir : ni paramètre de campagne, ni renvoi externe. Inutile de
+  // poser un cookie pour ne conserver que des chaînes vides.
+  if (Object.values(attribution).every((value) => value === "")) return;
+
+  response.cookies.set(ATTRIBUTION_COOKIE, JSON.stringify(attribution), {
+    maxAge: ATTRIBUTION_MAX_AGE_SECONDS,
+    path: "/",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+}
+
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -98,7 +148,9 @@ export default function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return routageMultilingue(request);
+  const response = routageMultilingue(request);
+  poserAttributionSiAbsente(request, response);
+  return response;
 }
 
 export const config = {

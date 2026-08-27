@@ -321,6 +321,17 @@ model Order {
   // mention n'accorde plus d'avantage, et elle ne couvre pas l'express.
   campaignFreeShipping Boolean @default(false)
 
+  // Origine générale du visiteur — référencement naturel, publicité Google,
+  // réseau social, site référent… Lue dans le cookie posé par proxy.ts au
+  // premier atterrissage sur la boutique (voir @/lib/attribution), donc vide
+  // pour une commande dont l'attribution n'a pas pu être captée (cookies
+  // refusés, ou commande passée avant l'ajout de ce suivi).
+  utmSource    String @default("")
+  utmMedium    String @default("")
+  utmCampaign  String @default("")
+  gclid        String @default("")
+  referrerHost String @default("")
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   paidAt    DateTime?
@@ -806,6 +817,15 @@ model AbandonedCart {
 
   recoveredAt      DateTime?
   recoveredOrderId String?
+
+  // Même origine que sur Order — voir @/lib/attribution. Lue une fois à la
+  // première capture du panier ; les captures suivantes de la même adresse ne
+  // l'écrasent pas tant que le cookie du visiteur n'a pas expiré ou changé.
+  utmSource    String @default("")
+  utmMedium    String @default("")
+  utmCampaign  String @default("")
+  gclid        String @default("")
+  referrerHost String @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { trackAbandonedCart, type TrackedCartItem } from "@/server/abandonedCarts";
 import { MAX_CART_LINES } from "@/lib/cart";
+import { ATTRIBUTION_COOKIE, parseAttributionCookie } from "@/lib/attribution";
 
 /**
  * Capture du panier pour la relance d'abandon.
@@ -67,7 +69,8 @@ export async function POST(request: Request) {
   const firstName = text(payload.firstName, 80);
 
   try {
-    await trackAbandonedCart({ email, firstName, locale, items });
+    const traffic = parseAttributionCookie((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
+    await trackAbandonedCart({ email, firstName, locale, items, traffic });
   } catch (error) {
     // Un instantané raté ne doit jamais remonter au client : le tunnel de
     // commande continue normalement, seule la relance est perdue.
