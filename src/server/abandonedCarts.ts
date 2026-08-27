@@ -76,7 +76,7 @@ function isTrackedCartItem(value: unknown): value is TrackedCartItem {
   );
 }
 
-function parseItems(raw: string): TrackedCartItem[] {
+export function parseItems(raw: string): TrackedCartItem[] {
   try {
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
@@ -285,4 +285,61 @@ export async function dispatchDueAbandonedCartReminders(): Promise<DispatchRepor
   }
 
   return report;
+}
+
+export type AbandonedCartStatus = "recovered" | "pending" | "exhausted";
+
+export interface AdminAbandonedCartRow {
+  id: string;
+  email: string;
+  firstName: string;
+  locale: string;
+  itemCount: number;
+  totalCents: number;
+  remindersSent: number;
+  lastReminderAt: Date | null;
+  nextReminderAt: Date | null;
+  status: AbandonedCartStatus;
+  recoveredOrderId: string | null;
+  createdAt: Date;
+}
+
+function cartStatus(cart: { recoveredAt: Date | null; nextReminderAt: Date | null }): AbandonedCartStatus {
+  if (cart.recoveredAt) return "recovered";
+  if (cart.nextReminderAt) return "pending";
+  return "exhausted";
+}
+
+/**
+ * Liste les paniers suivis pour le back-office, la relance la plus récente
+ * en premier. Lecture seule, comme `listCustomersForAdmin` : aucune action
+ * n'est proposée ici, la séquence tourne d'elle-même via le répartiteur.
+ */
+export async function listAbandonedCartsForAdmin(query?: string): Promise<AdminAbandonedCartRow[]> {
+  const search = query?.trim().toLowerCase() ?? "";
+
+  const rows = await prisma.abandonedCart.findMany({
+    where: search
+      ? { OR: [{ email: { contains: search } }, { firstName: { contains: search } }] }
+      : undefined,
+    orderBy: { createdAt: "desc" },
+  });
+
+  return rows.map((row) => {
+    const items = parseItems(row.items);
+    return {
+      id: row.id,
+      email: row.email,
+      firstName: row.firstName,
+      locale: row.locale,
+      itemCount: items.reduce((total, item) => total + item.quantity, 0),
+      totalCents: items.reduce((total, item) => total + item.priceCents * item.quantity, 0),
+      remindersSent: row.remindersSent,
+      lastReminderAt: row.lastReminderAt,
+      nextReminderAt: row.nextReminderAt,
+      status: cartStatus(row),
+      recoveredOrderId: row.recoveredOrderId,
+      createdAt: row.createdAt,
+    };
+  });
 }

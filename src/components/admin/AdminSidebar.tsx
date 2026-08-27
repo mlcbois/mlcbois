@@ -14,6 +14,7 @@ import {
   Plug,
   Receipt,
   ShoppingBag,
+  ShoppingCart,
   Star,
   Store,
   Tags,
@@ -66,6 +67,7 @@ export function AdminSidebar({
       title: "Boutique",
       entries: [
         { label: "Commandes", href: "/admin/orders", icon: Receipt },
+        { label: "Paniers abandonnés", href: "/admin/abandoned-carts", icon: ShoppingCart },
         // « Clients » est retiré du menu : les coordonnées du client figurent
         // déjà dans le détail de chaque commande. L'écran existe toujours et
         // reste joignable par son adresse (/admin/customers).
