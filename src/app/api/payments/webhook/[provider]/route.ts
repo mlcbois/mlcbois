@@ -6,6 +6,7 @@ import {
   setOrderGatewayReference,
   updatePaymentStatus,
 } from "@/server/orders";
+import { sendOrderEmails } from "@/server/orderNotifications";
 
 // Point d'entrée des notifications de paiement (webhooks).
 //
@@ -99,14 +100,24 @@ export async function POST(request: Request, { params }: { params: Params }) {
   }
 
   // Idempotence : ne repasser le statut que s'il change réellement. Un webhook
-  // rejoué sur une commande déjà « payée » ne crée pas d'événement en double.
+  // rejoué sur une commande déjà « payée » ne crée pas d'événement en double,
+  // et ne renvoie donc pas non plus une seconde confirmation.
   if (order.paymentStatus !== result.paymentStatus) {
-    await updatePaymentStatus(
+    const updated = await updatePaymentStatus(
       order.id,
       result.paymentStatus,
       `webhook:${provider}`,
       result.reference ? `Réf. prestataire : ${result.reference}` : undefined,
     );
+
+    // Confirmation au client (avec sa facture) et notification au vendeur :
+    // envoyées ici, une fois le paiement en ligne réellement acquis, plutôt
+    // qu'à la création de la commande dans /api/checkout — voir son
+    // commentaire. Un passage vers un autre statut (échec, remboursement) n'a
+    // rien à confirmer.
+    if (result.paymentStatus === "bezahlt" && updated) {
+      await sendOrderEmails(updated);
+    }
   }
 
   return NextResponse.json({ received: true });

@@ -189,18 +189,6 @@ export async function POST(request: Request) {
       traffic,
     );
 
-    // Confirmation au client, notification au vendeur.
-    //
-    // Différé avec `after` : la commande est déjà écrite et le stock déjà
-    // décompté, le client n'a aucune raison de patienter le temps d'une poignée
-    // de main SMTP. Next exécute le rappel une fois la réponse envoyée, et le
-    // fait même si la requête s'est mal terminée.
-    //
-    // `sendOrderEmails` ne lève jamais : une boîte injoignable laisse une trace
-    // dans les journaux et dans l'historique de la commande, jamais une erreur
-    // 500 sur une commande valable.
-    after(() => sendOrderEmails(order));
-
     // Arrête toute relance de panier abandonné en cours pour cette adresse :
     // la commande vient d'être passée, la relancer n'aurait plus de sens.
     // `markAbandonedCartRecovered` ne lève jamais — un panier jamais suivi
@@ -214,6 +202,31 @@ export async function POST(request: Request) {
     // sera redirigé vers la page de paiement du prestataire. Sinon (virement,
     // prestataire non configuré), on retombe sur le parcours habituel.
     const redirectUrl = await startOnlinePayment(order);
+
+    // Confirmation au client (avec sa facture jointe), notification au
+    // vendeur.
+    //
+    // Un paiement en ligne (carte…) n'est pas encore acquis à ce stade : le
+    // client n'a pas encore saisi ses coordonnées de paiement, et peut très
+    // bien abandonner la page du prestataire sans jamais payer. Lui envoyer
+    // « merci pour votre commande » et une facture à ce moment-là serait une
+    // confirmation de ce qui ne s'est pas produit. Pour ces commandes,
+    // l'e-mail part du webhook de paiement (/api/payments/webhook), une fois
+    // le paiement réellement confirmé.
+    //
+    // Un règlement hors ligne (virement, ou prestataire non joignable) n'a pas
+    // d'autre déclencheur : l'e-mail reste immédiat, c'est lui qui porte les
+    // coordonnées bancaires à utiliser.
+    //
+    // Différé avec `after` : la commande est déjà écrite, le client n'a aucune
+    // raison de patienter le temps d'une poignée de main SMTP. Next exécute le
+    // rappel une fois la réponse envoyée, et le fait même si la requête s'est
+    // mal terminée. `sendOrderEmails` ne lève jamais : une boîte injoignable
+    // laisse une trace dans les journaux et dans l'historique de la commande,
+    // jamais une erreur 500 sur une commande valable.
+    if (!redirectUrl) {
+      after(() => sendOrderEmails(order));
+    }
 
     return NextResponse.json(
       {
