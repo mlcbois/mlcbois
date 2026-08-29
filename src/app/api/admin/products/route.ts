@@ -1,8 +1,10 @@
+import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/adminApi";
 import { parseProductInput, toCreateInput } from "@/server/productInput";
 import { createProduct, listProducts } from "@/server/store";
+import { notifyProductChanged } from "@/server/indexnow";
 
 export async function GET(request: Request) {
   const { unauthorized } = await requireAdminApi();
@@ -36,6 +38,9 @@ export async function POST(request: Request) {
     const product = await createProduct(input);
     // Shop-Seiten neu aufbauen, damit das neue Produkt sofort sichtbar ist
     revalidatePath("/", "layout");
+    // Signale la nouvelle fiche à Bing/Yandex plutôt que d'attendre leur
+    // prochain passage — voir @/server/indexnow.
+    after(() => notifyProductChanged(product.id));
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Échec de la création.";

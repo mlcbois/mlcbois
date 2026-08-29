@@ -1,8 +1,10 @@
+import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/adminApi";
 import { parseProductInput } from "@/server/productInput";
 import { deleteProduct, getProductRecord, updateProduct } from "@/server/store";
+import { notifyProductChanged } from "@/server/indexnow";
 
 type Params = Promise<{ id: string }>;
 
@@ -33,6 +35,9 @@ export async function PUT(request: Request, { params }: { params: Params }) {
     const updated = await updateProduct(id, values);
     if (!updated) return NextResponse.json({ error: "Introuvable." }, { status: 404 });
     revalidatePath("/", "layout");
+    // Signale la fiche modifiée à Bing/Yandex plutôt que d'attendre leur
+    // prochain passage — voir @/server/indexnow.
+    after(() => notifyProductChanged(id));
     return NextResponse.json(updated);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Échec de l'enregistrement.";

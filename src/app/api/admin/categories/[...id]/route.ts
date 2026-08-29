@@ -1,10 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireAdminApi } from "@/lib/adminApi";
 import { prisma } from "@/server/prisma";
 import { slugify } from "@/lib/slugify";
 import { deleteCategory, getCategoryRecord, updateCategory } from "@/server/store";
 import type { CategoryGuide } from "@/server/types";
+import { notifyCategoryChanged } from "@/server/indexnow";
 
 type Params = Promise<{ id: string[] }>;
 
@@ -119,6 +120,9 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   }
 
   revalidatePath("/", "layout");
+  // Signale la catégorie modifiée à Bing/Yandex plutôt que d'attendre leur
+  // prochain passage — voir @/server/indexnow.
+  after(() => notifyCategoryChanged(targetGroup.slug, targetSlug));
   return NextResponse.json(updated);
 }
 
