@@ -50,8 +50,8 @@ const ICONS: Record<string, LucideIcon> = {
   gift: Gift,
 };
 
-const STEPS = ["contact", "payment", "review"] as const;
-type Step = (typeof STEPS)[number];
+const ALL_STEPS = ["contact", "payment", "review"] as const;
+type Step = (typeof ALL_STEPS)[number];
 
 const INPUT =
   "w-full rounded-sm border border-border bg-white px-3 py-2 text-sm outline-none focus:border-primary";
@@ -118,6 +118,11 @@ export function CheckoutFlow({
   const [done, setDone] = useState(false);
 
   const selectedMethod = methods.find((method) => method.key === paymentKey);
+  // Un seul moyen actif : rien à choisir, l'étape « Paiement » n'a pas lieu
+  // d'être — voir goToPayment. Avec zéro moyen actif, l'étape reste affichée :
+  // c'est elle qui prévient le client plutôt qu'un blocage silencieux plus loin.
+  const singleMethod = methods.length === 1;
+  const steps: readonly Step[] = singleMethod ? ["contact", "review"] : ALL_STEPS;
 
   // Instantané du panier pour la relance d'abandon, dès que l'e-mail saisi a
   // une forme valable. Différé de 1,5 s après la dernière frappe : on ne veut
@@ -194,7 +199,12 @@ export function CheckoutFlow({
       }
     }
     setError(null);
-    setStep("payment");
+    if (singleMethod) {
+      setPaymentKey(methods[0].key);
+      setStep("review");
+    } else {
+      setStep("payment");
+    }
   }
 
   function goToReview() {
@@ -313,14 +323,14 @@ export function CheckoutFlow({
     );
   }
 
-  const stepIndex = STEPS.indexOf(step);
+  const stepIndex = steps.indexOf(step);
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2">
         {/* Fil des étapes : le client voit où il en est et peut revenir en arrière. */}
         <ol className="mb-6 flex flex-wrap gap-2">
-          {STEPS.map((entry, index) => {
+          {steps.map((entry, index) => {
             const reached = index <= stepIndex;
             return (
               <li key={entry}>
@@ -557,7 +567,11 @@ export function CheckoutFlow({
                 {phone && <p>{phone}</p>}
               </ReviewCard>
 
-              <ReviewCard title={t("reviewPayment")} onEdit={() => setStep("payment")} editLabel={t("edit")}>
+              <ReviewCard
+                title={t("reviewPayment")}
+                onEdit={singleMethod ? undefined : () => setStep("payment")}
+                editLabel={t("edit")}
+              >
                 <p className="font-semibold text-foreground">{selectedMethod?.label}</p>
                 {selectedMethod?.description && <p>{selectedMethod.description}</p>}
               </ReviewCard>
@@ -690,7 +704,7 @@ export function CheckoutFlow({
 
             <button
               type="button"
-              onClick={() => setStep("payment")}
+              onClick={() => setStep(singleMethod ? "contact" : "payment")}
               className="text-sm font-semibold text-primary hover:underline"
             >
               {t("back")}
@@ -714,20 +728,23 @@ function ReviewCard({
 }: {
   title: string;
   editLabel: string;
-  onEdit: () => void;
+  /** Absent quand il n'y a rien à modifier — le bouton disparaît alors. */
+  onEdit?: () => void;
   children: React.ReactNode;
 }) {
   return (
     <section className="rounded-sm border border-border bg-white p-5">
       <div className="mb-2 flex items-start justify-between gap-2">
         <h3 className="text-sm font-black text-foreground">{title}</h3>
-        <button
-          type="button"
-          onClick={onEdit}
-          className="text-xs font-semibold text-primary hover:underline"
-        >
-          {editLabel}
-        </button>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="text-xs font-semibold text-primary hover:underline"
+          >
+            {editLabel}
+          </button>
+        )}
       </div>
       <div className="space-y-0.5 text-sm text-muted-foreground">{children}</div>
     </section>
